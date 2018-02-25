@@ -8,6 +8,7 @@ from telegram import InlineQueryResultArticle, InputTextMessageContent
 from telegram.ext import InlineQueryHandler
 
 from keys import TOKEN
+from api_expenses import send_expense
 
 
 logging.basicConfig(
@@ -16,6 +17,48 @@ logging.basicConfig(
 )
 
 logger = logging.getLogger(__name__)
+
+
+def expense(bot, update, args):
+    logger.info(f"expenses... by {update.message.from_user.name}")
+    if not update.message.from_user.name == '@eduzen':
+        update.message.reply_text(
+            f"Mmm no es para ti! Humano {update.message.from_user.name}"
+            "ya callate!"
+        )
+        return
+
+    if not args:
+        update.message.reply_text("mmm no enviaste nada!")
+        return
+
+    try:
+        amount = float(args[0])
+    except Exception:
+        logger.error('No pudimos convertir %s', args)
+
+    try:
+        title = args[1]
+    except Exception:
+        title = 'gasto desconocido'
+
+    try:
+        r = send_expense(title, amount)
+    except Exception:
+        logger.exception()
+        update.message.reply_text(
+            "Chequea que algo paso y no pudimos enviar el gasto!"
+        )
+
+    if r.status_code != 201:
+        update.message.reply_text(
+            "Chequea que algo paso y no pudimos enviar el gasto!"
+        )
+        return
+
+    update.message.reply_text(
+        f"Joya {update.message.from_user.name}! Mandamos al back el gasto"
+    )
 
 
 def unknown(bot, update):
@@ -132,10 +175,12 @@ def main():
     start_handler = CommandHandler('start', start)
     ayuda_handler = CommandHandler('ayuda', ayuda)
     btc_handler = CommandHandler('btc', btc)
+    expense_handler = CommandHandler('gasto', expense, pass_args=True)
 
     dispatcher.add_handler(start_handler)
     dispatcher.add_handler(ayuda_handler)
     dispatcher.add_handler(btc_handler)
+    dispatcher.add_handler(expense_handler)
 
     echo_handler = MessageHandler(Filters.text, echo)
     dispatcher.add_handler(echo_handler)
