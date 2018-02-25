@@ -19,6 +19,6 @@ def send_expense(title, amount, category=None):
         json=data,
         auth=AUTH
     )
-    logger.info(response.status_code)
+    logger.info(f'status_code: {response.status_code} \n {response.text}')
 
     return response
