@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__)
 
 
 def unknown(bot, update):
-    logger.info("Unknown command...")
+    logger.info(f"Unknown command... by {update.message.from_user.name}")
     bot.send_message(
         chat_id=update.message.chat_id,
         text="Perdón! Pero no entiendo ese comando"
@@ -27,7 +27,7 @@ def unknown(bot, update):
 
 
 def start(bot, update):
-    logger.info("Starting comand...")
+    logger.info(f"Starting comand... by {update.message.from_user.name}")
     update.message.reply_text(
         f"Hola! Soy edu_bot! Nice to meet you"
         f"{update.message.from_user.name}!"
@@ -36,7 +36,7 @@ def start(bot, update):
 
 
 def ayuda(bot, update):
-    logger.info("Help comand...")
+    logger.info(f"Help comand... by {update.message.from_user.name}")
     bot.send_message(
         chat_id=update.message.chat_id,
         text="las opciones son /start\n/btc\n/caps"
@@ -44,7 +44,7 @@ def ayuda(bot, update):
 
 
 def btc(bot, update):
-    logger.info("https://coinbin.org/btc...")
+    logger.info(f"https://coinbin.org/btc... by {update.message.from_user.name}")
     btc = requests.get('https://coinbin.org/btc')
     btc_data = defaultdict(str)
     if btc.status_code == requests.codes.ok:
@@ -57,7 +57,7 @@ def btc(bot, update):
 
 
 def echo(bot, update):
-    logger.info("echo...")
+    logger.info(f"echo... by {update.message.from_user.name}")
     if update.message.new_chat_members:
         answer = 'Bienvenido {}'.format(update.message.from_user.name)
         bot.send_message(chat_id=update.message.chat_id, text=answer)
@@ -69,9 +69,14 @@ def echo(bot, update):
         bot.send_message(chat_id=update.message.chat_id, text=answer)
         return
 
+    if 'bye' in msg or 'chau' in msg or 'nos vemos' in msg:
+        answer = f'nos vemos humanoide {update.message.from_user.name}!'
+        bot.send_message(chat_id=update.message.chat_id, text=answer)
+        return
+
     q = (
         'qué haces', 'que hacés', 'que hace', 'todo bien?', 'como va',
-        'cómo va', 'todo bien?'
+        'cómo va', 'todo piola?', 'todo bien=', 'todo bien'
     )
     answer = f'Por ahora piola {update.message.from_user.name}'
 
@@ -87,7 +92,7 @@ def echo(bot, update):
 
 
 def caps(bot, update, args):
-    logger.info("caps...")
+    logger.info(f"caps... by {update.message.from_user.name}")
     if not args:
         update.message.reply_text("No enviaste nada!")
         return
@@ -97,7 +102,7 @@ def caps(bot, update, args):
 
 
 def inline_caps(bot, update):
-    logger.info("inline_caps...")
+    logger.info(f"inline_caps... by {update.message.from_user.name}")
     query = update.inline_query.query
     if not query:
         return
