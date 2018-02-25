@@ -82,7 +82,13 @@ def ayuda(bot, update):
     logger.info(f"Help comand... by {update.message.from_user.name}")
     bot.send_message(
         chat_id=update.message.chat_id,
-        text="las opciones son /start\n/btc\n/caps"
+        text=(
+            "las opciones son:\n"
+            "/start te saluda y boludeces \n"
+            "/btc cotización del btc\n"
+            "/caps palabra a convertir en mayúscula\n"
+            "/gasto cuanto salio y nombre de gasto ej: 55 1/4 helado\n"
+        )
     )
 
 
