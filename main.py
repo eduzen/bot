@@ -6,7 +6,6 @@ from telegram.ext import Updater
 from telegram.ext import MessageHandler, Filters
 from telegram import InlineQueryResultArticle, InputTextMessageContent
 from telegram.ext import InlineQueryHandler
-from telegram import ReplyKeyboardMarkup
 
 from keys import TOKEN
 
@@ -16,21 +15,11 @@ logging.basicConfig(
     level=logging.INFO
 )
 
-
-def build_menu(buttons,
-               n_cols,
-               header_buttons=None,
-               footer_buttons=None):
-    menu = [buttons[i:i + n_cols] for i in range(0, len(buttons), n_cols)]
-    if header_buttons:
-        menu.insert(0, header_buttons)
-    if footer_buttons:
-        menu.append(footer_buttons)
-    return menu
+logger = logging.getLogger(__name__)
 
 
 def unknown(bot, update):
-    logging.info("unknown...")
+    logger.info("unknown...")
     bot.send_message(
         chat_id=update.message.chat_id,
         text="Perdón! Pero no entiendo ese comando"
@@ -38,13 +27,18 @@ def unknown(bot, update):
 
 
 def start(bot, update):
-    logging.info("Starting...")
-    bot.send_message(chat_id=update.message.chat_id, text="Hola! Soy edu_bot!")
-    update.message.reply_text("I'm a bot, Nice to meet you!")
+    logger.info("Starting...")
+    update.message.reply_text(
+        f"Hola! Soy edu_bot! Nice to meet you {update.message.from_user.name}!"
+    )
+
+
+def ayuda(bot, update):
+    bot.send_message(chat_id=update.message.chat_id, text="las opciones son")
 
 
 def btc(bot, update):
-    logging.info("https://coinbin.org/btc...")
+    logger.info("https://coinbin.org/btc...")
     btc = requests.get('https://coinbin.org/btc')
     btc_data = defaultdict(str)
     if btc.status_code == requests.codes.ok:
@@ -57,7 +51,7 @@ def btc(bot, update):
 
 
 def echo(bot, update):
-    logging.info("echo...")
+    logger.info("echo...")
     if update.message.new_chat_members:
         answer = 'Bienvenido {}'.format(update.message.from_user.name)
         bot.send_message(chat_id=update.message.chat_id, text=answer)
@@ -73,7 +67,7 @@ def echo(bot, update):
 
 
 def caps(bot, update, args):
-    logging.info("caps...")
+    logger.info("caps...")
     if not args:
         update.message.reply_text("No enviaste nada!")
         return
@@ -83,7 +77,7 @@ def caps(bot, update, args):
 
 
 def inline_caps(bot, update):
-    logging.info("inline_caps...")
+    logger.info("inline_caps...")
     query = update.inline_query.query
     if not query:
         return
@@ -99,31 +93,47 @@ def inline_caps(bot, update):
     bot.answer_inline_query(update.inline_query.id, results)
 
 
+def error(bot, update, error):
+    """Log Errors caused by Updates."""
+    logger.warning('Update "%s" caused error "%s"', update, error)
+
+
 def main():
-    logging.info("Starting main...")
+    logger.info("Starting main...")
     updater = Updater(token=TOKEN)
-    logging.info("Created updater for %s", updater.bot.name)
+    logger.info("Created updater for %s", updater.bot.name)
     dispatcher = updater.dispatcher
 
-    echo_handler = MessageHandler(Filters.text, echo)
     start_handler = CommandHandler('start', start)
+    ayuda_handler = CommandHandler('ayuda', ayuda)
     btc_handler = CommandHandler('btc', btc)
-    # pass_args=True is required to let the handler know that you want it
-    # to pass the list of command arguments to the callback
-    caps_handler = CommandHandler('caps', caps, pass_args=True)
-    inline_caps_handler = InlineQueryHandler(inline_caps)
-    unknown_handler = MessageHandler(Filters.command, unknown)
 
     dispatcher.add_handler(start_handler)
+    dispatcher.add_handler(ayuda_handler)
     dispatcher.add_handler(btc_handler)
+
+    echo_handler = MessageHandler(Filters.text, echo)
     dispatcher.add_handler(echo_handler)
+
+    caps_handler = CommandHandler('caps', caps, pass_args=True)
     dispatcher.add_handler(caps_handler)
+
+    unknown_handler = MessageHandler(Filters.command, unknown)
     dispatcher.add_handler(unknown_handler)
+
+    inline_caps_handler = InlineQueryHandler(inline_caps)
     dispatcher.add_handler(inline_caps_handler)
+
+    # log all errors
+    dispatcher.add_error_handler(error)
 
     updater.start_polling()
     updater.idle()
 
+
 if __name__ == '__main__':
-    # execute only if run as a script
-    main()
+    try:
+        # execute only if run as a script
+        main()
+    except Exception:
+        logger.exception('bye bye')
