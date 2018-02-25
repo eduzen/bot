@@ -45,7 +45,7 @@ def expense(bot, update, args):
     try:
         r = send_expense(title, amount)
     except Exception:
-        logger.exception()
+        logger.exception('algo paso')
         update.message.reply_text(
             "Chequea que algo paso y no pudimos enviar el gasto!"
         )
