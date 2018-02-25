@@ -43,6 +43,7 @@ def expense(bot, update, args):
         title = 'gasto desconocido'
 
     try:
+        r = ''
         r = send_expense(title, amount)
     except Exception:
         logger.exception('algo paso')
