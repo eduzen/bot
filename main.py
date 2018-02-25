@@ -43,13 +43,13 @@ def expense(bot, update, args):
         title = 'gasto desconocido'
 
     try:
-        r = ''
         r = send_expense(title, amount)
     except Exception:
         logger.exception('algo paso')
         update.message.reply_text(
             "Chequea que algo paso y no pudimos enviar el gasto!"
         )
+        return
 
     if r.status_code != 201:
         update.message.reply_text(
