@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__)
 
 
 def unknown(bot, update):
-    logger.info("unknown...")
+    logger.info("Unknown command...")
     bot.send_message(
         chat_id=update.message.chat_id,
         text="Perdón! Pero no entiendo ese comando"
@@ -27,14 +27,20 @@ def unknown(bot, update):
 
 
 def start(bot, update):
-    logger.info("Starting...")
+    logger.info("Starting comand...")
     update.message.reply_text(
-        f"Hola! Soy edu_bot! Nice to meet you {update.message.from_user.name}!"
+        f"Hola! Soy edu_bot! Nice to meet you"
+        f"{update.message.from_user.name}!"
+        "podés usar los commandos /btc, /caps"
     )
 
 
 def ayuda(bot, update):
-    bot.send_message(chat_id=update.message.chat_id, text="las opciones son")
+    logger.info("Help comand...")
+    bot.send_message(
+        chat_id=update.message.chat_id,
+        text="las opciones son /start\n/btc\n/caps"
+    )
 
 
 def btc(bot, update):
@@ -59,11 +65,25 @@ def echo(bot, update):
 
     msg = update.message.text.lower()
     if 'hola' in msg or 'hi' in msg or 'holis' in msg:
-        answer = 'Hola {}'.format(update.message.from_user.name)
+        answer = f'Hola {update.message.from_user.name}'
         bot.send_message(chat_id=update.message.chat_id, text=answer)
         return
 
-    bot.send_message(chat_id=update.message.chat_id, text=update.message.text)
+    q = (
+        'qué haces', 'que hacés', 'que hace', 'todo bien?', 'como va',
+        'cómo va', 'todo bien?'
+    )
+    answer = f'Por ahora piola {update.message.from_user.name}'
+
+    for mark in q:
+        if mark in msg:
+            bot.send_message(chat_id=update.message.chat_id, text=answer)
+            return
+
+    bot.send_message(
+        chat_id=update.message.chat_id,
+        text='sabés que no te capto'
+    )
 
 
 def caps(bot, update, args):
