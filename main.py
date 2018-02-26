@@ -18,13 +18,40 @@ logging.basicConfig(
 
 logger = logging.getLogger(__name__)
 
+dolar_api = 'https://s3.amazonaws.com/dolartoday/data.json'
+
+
+def dolar(bot, update):
+    logger.info(f"dolar... by {update.message.from_user.name}")
+    r = requests.get(dolar_api)
+    if r.status_code != 200:
+        bot.send_message(
+            chat_id=update.message.chat_id,
+            text="Perdón! La api no está  disponible!"
+        )
+
+    data = r.json()
+    if not data:
+        bot.send_message(
+            chat_id=update.message.chat_id,
+            text="Perdón! La api no está  disponible!"
+        )
+
+    cotizacion = data["USD"]["promedio"]
+    fecha = data["_timestamp"]["fecha_corta"]
+
+    bot.send_message(
+        chat_id=update.message.chat_id,
+        text=f"USD {cotizacion} - {fecha}"
+    )
+
 
 def expense(bot, update, args):
     logger.info(f"expenses... by {update.message.from_user.name}")
     if not update.message.from_user.name == '@eduzen':
         update.message.reply_text(
-            f"Mmm no es para ti! Humano {update.message.from_user.name}"
-            "ya callate!"
+            f"Mmm... no es para ti! Humano {update.message.from_user.name}"
+            "inferior ya callate! No es un comando que tu pueadas usar"
         )
         return
 
@@ -58,7 +85,7 @@ def expense(bot, update, args):
         return
 
     update.message.reply_text(
-        f"Joya {update.message.from_user.name}! Mandamos al back el gasto"
+        f"Joya {update.message.from_user.name}! Gasto agendado!"
     )
 
 
@@ -75,7 +102,7 @@ def start(bot, update):
     update.message.reply_text(
         f"Hola! Soy edu_bot! Nice to meet you"
         f"{update.message.from_user.name}!"
-        "podés usar los commandos /btc, /caps"
+        "podés usar los commandos /btc, /caps, /dolar, /gasto (solo eduzen)"
     )
 
 
@@ -87,6 +114,7 @@ def ayuda(bot, update):
             "las opciones son:\n"
             "/start te saluda y boludeces \n"
             "/btc cotización del btc\n"
+            "/dolar cotización del dolar\n"
             "/caps palabra a convertir en mayúscula\n"
             "/gasto cuanto salio y nombre de gasto ej: 55 1/4 helado\n"
         )
@@ -181,11 +209,13 @@ def main():
 
     start_handler = CommandHandler('start', start)
     ayuda_handler = CommandHandler('ayuda', ayuda)
+    dolar_handler = CommandHandler('dolar', dolar)
     btc_handler = CommandHandler('btc', btc)
     expense_handler = CommandHandler('gasto', expense, pass_args=True)
 
     dispatcher.add_handler(start_handler)
     dispatcher.add_handler(ayuda_handler)
+    dispatcher.add_handler(dolar_handler)
     dispatcher.add_handler(btc_handler)
     dispatcher.add_handler(expense_handler)
 
