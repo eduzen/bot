@@ -18,7 +18,7 @@ logging.basicConfig(
 
 logger = logging.getLogger(__name__)
 
-dolar_api = 'https://s3.amazonaws.com/dolartoday/data.json'
+dolar_api = 'http://ws.geeklab.com.ar/dolar/get-dolar-json.php'
 
 
 def dolar(bot, update):
@@ -37,12 +37,12 @@ def dolar(bot, update):
             text="Perdón! La api no está  disponible!"
         )
 
-    cotizacion = data["USD"]["promedio"]
-    fecha = data["_timestamp"]["fecha_corta"]
+    cotizacion = data["libre"]
+    fecha = data["blue"]
 
     bot.send_message(
         chat_id=update.message.chat_id,
-        text=f"USD {cotizacion} - {fecha}"
+        text=f"USD Libre {cotizacion} - Blue {fecha}"
     )
 
 
@@ -50,7 +50,7 @@ def expense(bot, update, args):
     logger.info(f"expenses... by {update.message.from_user.name}")
     if not update.message.from_user.name == '@eduzen':
         update.message.reply_text(
-            f"Mmm... no es para ti! Humano {update.message.from_user.name}"
+            f"Mmm... no es para ti! Humano {update.message.from_user.name} "
             "inferior ya callate! No es un comando que tu pueadas usar"
         )
         return
@@ -101,8 +101,8 @@ def start(bot, update):
     logger.info(f"Starting comand... by {update.message.from_user.name}")
     update.message.reply_text(
         f"Hola! Soy edu_bot! Nice to meet you"
-        f"{update.message.from_user.name}!"
-        "podés usar los commandos /btc, /caps, /dolar, /gasto (solo eduzen)"
+        f"{update.message.from_user.name}! "
+        "podés usar los commandos:\n /btc, /caps, /dolar, /gasto (solo eduzen)"
     )
 
 
