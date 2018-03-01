@@ -43,15 +43,20 @@ def get_users(bot, update):
 
 
 def get_questions(bot, update):
-    logger.info(f"get_users... by {update.message.from_user.name}")
+    try:
+        logger.info(f"get_users... by {update.message.from_user.name}")
 
-    qs = [f"{q.id}: {q.questions}" for q in Question.select()]
+        qs = [f"{q.id}: {q.questions}" for q in Question.select()]
 
-    bot.send_message(
-        chat_id=update.message.chat_id,
-        text="\n".join(map(str, qs))
-    )
-
+        bot.send_message(
+            chat_id=update.message.chat_id,
+            text="\n".join(qs)
+        )
+    except Exception:
+        bot.send_message(
+            chat_id=update.message.chat_id,
+            text="No hay preguntas o algo pasó"
+        )
 
 def add_question(bot, update, args):
     logger.info(f"get_users... by {update.message.from_user.name}")
@@ -68,12 +73,12 @@ def add_question(bot, update, args):
     try:
         q = Question.create(
             user=user,
-            question=" ".join(args)
+            question=" ".join(map(str, args))
         )
     except Exception:
         bot.send_message(
             chat_id=update.message.chat_id,
-            text="No hay preguntas"
+            text="No pudimos agregar tu pregunta"
         )
 
     txt = f"Pregunta creada con id: {q.id}"
