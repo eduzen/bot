@@ -49,7 +49,7 @@ def get_questions(bot, update):
 
     bot.send_message(
         chat_id=update.message.chat_id,
-        text="\n".join(qs)
+        text="\n".join(map(str, qs))
     )
 
 
@@ -65,11 +65,16 @@ def add_question(bot, update, args):
         username=username,
         id=user_id
     )
-
-    q = Question.create(
-        user=user,
-        question=" ".join(args)
-    )
+    try:
+        q = Question.create(
+            user=user,
+            question=" ".join(args)
+        )
+    except Exception:
+        bot.send_message(
+            chat_id=update.message.chat_id,
+            text="No hay preguntas"
+        )
 
     txt = f"Pregunta creada con id: {q.id}"
     bot.send_message(
