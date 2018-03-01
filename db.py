@@ -23,7 +23,7 @@ class Question(BaseModel):
     user = ForeignKeyField(User, backref='tweets')
     created_date = DateTimeField(default=datetime.now)
     question = TextField()
-    answer = TextField()
+    answer = TextField(null=True)
 
 
 def create_db_tables():
