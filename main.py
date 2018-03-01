@@ -72,7 +72,7 @@ def add_question(bot, update, args):
     )
     try:
         q = Question.create(
-            user=user,
+            user=user.id,
             question=" ".join(map(str, args))
         )
         txt = f"Pregunta creada con id: {q.id}"
