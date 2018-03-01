@@ -73,7 +73,8 @@ def add_question(bot, update, args):
     try:
         q = Question.create(
             user=user[0].id,
-            question=" ".join(map(str, args))
+            question=" ".join(map(str, args)),
+            answer="empty"
         )
         txt = f"Pregunta creada con id: {q.id}"
         bot.send_message(
