@@ -10,6 +10,7 @@ from telegram.ext import InlineQueryHandler
 from keys import TOKEN
 from api_expenses import send_expense
 from api_dolar import get_dolar
+from db import User
 
 
 logging.basicConfig(
@@ -30,6 +31,15 @@ def dolar(bot, update):
         text=text
     )
 
+def get_users(bot, update):
+    logger.info(f"get_users... by {update.message.from_user.name}")
+
+    users = User.select()
+    logger.info(users)
+    bot.send_message(
+        chat_id=update.message.chat_id,
+        text='algo'
+    )
 
 def expense(bot, update, args):
     logger.info(f"expenses... by {update.message.from_user.name}")
@@ -84,15 +94,14 @@ def unknown(bot, update):
 
 def start(bot, update):
     logger.info(f"Starting comand... by {update.message.from_user.name}")
-    user = User.get(User.username == update.message.from_user.name)
-    if not user:
-        charlie = User.create(
-            username=update.message.from_user.name,
-            id=update.message.from_user.id
-        )
-    import pdb; pdb.set_trace()
+    username = update.message.from_user.name
+    user_id = update.message.from_user.id
+    user = User.get_or_create(
+        username=username,
+        id=user_id
+    )
     update.message.reply_text(
-        f"Hola! Soy edu_bot! Nice to meet you"
+        f"Hola! Soy edu_bot! Nice to meet you "
         f"{update.message.from_user.name}! "
         "podés usar los commandos:\n /btc, /caps, /dolar, /gasto (solo eduzen)"
     )
@@ -200,12 +209,14 @@ def main():
     dispatcher = updater.dispatcher
 
     start_handler = CommandHandler('start', start)
+    users_handler = CommandHandler('users', get_users)
     ayuda_handler = CommandHandler('ayuda', ayuda)
     dolar_handler = CommandHandler('dolar', dolar)
     btc_handler = CommandHandler('btc', btc)
     expense_handler = CommandHandler('gasto', expense, pass_args=True)
 
     dispatcher.add_handler(start_handler)
+    dispatcher.add_handler(users_handler)
     dispatcher.add_handler(ayuda_handler)
     dispatcher.add_handler(dolar_handler)
     dispatcher.add_handler(btc_handler)

@@ -2,7 +2,8 @@ import os
 from datetime import datetime
 
 from peewee import (
-    Model, SqliteDatabase, ForeignKeyField, DateTimeField, TextField
+    Model, SqliteDatabase, ForeignKeyField, DateTimeField, TextField,
+    CharField
 )
 
 db = SqliteDatabase('my_database.db')
@@ -22,6 +23,6 @@ class Question(BaseModel):
     answer = TextField()
 
 
-def create_db_tables(db):
+def create_db_tables():
     db.connect()
     db.create_tables([User, Question])
