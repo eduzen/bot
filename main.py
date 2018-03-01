@@ -75,17 +75,18 @@ def add_question(bot, update, args):
             user=user,
             question=" ".join(map(str, args))
         )
+        txt = f"Pregunta creada con id: {q.id}"
+        bot.send_message(
+            chat_id=update.message.chat_id,
+            text=txt
+        )
     except Exception:
+        logger.exception('no pudimos agregar preguntas')
         bot.send_message(
             chat_id=update.message.chat_id,
             text="No pudimos agregar tu pregunta"
         )
 
-    txt = f"Pregunta creada con id: {q.id}"
-    bot.send_message(
-        chat_id=update.message.chat_id,
-        text=txt
-    )
 
 
 def expense(bot, update, args):
