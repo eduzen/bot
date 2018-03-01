@@ -251,7 +251,7 @@ def main():
     dolar_handler = CommandHandler('dolar', dolar)
     btc_handler = CommandHandler('btc', btc)
     expense_handler = CommandHandler('gasto', expense, pass_args=True)
-    question_handler = CommandHandler('users', get_questions)
+    question_handler = CommandHandler('questions', get_questions)
     add_question_handler = CommandHandler('add_question', add_question)
 
     dispatcher.add_handler(start_handler)
