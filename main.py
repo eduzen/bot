@@ -10,7 +10,7 @@ from telegram.ext import InlineQueryHandler
 from keys import TOKEN
 from api_expenses import send_expense
 from api_dolar import get_dolar
-from db import User
+from db import User, Question
 
 
 logging.basicConfig(
@@ -35,11 +35,48 @@ def get_users(bot, update):
     logger.info(f"get_users... by {update.message.from_user.name}")
 
     users = User.select()
-    logger.info(users)
+    txt = [user.username for user in users]
     bot.send_message(
         chat_id=update.message.chat_id,
-        text='algo'
+        text=txt
     )
+
+
+def get_questions(bot, update):
+    logger.info(f"get_users... by {update.message.from_user.name}")
+
+    qs = [f"{q.id}: {q.questions}" for q in Question.select()]
+
+    bot.send_message(
+        chat_id=update.message.chat_id,
+        text="\n".join(qs)
+    )
+
+
+def add_question(bot, update, args):
+    logger.info(f"get_users... by {update.message.from_user.name}")
+    if not args:
+        update.message.reply_text("mmm no enviaste nada!")
+        return
+
+    username = update.message.from_user.name
+    user_id = update.message.from_user.id
+    user = User.get_or_create(
+        username=username,
+        id=user_id
+    )
+
+    q = Question.create(
+        user=user,
+        question=" ".join(args)
+    )
+
+    txt = f"Pregunta creada con id: {q.id}"
+    bot.send_message(
+        chat_id=update.message.chat_id,
+        text=txt
+    )
+
 
 def expense(bot, update, args):
     logger.info(f"expenses... by {update.message.from_user.name}")
@@ -214,6 +251,8 @@ def main():
     dolar_handler = CommandHandler('dolar', dolar)
     btc_handler = CommandHandler('btc', btc)
     expense_handler = CommandHandler('gasto', expense, pass_args=True)
+    question_handler = CommandHandler('users', get_questions)
+    add_question_handler = CommandHandler('add_question', add_question)
 
     dispatcher.add_handler(start_handler)
     dispatcher.add_handler(users_handler)
@@ -221,6 +260,8 @@ def main():
     dispatcher.add_handler(dolar_handler)
     dispatcher.add_handler(btc_handler)
     dispatcher.add_handler(expense_handler)
+    dispatcher.add_handler(question_handler)
+    dispatcher.add_handler(add_question_handler)
 
     echo_handler = MessageHandler(Filters.text, echo)
     dispatcher.add_handler(echo_handler)

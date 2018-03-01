@@ -16,6 +16,9 @@ class BaseModel(Model):
 class User(BaseModel):
     username = CharField(unique=True)
 
+    def __str__(self):
+        return f'<{self.username}>'
+
 class Question(BaseModel):
     user = ForeignKeyField(User, backref='tweets')
     created_date = DateTimeField(default=datetime.now)
