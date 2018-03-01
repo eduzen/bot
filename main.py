@@ -9,6 +9,7 @@ from telegram.ext import InlineQueryHandler
 
 from keys import TOKEN
 from api_expenses import send_expense
+from api_dolar import get_dolar
 
 
 logging.basicConfig(
@@ -18,31 +19,15 @@ logging.basicConfig(
 
 logger = logging.getLogger(__name__)
 
-dolar_api = 'http://ws.geeklab.com.ar/dolar/get-dolar-json.php'
-
 
 def dolar(bot, update):
     logger.info(f"dolar... by {update.message.from_user.name}")
-    r = requests.get(dolar_api)
-    if r.status_code != 200:
-        bot.send_message(
-            chat_id=update.message.chat_id,
-            text="Perdón! La api no está  disponible!"
-        )
 
-    data = r.json()
-    if not data:
-        bot.send_message(
-            chat_id=update.message.chat_id,
-            text="Perdón! La api no está  disponible!"
-        )
-
-    cotizacion = data["libre"]
-    fecha = data["blue"]
+    text = get_dolar()
 
     bot.send_message(
         chat_id=update.message.chat_id,
-        text=f"USD Libre {cotizacion} - Blue {fecha}"
+        text=text
     )
 
 
@@ -99,6 +84,13 @@ def unknown(bot, update):
 
 def start(bot, update):
     logger.info(f"Starting comand... by {update.message.from_user.name}")
+    user = User.get(User.username == update.message.from_user.name)
+    if not user:
+        charlie = User.create(
+            username=update.message.from_user.name,
+            id=update.message.from_user.id
+        )
+    import pdb; pdb.set_trace()
     update.message.reply_text(
         f"Hola! Soy edu_bot! Nice to meet you"
         f"{update.message.from_user.name}! "

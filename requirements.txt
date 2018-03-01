@@ -9,3 +9,4 @@ python-telegram-bot==9.0.0
 requests==2.18.4
 urllib3==1.22
 wmctrl==0.3
+peewee==3.1.2
