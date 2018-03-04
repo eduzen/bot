@@ -36,7 +36,7 @@ def get_users(bot, update, args):
     txt = [user.username for user in User.select()]
     bot.send_message(
         chat_id=update.message.chat_id,
-        text=", ".join(txt)
+        text="Usuarios: , ".join(txt)
     )
 
 
@@ -72,9 +72,10 @@ def add_question(bot, update, args):
         username=username,
         id=user_id
     )
+    user = user[0]
     try:
         q = Question.create(
-            user=user[0].id,
+            user=user.id,
             question=" ".join(map(str, args)),
             answer="empty"
         )
@@ -150,6 +151,7 @@ def start(bot, update, args):
         username=username,
         id=user_id
     )
+    user = user[0]
     update.message.reply_text(
         f"Hola! Soy edu_bot!n\n"
         f"Encantado de conocerte {user.username}!\n"

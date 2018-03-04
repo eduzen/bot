@@ -1,7 +1,9 @@
+import os
 import logging
 
 from telegram_bot import TelegramBot
 
+from db import create_db_tables
 from commands import (
     btc, caps, ayuda, dolar, start, expense,
     get_questions, get_users, add_question
@@ -19,8 +21,8 @@ formatter = logging.Formatter(
     '%(asctime)s %(name)-12s %(levelname)-8s %(message)s'
 )
 handler.setFormatter(formatter)
-logger.addHandler(fh)
-logger.setLevel(logging.INFO)
+logger.addHandler(handler)
+logger.setLevel(logging.DEBUG)
 
 
 def main():
@@ -46,6 +48,8 @@ def main():
 
 if __name__ == '__main__':
     try:
+        if not os.path.exists('my_database.db'):
+            create_db_tables()
         main()
     except Exception:
         logger.exception('bye bye')

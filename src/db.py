@@ -13,14 +13,16 @@ class BaseModel(Model):
     class Meta:
         database = db
 
+
 class User(BaseModel):
     username = CharField(unique=True)
 
     def __str__(self):
         return f'<{self.username}>'
 
+
 class Question(BaseModel):
-    user = ForeignKeyField(User, backref='tweets')
+    user = ForeignKeyField(User, backref='user')
     created_date = DateTimeField(default=datetime.now)
     question = TextField()
     answer = TextField(null=True)
