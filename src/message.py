@@ -1,11 +1,12 @@
 import logging
-
+from datetime import datetime
 logger = logging.getLogger(__name__)
 
 
 def record_msg(msg):
     logger.info(f"record_msg")
     with open('history.txt', 'a') as f:
+        msg = f'{datetime.now().isoformat()} - {msg}'
         f.write(msg)
 
 
