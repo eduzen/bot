@@ -20,6 +20,6 @@ def get_dolar():
         text = "Perdón! La api no está  disponible!"
         return text
 
-    text = f'USD oficial {data['rates']['ARS']}'
+    text = f"USD oficial {data['rates']['ARS']}"
 
     return text
