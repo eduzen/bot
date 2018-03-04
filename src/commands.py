@@ -1,9 +1,9 @@
 import logging
 
-from .api.expenses import send_expense
-from .api.dolar import get_dolar
-from .api.btc import get_btc
-from .db import User, Question
+from api.expenses import send_expense
+from api.dolar import get_dolar
+from api.btc import get_btc
+from db import User, Question
 
 logger = logging.getLogger(__name__)
 

@@ -23,6 +23,6 @@ def get_btc():
         text = "Perdón! La api coinbin.org no está  disponible!"
         return text
 
-    text = f"1 btc == USD {data['coin']}"
+    text = f"1 btc == USD {data['coin']['usd']}"
 
     return text

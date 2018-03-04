@@ -3,7 +3,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-def echo(bot, update, args):
+def parse_msg(bot, update, args):
     logger.info(f"echo... by {update.message.from_user.name}")
     if update.message.new_chat_members:
         answer = 'Bienvenido {}'.format(update.message.from_user.name)

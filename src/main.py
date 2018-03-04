@@ -33,7 +33,7 @@ def main():
         'add_question': add_question
     }
     message_handlers = {
-        'parse_msg', parse_msg
+        'parse_msg': parse_msg
     }
     bot.register_commands(commands)
     bot.register_message_handler(message_handlers)

@@ -29,7 +29,7 @@ class TelegramBot(object):
 
     def add_list_of_handlers(self, handlers):
         for handler in handlers:
-            self.add_command(handler)
+            self.add_handler(handler)
 
     def create_command(self, name, func):
         return CommandHandler(name, func, pass_args=True)
@@ -41,7 +41,7 @@ class TelegramBot(object):
         ]
 
     def create_msg(self, name, func):
-        return MessageHandler(name, func, pass_args=True)
+        return MessageHandler(name, func)
 
     def create_list_of_msg_handlers(self, kwargs):
         return [
