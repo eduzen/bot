@@ -1,14 +1,15 @@
-import requests
+import logging
 
-from keys import TOKEN
-from api_expenses import send_expense
-from api_dolar import get_dolar
-from db import User, Question
+from .api.expenses import send_expense
+from .api.dolar import get_dolar
+from .api.btc import get_btc
+from .db import User, Question
 
 logger = logging.getLogger(__name__)
 
+
 def dolar(bot, update, args):
-    logger.info(f"dolar... by {update.message.from_user.name}")
+    logger.info(f"Dollar... by {update.message.from_user.name}")
 
     text = get_dolar()
 
@@ -17,22 +18,36 @@ def dolar(bot, update, args):
         text=text
     )
 
-def get_users(bot, update, args):
-    logger.info(f"get_users... by {update.message.from_user.name}")
 
-    users = User.select()
-    txt = [user.username for user in users]
+def btc(bot, update, args):
+    logger.info(f"Btc... by {update.message.from_user.name}")
+
+    text = get_btc()
+
     bot.send_message(
         chat_id=update.message.chat_id,
-        text=txt
+        text=text
+    )
+
+
+def get_users(bot, update, args):
+    logger.info(f"Get_users... by {update.message.from_user.name}")
+
+    txt = [user.username for user in User.select()]
+    bot.send_message(
+        chat_id=update.message.chat_id,
+        text=", ".join(txt)
     )
 
 
 def get_questions(bot, update, args):
     try:
-        logger.info(f"get_users... by {update.message.from_user.name}")
+        logger.info(f"Get_questions... by {update.message.from_user.name}")
 
-        qs = [f"{q.id}: {q.questions}" for q in Question.select()]
+        qs = [
+            f"{q.id}: {q.questions}"
+            for q in Question.select()
+        ]
 
         bot.send_message(
             chat_id=update.message.chat_id,
@@ -44,8 +59,9 @@ def get_questions(bot, update, args):
             text="No hay preguntas o algo pasó"
         )
 
+
 def add_question(bot, update, args):
-    logger.info(f"get_users... by {update.message.from_user.name}")
+    logger.info(f"Add_question... by {update.message.from_user.name}")
     if not args:
         update.message.reply_text("mmm no enviaste nada!")
         return
@@ -73,7 +89,6 @@ def add_question(bot, update, args):
             chat_id=update.message.chat_id,
             text="No pudimos agregar tu pregunta"
         )
-
 
 
 def expense(bot, update, args):
@@ -136,9 +151,11 @@ def start(bot, update, args):
         id=user_id
     )
     update.message.reply_text(
-        f"Hola! Soy edu_bot! Nice to meet you "
-        f"{update.message.from_user.name}! "
-        "podés usar los commandos:\n /btc, /caps, /dolar, /gasto (solo eduzen)"
+        f"Hola! Soy edu_bot!n\n"
+        f"Encantado de conocerte {user.username}!\n"
+        "Haciendo click en el icono de la contrabarra \\ podés ver algunos"
+        "algunos de los commandos que podés usar:\n"
+        "Por ejemplo: /btc, /caps, /dolar"
     )
 
 
@@ -157,54 +174,6 @@ def ayuda(bot, update, args):
     )
 
 
-def btc(bot, update, args):
-    logger.info(f"https://coinbin.org/btc... by {update.message.from_user.name}")
-    btc = requests.get('https://coinbin.org/btc')
-    btc_data = defaultdict(str)
-    if btc.status_code == requests.codes.ok:
-        btc_data.update(btc.json()['coin'])
-
-    bot.send_message(
-        chat_id=update.message.chat_id,
-        text=f"1 btc --> U$S {btc_data['usd']}"
-    )
-
-
-def echo(bot, update, args):
-    logger.info(f"echo... by {update.message.from_user.name}")
-    if update.message.new_chat_members:
-        answer = 'Bienvenido {}'.format(update.message.from_user.name)
-        bot.send_message(chat_id=update.message.chat_id, text=answer)
-        return
-
-    msg = update.message.text.lower()
-    if 'hola' in msg or 'hi' in msg or 'holis' in msg:
-        answer = f'Hola {update.message.from_user.name}'
-        bot.send_message(chat_id=update.message.chat_id, text=answer)
-        return
-
-    if 'bye' in msg or 'chau' in msg or 'nos vemos' in msg:
-        answer = f'nos vemos humanoide {update.message.from_user.name}!'
-        bot.send_message(chat_id=update.message.chat_id, text=answer)
-        return
-
-    q = (
-        'qué haces', 'que hacés', 'que hace', 'todo bien?', 'como va',
-        'cómo va', 'todo piola?', 'todo bien=', 'todo bien'
-    )
-    answer = f'Por ahora piola {update.message.from_user.name}'
-
-    for mark in q:
-        if mark in msg:
-            bot.send_message(chat_id=update.message.chat_id, text=answer)
-            return
-
-    bot.send_message(
-        chat_id=update.message.chat_id,
-        text='sabés que no te capto'
-    )
-
-
 def caps(bot, update, args):
     logger.info(f"caps... by {update.message.from_user.name}")
     if not args:
@@ -213,26 +182,3 @@ def caps(bot, update, args):
 
     text_caps = ' '.join(args).upper()
     bot.send_message(chat_id=update.message.chat_id, text=text_caps)
-
-
-def inline_caps(bot, update, args):
-    logger.info(f"inline_caps... by {update.message.from_user.name}")
-    query = update.inline_query.query
-    if not query:
-        return
-
-    results = []
-    results.append(
-        InlineQueryResultArticle(
-            id=query.upper(),
-            title='Caps',
-            input_message_content=InputTextMessageContent(query.upper())
-        )
-    )
-    bot.answer_inline_query(update.inline_query.id, results)
-
-
-def error(bot, update, error):
-    """Log Errors caused by Updates."""
-    logger.warning('Update "%s" caused error "%s"', update, error)
-

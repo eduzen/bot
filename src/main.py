@@ -1,16 +1,13 @@
 import logging
-import requests
-from collections import defaultdict
 
-from keys import TOKEN
-from api_expenses import send_expense
-from api_dolar import get_dolar
-from db import User, Question
 from telegram_bot import TelegramBot
 
 from commands import (
-    btc, caps, ayuda, dolar, start,
+    btc, caps, ayuda, dolar, start, expense,
     get_questions, get_users, add_question
+)
+from message import (
+    parse_msg
 )
 
 logging.basicConfig(
@@ -35,18 +32,12 @@ def main():
         'gasto': expense,
         'add_question': add_question
     }
+    message_handlers = {
+        'parse_msg', parse_msg
+    }
     bot.register_commands(commands)
+    bot.register_message_handler(message_handlers)
     bot.start()
-    """
-    echo_handler = MessageHandler(Filters.text, echo)
-    dispatcher.add_handler(echo_handler)
-
-    unknown_handler = MessageHandler(Filters.command, unknown)
-    dispatcher.add_handler(unknown_handler)
-
-    inline_caps_handler = InlineQueryHandler(inline_caps)
-    dispatcher.add_handler(inline_caps_handler)
-    """
 
 
 if __name__ == '__main__':
