@@ -10,17 +10,21 @@ from message import (
     parse_msg
 )
 
-logging.basicConfig(
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    level=logging.INFO
-)
+logger = logging.getLogger()
 
-logger = logging.getLogger(__name__)
+handler = logging.StreamHandler()
+fh = logging.FileHandler('bot.log')
+
+formatter = logging.Formatter(
+    '%(asctime)s %(name)-12s %(levelname)-8s %(message)s'
+)
+handler.setFormatter(formatter)
+logger.addHandler(fh)
+logger.setLevel(logging.INFO)
 
 
 def main():
     logger.info("Starting main...")
-    bot = TelegramBot()
     commands = {
         'btc': btc,
         'caps': caps,
@@ -32,9 +36,9 @@ def main():
         'gasto': expense,
         'add_question': add_question
     }
-    message_handlers = {
-        'parse_msg': parse_msg
-    }
+    message_handlers = [parse_msg, ]
+
+    bot = TelegramBot()
     bot.register_commands(commands)
     bot.register_message_handler(message_handlers)
     bot.start()

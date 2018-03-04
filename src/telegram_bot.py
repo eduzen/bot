@@ -1,6 +1,7 @@
 import logging
 
-from telegram.ext import CommandHandler, MessageHandler
+from telegram.ext import CommandHandler
+from telegram.ext import MessageHandler, Filters
 from telegram.ext import Updater
 from keys import TOKEN
 
@@ -40,19 +41,19 @@ class TelegramBot(object):
             for key, value in kwargs.items()
         ]
 
-    def create_msg(self, name, func):
-        return MessageHandler(name, func)
+    def create_msg(self, func):
+        return MessageHandler(Filters.text, func)
 
-    def create_list_of_msg_handlers(self, kwargs):
+    def create_list_of_msg_handlers(self, args):
         return [
-            self.create_msg(key, value)
-            for key, value in kwargs.items()
+            self.create_msg(value)
+            for value in args
         ]
 
     def register_commands(self, kwargs):
         commands = self.create_list_of_commands(kwargs)
         self.add_list_of_handlers(commands)
 
-    def register_message_handler(self, kwargs):
-        msgs = self.create_list_of_msg_handlers(kwargs)
+    def register_message_handler(self, args):
+        msgs = self.create_list_of_msg_handlers(args)
         self.add_list_of_handlers(msgs)
