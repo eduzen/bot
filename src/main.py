@@ -1,14 +1,18 @@
+import os
 import logging
 
-from telegram_bot import TelegramBot
+from telegram.ext import Filters
 
 from commands import (
     btc, caps, ayuda, dolar, start, expense,
-    get_questions, get_users, add_question
+    get_questions, get_users, add_question,
+    add_answer
 )
+from db import create_db_tables
 from message import (
-    parse_msg
+    parse_msg, unknown
 )
+from telegram_bot import TelegramBot
 
 logger = logging.getLogger()
 
@@ -19,7 +23,7 @@ formatter = logging.Formatter(
     '%(asctime)s %(name)-12s %(levelname)-8s %(message)s'
 )
 handler.setFormatter(formatter)
-logger.addHandler(fh)
+logger.addHandler(handler)
 logger.setLevel(logging.INFO)
 
 
@@ -34,18 +38,23 @@ def main():
         'users': get_users,
         'questions': get_questions,
         'gasto': expense,
-        'add_question': add_question
+        'add_question': add_question,
+        'add_answer': add_answer,
     }
     message_handlers = [parse_msg, ]
 
     bot = TelegramBot()
     bot.register_commands(commands)
     bot.register_message_handler(message_handlers)
+    unknown_handler = bot.create_msg(unknown, Filters.command)
+    bot.add_handler(unknown_handler)
     bot.start()
 
 
 if __name__ == '__main__':
     try:
+        if not os.path.exists('my_database.db'):
+            create_db_tables()
         main()
     except Exception:
         logger.exception('bye bye')

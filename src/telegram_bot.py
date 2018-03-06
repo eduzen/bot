@@ -64,8 +64,8 @@ class TelegramBot(object):
             for key, value in kwargs.items()
         ]
 
-    def create_msg(self, func):
-        return MessageHandler(Filters.text, func)
+    def create_msg(self, func, filters=Filters.text):
+        return MessageHandler(filters, func)
 
     def create_list_of_msg_handlers(self, args):
         return [
