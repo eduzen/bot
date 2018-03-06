@@ -5,7 +5,7 @@ logger = logging.getLogger(__name__)
 
 GREETING_KEYWORDS = (
     "hello", "hi", "greetings", "sup", "what's up",
-    "hola", "holas", "holis" 
+    "hola", "holas", "holis"
 )
 
 BYE_KEYWORDS = (
@@ -23,7 +23,7 @@ def check_for_answer(sentence, keywords):
     """If any of the words in the user's input
     was a greeting, return a greeting response
     """
-    for word in sentence.words:
+    for word in sentence.split(" "):
         if word.lower() in keywords:
             return True
     return False

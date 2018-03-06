@@ -3,13 +3,13 @@ import logging
 
 from telegram.ext import Filters
 
-from commands import (
+from handlers.commands.commands import (
     btc, caps, ayuda, dolar, start, expense,
     get_questions, get_users, add_question,
     add_answer
 )
 from db import create_db_tables
-from message import (
+from handlers.message.message import (
     parse_msg, unknown
 )
 from telegram_bot import TelegramBot
