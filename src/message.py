@@ -1,5 +1,7 @@
 import logging
 
+from db import User
+
 logger = logging.getLogger(__name__)
 
 
@@ -19,6 +21,12 @@ def parse_msg(bot, update):
     msg = update.message.text.lower()
     msg = f'{update.message.from_user.name}: {msg}\n'
     record_msg(msg)
+    username = update.message.from_user.name
+    user_id = update.message.from_user.id
+    User.get_or_create(
+        username=username,
+        id=user_id
+    )
 
     if 'hola' in msg or 'hi' in msg or 'holis' in msg:
         answer = f'Hola {update.message.from_user.name}'

@@ -3,6 +3,10 @@ import logging
 from telegram.ext import CommandHandler
 from telegram.ext import MessageHandler, Filters
 from telegram.ext import Updater
+from telegram.error import (
+    TelegramError, Unauthorized, BadRequest,
+    TimedOut, ChatMigrated, NetworkError
+)
 from keys import TOKEN
 
 logger = logging.getLogger(__name__)
@@ -23,7 +27,26 @@ class TelegramBot(object):
 
     def error(self, bot, update, error):
         """Log Errors caused by Updates."""
-        logger.warning('Update "%s" caused error "%s"', update, error)
+        try:
+            raise error
+        except Unauthorized:
+            # remove update.message.chat_id from conversation list
+            logger.error('Update caused Unauthorized error')
+        except BadRequest:
+            # handle malformed requests - read more below!
+            logger.error('Update "%s" caused error "%s"', update, error)
+        except TimedOut:
+            # handle slow connection problems
+            logger.warning('Update "%s" caused TimedOut "%s"', update, error)
+        except NetworkError:
+            # handle other connection problems
+            logger.error('Update "%s" caused error "%s"', update, error)
+        except ChatMigrated as e:
+            # the chat_id of a group has changed, use e.new_chat_id instead
+            logger.error('Update "%s" caused error "%s"', update, error)
+        except TelegramError:
+            # handle all other telegram related errors
+            logger.error('Update "%s" caused error "%s"', update, error)
 
     def add_handler(self, handler):
         self.dispatcher.add_handler(handler)
