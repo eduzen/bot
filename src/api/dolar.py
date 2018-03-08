@@ -32,6 +32,9 @@ def parse_bnc():
 
     data = data[0].get_text().strip().replace('\n', ' ').replace('  ', '\n')
     data = data.replace('\n ', dolar, 1).replace('\n ', euro, 1).replace('\n ', real, 1)
+    data = data.replace('(*)', '')
+    data = data.replace('U.S.A', '')
+
     return data
 
 
