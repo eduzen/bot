@@ -7,6 +7,27 @@ logger = logging.getLogger(__name__)
 
 API = 'https://openexchangerates.org/api/latest.json'
 OTHER_API = 'http://ws.geeklab.com.ar/dolar/get-dolar-json.php'
+BNC = 'http://www.bna.com.ar/'
+
+
+def parse_bnc():
+    r = requests.get(BNC)
+    if r.status_code != 200:
+        return False
+
+    data = r.text
+    if not data:
+        return False
+
+    soup = BeautifulSoup(data, 'html.parser')
+    tables = soup.find_all('table', {"class": "table cotizacion"})
+
+    if not tables:
+        return False
+
+    cotizaciones = tables[0].get_text().strip().replace('\n', ' ').replace('  ', ' ')
+
+    return cotizaciones
 
 
 def get_dolar():

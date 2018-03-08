@@ -1,7 +1,7 @@
 import logging
 
 from api.expenses import send_expense
-from api.dolar import get_dolar
+from api.dolar import get_dolar, parse_bnc
 from api.btc import get_btc
 from db import User, Question
 
@@ -16,6 +16,24 @@ def dolar(bot, update, args):
     bot.send_message(
         chat_id=update.message.chat_id,
         text=text
+    )
+
+
+def cotizaciones(bot, update, args):
+    logger.info(f"cotizaciones... by {update.message.from_user.name}")
+
+    data = parse_bnc()
+
+    if not data:
+        bot.send_message(
+            chat_id=update.message.chat_id,
+            text="No pudimos conseguir la info"
+        )
+        return
+
+    bot.send_message(
+        chat_id=update.message.chat_id,
+        text=data
     )
 
 

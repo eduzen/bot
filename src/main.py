@@ -9,7 +9,7 @@ from handlers.commands.commands import (
     add_answer
 )
 from db import create_db_tables
-from handlers.message.message import (
+from handlers.messages.message import (
     parse_msg, unknown
 )
 from telegram_bot import TelegramBot
