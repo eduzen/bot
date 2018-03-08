@@ -10,6 +10,10 @@ API = 'https://openexchangerates.org/api/latest.json'
 OTHER_API = 'http://ws.geeklab.com.ar/dolar/get-dolar-json.php'
 BNC = 'http://www.bna.com.ar/'
 
+dolar = '💵'
+euro = '🇪🇺'
+real = '🇧🇷'
+
 
 def parse_bnc():
     r = requests.get(BNC)
@@ -20,15 +24,15 @@ def parse_bnc():
     if not data:
         return False
 
-    soup = BeautifulSoup(data, 'html.parser')
-    tables = soup.find_all('table', {"class": "table cotizacion"})
+    data = BeautifulSoup(data, 'html.parser')
+    data = soup.find_all('table', {"class": "table cotizacion"})
 
-    if not tables:
+    if not data:
         return False
 
-    cotizaciones = tables[0].get_text().strip().replace('\n', ' ').replace('  ', '\n')
-
-    return cotizaciones
+    data = data[0].get_text().strip().replace('\n', ' ').replace('  ', '\n')
+    data = data.replace('\n ', dolar, 1).replace('\n ', euro, 1).replace('\n ', real, 1)
+    return data
 
 
 def get_dolar():
