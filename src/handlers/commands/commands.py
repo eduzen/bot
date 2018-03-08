@@ -204,7 +204,7 @@ def start(bot, update, args):
     )
     user = user[0]
     update.message.reply_text(
-        f"Hola! Soy edu_bot!n\n"
+        f"Hola! Soy edu_bot!\n"
         f"Encantado de conocerte {user.username}!\n"
         "Haciendo click en el icono de la contrabarra \\ podés ver algunos"
         "algunos de los commandos que podés usar:\n"

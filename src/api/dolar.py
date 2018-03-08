@@ -26,7 +26,7 @@ def parse_bnc():
     if not tables:
         return False
 
-    cotizaciones = tables[0].get_text().strip().replace('\n\n', '\n')
+    cotizaciones = tables[0].get_text().strip().replace('\n', ' ').replace('  ', '\n')
 
     return cotizaciones
 
