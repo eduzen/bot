@@ -24,7 +24,7 @@ def parse_bnc():
     if not data:
         return False
 
-    data = BeautifulSoup(data, 'html.parser')
+    soup = BeautifulSoup(data, 'html.parser')
     data = soup.find_all('table', {"class": "table cotizacion"})
 
     if not data:
