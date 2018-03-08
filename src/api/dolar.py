@@ -11,8 +11,8 @@ OTHER_API = 'http://ws.geeklab.com.ar/dolar/get-dolar-json.php'
 BNC = 'http://www.bna.com.ar/'
 
 dolar = '💵'
-euro = '🇪🇺'
-real = '🇧🇷'
+euro = '\n🇪🇺'
+real = '\n🇧🇷'
 
 
 def parse_bnc():
