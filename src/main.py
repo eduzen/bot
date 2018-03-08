@@ -6,7 +6,7 @@ from telegram.ext import Filters
 from handlers.commands.commands import (
     btc, caps, ayuda, dolar, start, expense,
     get_questions, get_users, add_question,
-    add_answer
+    add_answer, cotizaciones
 )
 from db import create_db_tables
 from handlers.messages.message import (
@@ -40,6 +40,7 @@ def main():
         'gasto': expense,
         'add_question': add_question,
         'add_answer': add_answer,
+        'cambio': cotizaciones,
     }
     message_handlers = [parse_msg, ]
 
