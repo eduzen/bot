@@ -1,8 +1,9 @@
 import logging
 
-from telegram.ext import CommandHandler
-from telegram.ext import MessageHandler, Filters
-from telegram.ext import Updater
+from telegram.ext import (
+    CommandHandler, MessageHandler,
+    Filters, InlineQueryHandler, Updater
+)
 from telegram.error import (
     TelegramError, Unauthorized, BadRequest,
     TimedOut, ChatMigrated, NetworkError
@@ -57,6 +58,9 @@ class TelegramBot(object):
 
     def create_command(self, name, func):
         return CommandHandler(name, func, pass_args=True)
+
+    def create_inlinequery(self, func):
+        return InlineQueryHandler(func)
 
     def create_list_of_commands(self, kwargs):
         return [

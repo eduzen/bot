@@ -3,14 +3,15 @@ import logging
 
 from telegram.ext import Filters
 
+from db import create_db_tables
 from handlers.commands.commands import (
     btc, caps, ayuda, dolar, start, expense,
     get_questions, get_users, add_question,
-    add_answer, cotizaciones
+    add_answer, cotizaciones, weather
 )
-from db import create_db_tables
+from handlers.messages.inline import code_markdown
 from handlers.messages.message import (
-    parse_msg, unknown
+    parse_msgs, unknown
 )
 from telegram_bot import TelegramBot
 
@@ -41,14 +42,20 @@ def main():
         'add_question': add_question,
         'add_answer': add_answer,
         'cambio': cotizaciones,
+        'clima': weather,
     }
-    message_handlers = [parse_msg, ]
+    message_handlers = [parse_msgs, ]
 
     bot = TelegramBot()
     bot.register_commands(commands)
     bot.register_message_handler(message_handlers)
+
+    code_handler = bot.create_inlinequery(code_markdown)
+    bot.add_handler(code_handler)
+
     unknown_handler = bot.create_msg(unknown, Filters.command)
     bot.add_handler(unknown_handler)
+
     bot.start()
 
 

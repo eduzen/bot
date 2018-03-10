@@ -14,6 +14,7 @@ TOKEN = 'some_token'
 ## Algunos commandos para pasarle a botfather
 ```
 cambio - Cotización de varias divisas
+clima - Temperatura en baires
 dolar - Cotización del dolar
 btc - Cotización del bitcoin
 users - Lista de usuarios
@@ -23,4 +24,5 @@ questions - Lista preguntas
 caps - convierte a mayusculas 
 gasto - agrega un gasto
 start - ayuda
+code - Highlighted code
 ```
