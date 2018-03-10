@@ -12,10 +12,9 @@ os.environ['NLTK_DATA'] = os.getcwd() + '/nltk_data'
 from textblob import TextBlob
 
 logger = logging.getLogger()
-logger.setLevel(logging.DEBUG)
 
 
-def check_for_intro_question (sentence):
+def check_for_intro_question(sentence):
     """Sometimes people greet by introducing a question."""
     utterance = " ".join(sentence.words).lower()
     for question in INTRO_QUESTIONS:
