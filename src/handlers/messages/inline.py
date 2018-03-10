@@ -19,7 +19,7 @@ def code_markdown(bot, update):
     results = [
         InlineQueryResultArticle(
             id=uuid4().hex[:8],
-            title='Code MARKDOWN',
+            title='code',
             input_message_content=InputTextMessageContent(query, 'MARKDOWN')
         )
     ]
