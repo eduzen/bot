@@ -1,4 +1,5 @@
 import logging
+import random
 from datetime import datetime
 
 from db import User
@@ -9,7 +10,11 @@ GREETING_KEYWORDS = (
     "hello", "hi", "greetings", "sup", "what's up",
     "hola", "holas", "holis"
 )
-
+GREETING_RESPONSES = (
+    "hola", 'como va?', 'Hola, todo bien?', 'buenas',
+    'holas', 'hola, que tul?', 'era hora de saludar',
+    'que hacés che', 'todo tranca humanoide?', 'hi!',
+)
 BYE_KEYWORDS = (
     'bye', 'chau', 'chauuu',
 )
@@ -19,6 +24,16 @@ MOOD_KEYWORDS = (
     'cómo va', 'todo piola?', 'todo bien=', 'todo bien', 'como va?',
     'todo piola?', 'que haces?', 'como estas?', 'como esta?'
 )
+
+
+def check_for_greeting(sentence):
+    """If any of the words in the user's input was a greeting,
+    return a greeting response
+    """
+    for word in sentence.words:
+        if word.lower() in GREETING_KEYWORDS:
+            return random.choice(GREETING_RESPONSES)
+
 
 
 def check_for_answer(sentence, keywords):
