@@ -1,5 +1,10 @@
 # Just another telegram-bot
 
+```bash
+pip install -r requirements.txt
+python -m textblob.download_corpora
+```
+
 ## Create a keys file
 
 ```bash
@@ -25,4 +30,5 @@ caps - convierte a mayusculas
 gasto - agrega un gasto
 start - ayuda
 code - Highlighted code
+subte -  Estado del subte, acepta numero
 ```

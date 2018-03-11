@@ -7,7 +7,8 @@ from db import create_db_tables
 from handlers.commands.commands import (
     btc, caps, ayuda, dolar, start, expense,
     get_questions, get_users, add_question,
-    add_answer, cotizaciones, weather, code
+    add_answer, cotizaciones, weather, code,
+    subte
 )
 from handlers.messages.inline import code_markdown
 from handlers.messages.unknown import unknown
@@ -45,6 +46,7 @@ def main():
         'cambio': cotizaciones,
         'clima': weather,
         'code': code,
+        'subte': subte,
     }
     message_handlers = [parse_msgs, ]
 

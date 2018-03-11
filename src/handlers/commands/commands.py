@@ -4,6 +4,7 @@ from api.expenses import send_expense
 from api.dolar import get_dolar, parse_bnc
 from api.btc import get_btc
 from api.weather import get_weather
+from api.twitter import get_subte
 from db import User, Question
 
 logger = logging.getLogger(__name__)
@@ -13,6 +14,26 @@ def weather(bot, update, args):
     logger.info(f"Weather... by {update.message.from_user.name}")
 
     text = get_weather()
+    if not text:
+        return
+
+    bot.send_message(
+        chat_id=update.message.chat_id,
+        text=text
+    )
+
+
+def subte(bot, update, args):
+    logger.info(f"Weather... by {update.message.from_user.name}")
+
+    try:
+        amount = int(args[0])
+    except Exception:
+        amount = 4
+
+    text = get_subte(amount)
+    if not text:
+        return
 
     bot.send_message(
         chat_id=update.message.chat_id,
