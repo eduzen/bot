@@ -12,7 +12,7 @@ def code_markdown(bot, update):
     if not query:
         return
 
-    query = f"```\n{query}\n```"
+    query = f"```\n{query} \n```"
 
     results = [
         InlineQueryResultArticle(

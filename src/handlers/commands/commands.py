@@ -20,6 +20,23 @@ def weather(bot, update, args):
     )
 
 
+def code(bot, update, args):
+    logger.info(f"Code... by {update.message.from_user.name}")
+
+    if not args:
+        return
+    args = " ".join(list(args))
+
+    args = f"```python\n{args} \n```"
+
+    bot.send_message(
+        chat_id=update.message.chat_id,
+        text=args,
+        parse_mode='Markdown',
+        disable_notification=True,
+    )
+
+
 def dolar(bot, update, args):
     logger.info(f"Dollar... by {update.message.from_user.name}")
 

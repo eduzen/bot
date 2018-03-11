@@ -7,11 +7,12 @@ from db import create_db_tables
 from handlers.commands.commands import (
     btc, caps, ayuda, dolar, start, expense,
     get_questions, get_users, add_question,
-    add_answer, cotizaciones, weather
+    add_answer, cotizaciones, weather, code
 )
 from handlers.messages.inline import code_markdown
+from handlers.messages.unknown import unknown
 from handlers.messages.message import (
-    parse_msgs, unknown
+    parse_msgs
 )
 from telegram_bot import TelegramBot
 
@@ -43,6 +44,7 @@ def main():
         'add_answer': add_answer,
         'cambio': cotizaciones,
         'clima': weather,
+        'code': code,
     }
     message_handlers = [parse_msgs, ]
 
