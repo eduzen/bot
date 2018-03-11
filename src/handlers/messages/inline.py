@@ -12,8 +12,6 @@ def code_markdown(bot, update):
     if not query:
         return
 
-    logger.info(f'Code query... by {update.message.from_user.name}')
-
     query = f"```\n{query}\n```"
 
     results = [
