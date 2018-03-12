@@ -26,9 +26,10 @@ users - Lista de usuarios
 add_question - Agrega una pregunta
 add_answer - Agrega respuesta pasando Id
 questions - Lista preguntas
-caps - convierte a mayusculas 
+caps - convierte a mayusculas
 gasto - agrega un gasto
 start - ayuda
 code - Highlighted code
-subte -  Estado del subte, acepta numero
+subte -  Estado del subte
+subte-news - Estado del subte, acepta numero de tweets
 ```
