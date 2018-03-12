@@ -60,6 +60,6 @@ def get_subte_html(amount=0):
         data = data.replace(linea, f'\n{linea}')
 
     data = data.replace('Normal', ' Normal')
-    data = data.replace('Actualizado', ' Actualizado')
+    data = data.replace('Actualizado', 'Actualizado ')
 
     return data
