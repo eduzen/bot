@@ -39,8 +39,10 @@ def get_weather():
     msg = []
     for element in data[0].children:
         text = element.get_text()
-        if 'ST' in text:
-            text = text.replace('ST', ' ST')
+        text = text.replace('ST', ' ST')
+        text = text.replace('%', '% ')
+        text = text.replace('km/h', 'km/h ')
+        text = text.replace('hPa', 'hPa\n')
         msg.append(text)
 
     msg = "\n".join(msg)
