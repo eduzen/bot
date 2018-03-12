@@ -37,7 +37,7 @@ def get_subte(count=20):
     return data
 
 
-def get_subte_html():
+def get_subte_html(amount=0):
     r = requests.get('http://enelsubte.com/estado/')
     r.encoding = 'utf-8'
     msg = "No pudimos conseguir el subte via web"
