@@ -47,7 +47,7 @@ def main():
         'clima': weather,
         'code': code,
         'subte': subte,
-        'subte-news': subte_novedades,
+        'subtenews': subte_novedades,
     }
     message_handlers = [parse_msgs, ]
 

@@ -31,5 +31,5 @@ gasto - agrega un gasto
 start - ayuda
 code - Highlighted code
 subte -  Estado del subte
-subte-news - Estado del subte, acepta numero de tweets
+subtenews - Estado del subte, acepta numero de tweets
 ```
