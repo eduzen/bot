@@ -89,6 +89,12 @@ def parse_regular_chat(msg):
     return answer
 
 
+def automatic_response(words, msg, vocabularies):
+    for word in words:
+        if word in msg:
+            return random.choice(vocabularies)
+
+
 def parse_msgs(bot, update):
     logger.info(f"parse_msgs... by {update.message.from_user.name}")
     msg = update.message.text
@@ -107,17 +113,26 @@ def parse_msgs(bot, update):
 
     raw_msg = raw_msg.replace('@eduzenbot', '').replace('@eduzen_bot', '').strip()
 
-    if 'skynet' in raw_msg.lower() or 'bot' in raw_msg.lower():
+    skynet = ('skynet', 'bot', )
+    response = automatic_response(skynet, raw_msg, T1000)
+    if response:
         bot.send_document(chat_id=update.message.chat_id,
-                          document=random.choice(T1000))
+                          document=response)
+        return
 
-    if 'faso' in raw_msg.lower() or 'fasoo' in raw_msg.lower():
+    faso = ('faso', 'fasoo', )
+    response = automatic_response(faso, raw_msg, FASO)
+    if response:
         bot.send_document(chat_id=update.message.chat_id,
-                          document=random.choice(FASO))
+                          document=response)
+        return
 
-    if 'windows' in raw_msg.lower() or 'window' in raw_msg.lower():
+    faso = ('window', 'windows', 'win98', 'win95')
+    response = automatic_response(faso, raw_msg, WINDOWS)
+    if response:
         bot.send_document(chat_id=update.message.chat_id,
-                          document=random.choice(WINDOWS))
+                          document=response)
+        return
 
     blob = TextBlob(raw_msg)
 
