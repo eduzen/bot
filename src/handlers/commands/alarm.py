@@ -1,7 +1,7 @@
 def alarm(bot, job):
     """Send the alarm message."""
     bot.send_message(job.context, text='Beep!')
-    bot.send_voice(
+    bot.send_photo(
         job.context,
         voice='https://media.giphy.com/media/d3yxg15kJppJilnW/giphy.gif'
     )

@@ -13,8 +13,10 @@ from .vocabulary import (
     INTRO_QUESTIONS,
     NONE_RESPONSES,
     INTRO_RESPONSES, BYE_KEYWORDS,
-    BYE_RESPONSES
-
+    BYE_RESPONSES,
+    T1000,
+    FASO,
+    WINDOWS
 )
 os.environ['NLTK_DATA'] = os.getcwd() + '/nltk_data'
 from textblob import TextBlob
@@ -89,7 +91,6 @@ def parse_regular_chat(msg):
 
 def parse_msgs(bot, update):
     logger.info(f"parse_msgs... by {update.message.from_user.name}")
-    bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
     msg = update.message.text
     msg = f'{update.message.from_user.name}: {msg}\n'
     record_msg(msg)
@@ -105,6 +106,19 @@ def parse_msgs(bot, update):
         return
 
     raw_msg = raw_msg.replace('@eduzenbot', '').replace('@eduzen_bot', '').strip()
+
+    if 'skynet' in raw_msg.lower() or 'bot' in raw_msg.lower():
+        bot.send_document(chat_id=update.message.chat_id,
+                          document=random.choice(T1000))
+
+    if 'faso' in raw_msg.lower() or 'fasoo' in raw_msg.lower():
+        bot.send_document(chat_id=update.message.chat_id,
+                          document=random.choice(FASO))
+
+    if 'windows' in raw_msg.lower() or 'window' in raw_msg.lower():
+        bot.send_document(chat_id=update.message.chat_id,
+                          document=random.choice(WINDOWS))
+
     blob = TextBlob(raw_msg)
 
     entities = update.message.parse_entities()
@@ -119,6 +133,7 @@ def parse_msgs(bot, update):
     if '@eduzen_bot' not in mentions and '@eduzenbot' not in mentions:
         return
 
+    bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
     answer = parse_chat(blob)
 
     bot.send_message(

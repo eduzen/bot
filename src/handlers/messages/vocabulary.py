@@ -69,3 +69,24 @@ NONE_RESPONSES = (
     '🙃',
     '😭',
 )
+
+T1000 = (
+    'https://media.giphy.com/media/IZY2SE2JmPgFG/giphy.gif',
+    'https://media.giphy.com/media/TAywY9f1YFila/giphy.gif',
+    'https://media.giphy.com/media/BRKsxNP8kY5lS/giphy.gif',
+    'https://media.giphy.com/media/iFCQhoTjoOgms/giphy.gif',
+)
+
+FASO = (
+    'https://media.giphy.com/media/4a1BW6oEvxPhK/giphy.gif',
+    'https://media.giphy.com/media/iFCQhoTjoOgms/giphy.gif',
+    'https://media.giphy.com/media/xTka034bGJ8H7wH1io/giphy.gif'
+)
+
+WINDOWS = (
+    'https://media.giphy.com/media/d3FzJ2VLjVmb8ntK/giphy.gif',
+    'https://media.giphy.com/media/KlrMS4vyq5KSY/giphy.gif',
+    'https://media.giphy.com/media/3o6gDUY3B8ocAgMNhu/giphy.gif',
+    'https://media.giphy.com/media/edl5t7nDVPtC/giphy.gif',
+    'https://media.giphy.com/media/xTiTnvMb8gkmBvwFiM/giphy.gif',
+)

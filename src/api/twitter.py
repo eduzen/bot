@@ -55,9 +55,10 @@ def get_subte_html(amount=0):
     if not data:
         return msg
 
-    data = data[0].text.strip().replace('\n', '').replace(' ', '').replace('\r', '\n')
+    data = data[0].text.strip().replace('\r\n', '\n').replace('\n', '')
+    data = data.replace('A', '*A* ')
     for linea in ('B', 'C', 'D', 'E', 'P', 'H', 'U'):
-        data = data.replace(linea, f'\n{linea}')
+        data = data.replace(linea, f'\n*{linea}* ')
 
     data = data.replace('Normal', ' Normal')
     data = data.replace('Actualizado', 'Actualizado ')
