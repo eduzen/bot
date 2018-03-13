@@ -6,12 +6,10 @@ from datetime import datetime
 
 from db import User
 from .vocabulary import (
-    GREETING_KEYWORDS, GREETING_RESPONSES,
+    GREETING_KEYWORDS,
+    GREETING_RESPONSES,
     INTRO_QUESTIONS,
-    SELF_VERBS_WITH_NOUN_LOWER,
-    SELF_VERBS_WITH_ADJECTIVE,
-    SELF_VERBS_WITH_NOUN_CAPS_PLURAL,
-    NONE_RESPONSES, COMMENTS_ABOUT_SELF,
+    NONE_RESPONSES,
     INTRO_RESPONSES, BYE_KEYWORDS,
     BYE_RESPONSES
 
@@ -53,141 +51,18 @@ def get_or_create_user(username, userid):
     )
 
 
-def find_pronoun(sent):
-    """Given a sentence, find a preferred pronoun to respond with.
-    Returns:
-        None if no candidate
-        pronoun is found in the input
-    """
-    pronoun = None
+def parse_chat(blob):
+    for sentence in blob.sentences:
+        resp = check_for_greeting(blob)
+        if not resp:
+            resp = check_for_intro_question(blob)
 
-    for word, part_of_speech in sent.pos_tags:
-        # Disambiguate pronouns
-        if part_of_speech == 'PRP' and word.lower() in ('vos', 'tu'):
-            pronoun = 'Yo'
-        elif part_of_speech == 'PRP' and word.lower() == 'yo':
-            # If the user mentioned themselves, then they will definitely be the pronoun
-            pronoun = 'vos'
-    return pronoun
+        if not resp:
+            resp = check_for_bye(blob)
 
-
-def find_verb(sent):
-    """Pick a candidate verb for the sentence."""
-    verb = None
-    pos = None
-    for word, part_of_speech in sent.pos_tags:
-        if part_of_speech.startswith('VB'):  # This is a verb
-            verb = word
-            pos = part_of_speech
+        if resp:
             break
-    return verb, pos
 
-
-def find_noun(sent):
-    """Given a sentence, find the best candidate noun."""
-    noun = None
-
-    if not noun:
-        for w, p in sent.pos_tags:
-            if p == 'NN':  # This is a noun
-                noun = w
-                break
-    if noun:
-        logger.info("Found noun: %s", noun)
-
-    return noun
-
-
-def find_adjective(sent):
-    """Given a sentence, find the best candidate adjective."""
-    adj = None
-    for w, p in sent.pos_tags:
-        if p == 'JJ':  # This is an adjective
-            adj = w
-            break
-    return adj
-
-
-def find_candidate_parts_of_speech(parsed):
-    """Given a parsed input, find the best pronoun, direct noun,
-    adjective, and verb to match their input.
-    Returns a tuple of pronoun, noun, adjective, verb any of which may
-    be None if there was no good match
-    """
-    pronoun = None
-    noun = None
-    adjective = None
-    verb = None
-    for sent in parsed.sentences:
-        pronoun = find_pronoun(sent)
-        noun = find_noun(sent)
-        adjective = find_adjective(sent)
-        verb = find_verb(sent)
-
-    logger.info("Pronoun=%s, noun=%s, adjective=%s, verb=%s", pronoun, noun, adjective, verb)
-    return pronoun, noun, adjective, verb
-
-
-def construct_response(pronoun, noun, verb):
-    """No special cases matched, so we're going to try to construct
-    a full sentence that uses as much of the user's input as possible
-    """
-    resp = []
-
-    if pronoun:
-        resp.append(pronoun)
-    print(pronoun)
-    fruta = 'dificil de saber'
-    return fruta
-
-
-def check_for_comment_about_bot(pronoun, noun, adjective):
-    """Check if the user's input was about the bot itself,
-    in which case try to fashion a response that feels
-    right based on their input.
-    Returns:
-        str the new best sentence, or None.
-    """
-    resp = None
-    if pronoun == 'Yo' and (noun or adjective):
-        if noun:
-            if random.choice((True, False)):
-                resp = random.choice(
-                    SELF_VERBS_WITH_NOUN_CAPS_PLURAL).format(
-                    **{'noun': noun.pluralize().capitalize()}
-                )
-            else:
-                resp = random.choice(SELF_VERBS_WITH_NOUN_LOWER).format(**{'noun': noun})
-        else:
-            resp = random.choice(SELF_VERBS_WITH_ADJECTIVE).format(**{'adjective': adjective})
-    return resp
-
-
-def parse_chat(msg):
-    parsed = TextBlob(msg)
-
-    pronoun, noun, adjective, verb = find_candidate_parts_of_speech(parsed)
-    resp = check_for_comment_about_bot(pronoun, noun, adjective)
-
-    # If we just greeted the bot, we'll use a return greeting
-    logger.info(resp)
-    if not resp:
-        resp = check_for_greeting(parsed)
-
-    # If we were asked an intro question, we'll return an intro response
-    if not resp:
-        resp = check_for_intro_question(parsed)
-
-    if not resp:
-        # If we didn't override the final sentence, try to construct a new one:
-        if not pronoun:
-            resp = random.choice(NONE_RESPONSES)
-        elif pronoun == 'I' and not verb:
-            resp = random.choice(COMMENTS_ABOUT_SELF)
-        else:
-            resp = construct_response(pronoun, noun, verb)
-
-    # If we got through all that with nothing, use a random response
     if not resp:
         resp = random.choice(NONE_RESPONSES)
 
@@ -195,9 +70,8 @@ def parse_chat(msg):
 
 
 def parse_regular_chat(msg):
-    parsed = TextBlob(msg)
     answer = False
-    for sentence in parsed.sentences:
+    for sentence in msg.sentences:
         answer = check_for_greeting(sentence)
         if answer:
             return answer
@@ -223,13 +97,16 @@ def parse_msgs(bot, update):
     )
 
     raw_msg = update.message.text_html
-    if 'jaja' in raw_msg or 'jeje' in raw_msg:
+    if 'jaja' in raw_msg.lower() or 'jeje' in raw_msg.lower():
         bot.send_message(chat_id=update.message.chat_id, text='jaja')
         return
 
+    raw_msg = raw_msg.replace('@eduzenbot', '').replace('@eduzen_bot', '').strip()
+    blob = TextBlob(raw_msg)
+
     entities = update.message.parse_entities()
     if not entities:
-        answer = parse_regular_chat(raw_msg)
+        answer = parse_regular_chat(blob)
         if answer:
             bot.send_message(chat_id=update.message.chat_id, text=answer)
         return
@@ -239,8 +116,7 @@ def parse_msgs(bot, update):
     if '@eduzen_bot' not in mentions and '@eduzenbot' not in mentions:
         return
 
-    raw_msg = raw_msg.replace('@eduzenbot', 'vos').replace('@eduzen_bot', 'tu')
-    answer = parse_chat(raw_msg)
+    answer = parse_chat(blob)
 
     bot.send_message(
         chat_id=update.message.chat_id,

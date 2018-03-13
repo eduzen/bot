@@ -21,10 +21,3 @@ def code(bot, update):
         )
     ]
     bot.answer_inline_query(update.inline_query.id, results)
-
-
-def r(sentence):
-    """Main program loop: select a response for the input sentence and return it"""
-    logger.info("Broback: respond to %s", sentence)
-    # resp = respond(sentence)
-    return 'resp'
