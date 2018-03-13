@@ -4,6 +4,8 @@ import random
 import codecs
 from datetime import datetime
 
+from telegram import ChatAction
+
 from db import User
 from .vocabulary import (
     GREETING_KEYWORDS,
@@ -87,6 +89,7 @@ def parse_regular_chat(msg):
 
 def parse_msgs(bot, update):
     logger.info(f"parse_msgs... by {update.message.from_user.name}")
+    bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
     msg = update.message.text
     msg = f'{update.message.from_user.name}: {msg}\n'
     record_msg(msg)

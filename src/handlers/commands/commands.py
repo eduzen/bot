@@ -1,5 +1,7 @@
 import logging
 
+from telegram import ChatAction
+
 from api.expenses import send_expense
 from api.dolar import get_dolar, parse_bnc
 from api.btc import get_btc
@@ -11,6 +13,7 @@ logger = logging.getLogger(__name__)
 
 
 def weather(bot, update, args):
+    bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
     logger.info(f"Weather... by {update.message.from_user.name}")
 
     text = get_weather()
@@ -24,6 +27,7 @@ def weather(bot, update, args):
 
 
 def subte_novedades(bot, update, args):
+    bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
     logger.info(f"Weather... by {update.message.from_user.name}")
 
     try:
@@ -42,7 +46,8 @@ def subte_novedades(bot, update, args):
 
 
 def subte(bot, update, args):
-    logger.info(f"Weather... by {update.message.from_user.name}")
+    bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
+    logger.info(f"Subte... by {update.message.from_user.name}")
 
     try:
         amount = int(args[0])
@@ -58,7 +63,9 @@ def subte(bot, update, args):
         text=text
     )
 
+
 def code(bot, update, args):
+    bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
     logger.info(f"Code... by {update.message.from_user.name}")
 
     if not args:
@@ -76,6 +83,7 @@ def code(bot, update, args):
 
 
 def dolar(bot, update, args):
+    bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
     logger.info(f"Dollar... by {update.message.from_user.name}")
 
     text = get_dolar()
@@ -87,6 +95,7 @@ def dolar(bot, update, args):
 
 
 def cotizaciones(bot, update, args):
+    bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
     logger.info(f"cotizaciones... by {update.message.from_user.name}")
 
     data = parse_bnc()
@@ -105,6 +114,7 @@ def cotizaciones(bot, update, args):
 
 
 def btc(bot, update, args):
+    bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
     logger.info(f"Btc... by {update.message.from_user.name}")
 
     text = get_btc()
@@ -116,6 +126,7 @@ def btc(bot, update, args):
 
 
 def get_users(bot, update, args):
+    bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
     logger.info(f"Get_users... by {update.message.from_user.name}")
 
     txt = [user.username for user in User.select()]
@@ -126,6 +137,7 @@ def get_users(bot, update, args):
 
 
 def get_questions(bot, update, args):
+    bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
     try:
         logger.info(f"Get_questions... by {update.message.from_user.name}")
         qs = [
@@ -144,6 +156,7 @@ def get_questions(bot, update, args):
 
 
 def add_answer(bot, update, args):
+    bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
     logger.info(f"Add_question... by {update.message.from_user.name}")
     if not args:
         update.message.reply_text("mmm no enviaste nada!")
@@ -179,6 +192,7 @@ def add_answer(bot, update, args):
 
 
 def add_question(bot, update, args):
+    bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
     logger.info(f"Add_question... by {update.message.from_user.name}")
     if not args:
         update.message.reply_text("mmm no enviaste nada!")
@@ -192,7 +206,7 @@ def add_question(bot, update, args):
     )
     user = user[0]
     try:
-        q = Question.create(
+        q = Question.get_or_create(
             user=user.id,
             question=" ".join(map(str, args)),
             answer="empty"
@@ -211,6 +225,7 @@ def add_question(bot, update, args):
 
 
 def expense(bot, update, args):
+    bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
     logger.info(f"expenses... by {update.message.from_user.name}")
     if not update.message.from_user.name == '@eduzen':
         update.message.reply_text(
@@ -275,7 +290,7 @@ def start(bot, update, args):
         f"Encantado de conocerte {user.username}!\n"
         "Haciendo click en el icono de la contrabarra \\ podés ver algunos"
         "algunos de los commandos que podés usar:\n"
-        "Por ejemplo: /btc, /caps, /dolar"
+        "Por ejemplo: /btc, /cambio, /caps, /dolar, /clima, /subte"
     )
 
 

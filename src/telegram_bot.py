@@ -59,6 +59,11 @@ class TelegramBot(object):
     def create_command(self, name, func):
         return CommandHandler(name, func, pass_args=True)
 
+    def create_command_args(self, name, func, pass_args=True,
+                            pass_job_queue=True, pass_chat_data=True):
+        return CommandHandler(name, func, pass_args=pass_args, pass_job_queue=pass_job_queue,
+                              pass_chat_data=pass_chat_data)
+
     def create_inlinequery(self, func):
         return InlineQueryHandler(func)
 

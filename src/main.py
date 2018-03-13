@@ -4,6 +4,7 @@ import logging
 from telegram.ext import Filters
 
 from db import create_db_tables
+from handlers.commands.alarm import set_timer, unset
 from handlers.commands.commands import (
     btc, caps, ayuda, dolar, start, expense,
     get_questions, get_users, add_question,
@@ -54,6 +55,16 @@ def main():
     bot = TelegramBot()
     bot.register_commands(commands)
     bot.register_message_handler(message_handlers)
+
+    set_handler = bot.create_command_args(
+        'set', set_timer, pass_args=True, pass_job_queue=True, pass_chat_data=True
+    )
+    bot.add_handler(set_handler)
+
+    unset_handler = bot.create_command_args(
+        'unset', unset, pass_args=False, pass_job_queue=False, pass_chat_data=True
+    )
+    bot.add_handler(unset_handler)
 
     code_handler = bot.create_inlinequery(code_markdown)
     bot.add_handler(code_handler)

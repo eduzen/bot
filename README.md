@@ -32,4 +32,6 @@ start - ayuda
 code - Highlighted code
 subte -  Estado del subte
 subtenews - Estado del subte, acepta numero de tweets
+set - Setear alarma
+unset - Sacar alarma
 ```
