@@ -196,7 +196,7 @@ def add_question(bot, update, args):
     bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
     logger.info(f"Add_question... by {update.message.from_user.name}")
     if not args:
-        update.message.reply_text("mmm no enviaste nada!")
+        update.message.reply_text("Se usa: /pregunta <:tu_pregunta>")
         return
 
     username = update.message.from_user.name
@@ -224,6 +224,41 @@ def add_question(bot, update, args):
         )
     except Exception:
         logger.exception('no pudimos agregar preguntas')
+        bot.send_message(
+            chat_id=update.message.chat_id,
+            text="No pudimos agregar tu pregunta"
+        )
+
+
+def remove_question(bot, update, args):
+    bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
+    logger.info(f"Add_question... by {update.message.from_user.name}")
+    if not args:
+        update.message.reply_text("Se usa /remove <:id>")
+        return
+
+    if len(args) < 1:
+        update.message.reply_text("Se usa /remove <:id>")
+        return
+
+    try:
+        question_id = int(args[0])
+    except (ValueError, TypeError):
+        bot.send_message(
+            chat_id=update.message.chat_id,
+            text="El primer parametro tiene que ser un id"
+        )
+
+    try:
+        q = Question.get(Question.id == question_id).delete_instance()
+        if q == 1:
+            logger.info("pregunta eliminada")
+            bot.send_message(
+                chat_id=update.message.chat_id,
+                text="pregunta eliminada"
+            )
+    except Exception:
+        logger.exception('no pudimos eliminar tu pregunta')
         bot.send_message(
             chat_id=update.message.chat_id,
             text="No pudimos agregar tu pregunta"
