@@ -207,11 +207,16 @@ def add_question(bot, update, args):
     )
     user = user[0]
     try:
+        question = " ".join(map(str, args))
+        if '?' not in question:
+            question = f'{question}?'
+
         q = Question.get_or_create(
             user=user.id,
-            question=" ".join(map(str, args)),
-            answer="empty"
+            question=question,
         )
+        q = q[0]
+        logger.info("pregunta creada con id: %i", q.id)
         txt = f"Pregunta creada con id: {q.id}"
         bot.send_message(
             chat_id=update.message.chat_id,

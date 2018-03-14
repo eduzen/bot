@@ -6,7 +6,7 @@ from datetime import datetime
 
 from telegram import ChatAction
 
-from db import User
+from db import User, Question
 from .vocabulary import (
     GREETING_KEYWORDS,
     GREETING_RESPONSES,
@@ -55,6 +55,13 @@ def get_or_create_user(username, userid):
     )
 
 
+def get_question(question):
+    try:
+        return Question.get(Question.question == question).answer
+    except Exception:
+        logger.info('no answer')
+
+
 def parse_chat(blob):
     for sentence in blob.sentences:
         resp = check_for_greeting(blob)
@@ -66,6 +73,9 @@ def parse_chat(blob):
 
         if resp:
             break
+
+    if not resp and '?' in blob:
+        resp = get_question(blob.raw)
 
     if not resp:
         resp = random.choice(NONE_RESPONSES)
@@ -112,6 +122,7 @@ def parse_msgs(bot, update):
         return
 
     raw_msg = raw_msg.replace('@eduzenbot', '').replace('@eduzen_bot', '').strip()
+    raw_msg = raw_msg.replace(' ?', '?')
 
     skynet = ('skynet', 'bot', )
     response = automatic_response(skynet, raw_msg, T1000)
