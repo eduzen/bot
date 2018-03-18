@@ -33,20 +33,20 @@ def record_msg(user, msg):
         f.write(msg)
 
 
-def check_for_greeting(sentence):
-    for word in sentence.words:
+def check_for_greeting(words):
+    for word in words:
         if word.lower() in GREETING_KEYWORDS:
             return random.choice(GREETING_RESPONSES)
 
 
-def check_for_joke(sentence):
+def check_for_joke(words):
     for joke in JOKE_KEYWORDS:
         if joke in words:
             return random.choice(JOKE_RESPONSES)
 
 
-def check_for_bye(sentence):
-    for word in sentence.words:
+def check_for_bye(words):
+    for word in words:
         if word.lower() in BYE_KEYWORDS:
             return random.choice(BYE_RESPONSES)
 
@@ -109,7 +109,7 @@ def parse_regular_chat(msg):
         bye = check_for_bye(words)
         if bye:
             return bye, giphy
-        question = check_for_intro_question(words)
+        question = check_for_intro_question(sentence)
         if question:
             return question
         joke = check_for_joke(words)
