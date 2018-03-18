@@ -27,6 +27,7 @@ logger = logging.getLogger(__name__)
 
 
 def record_msg(msg):
+    msg = f'{update.message.from_user.name}: {msg}\n'
     with codecs.open('history.txt', 'a', "utf-8") as f:
         msg = f'{datetime.now().isoformat()} - {msg}'
         f.write(msg)
@@ -133,34 +134,41 @@ def parse_regular_chat(msg):
     return answer, giphy
 
 
+def prepare_text(text):
+    raw_msg = raw_msg.replace('@eduzenbot', '').replace('@eduzen_bot', '').strip()
+    raw_msg = raw_msg.replace(' ?', '?')
+
+    return text
+
 def parse_msgs(bot, update):
     logger.info(f"parse_msgs... by {update.message.from_user.name}")
-    msg = update.message.text
-    msg = f'{update.message.from_user.name}: {msg}\n'
-    record_msg(msg)
+    raw_msg = update.message.text
+    record_msg(raw_msg)
 
     get_or_create_user(
         update.message.from_user.name,
         update.message.from_user.id
     )
 
-    raw_msg = raw_msg.replace('@eduzenbot', '').replace('@eduzen_bot', '').strip()
-    raw_msg = raw_msg.replace(' ?', '?')
-
+    text = prepare_text(raw_msg)
     blob = TextBlob(raw_msg)
 
     entities = update.message.parse_entities()
     if not entities:
         answer, gif = parse_regular_chat(blob)
+        if answer:
+            bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
         if answer and not gif:
             bot.send_message(chat_id=update.message.chat_id, text=answer)
         elif answer and gif:
             bot.send_document(chat_id=update.message.chat_id, document=response)
         return
 
-    mentions = [value for key, value in entities.items()]
-
-    if '@eduzen_bot' not in mentions and '@eduzenbot' not in mentions:
+    mentions = [
+        value for key, value in entities.items()
+        if '@eduzen_bot' in value or '@eduzenbot' in value
+    ]
+    if not mentions:
         return
 
     bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
