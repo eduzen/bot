@@ -26,8 +26,8 @@ from textblob import TextBlob
 logger = logging.getLogger(__name__)
 
 
-def record_msg(msg):
-    msg = f'{update.message.from_user.name}: {msg}\n'
+def record_msg(user, msg):
+    msg = f'{user}: {msg}\n'
     with codecs.open('history.txt', 'a', "utf-8") as f:
         msg = f'{datetime.now().isoformat()} - {msg}'
         f.write(msg)
@@ -142,8 +142,7 @@ def prepare_text(text):
 
 def parse_msgs(bot, update):
     logger.info(f"parse_msgs... by {update.message.from_user.name}")
-    raw_msg = update.message.text
-    record_msg(raw_msg)
+    record_msg(update.message.from_user.name, update.message.text)
 
     get_or_create_user(
         update.message.from_user.name,
