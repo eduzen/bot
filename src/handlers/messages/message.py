@@ -158,7 +158,7 @@ def parse_msgs(bot, update):
         if answer and not gif:
             bot.send_message(chat_id=update.message.chat_id, text=answer)
         elif answer and gif:
-            bot.send_document(chat_id=update.message.chat_id, document=response)
+            bot.send_document(chat_id=update.message.chat_id, document=answer)
         return
 
     mentions = [
