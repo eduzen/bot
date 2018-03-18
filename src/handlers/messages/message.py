@@ -135,10 +135,9 @@ def parse_regular_chat(msg):
 
 
 def prepare_text(text):
-    raw_msg = raw_msg.replace('@eduzenbot', '').replace('@eduzen_bot', '').strip()
-    raw_msg = raw_msg.replace(' ?', '?')
+    text = text.replace('@eduzenbot', '').replace('@eduzen_bot', '').strip()
+    return text.replace(' ?', '?')
 
-    return text
 
 def parse_msgs(bot, update):
     logger.info(f"parse_msgs... by {update.message.from_user.name}")
@@ -149,8 +148,8 @@ def parse_msgs(bot, update):
         update.message.from_user.id
     )
 
-    text = prepare_text(raw_msg)
-    blob = TextBlob(raw_msg)
+    text = prepare_text(update.message.text)
+    blob = TextBlob(text)
 
     entities = update.message.parse_entities()
     if not entities:
