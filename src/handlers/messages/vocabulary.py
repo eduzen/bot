@@ -25,7 +25,7 @@ JOKE_KEYWORDS = (
     'jaja', 'jajja', 'jjaja', 'jeje', 'je', 'ja', 'haha',
 )
 
-JOKE_KEYWORDS = (
+JOKE_RESPONSES = (
     'jaja', 'jajja', 'jjaja', 'jeje', 'jajajajjaa', 'jajaj', 'jajaja', 'ajaja',
     'muy gracioso', 'que risa gato', 'ja zarapado', 'jaja que locura', 'pff jaja'
 )
