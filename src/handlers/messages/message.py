@@ -117,18 +117,17 @@ def parse_regular_chat(msg):
             return joke, giphy
 
         automatic = automatic_response(skynet, words, T1000_RESPONSE)
-        if response:
+        if automatic:
             return automatic, True
 
         faso = ('faso', 'fasoo', )
         automatic = automatic_response(faso, words, FASO_RESPONSE)
-        if response:
+        if automatic:
             return automatic, True
-
 
         wnd = ('window', 'windows', 'win98', 'win95')
         automatic = automatic_response(wnd, WINDOWS_RESPONSE)
-        if response:
+        if automatic:
             return automatic, True
 
     return answer, giphy
