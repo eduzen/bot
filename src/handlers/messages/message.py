@@ -14,9 +14,11 @@ from .vocabulary import (
     NONE_RESPONSES,
     INTRO_RESPONSES, BYE_KEYWORDS,
     BYE_RESPONSES,
-    T1000,
-    FASO,
-    WINDOWS
+    T1000_RESPONSE,
+    FASO_RESPONSE,
+    WINDOWS_RESPONSE,
+    JOKE_KEYWORDS, JOKE_RESPONSES,
+    skynet,
 )
 os.environ['NLTK_DATA'] = os.getcwd() + '/nltk_data'
 from textblob import TextBlob
@@ -34,6 +36,12 @@ def check_for_greeting(sentence):
     for word in sentence.words:
         if word.lower() in GREETING_KEYWORDS:
             return random.choice(GREETING_RESPONSES)
+
+
+def check_for_joke(sentence):
+    for joke in JOKE_KEYWORDS:
+        if joke in words:
+            return random.choice(JOKE_RESPONSES)
 
 
 def check_for_bye(sentence):
@@ -83,26 +91,46 @@ def parse_chat(blob):
     return resp
 
 
-def parse_regular_chat(msg):
-    answer = False
-    for sentence in msg.sentences:
-        answer = check_for_greeting(sentence)
-        if answer:
-            return answer
-        bye = check_for_bye(sentence)
-        if bye:
-            return bye
-        question = check_for_intro_question(sentence)
-        if question:
-            return question
-
-    return answer
-
-
 def automatic_response(words, msg, vocabularies):
     for word in words:
         if word in msg:
             return random.choice(vocabularies)
+
+
+def parse_regular_chat(msg):
+    answer = False
+    giphy = False
+    for sentence in msg.sentences:
+        words = [w.lower() for w in sentence.words]
+        answer = check_for_greeting(words)
+        if answer:
+            return answer, giphy
+        bye = check_for_bye(words)
+        if bye:
+            return bye, giphy
+        question = check_for_intro_question(words)
+        if question:
+            return question
+        joke = check_for_joke(words)
+        if joke:
+            return joke, giphy
+
+        automatic = automatic_response(skynet, words, T1000_RESPONSE)
+        if response:
+            return automatic, True
+
+        faso = ('faso', 'fasoo', )
+        automatic = automatic_response(faso, words, FASO_RESPONSE)
+        if response:
+            return automatic, True
+
+
+        wnd = ('window', 'windows', 'win98', 'win95')
+        automatic = automatic_response(wnd, WINDOWS_RESPONSE)
+        if response:
+            return automatic, True
+
+    return answer, giphy
 
 
 def parse_msgs(bot, update):
@@ -116,42 +144,18 @@ def parse_msgs(bot, update):
         update.message.from_user.id
     )
 
-    raw_msg = update.message.text_html
-    if 'jaja' in raw_msg.lower() or 'jeje' in raw_msg.lower():
-        bot.send_message(chat_id=update.message.chat_id, text='jaja')
-        return
-
     raw_msg = raw_msg.replace('@eduzenbot', '').replace('@eduzen_bot', '').strip()
     raw_msg = raw_msg.replace(' ?', '?')
-
-    skynet = ('skynet', 'bot', )
-    response = automatic_response(skynet, raw_msg, T1000)
-    if response:
-        bot.send_document(chat_id=update.message.chat_id,
-                          document=response)
-        return
-
-    faso = ('faso', 'fasoo', )
-    response = automatic_response(faso, raw_msg, FASO)
-    if response:
-        bot.send_document(chat_id=update.message.chat_id,
-                          document=response)
-        return
-
-    faso = ('window', 'windows', 'win98', 'win95')
-    response = automatic_response(faso, raw_msg, WINDOWS)
-    if response:
-        bot.send_document(chat_id=update.message.chat_id,
-                          document=response)
-        return
 
     blob = TextBlob(raw_msg)
 
     entities = update.message.parse_entities()
     if not entities:
-        answer = parse_regular_chat(blob)
-        if answer:
+        answer, gif = parse_regular_chat(blob)
+        if answer and not gif:
             bot.send_message(chat_id=update.message.chat_id, text=answer)
+        elif answer and gif:
+            bot.send_document(chat_id=update.message.chat_id, document=response)
         return
 
     mentions = [value for key, value in entities.items()]

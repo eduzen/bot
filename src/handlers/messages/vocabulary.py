@@ -21,6 +21,15 @@ INTRO_QUESTIONS = (
     'que hace?', 'que hace', 'qué hace',
 )
 
+JOKE_KEYWORDS = (
+    'jaja', 'jajja', 'jjaja', 'jeje', 'je', 'ja', 'haha',
+)
+
+JOKE_KEYWORDS = (
+    'jaja', 'jajja', 'jjaja', 'jeje', 'jajajajjaa', 'jajaj', 'jajaja', 'ajaja',
+    'muy gracioso', 'que risa gato', 'ja zarapado', 'jaja que locura', 'pff jaja'
+)
+
 INTRO_RESPONSES = (
     "todo piola, que se cuenta?", "Podría estar mejor, pero bueno ya fue ja",
     "todo viento en popa.", "Han habido días mejores", 'super',
@@ -61,7 +70,6 @@ NONE_RESPONSES = (
     'posta',
     'y bue',
     'te re sigo',
-    '😅',
     'te banco a morir',
     'seguí así tigre',
     'never pony',
@@ -70,23 +78,28 @@ NONE_RESPONSES = (
     '😭',
 )
 
-T1000 = (
+T1000_RESPONSE = (
     'https://media.giphy.com/media/IZY2SE2JmPgFG/giphy.gif',
     'https://media.giphy.com/media/TAywY9f1YFila/giphy.gif',
     'https://media.giphy.com/media/BRKsxNP8kY5lS/giphy.gif',
     'https://media.giphy.com/media/iFCQhoTjoOgms/giphy.gif',
 )
 
-FASO = (
+FASO_RESPONSE = (
     'https://media.giphy.com/media/4a1BW6oEvxPhK/giphy.gif',
     'https://media.giphy.com/media/iFCQhoTjoOgms/giphy.gif',
     'https://media.giphy.com/media/xTka034bGJ8H7wH1io/giphy.gif'
 )
 
-WINDOWS = (
+WINDOWS_RESPONSE = (
     'https://media.giphy.com/media/d3FzJ2VLjVmb8ntK/giphy.gif',
     'https://media.giphy.com/media/KlrMS4vyq5KSY/giphy.gif',
     'https://media.giphy.com/media/3o6gDUY3B8ocAgMNhu/giphy.gif',
     'https://media.giphy.com/media/edl5t7nDVPtC/giphy.gif',
     'https://media.giphy.com/media/xTiTnvMb8gkmBvwFiM/giphy.gif',
 )
+
+skynet = (
+    'skynet', 'bot',
+)
+
