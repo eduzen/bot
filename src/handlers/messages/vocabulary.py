@@ -18,7 +18,7 @@ INTRO_QUESTIONS = (
     'cómo va', 'todo piola?', 'todo bien=', 'todo bien', 'como va?',
     'todo piola?', 'que haces?', 'como estas?', 'como esta?', 'que se cuenta?',
     'qué hacias', 'que hacias?', 'que hacia', 'que hacias', 'que hacia?',
-    'que hace?', 'que hace', 'qué hace',
+    'que hace?', 'que hace', 'qué hace', 'en que andas', 'en qué andás'
 )
 
 JOKE_KEYWORDS = (

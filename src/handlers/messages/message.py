@@ -126,7 +126,7 @@ def parse_regular_chat(msg):
             return automatic, True
 
         wnd = ('window', 'windows', 'win98', 'win95')
-        automatic = automatic_response(wnd, WINDOWS_RESPONSE)
+        automatic = automatic_response(wnd, words, WINDOWS_RESPONSE)
         if automatic:
             return automatic, True
 
