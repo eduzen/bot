@@ -111,7 +111,7 @@ def parse_regular_chat(msg):
             return bye, giphy
         question = check_for_intro_question(sentence)
         if question:
-            return question
+            return question, giphy
         joke = check_for_joke(words)
         if joke:
             return joke, giphy
