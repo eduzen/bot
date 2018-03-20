@@ -148,7 +148,7 @@ def get_questions(bot, update, args):
         bot.send_message(
             chat_id=update.message.chat_id,
             parse_mode='Markdown',
-            text=f"``` {qs} ```"
+            text=f"{qs}"
         )
     except Exception:
         bot.send_message(

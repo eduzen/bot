@@ -5,6 +5,7 @@ import codecs
 from datetime import datetime
 
 from telegram import ChatAction
+from telegram.ext.dispatcher import run_async
 
 from db import User, Question
 from .vocabulary import (
@@ -25,7 +26,7 @@ from textblob import TextBlob
 
 logger = logging.getLogger(__name__)
 
-
+@run_async
 def record_msg(user, msg):
     msg = f'{user}: {msg}\n'
     with codecs.open('history.txt', 'a', "utf-8") as f:
@@ -138,6 +139,7 @@ def prepare_text(text):
     return text.replace(' ?', '?')
 
 
+@run_async
 def parse_msgs(bot, update):
     logger.info(f"parse_msgs... by {update.message.from_user.name}")
     record_msg(update.message.from_user.name, update.message.text)
