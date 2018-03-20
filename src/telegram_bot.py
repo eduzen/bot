@@ -1,4 +1,3 @@
-import os
 import logging
 
 from telegram.ext import (
@@ -49,11 +48,6 @@ class TelegramBot(object):
         except TelegramError:
             # handle all other telegram related errors
             logger.error('Update "%s" caused error "%s"', update, error)
-
-    def stop_and_restart(self):
-        """Gracefully stop the Updater and replace the current process with a new one"""
-        self.updater.stop()
-        os.execl(sys.executable, sys.executable, *sys.argv)
 
     def add_handler(self, handler):
         self.dispatcher.add_handler(handler)
