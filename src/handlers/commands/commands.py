@@ -145,9 +145,9 @@ def get_questions(bot, update, args):
             f"{q.id}: {q.question} | {q.answer} | by {q.user}"
             for q in Question.select()
         ])
+        logger.info(f'questions: {qs}')
         bot.send_message(
             chat_id=update.message.chat_id,
-            parse_mode='Markdown',
             text=f"{qs}"
         )
     except Exception:
