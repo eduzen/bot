@@ -24,8 +24,9 @@ dolar - Cotización del dolar
 btc - Cotización del bitcoin
 users - Lista de usuarios
 add_question - Agrega una pregunta
-remove - Borra una pregunta
+edit_question - Editas una pregunta
 add_answer - Agrega respuesta pasando Id
+remove - Borra una pregunta
 questions - Lista preguntas
 caps - convierte a mayusculas
 gasto - agrega un gasto

@@ -9,7 +9,8 @@ from handlers.commands.commands import (
     btc, caps, ayuda, dolar, start, expense,
     get_questions, get_users, add_question,
     add_answer, cotizaciones, weather, code,
-    subte, subte_novedades, remove_question
+    subte, subte_novedades, remove_question,
+    edit_question,
 )
 from handlers.messages.inline import code_markdown
 from handlers.messages.unknown import unknown
@@ -44,12 +45,13 @@ def main():
         'gasto': expense,
         'add_question': add_question,
         'add_answer': add_answer,
+        'edit_question': edit_question,
+        'remove': remove_question,
         'cambio': cotizaciones,
         'clima': weather,
         'code': code,
         'subte': subte,
         'subtenews': subte_novedades,
-        'remove': remove_question,
     }
     message_handlers = [parse_msgs, ]
 

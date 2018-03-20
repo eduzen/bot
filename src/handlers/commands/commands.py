@@ -141,13 +141,14 @@ def get_questions(bot, update, args):
     bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
     try:
         logger.info(f"Get_questions... by {update.message.from_user.name}")
-        qs = [
+        qs = "\n".join([
             f"{q.id}: {q.question} | {q.answer} | by {q.user}"
             for q in Question.select()
-        ]
+        ])
         bot.send_message(
             chat_id=update.message.chat_id,
-            text="\n".join(qs)
+            parse_mode='Markdown',
+            text=f"``` {qs} ```"
         )
     except Exception:
         bot.send_message(
@@ -156,15 +157,52 @@ def get_questions(bot, update, args):
         )
 
 
+def edit_question(bot, update, args):
+    bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
+    logger.info(f"Edit_question... by {update.message.from_user.name}")
+    if not args:
+        update.message.reply_text("Se usa: /edit_question <:id_pregunta> <:tu_respuesta>")
+        return
+
+    if len(args) < 2:
+        update.message.reply_text("Se usa: /edit_question <:id_pregunta> <:tu_respuesta>")
+        return
+
+    try:
+        question_id = int(args[0])
+    except (ValueError, TypeError):
+        bot.send_message(
+            chat_id=update.message.chat_id,
+            text="El primer parametro tiene que ser un id"
+        )
+
+    try:
+        q = Question.get_by_id(question_id)
+    except Exception:
+        bot.send_message(
+            chat_id=update.message.chat_id,
+            text="No existe pregunta con ese id"
+        )
+
+    q.question = " ".join(list(args[1:]))
+    q.save()
+
+    bot.send_message(
+        chat_id=update.message.chat_id,
+        parse_mode='Markdown',
+        text=f"``` {q.question} guardada! ```"
+    )
+
+
 def add_answer(bot, update, args):
     bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
     logger.info(f"Add_question... by {update.message.from_user.name}")
     if not args:
-        update.message.reply_text("mmm no enviaste nada!")
+        update.message.reply_text("Se usa: /add_answer <:id_pregunta> <:tu_respuesta>")
         return
 
     if len(args) < 1:
-        update.message.reply_text("mmm no enviaste respuesta!")
+        update.message.reply_text("Se usa: /add_answer <:id_pregunta> <:tu_respuesta>")
         return
 
     try:
@@ -188,7 +226,8 @@ def add_answer(bot, update, args):
 
     bot.send_message(
         chat_id=update.message.chat_id,
-        text=f"Pregunta {q.question} guardada!"
+        parse_mode='Markdown',
+        text=f"``` {q.question} guardada! ```",
     )
 
 
