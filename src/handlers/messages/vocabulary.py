@@ -1,3 +1,5 @@
+from emoji import emojize
+
 # Sentences we'll respond with if the user greeted us; only matches on single words
 GREETING_KEYWORDS = (
     "hello", "hi", "greetings", "sup", "what's up",
@@ -5,12 +7,16 @@ GREETING_KEYWORDS = (
 )
 GREETING_RESPONSES = (
     "'sup bro", "hey", "puto el que lee", "hey you get my snap?",
-    "hola", 'como va?', '👋', 'Hola, todo bien?', '👋', 'buenas',
+    "hola", 'como va?', emojize('holas :wave:', use_aliases=True),
+    'Hola, todo bien?', emojize(':hand:', use_aliases=True), 'buenas',
     'holas', 'hola, que tul?', 'era hora de saludar',
     'que hacés che', 'todo tranca humanoide?', 'hi!',
     'bienvenido', 'hola, che, todo piola?', 'que se cuenta',
     'que dice humanoide', 'buenas buenas', 'buenas y santas',
-    'era hora che!', 'ey bienvenido', 'hola locura', '👋', '🤟'
+    'era hora che!', 'ey bienvenido', 'hola locura',
+    emojize(':tada:', use_aliases=True), emojize(':wave:', use_aliases=True),
+    emojize(':grinning:', use_aliases=True), emojize(':raising_hand:', use_aliases=True),
+    emojize(':kissing_heart:', use_aliases=True), emojize(':shit:', use_aliases=True),
 )
 INTRO_QUESTIONS = (
     "how 's it going", "how are you", "long time no see", "what 's up",
@@ -36,7 +42,12 @@ INTRO_RESPONSES = (
     "Trabajar no es lo mio", "Trabajar no es lo mio, sabelo",
     "Podria estar viajando pero aquí estoy, que onda", 'bien bien',
     "super", "bien digamos", "todo bien", "bien se podría decir",
-    "viajar es lo mio, pero bueno aca estoy", "dormido", "he estado mejor"
+    "viajar es lo mio, pero bueno aca estoy", "dormido", "he estado mejor",
+    emojize(':laughing:', use_aliases=True),
+    emojize(':smiley:', use_aliases=True),
+    emojize(':trollface:', use_aliases=True),
+    emojize(':rage2:', use_aliases=True),
+    emojize(':neckbeard:', use_aliases=True),
 )
 
 BYE_KEYWORDS = (
