@@ -13,3 +13,4 @@ peewee==3.1.2
 beautifulsoup4==4.6.0
 textblob==0.15.1
 tweepy==3.6.0
+emoji==0.5.0
