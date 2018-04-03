@@ -1,12 +1,10 @@
 import logging
 
 from telegram.ext import (
-    CommandHandler, MessageHandler,
-    Filters, InlineQueryHandler, Updater
+    CommandHandler, MessageHandler, Filters, InlineQueryHandler, Updater
 )
 from telegram.error import (
-    TelegramError, Unauthorized, BadRequest,
-    TimedOut, ChatMigrated, NetworkError
+    TelegramError, Unauthorized, BadRequest, TimedOut, ChatMigrated, NetworkError
 )
 from keys import TOKEN
 
@@ -30,9 +28,10 @@ class TelegramBot(object):
         """Log Errors caused by Updates."""
         try:
             raise error
+
         except Unauthorized:
             # remove update.message.chat_id from conversation list
-            logger.error('Update caused Unauthorized error')
+            logger.error("Update caused Unauthorized error")
         except BadRequest:
             # handle malformed requests - read more below!
             logger.error('Update "%s" caused error "%s"', update, error)
@@ -59,28 +58,28 @@ class TelegramBot(object):
     def create_command(self, name, func):
         return CommandHandler(name, func, pass_args=True)
 
-    def create_command_args(self, name, func, pass_args=True,
-                            pass_job_queue=True, pass_chat_data=True):
-        return CommandHandler(name, func, pass_args=pass_args, pass_job_queue=pass_job_queue,
-                              pass_chat_data=pass_chat_data)
+    def create_command_args(
+        self, name, func, pass_args=True, pass_job_queue=True, pass_chat_data=True
+    ):
+        return CommandHandler(
+            name,
+            func,
+            pass_args=pass_args,
+            pass_job_queue=pass_job_queue,
+            pass_chat_data=pass_chat_data,
+        )
 
     def create_inlinequery(self, func):
         return InlineQueryHandler(func)
 
     def create_list_of_commands(self, kwargs):
-        return [
-            self.create_command(key, value)
-            for key, value in kwargs.items()
-        ]
+        return [self.create_command(key, value) for key, value in kwargs.items()]
 
     def create_msg(self, func, filters=Filters.text):
         return MessageHandler(filters, func)
 
     def create_list_of_msg_handlers(self, args):
-        return [
-            self.create_msg(value)
-            for value in args
-        ]
+        return [self.create_msg(value) for value in args]
 
     def register_commands(self, kwargs):
         commands = self.create_list_of_commands(kwargs)
