@@ -8,6 +8,8 @@ from api.btc import get_btc
 from api.weather import get_weather
 from api.twitter import get_subte, get_subte_html
 from db import User, Question
+from auth.restricted import restricted
+
 
 logger = logging.getLogger(__name__)
 
@@ -64,7 +66,7 @@ def subte(bot, update, args):
         text=text
     )
 
-
+@restricted
 def code(bot, update, args):
     bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
     logger.info(f"Code... by {update.message.from_user.name}")
@@ -303,7 +305,7 @@ def remove_question(bot, update, args):
             text="No pudimos agregar tu pregunta"
         )
 
-
+@restricted
 def expense(bot, update, args):
     bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
     logger.info(f"expenses... by {update.message.from_user.name}")
