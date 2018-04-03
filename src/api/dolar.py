@@ -1,6 +1,7 @@
 import logging
 import requests
 
+from emoji import emojize
 from bs4 import BeautifulSoup
 from keys import APP_ID
 
@@ -10,9 +11,11 @@ API = "https://openexchangerates.org/api/latest.json"
 OTHER_API = "http://ws.geeklab.com.ar/dolar/get-dolar-json.php"
 BNC = "http://www.bna.com.ar/"
 
-dolar = "💵"
-euro = "\n🇪🇺"
+dolar = emojize(":dollar:", use_aliases=True),
+euro = emojize(":euro:", use_aliases=True),
+euro2 = "\n🇪🇺"
 real = "\n🇧🇷"
+punch = emojize(":punch:", use_aliases=True)
 
 
 def parse_bnc():
@@ -33,7 +36,7 @@ def parse_bnc():
     data = data[0].get_text().strip().replace("\n", " ").replace("  ", "\n")
     data = data.replace("\n ", dolar, 1).replace("\n ", euro, 1).replace("\n ", real, 1)
     data = data.replace("U.S.A", "")
-    data = f"{data}\n(*) cotización cada 100 unidades."
+    data = f"{data}\n(*) cotización cada 100 unidades.\n {punch}"
 
     return data
 
