@@ -5,6 +5,7 @@ from threading import Thread
 
 from telegram.ext import Filters
 from telegram.ext import CommandHandler
+from telegram.ext import CallbackQueryHandler
 
 from db import create_db_tables
 from handlers.commands.alarm import set_timer, unset
@@ -27,6 +28,7 @@ from handlers.commands.commands import (
     remove_question,
     edit_question,
 )
+from handlers.commands.questions import q_menu, button
 from handlers.messages.inline import code_markdown
 from handlers.messages.unknown import unknown
 from handlers.messages.message import (parse_msgs)
@@ -60,10 +62,23 @@ COMMANDS = {
     "code": code,
     "subte": subte,
     "subtenews": subte_novedades,
+    "qmenu": q_menu,
 }
 
 
 def main():
+    def stop_and_restart():
+        """Gracefully stop the Updater and replace the current process with a new one"""
+        bot.updater.stop()
+        os.execl(sys.executable, sys.executable, *sys.argv)
+
+    def restart(bot, update):
+        bot.send_message(
+            chat_id=update.message.chat_id,
+            text="Bot is restarting..."
+        )
+        Thread(target=stop_and_restart).start()
+
     logger.info("Starting main...")
 
     message_handlers = [parse_msgs]
@@ -71,6 +86,10 @@ def main():
     bot = TelegramBot()
     bot.register_commands(COMMANDS)
     bot.register_message_handler(message_handlers)
+
+    bot.add_handler(
+        CommandHandler("restart", restart, filters=Filters.user(username="@eduzen"))
+    )
 
     set_handler = bot.create_command_args(
         "set", set_timer, pass_args=True, pass_job_queue=True, pass_chat_data=True
@@ -88,17 +107,8 @@ def main():
     unknown_handler = bot.create_msg(unknown, Filters.command)
     bot.add_handler(unknown_handler)
 
-    def stop_and_restart():
-        """Gracefully stop the Updater and replace the current process with a new one"""
-        bot.updater.stop()
-        os.execl(sys.executable, sys.executable, *sys.argv)
-
-    def restart(bot, update):
-        bot.update.message.reply_text("Bot is restarting...")
-        Thread(target=stop_and_restart).start()
-
     bot.add_handler(
-        CommandHandler("r", restart, filters=Filters.user(username="@eduzen"))
+        CallbackQueryHandler(button)
     )
     bot.start()
 

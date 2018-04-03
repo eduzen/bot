@@ -36,4 +36,6 @@ subte -  Estado del subte
 subtenews - Estado del subte, acepta numero de tweets
 set - Setear alarma
 unset - Sacar alarma
+qmenu - Menu para preguntas
+restart - Reiniciar el bot
 ```
