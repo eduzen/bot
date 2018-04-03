@@ -3,7 +3,7 @@ import requests
 
 logger = logging.getLogger(__name__)
 
-API = 'https://coinbin.org/btc'
+API = "https://coinbin.org/btc"
 
 
 def get_btc():
@@ -11,8 +11,7 @@ def get_btc():
 
     if r.status_code != 200:
         logger.error(
-            "Something went wrong when it gets btc. Status code: %s",
-            r.status_code
+            "Something went wrong when it gets btc. Status code: %s", r.status_code
         )
         text = "Perdón! La api coinbin.org no está  disponible!"
         return text

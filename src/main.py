@@ -67,16 +67,14 @@ COMMANDS = {
 
 
 def main():
+
     def stop_and_restart():
         """Gracefully stop the Updater and replace the current process with a new one"""
         bot.updater.stop()
         os.execl(sys.executable, sys.executable, *sys.argv)
 
     def restart(bot, update):
-        bot.send_message(
-            chat_id=update.message.chat_id,
-            text="Bot is restarting..."
-        )
+        bot.send_message(chat_id=update.message.chat_id, text="Bot is restarting...")
         Thread(target=stop_and_restart).start()
 
     logger.info("Starting main...")
@@ -107,9 +105,7 @@ def main():
     unknown_handler = bot.create_msg(unknown, Filters.command)
     bot.add_handler(unknown_handler)
 
-    bot.add_handler(
-        CallbackQueryHandler(button)
-    )
+    bot.add_handler(CallbackQueryHandler(button))
     bot.start()
 
 
