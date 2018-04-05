@@ -124,12 +124,12 @@ def get_questions(bot, update, args):
         logger.info(f"Get_questions... by {update.message.from_user.name}")
         qs = "\n".join(
             [
-                f"{q.id}: `{q.question}` | {q.answer} | by {q.user}"
+                f"{q.id}: {q.question} | {q.answer} | by {q.user}"
                 for q in Question.select()
             ]
         )
         bot.send_message(
-            chat_id=update.message.chat_id, parse_mode="Markdown", text=f"{qs}"
+            chat_id=update.message.chat_id, text=f"{qs}"
         )
     except Exception:
         bot.send_message(chat_id=update.message.chat_id, text="Mmm algo malo pasó")
