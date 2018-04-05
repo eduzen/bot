@@ -127,7 +127,7 @@ def parse_regular_chat(msg):
             return automatic, True
 
         if 'whatsapp' in words:
-            return 'https://gph.is/21dCrSH', True
+            return 'https://media.giphy.com/media/3o6Mb4knW2GIANwmNW/giphy.gif', True
 
         faso = ("faso", "fasoo")
         automatic = automatic_response(faso, words, FASO_RESPONSE)
