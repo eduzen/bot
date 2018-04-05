@@ -124,7 +124,7 @@ def get_questions(bot, update, args):
         logger.info(f"Get_questions... by {update.message.from_user.name}")
         qs = "\n".join(
             [
-                f"{q.id}: {q.question} | {q.answer} | by {q.user}"
+                f"{q.id}: `{q.question}` | {q.answer} | by {q.user}"
                 for q in Question.select()
             ]
         )
