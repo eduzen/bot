@@ -24,6 +24,19 @@ def get_tweets(api, username, count, date):
     return "\n".join(tweets)
 
 
+def get_transito(count=20):
+    if count > 20:
+        count = 20
+    auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
+    auth.set_access_token(access_token, access_token_secret)
+    api = tweepy.API(auth)
+    now = datetime.now()
+    today = now.date().isoformat()
+    data = get_tweets(api, "solotransito", count=count, date=now)
+    data = f"Estado Subtes BA by @subteba ({today}):\n{data}"
+    return data
+
+
 def get_subte(count=20):
     if count > 20:
         count = 20

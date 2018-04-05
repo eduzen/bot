@@ -27,6 +27,7 @@ from handlers.commands.commands import (
     subte_novedades,
     remove_question,
     edit_question,
+    transito,
 )
 from handlers.commands.questions import q_menu, button
 from handlers.messages.inline import code_markdown
@@ -63,6 +64,7 @@ COMMANDS = {
     "subte": subte,
     "subtenews": subte_novedades,
     "qmenu": q_menu,
+    "transito": transito,
 }
 
 

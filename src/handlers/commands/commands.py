@@ -6,7 +6,7 @@ from api.expenses import send_expense
 from api.dolar import get_dolar, parse_bnc
 from api.btc import get_btc
 from api.weather import get_weather
-from api.twitter import get_subte, get_subte_html
+from api.twitter import get_subte, get_subte_html, get_transito
 from db import User, Question
 from auth.restricted import restricted
 
@@ -19,6 +19,17 @@ def weather(bot, update, args):
     logger.info(f"Weather... by {update.message.from_user.name}")
 
     text = get_weather()
+    if not text:
+        return
+
+    bot.send_message(chat_id=update.message.chat_id, text=text)
+
+
+def transito(bot, update, args):
+    bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
+    logger.info(f"Transito... by {update.message.from_user.name}")
+
+    text = get_transito()
     if not text:
         return
 
