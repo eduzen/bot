@@ -34,6 +34,8 @@ start - ayuda
 code - Highlighted code
 subte -  Estado del subte
 subtenews - Estado del subte, acepta numero de tweets
+transito -  Estado del transito
+trenes -  Estado del trenes
 set - Setear alarma
 unset - Sacar alarma
 qmenu - Menu para preguntas
