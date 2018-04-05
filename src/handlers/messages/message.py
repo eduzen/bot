@@ -126,6 +126,9 @@ def parse_regular_chat(msg):
         if automatic:
             return automatic, True
 
+        if 'whatsapp' in words:
+            return 'https://gph.is/21dCrSH', True
+
         faso = ("faso", "fasoo")
         automatic = automatic_response(faso, words, FASO_RESPONSE)
         if automatic:

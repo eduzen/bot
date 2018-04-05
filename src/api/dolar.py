@@ -12,8 +12,7 @@ OTHER_API = "http://ws.geeklab.com.ar/dolar/get-dolar-json.php"
 BNC = "http://www.bna.com.ar/"
 
 dolar = emojize(":dollar:", use_aliases=True)
-euro = emojize(":euro:", use_aliases=True)
-euro2 = "\n🇪🇺"
+euro = "\n🇪🇺"
 real = "\n🇧🇷"
 punch = emojize(":punch:", use_aliases=True)
 
