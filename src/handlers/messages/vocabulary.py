@@ -14,10 +14,7 @@ GREETING_KEYWORDS = (
     "Hola",
 )
 GREETING_RESPONSES = (
-    "'sup bro",
     "hey",
-    "puto el que lee",
-    "hey you get my snap?",
     "hola",
     "como va?",
     emojize("holas :wave:", use_aliases=True),

@@ -31,10 +31,11 @@ logger = logging.getLogger(__name__)
 
 
 @run_async
-def record_msg(user, msg):
+def record_msg(user, msg, chat_id):
+    filename = f"history_{chat_id}.txt"
     msg = f"{user}: {msg}\n"
-    with codecs.open("history.txt", "a", "utf-8") as f:
-        msg = f"{datetime.now().isoformat()} - {msg}"
+    with codecs.open(filename, "a", "utf-8") as f:
+        # msg = f"{datetime.now().isoformat()} - {msg}"
         f.write(msg)
 
 
@@ -150,7 +151,8 @@ def prepare_text(text):
 @run_async
 def parse_msgs(bot, update):
     logger.info(f"parse_msgs... by {update.message.from_user.name}")
-    record_msg(update.message.from_user.name, update.message.text)
+    chat_id = update.message.chat_id
+    record_msg(update.message.from_user.name, update.message.text, chat_id=chat_id)
 
     get_or_create_user(update.message.from_user.name, update.message.from_user.id)
 
