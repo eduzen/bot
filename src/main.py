@@ -60,6 +60,7 @@ COMMANDS = {
     "edit_question": edit_question,
     "remove": remove_question,
     "cambio": cotizaciones,
+    "cotizaciones": cotizaciones,
     "clima": weather,
     "code": code,
     "subte": subte,
