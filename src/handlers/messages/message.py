@@ -30,9 +30,18 @@ from textblob import TextBlob
 logger = logging.getLogger(__name__)
 
 
+chats = {
+    '288031841': 't3'
+}
+
+
 @run_async
 def record_msg(user, msg, chat_id):
     filename = f"history_{chat_id}.txt"
+    key = chats.get(chat_id)
+    if key:
+        filename = f"history_{key}.txt"
+
     msg = f"{user}: {msg}\n"
     with codecs.open(filename, "a", "utf-8") as f:
         # msg = f"{datetime.now().isoformat()} - {msg}"
