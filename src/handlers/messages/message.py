@@ -26,6 +26,18 @@ from textblob import TextBlob
 
 logger = logging.getLogger(__name__)
 
+
+@run_async
+def get_or_create_user(user):
+    try:
+        data = user.to_dict()
+        user, created = User.get_or_create(**data)
+        if created:
+            logger.debug(f'User {user.username} created')
+    except Exception:
+        logger.exception('User cannot be created')
+
+
 @run_async
 def record_msg(user, msg):
     msg = f'{user}: {msg}\n'
@@ -56,13 +68,6 @@ def check_for_intro_question(sentence):
     """Sometimes people greet by introducing a question."""
     if sentence in INTRO_QUESTIONS:
         return random.choice(INTRO_RESPONSES)
-
-
-def get_or_create_user(username, userid):
-    User.get_or_create(
-        username=username,
-        id=userid
-    )
 
 
 def get_question(question):
@@ -144,10 +149,7 @@ def parse_msgs(bot, update):
     logger.info(f"parse_msgs... by {update.message.from_user.name}")
     record_msg(update.message.from_user.name, update.message.text)
 
-    get_or_create_user(
-        update.message.from_user.name,
-        update.message.from_user.id
-    )
+    get_or_create_user(update.message.from_user)
 
     text = prepare_text(update.message.text)
     blob = TextBlob(text)

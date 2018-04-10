@@ -10,11 +10,10 @@ logger = logging.getLogger()
 
 
 def get_log(level=None, stream=None):
-    logger.info("aca")
-    handler = logging.FileHandler('bot.log')
+    handler = logging.StreamHandler()
     level = _LOG_LEVEL_STRINGS.get(level, logging.INFO)
-    if stream:
-        handler = logging.StreamHandler()
+    if not stream:
+        handler = logging.FileHandler('bot.log')
 
     formatter = logging.Formatter(
         '%(asctime)s %(name)-12s %(levelname)-8s %(message)s'
@@ -23,6 +22,5 @@ def get_log(level=None, stream=None):
     logger.addHandler(handler)
 
     logger.setLevel(level)
-    logger.info("aca 2")
 
     return logger

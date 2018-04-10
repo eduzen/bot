@@ -2,10 +2,12 @@ from datetime import datetime
 
 from peewee import (
     Model, SqliteDatabase, ForeignKeyField, DateTimeField, TextField,
-    CharField
+    CharField, BooleanField
 )
+from config import db_path
 
-db = SqliteDatabase('my_database.db')
+
+db = SqliteDatabase(str(db_path))
 
 
 class BaseModel(Model):
@@ -14,7 +16,11 @@ class BaseModel(Model):
 
 
 class User(BaseModel):
+    first_name = CharField(null=True)
+    last_name = CharField(null=True)
     username = CharField(unique=True)
+    is_bot = BooleanField(default=False)
+    language_code = CharField(null=True)
 
     def __str__(self):
         return f'<{self.username}>'
@@ -27,6 +33,6 @@ class Question(BaseModel):
     answer = TextField(null=True)
 
 
-def create_db_tables():
+def create_db_tables(db_path):
     db.connect()
     db.create_tables([User, Question])

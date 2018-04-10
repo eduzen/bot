@@ -1,23 +1,21 @@
 """
 Usage:
-    __main__.py [--log_level=<level>] [--stream]
+    __main__.py [--stream] [--log_level=<level>] [--database=<path>]
     __main__.py -h | --help
     __main__.py --version
     __main__.py --stream
-    __main__.py --verbose
-    __main__.py --quiet [--log]
 
 Options:
     -h --help   Show this.
     --version   Show version.
-    --verbose   Less output.
-    --quiet     More output.
     --stream    Log to stdout.
     --log_level Level of logging ERROR DEBUG INFO WARNING.
+    --database database path.
 """
 import os
 import sys
 from threading import Thread
+from pathlib import Path
 
 from __init__ import get_log
 from docopt import docopt
@@ -26,45 +24,17 @@ from telegram.ext import CommandHandler
 
 from db import create_db_tables
 from handlers.commands.alarm import set_timer, unset
-from handlers.commands.commands import (
-    btc, caps, ayuda, dolar, start, expense,
-    get_questions, get_users, add_question,
-    add_answer, cotizaciones, weather, code,
-    subte, subte_novedades, remove_question,
-    edit_question,
-)
+from handlers.commands import COMMANDS
 from handlers.messages.inline import code_markdown
 from handlers.messages.unknown import unknown
 from handlers.messages.message import (
     parse_msgs
 )
+from config import db_path
 from telegram_bot import TelegramBot
 
 
-COMMANDS = {
-    'btc': btc,
-    'caps': caps,
-    'ayuda': ayuda,
-    'dolar': dolar,
-    'start': start,
-    'users': get_users,
-    'questions': get_questions,
-    'gasto': expense,
-    'add_question': add_question,
-    'add_answer': add_answer,
-    'edit_question': edit_question,
-    'remove': remove_question,
-    'cambio': cotizaciones,
-    'clima': weather,
-    'code': code,
-    'subte': subte,
-    'subtenews': subte_novedades,
-}
-
-
 def main(logger):
-    logger.info("Starting main...")
-
     message_handlers = [parse_msgs, ]
 
     bot = TelegramBot()
@@ -102,12 +72,19 @@ def main(logger):
 
 if __name__ == '__main__':
     arguments = docopt(__doc__, version='eduzen_bot 1.0')
-    logger = get_log(arguments.get('--log_level'))
-    stream = get_log(arguments.get('--stream'))
+    stream = arguments.get('--stream')
+    level = arguments.get('--log_level')
+    database = arguments.get('--database')
+    logger = get_log(level=level, stream=stream)
+
+    if database:
+        db_path = Path(database)
 
     try:
-        if not os.path.exists('my_database.db'):
-            create_db_tables()
-        main(logger, stream)
+        if not db_path.exists():
+            logger.info(f'Database {db_path} does not exist')
+            create_db_tables(db_path)
+
+        main(logger)
     except Exception:
         logger.exception('bye bye')
