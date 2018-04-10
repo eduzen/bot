@@ -1,8 +1,17 @@
+"""
+Usage:
+    __main__.py
+
+Options:
+    -h --help
+    --version   Show version.
+"""
 import os
 import sys
 import logging
 from threading import Thread
 
+from docopt import docopt
 from telegram.ext import Filters
 from telegram.ext import CommandHandler
 
@@ -94,6 +103,7 @@ def main():
 
 
 if __name__ == '__main__':
+    arguments = docopt(__doc__, version='eduzen_bot 1.0')
     try:
         if not os.path.exists('my_database.db'):
             create_db_tables()
