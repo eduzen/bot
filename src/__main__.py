@@ -1,16 +1,25 @@
 """
 Usage:
-    __main__.py
+    __main__.py [--log_level=<level>] [--stream]
+    __main__.py -h | --help
+    __main__.py --version
+    __main__.py --stream
+    __main__.py --verbose
+    __main__.py --quiet [--log]
 
 Options:
-    -h --help
+    -h --help   Show this.
     --version   Show version.
+    --verbose   Less output.
+    --quiet     More output.
+    --stream    Log to stdout.
+    --log_level Level of logging ERROR DEBUG INFO WARNING.
 """
 import os
 import sys
-import logging
 from threading import Thread
 
+from __init__ import get_log
 from docopt import docopt
 from telegram.ext import Filters
 from telegram.ext import CommandHandler
@@ -31,17 +40,6 @@ from handlers.messages.message import (
 )
 from telegram_bot import TelegramBot
 
-logger = logging.getLogger()
-
-handler = logging.StreamHandler()
-fh = logging.FileHandler('bot.log')
-
-formatter = logging.Formatter(
-    '%(asctime)s %(name)-12s %(levelname)-8s %(message)s'
-)
-handler.setFormatter(formatter)
-logger.addHandler(handler)
-logger.setLevel(logging.INFO)
 
 COMMANDS = {
     'btc': btc,
@@ -64,7 +62,7 @@ COMMANDS = {
 }
 
 
-def main():
+def main(logger):
     logger.info("Starting main...")
 
     message_handlers = [parse_msgs, ]
@@ -104,9 +102,12 @@ def main():
 
 if __name__ == '__main__':
     arguments = docopt(__doc__, version='eduzen_bot 1.0')
+    logger = get_log(arguments.get('--log_level'))
+    stream = get_log(arguments.get('--stream'))
+
     try:
         if not os.path.exists('my_database.db'):
             create_db_tables()
-        main()
+        main(logger, stream)
     except Exception:
         logger.exception('bye bye')
