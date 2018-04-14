@@ -103,3 +103,4 @@ ENV/
 keys.py
 history.txt
 *.db
+.pytest_cache/

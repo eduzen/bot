@@ -6,8 +6,10 @@ from api.expenses import send_expense
 from api.dolar import get_dolar, parse_bnc
 from api.btc import get_btc
 from api.weather import get_weather
-from api.twitter import get_subte, get_subte_html
+from api.twitter import get_subte, get_subte_html, get_transito, get_trenes
 from db import User, Question
+from auth.restricted import restricted
+
 
 logger = logging.getLogger(__name__)
 
@@ -20,10 +22,29 @@ def weather(bot, update, args):
     if not text:
         return
 
-    bot.send_message(
-        chat_id=update.message.chat_id,
-        text=text
-    )
+    bot.send_message(chat_id=update.message.chat_id, text=text)
+
+
+def transito(bot, update, args):
+    bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
+    logger.info(f"Transito... by {update.message.from_user.name}")
+
+    text = get_transito()
+    if not text:
+        return
+
+    bot.send_message(chat_id=update.message.chat_id, text=text)
+
+
+def trenes(bot, update, args):
+    bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
+    logger.info(f"Trenes... by {update.message.from_user.name}")
+
+    text = get_trenes()
+    if not text:
+        return
+
+    bot.send_message(chat_id=update.message.chat_id, text=text)
 
 
 def subte_novedades(bot, update, args):
@@ -39,10 +60,7 @@ def subte_novedades(bot, update, args):
     if not text:
         return
 
-    bot.send_message(
-        chat_id=update.message.chat_id,
-        text=text
-    )
+    bot.send_message(chat_id=update.message.chat_id, text=text)
 
 
 def subte(bot, update, args):
@@ -58,19 +76,17 @@ def subte(bot, update, args):
     if not text:
         return
 
-    bot.send_message(
-        chat_id=update.message.chat_id,
-        parse_mode='Markdown',
-        text=text
-    )
+    bot.send_message(chat_id=update.message.chat_id, parse_mode="Markdown", text=text)
 
 
+@restricted
 def code(bot, update, args):
     bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
     logger.info(f"Code... by {update.message.from_user.name}")
 
     if not args:
         return
+
     args = " ".join(list(args))
 
     args = f"```python\n{args} \n```"
@@ -78,7 +94,7 @@ def code(bot, update, args):
     bot.send_message(
         chat_id=update.message.chat_id,
         text=args,
-        parse_mode='Markdown',
+        parse_mode="Markdown",
         disable_notification=True,
     )
 
@@ -89,10 +105,7 @@ def dolar(bot, update, args):
 
     text = get_dolar()
 
-    bot.send_message(
-        chat_id=update.message.chat_id,
-        text=text
-    )
+    bot.send_message(chat_id=update.message.chat_id, text=text)
 
 
 def cotizaciones(bot, update, args):
@@ -103,15 +116,11 @@ def cotizaciones(bot, update, args):
 
     if not data:
         bot.send_message(
-            chat_id=update.message.chat_id,
-            text="No pudimos conseguir la info"
+            chat_id=update.message.chat_id, text="No pudimos conseguir la info"
         )
         return
 
-    bot.send_message(
-        chat_id=update.message.chat_id,
-        text=data
-    )
+    bot.send_message(chat_id=update.message.chat_id, text=data)
 
 
 def btc(bot, update, args):
@@ -120,10 +129,7 @@ def btc(bot, update, args):
 
     text = get_btc()
 
-    bot.send_message(
-        chat_id=update.message.chat_id,
-        text=text
-    )
+    bot.send_message(chat_id=update.message.chat_id, text=text)
 
 
 def get_users(bot, update, args):
@@ -131,41 +137,39 @@ def get_users(bot, update, args):
     logger.info(f"Get_users... by {update.message.from_user.name}")
 
     txt = [user.username for user in User.select()]
-    bot.send_message(
-        chat_id=update.message.chat_id,
-        text="Usuarios: , ".join(txt)
-    )
+    bot.send_message(chat_id=update.message.chat_id, text="Usuarios: , ".join(txt))
 
 
 def get_questions(bot, update, args):
     bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
     try:
         logger.info(f"Get_questions... by {update.message.from_user.name}")
-        qs = "\n".join([
-            f"{q.id}: {q.question} | {q.answer} | by {q.user}"
-            for q in Question.select()
-        ])
+        qs = "\n".join(
+            [
+                f"{q.id}: {q.question} | {q.answer} | by {q.user}"
+                for q in Question.select()
+            ]
+        )
         bot.send_message(
-            chat_id=update.message.chat_id,
-            parse_mode='Markdown',
-            text=f"{qs}"
+            chat_id=update.message.chat_id, text=f"{qs}"
         )
     except Exception:
-        bot.send_message(
-            chat_id=update.message.chat_id,
-            text="Mmm algo malo pasó"
-        )
+        bot.send_message(chat_id=update.message.chat_id, text="Mmm algo malo pasó")
 
 
 def edit_question(bot, update, args):
     bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
     logger.info(f"Edit_question... by {update.message.from_user.name}")
     if not args:
-        update.message.reply_text("Se usa: /edit_question <:id_pregunta> <:tu_respuesta>")
+        update.message.reply_text(
+            "Se usa: /edit_question <:id_pregunta> <:tu_respuesta>"
+        )
         return
 
     if len(args) < 2:
-        update.message.reply_text("Se usa: /edit_question <:id_pregunta> <:tu_respuesta>")
+        update.message.reply_text(
+            "Se usa: /edit_question <:id_pregunta> <:tu_respuesta>"
+        )
         return
 
     try:
@@ -173,15 +177,14 @@ def edit_question(bot, update, args):
     except (ValueError, TypeError):
         bot.send_message(
             chat_id=update.message.chat_id,
-            text="El primer parametro tiene que ser un id"
+            text="El primer parametro tiene que ser un id",
         )
 
     try:
         q = Question.get_by_id(question_id)
     except Exception:
         bot.send_message(
-            chat_id=update.message.chat_id,
-            text="No existe pregunta con ese id"
+            chat_id=update.message.chat_id, text="No existe pregunta con ese id"
         )
 
     q.question = " ".join(list(args[1:]))
@@ -189,8 +192,8 @@ def edit_question(bot, update, args):
 
     bot.send_message(
         chat_id=update.message.chat_id,
-        parse_mode='Markdown',
-        text=f"``` {q.question} guardada! ```"
+        parse_mode="Markdown",
+        text=f"``` {q.question} guardada! ```",
     )
 
 
@@ -210,15 +213,14 @@ def add_answer(bot, update, args):
     except (ValueError, TypeError):
         bot.send_message(
             chat_id=update.message.chat_id,
-            text="El primer parametro tiene que ser un id"
+            text="El primer parametro tiene que ser un id",
         )
 
     try:
         q = Question.get_by_id(question_id)
     except Exception:
         bot.send_message(
-            chat_id=update.message.chat_id,
-            text="No existe pregunta con ese id"
+            chat_id=update.message.chat_id, text="No existe pregunta con ese id"
         )
 
     q.answer = " ".join(list(args[1:]))
@@ -226,7 +228,7 @@ def add_answer(bot, update, args):
 
     bot.send_message(
         chat_id=update.message.chat_id,
-        parse_mode='Markdown',
+        parse_mode="Markdown",
         text=f"``` {q.question} guardada! ```",
     )
 
@@ -240,32 +242,22 @@ def add_question(bot, update, args):
 
     username = update.message.from_user.name
     user_id = update.message.from_user.id
-    user = User.get_or_create(
-        username=username,
-        id=user_id
-    )
+    user = User.get_or_create(username=username, id=user_id)
     user = user[0]
     try:
         question = " ".join(map(str, args))
-        if '?' not in question:
-            question = f'{question}?'
+        if "?" not in question:
+            question = f"{question}?"
 
-        q = Question.get_or_create(
-            user=user.id,
-            question=question,
-        )
+        q = Question.get_or_create(user=user.id, question=question)
         q = q[0]
         logger.info("pregunta creada con id: %i", q.id)
         txt = f"Pregunta creada con id: {q.id}"
-        bot.send_message(
-            chat_id=update.message.chat_id,
-            text=txt
-        )
+        bot.send_message(chat_id=update.message.chat_id, text=txt)
     except Exception:
-        logger.exception('no pudimos agregar preguntas')
+        logger.exception("no pudimos agregar preguntas")
         bot.send_message(
-            chat_id=update.message.chat_id,
-            text="No pudimos agregar tu pregunta"
+            chat_id=update.message.chat_id, text="No pudimos agregar tu pregunta"
         )
 
 
@@ -285,29 +277,26 @@ def remove_question(bot, update, args):
     except (ValueError, TypeError):
         bot.send_message(
             chat_id=update.message.chat_id,
-            text="El primer parametro tiene que ser un id"
+            text="El primer parametro tiene que ser un id",
         )
 
     try:
         q = Question.get(Question.id == question_id).delete_instance()
         if q == 1:
             logger.info("pregunta eliminada")
-            bot.send_message(
-                chat_id=update.message.chat_id,
-                text="pregunta eliminada"
-            )
+            bot.send_message(chat_id=update.message.chat_id, text="pregunta eliminada")
     except Exception:
-        logger.exception('no pudimos eliminar tu pregunta')
+        logger.exception("no pudimos eliminar tu pregunta")
         bot.send_message(
-            chat_id=update.message.chat_id,
-            text="No pudimos agregar tu pregunta"
+            chat_id=update.message.chat_id, text="No pudimos agregar tu pregunta"
         )
 
 
+@restricted
 def expense(bot, update, args):
     bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
     logger.info(f"expenses... by {update.message.from_user.name}")
-    if not update.message.from_user.name == '@eduzen':
+    if not update.message.from_user.name == "@eduzen":
         update.message.reply_text(
             f"Mmm... no es para ti! Humano {update.message.from_user.name} "
             "inferior ya callate! No es un comando que tu pueadas usar"
@@ -321,38 +310,31 @@ def expense(bot, update, args):
     try:
         amount = float(args[0])
     except Exception:
-        logger.error('No pudimos convertir %s', args)
+        logger.error("No pudimos convertir %s", args)
 
     try:
         title = args[1]
     except Exception:
-        title = 'gasto desconocido'
+        title = "gasto desconocido"
 
     try:
         r = send_expense(title, amount)
     except Exception:
-        logger.exception('algo paso')
-        update.message.reply_text(
-            "Chequea que algo paso y no pudimos enviar el gasto!"
-        )
+        logger.exception("algo paso")
+        update.message.reply_text("Chequea que algo paso y no pudimos enviar el gasto!")
         return
 
     if r.status_code != 201:
-        update.message.reply_text(
-            "Chequea que algo paso y no pudimos enviar el gasto!"
-        )
+        update.message.reply_text("Chequea que algo paso y no pudimos enviar el gasto!")
         return
 
-    update.message.reply_text(
-        f"Joya {update.message.from_user.name}! Gasto agendado!"
-    )
+    update.message.reply_text(f"Joya {update.message.from_user.name}! Gasto agendado!")
 
 
 def unknown(bot, update, args):
     logger.info(f"Unknown command... by {update.message.from_user.name}")
     bot.send_message(
-        chat_id=update.message.chat_id,
-        text="Perdón! Pero no entiendo ese comando"
+        chat_id=update.message.chat_id, text="Perdón! Pero no entiendo ese comando"
     )
 
 
@@ -360,10 +342,7 @@ def start(bot, update, args):
     logger.info(f"Starting comand... by {update.message.from_user.name}")
     username = update.message.from_user.name
     user_id = update.message.from_user.id
-    user = User.get_or_create(
-        username=username,
-        id=user_id
-    )
+    user = User.get_or_create(username=username, id=user_id)
     user = user[0]
     update.message.reply_text(
         f"Hola! Soy edu_bot!\n"
@@ -385,7 +364,7 @@ def ayuda(bot, update, args):
             "/dolar cotización del dolar\n"
             "/caps palabra a convertir en mayúscula\n"
             "/gasto cuanto salio y nombre de gasto ej: 55 1/4 helado\n"
-        )
+        ),
     )
 
 
@@ -395,5 +374,5 @@ def caps(bot, update, args):
         update.message.reply_text("No enviaste nada!")
         return
 
-    text_caps = ' '.join(args).upper()
+    text_caps = " ".join(args).upper()
     bot.send_message(chat_id=update.message.chat_id, text=text_caps)

@@ -13,15 +13,18 @@ from .vocabulary import (
     GREETING_RESPONSES,
     INTRO_QUESTIONS,
     NONE_RESPONSES,
-    INTRO_RESPONSES, BYE_KEYWORDS,
+    INTRO_RESPONSES,
+    BYE_KEYWORDS,
     BYE_RESPONSES,
     T1000_RESPONSE,
     FASO_RESPONSE,
     WINDOWS_RESPONSE,
-    JOKE_KEYWORDS, JOKE_RESPONSES,
+    JOKE_KEYWORDS,
+    JOKE_RESPONSES,
     skynet,
 )
-os.environ['NLTK_DATA'] = os.getcwd() + '/nltk_data'
+
+os.environ["NLTK_DATA"] = os.getcwd() + "/nltk_data"
 from textblob import TextBlob
 
 logger = logging.getLogger(__name__)
@@ -37,12 +40,21 @@ def get_or_create_user(user):
     except Exception:
         logger.exception('User cannot be created')
 
+chats = {
+    '288031841': 't3'
+}
+
 
 @run_async
-def record_msg(user, msg):
-    msg = f'{user}: {msg}\n'
-    with codecs.open('history.txt', 'a', "utf-8") as f:
-        msg = f'{datetime.now().isoformat()} - {msg}'
+def record_msg(user, msg, chat_id):
+    filename = f"history_{chat_id}.txt"
+    key = chats.get(chat_id)
+    if key:
+        filename = f"history_{key}.txt"
+
+    msg = f"{user}: {msg}\n"
+    with codecs.open(filename, "a", "utf-8") as f:
+        # msg = f"{datetime.now().isoformat()} - {msg}"
         f.write(msg)
 
 
@@ -73,8 +85,9 @@ def check_for_intro_question(sentence):
 def get_question(question):
     try:
         return Question.get(Question.question == question).answer
+
     except Exception:
-        logger.info('no answer')
+        logger.info("no answer")
 
 
 def parse_chat(blob):
@@ -89,7 +102,7 @@ def parse_chat(blob):
         if resp:
             break
 
-    if not resp and '?' in blob:
+    if not resp and "?" in blob:
         resp = get_question(blob.raw)
 
     if not resp:
@@ -112,12 +125,15 @@ def parse_regular_chat(msg):
         answer = check_for_greeting(words)
         if answer:
             return answer, giphy
+
         bye = check_for_bye(words)
         if bye:
             return bye, giphy
+
         question = check_for_intro_question(sentence)
         if question:
             return question, giphy
+
         joke = check_for_joke(words)
         if joke:
             return joke, giphy
@@ -126,12 +142,15 @@ def parse_regular_chat(msg):
         if automatic:
             return automatic, True
 
-        faso = ('faso', 'fasoo', )
+        if 'whatsapp' in words:
+            return 'https://media.giphy.com/media/3o6Mb4knW2GIANwmNW/giphy.gif', True
+
+        faso = ("faso", "fasoo")
         automatic = automatic_response(faso, words, FASO_RESPONSE)
         if automatic:
             return automatic, True
 
-        wnd = ('window', 'windows', 'win98', 'win95')
+        wnd = ("window", "windows", "win98", "win95")
         automatic = automatic_response(wnd, words, WINDOWS_RESPONSE)
         if automatic:
             return automatic, True
@@ -140,14 +159,15 @@ def parse_regular_chat(msg):
 
 
 def prepare_text(text):
-    text = text.replace('@eduzenbot', '').replace('@eduzen_bot', '').strip()
-    return text.replace(' ?', '?')
+    text = text.replace("@eduzenbot", "").replace("@eduzen_bot", "").strip()
+    return text.replace(" ?", "?")
 
 
 @run_async
 def parse_msgs(bot, update):
     logger.info(f"parse_msgs... by {update.message.from_user.name}")
-    record_msg(update.message.from_user.name, update.message.text)
+    chat_id = update.message.chat_id
+    record_msg(update.message.from_user.name, update.message.text, chat_id=chat_id)
 
     get_or_create_user(update.message.from_user)
 
@@ -158,7 +178,9 @@ def parse_msgs(bot, update):
     if not entities:
         answer, gif = parse_regular_chat(blob)
         if answer:
-            bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
+            bot.send_chat_action(
+                chat_id=update.message.chat_id, action=ChatAction.TYPING
+            )
         if answer and not gif:
             bot.send_message(chat_id=update.message.chat_id, text=answer)
         elif answer and gif:
@@ -166,8 +188,9 @@ def parse_msgs(bot, update):
         return
 
     mentions = [
-        value for key, value in entities.items()
-        if '@eduzen_bot' in value or '@eduzenbot' in value
+        value
+        for key, value in entities.items()
+        if "@eduzen_bot" in value or "@eduzenbot" in value
     ]
     if not mentions:
         return
@@ -175,7 +198,4 @@ def parse_msgs(bot, update):
     bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
     answer = parse_chat(blob)
 
-    bot.send_message(
-        chat_id=update.message.chat_id,
-        text=answer
-    )
+    bot.send_message(chat_id=update.message.chat_id, text=answer)
