@@ -1,28 +1,30 @@
 """
 Usage:
-    __main__.py [--stream] [--log_level=<level>] [--database=<path>]
+    __main__.py [-q | -v] [--log_level=<level>] [--database=<path>]
     __main__.py -h | --help
     __main__.py --version
-    __main__.py --stream
 
 Options:
-    -h --help   Show this.
-    --version   Show version.
-    --stream    Log to stdout.
-    --log_level Level of logging ERROR DEBUG INFO WARNING.
-    --database database path.
+    -h --help       Show this.
+    --version       Show version.
+    --log_level     Level of logging ERROR DEBUG INFO WARNING.
+    --database      database path.
+    -q, --quiet     Less stdout as an additional output for logging. [default: info]
+    -v, --verbose   More stdout as an additional output for logging. [default: info]
+
 """
 import os
 import sys
 from threading import Thread
 from pathlib import Path
 
-from __init__ import get_log
+import structlog
 from docopt import docopt
 from telegram.ext import Filters
 from telegram.ext import CommandHandler
 from telegram.ext import CallbackQueryHandler
 
+from src import initialize_logging, set_handler
 from db import create_db_tables
 from config import db_path
 from handlers.commands.alarm import set_timer, unset
@@ -33,6 +35,8 @@ from handlers.commands.questions import q_menu, button
 from handlers.messages.message import (parse_msgs)
 from telegram_bot import TelegramBot
 
+
+logger = stream.get_logger()
 
 
 def main():
@@ -83,7 +87,8 @@ if __name__ == '__main__':
     stream = arguments.get('--stream')
     level = arguments.get('--log_level')
     database = arguments.get('--database')
-    logger = get_log(level=level, stream=stream)
+    verbose = set_handler(arguments)
+    initialize_logging(verbose=verbose, level=level)
 
     if database:
         db_path = Path(database)

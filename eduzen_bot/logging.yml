@@ -1,0 +1,22 @@
+version: 1
+disable_existing_loggers: False
+
+formatters:
+  verbose:
+    format: '[eduzen_bot] %(asctime)s: %(levelname)s %(message)s'
+
+handlers:
+  stdout:
+    class: logging.StreamHandler
+    stream: 'ext://sys.stdout'
+    formatter: verbose
+
+  syslog:
+    class: logging.handlers.SysLogHandler
+    address: '/dev/log'
+    formatter: verbose
+
+root:
+  'handlers': [syslog]
+  level: INFO
+  'propagate': True
