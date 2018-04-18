@@ -24,7 +24,7 @@ from telegram.ext import Filters
 from telegram.ext import CommandHandler
 from telegram.ext import CallbackQueryHandler
 
-from src import initialize_logging, set_handler
+from __init__ import initialize_logging, set_handler
 from db import create_db_tables
 from config import db_path
 from handlers.commands.alarm import set_timer, unset
