@@ -15,3 +15,5 @@ textblob==0.15.1
 tweepy==3.6.0
 emoji==0.5.0
 docopt==0.6.2
+structlog==18.1.0
+pyyaml==3.12

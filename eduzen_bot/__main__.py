@@ -1,28 +1,31 @@
 """ eduzen_bot: a python telgram bot
 
 Usage:
-    __main__.py [--stream] [--log_level=<level>] [--config=<path>]
+    __main__.py [-q | -v] [--log_level=<level>] [--config=<path>]
     __main__.py -h | --help
     __main__.py --version
-    __main__.py --stream
 
 Options:
-    -h --help   Show this.
-    --version   Show version.
-    --stream    Log to stdout.
-    --log_level Level of logging ERROR DEBUG INFO WARNING.
-    --config    Config file path.
+    -h --help       Show this.
+    --version       Show version.
+    --log_level     Level of logging ERROR DEBUG INFO WARNING.
+    --database      database path.
+    --config        Config file path.
+    -q, --quiet     Less stdout as an additional output for logging. [default: info]
+    -v, --verbose   More stdout as an additional output for logging. [default: info]
+
 """
 import os
 import sys
 from threading import Thread
 
-from __init__ import get_log
+import structlog
 from docopt import docopt
 from telegram.ext import Filters
 from telegram.ext import CommandHandler
 from telegram.ext import CallbackQueryHandler
 
+from eduzen_bot import initialize_logging, set_handler
 from handlers.commands.alarm import set_timer, unset
 from handlers.commands import COMMANDS
 from handlers.messages.inline import code_markdown
@@ -30,6 +33,9 @@ from handlers.messages.unknown import unknown
 from handlers.commands.questions import button
 from handlers.messages.message import (parse_msgs)
 from telegram_bot import TelegramBot
+
+
+logger = structlog.get_logger()
 
 
 def main():
@@ -80,9 +86,10 @@ if __name__ == '__main__':
     stream = arguments.get('--stream')
     level = arguments.get('--log_level')
     config = arguments.get('--config')
-    logger = get_log(level=level, stream=stream)
+    verbose = set_handler(arguments)
+    initialize_logging(verbose=verbose, level=level)
 
     try:
-        main(logger)
+        main()
     except Exception:
         logger.exception("bye bye")
