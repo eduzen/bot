@@ -1,18 +1,14 @@
 from datetime import datetime
 
 from peewee import (
-    Model,
-    ForeignKeyField,
-    DateTimeField,
-    TextField,
-    CharField,
-    BooleanField,
+    Model, ForeignKeyField, DateTimeField, TextField, CharField, BooleanField
 )
 
 from database import db
 
 
 class BaseModel(Model):
+
     class Meta:
         database = db
 

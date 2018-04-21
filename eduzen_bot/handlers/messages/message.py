@@ -36,13 +36,12 @@ def get_or_create_user(user):
         data = user.to_dict()
         user, created = User.get_or_create(**data)
         if created:
-            logger.debug(f'User {user.username} created')
+            logger.debug(f"User {user.username} created")
     except Exception:
-        logger.exception('User cannot be created')
+        logger.exception("User cannot be created")
 
-chats = {
-    '288031841': 't3'
-}
+
+chats = {"288031841": "t3"}
 
 
 @run_async
@@ -142,8 +141,8 @@ def parse_regular_chat(msg):
         if automatic:
             return automatic, True
 
-        if 'whatsapp' in words:
-            return 'https://media.giphy.com/media/3o6Mb4knW2GIANwmNW/giphy.gif', True
+        if "whatsapp" in words:
+            return "https://media.giphy.com/media/3o6Mb4knW2GIANwmNW/giphy.gif", True
 
         faso = ("faso", "fasoo")
         automatic = automatic_response(faso, words, FASO_RESPONSE)

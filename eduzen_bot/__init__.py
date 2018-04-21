@@ -11,14 +11,10 @@ import yaml
 
 LOGGING_CONFIG = os.path.join(dirname(abspath(__file__)), "logging.yml")
 
-_LOG_LEVEL_STRINGS = {
-    'debug': 'DEBUG',
-    'info': 'INFO',
-    'error': 'ERROR',
-}
+_LOG_LEVEL_STRINGS = {"debug": "DEBUG", "info": "INFO", "error": "ERROR"}
 
 
-def initialize_logging(verbose=False, level='INFO'):
+def initialize_logging(verbose=False, level="INFO"):
     """
     Initialize the loggers from the
     YAML configuration.
@@ -37,9 +33,7 @@ def initialize_logging(verbose=False, level='INFO'):
             # logger configuration
             config["root"]["handlers"].append("stdout")
 
-
         logging_config.dictConfig(config)
-
 
 
 def set_handler(arguments):

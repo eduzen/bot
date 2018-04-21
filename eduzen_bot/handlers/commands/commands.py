@@ -73,7 +73,7 @@ def subte(bot, update, args):
     if not estadosubte and not metrovias:
         return
 
-    estadosubte = f'En el subte:\n{estadosubte}\nWeb metrovias:\n{metrovias}'
+    estadosubte = f"En el subte:\n{estadosubte}\nWeb metrovias:\n{metrovias}"
 
     bot.send_message(chat_id=update.message.chat_id, text=estadosubte)
 
@@ -149,9 +149,7 @@ def get_questions(bot, update, args):
                 for q in Question.select()
             ]
         )
-        bot.send_message(
-            chat_id=update.message.chat_id, text=f"{qs}"
-        )
+        bot.send_message(chat_id=update.message.chat_id, text=f"{qs}")
     except Exception:
         bot.send_message(chat_id=update.message.chat_id, text="Mmm algo malo pasó")
 

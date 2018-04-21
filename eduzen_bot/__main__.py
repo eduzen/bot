@@ -81,11 +81,11 @@ def main():
     bot.start()
 
 
-if __name__ == '__main__':
-    arguments = docopt(__doc__, version='eduzen_bot 1.0')
-    stream = arguments.get('--stream')
-    level = arguments.get('--log_level')
-    config = arguments.get('--config')
+if __name__ == "__main__":
+    arguments = docopt(__doc__, version="eduzen_bot 1.0")
+    stream = arguments.get("--stream")
+    level = arguments.get("--log_level")
+    config = arguments.get("--config")
     verbose = set_handler(arguments)
     initialize_logging(verbose=verbose, level=level)
 

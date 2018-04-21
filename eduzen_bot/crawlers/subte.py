@@ -25,7 +25,7 @@ def get_estado_del_subte(amount=0):
         for cell in row.find_all("td"):
             text.append(cell.get_text().strip())
             text.append(" ")
-        text.append('\n')
+        text.append("\n")
 
     return "".join(text)
 
@@ -56,6 +56,6 @@ def get_estado_metrovias_html(amount=0):
         for cell in row.find_all("td"):
             text.append(cell.get_text().strip())
             text.append(" ")
-        text.append('\n')
+        text.append("\n")
 
     return "".join(text).strip()

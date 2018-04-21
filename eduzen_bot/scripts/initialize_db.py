@@ -12,5 +12,5 @@ def create_db_tables():
             db.create_tables([User, Question])
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     sys.exit(create_db_tables())
