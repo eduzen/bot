@@ -1,3 +1,4 @@
+from handlers.commands.questions import q_menu
 from handlers.commands.commands import (
     btc, caps, ayuda, dolar, start, expense,
     get_questions, get_users, add_question,
@@ -24,4 +25,6 @@ COMMANDS = {
     'code': code,
     'subte': subte,
     'subtenews': subte_novedades,
+    'question_menu': q_menu,
+    'qmenu': q_menu,
 }

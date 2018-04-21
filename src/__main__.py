@@ -1,6 +1,7 @@
-"""
+""" eduzen_bot: a python telgram bot
+
 Usage:
-    __main__.py [--stream] [--log_level=<level>] [--database=<path>]
+    __main__.py [--stream] [--log_level=<level>] [--config=<path>]
     __main__.py -h | --help
     __main__.py --version
     __main__.py --stream
@@ -10,12 +11,11 @@ Options:
     --version   Show version.
     --stream    Log to stdout.
     --log_level Level of logging ERROR DEBUG INFO WARNING.
-    --database database path.
+    --config    Config file path.
 """
 import os
 import sys
 from threading import Thread
-from pathlib import Path
 
 from __init__ import get_log
 from docopt import docopt
@@ -23,16 +23,13 @@ from telegram.ext import Filters
 from telegram.ext import CommandHandler
 from telegram.ext import CallbackQueryHandler
 
-from db import create_db_tables
-from config import db_path
 from handlers.commands.alarm import set_timer, unset
 from handlers.commands import COMMANDS
 from handlers.messages.inline import code_markdown
 from handlers.messages.unknown import unknown
-from handlers.commands.questions import q_menu, button
+from handlers.commands.questions import button
 from handlers.messages.message import (parse_msgs)
 from telegram_bot import TelegramBot
-
 
 
 def main():
@@ -82,17 +79,10 @@ if __name__ == '__main__':
     arguments = docopt(__doc__, version='eduzen_bot 1.0')
     stream = arguments.get('--stream')
     level = arguments.get('--log_level')
-    database = arguments.get('--database')
+    config = arguments.get('--config')
     logger = get_log(level=level, stream=stream)
 
-    if database:
-        db_path = Path(database)
-
     try:
-        if not db_path.exists():
-            logger.info(f'Database {db_path} does not exist')
-            create_db_tables(db_path)
-
         main(logger)
     except Exception:
         logger.exception("bye bye")

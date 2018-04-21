@@ -6,7 +6,8 @@ from api.expenses import send_expense
 from api.dolar import get_dolar, parse_bnc
 from api.btc import get_btc
 from api.weather import get_weather
-from api.twitter import get_subte, get_subte_html, get_transito, get_trenes
+from api.twitter import get_subte, get_transito, get_trenes
+from crawlers.subte import get_estado_del_subte, get_estado_metrovias_html
 from db import User, Question
 from auth.restricted import restricted
 
@@ -67,16 +68,14 @@ def subte(bot, update, args):
     bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
     logger.info(f"Subte... by {update.message.from_user.name}")
 
-    try:
-        amount = int(args[0])
-    except Exception:
-        amount = 4
-
-    text = get_subte_html(amount)
-    if not text:
+    estadosubte = get_estado_del_subte()
+    metrovias = get_estado_metrovias_html()
+    if not estadosubte and not metrovias:
         return
 
-    bot.send_message(chat_id=update.message.chat_id, parse_mode="Markdown", text=text)
+    estadosubte = f'En el subte:\n{estadosubte}\nWeb metrovias:\n{metrovias}'
+
+    bot.send_message(chat_id=update.message.chat_id, text=estadosubte)
 
 
 @restricted
