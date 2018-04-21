@@ -1,7 +1,7 @@
 import logging
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 from menus.builder import build_menu
-from db import Question
+from models import Question
 
 from emoji import emojize
 

@@ -4,11 +4,12 @@
 """The setup script."""
 
 import sys
+import codecs
 
 from setuptools import setup, find_packages
 import versioneer
 
-with open("README.md") as readme_file:
+with codecs.open("README.md", "r", "utf-8") as readme_file:
     readme = readme_file.read()
 
 if sys.version_info < (3, 6):
@@ -54,4 +55,9 @@ setup(
     test_suite="tests",
     tests_require=test_requirements,
     setup_requires=setup_requirements,
+    entry_points={
+        'database_scripts': [
+            'initialize_db = eduzen_bot.scripts.initialize_db:main',
+        ]
+    },
 )

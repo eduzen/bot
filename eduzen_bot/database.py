@@ -1,5 +1,6 @@
 from peewee import SqliteDatabase
-from config import db_path
+
+from eduzen_bot.config import DB_PATH
 
 
-db = SqliteDatabase(str(db_path))
+db = SqliteDatabase(str(DB_PATH))

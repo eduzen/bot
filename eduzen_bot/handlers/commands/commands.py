@@ -8,7 +8,7 @@ from api.btc import get_btc
 from api.weather import get_weather
 from api.twitter import get_subte, get_transito, get_trenes
 from crawlers.subte import get_estado_del_subte, get_estado_metrovias_html
-from db import User, Question
+from models import User, Question
 from auth.restricted import restricted
 
 

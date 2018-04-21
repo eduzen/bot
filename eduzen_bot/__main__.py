@@ -1,18 +1,17 @@
 """ eduzen_bot: a python telgram bot
 
 Usage:
-    __main__.py [-q | -v] [--log_level=<level>] [--config=<path>]
+    __main__.py [-q | -v] [--log_level=level] [--config=<path>]
     __main__.py -h | --help
     __main__.py --version
 
 Options:
-    -h --help       Show this.
-    --version       Show version.
-    --log_level     Level of logging ERROR DEBUG INFO WARNING.
-    --database      database path.
-    --config        Config file path.
-    -q, --quiet     Less stdout as an additional output for logging. [default: info]
-    -v, --verbose   More stdout as an additional output for logging. [default: info]
+    -h --help           Show this.
+    --version           Show version.
+    --log_level=level   Level of logging ERROR DEBUG INFO WARNING.
+    --config=config     Config file path.
+    -q, --quiet         Less stdout as an additional output for logging. [default: info]
+    -v, --verbose       More stdout as an additional output for logging. [default: info]
 
 """
 import os

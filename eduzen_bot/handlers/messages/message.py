@@ -2,12 +2,11 @@ import os
 import logging
 import random
 import codecs
-from datetime import datetime
 
 from telegram import ChatAction
 from telegram.ext.dispatcher import run_async
 
-from db import User, Question
+from models import User, Question
 from .vocabulary import (
     GREETING_KEYWORDS,
     GREETING_RESPONSES,

@@ -8,6 +8,14 @@ from logging import config as logging_config
 import structlog
 import yaml
 
+timestamper = structlog.processors.TimeStamper(fmt="%Y-%m-%d %H:%M:%S")
+
+pre_chain = [
+    # Add the log level and a timestamp to the event_dict if the log entry
+    # is not from structlog.
+    structlog.stdlib.add_log_level,
+    timestamper,
+]
 
 LOGGING_CONFIG = os.path.join(dirname(abspath(__file__)), "logging.yml")
 
@@ -31,6 +39,13 @@ def initialize_logging(verbose=False, level="INFO"):
         if verbose:
             # Requires that there is a stdout handler defined at
             # logger configuration
+            config["formatters"]["colored"]["()"] = structlog.stdlib.ProcessorFormatter
+            config["formatters"]["colored"]["foreign_pre_chain"] = pre_chain
+            config["formatters"]["colored"][
+                "processor"
+            ] = structlog.dev.ConsoleRenderer(
+                colors=True
+            )
             config["root"]["handlers"].append("stdout")
 
         logging_config.dictConfig(config)
