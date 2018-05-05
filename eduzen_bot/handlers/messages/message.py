@@ -4,6 +4,7 @@ import random
 import codecs
 
 import peewee
+from structlog import get_logger
 from telegram import ChatAction
 from telegram.ext.dispatcher import run_async
 
@@ -27,7 +28,7 @@ from .vocabulary import (
 os.environ["NLTK_DATA"] = os.getcwd() + "/nltk_data"
 from textblob import TextBlob
 
-logger = logging.getLogger(__name__)
+logger = get_logger(filename=__name__)
 
 chats = {"288031841": "t3"}
 
@@ -35,12 +36,13 @@ chats = {"288031841": "t3"}
 @run_async
 def get_or_create_user(user):
     data = user.to_dict()
+    created = None
 
     try:
         user, created = User.get_or_create(**data)
     except peewee.IntegrityError:
         logger.warn("User already created")
-        User.update(**data)
+        user = User.update(**data)
 
     if created:
         logger.debug(f"User {user.username} created")
