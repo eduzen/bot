@@ -22,7 +22,9 @@ from .vocabulary import (
     WINDOWS_RESPONSE,
     JOKE_KEYWORDS,
     JOKE_RESPONSES,
-    skynet,
+    SKYNET,
+    MACRI,
+    MACRI_RESPONSES,
 )
 
 os.environ["NLTK_DATA"] = os.getcwd() + "/nltk_data"
@@ -45,18 +47,19 @@ def get_or_create_user(user):
         logger.warn("User already created")
 
     if user and created:
-        logger.debug(f"User {user.username} created")
+        logger.debug("User created. Id %s", user.id)
         return
 
     try:
         user = User.update(**data)
+        logger.debug("User updated")
     except Exception:
         logger.exception('User cannot be updated')
 
 
 @run_async
 def record_msg(user, msg, chat_id):
-    logger.info('chat_id: %s', chat_id)
+    logger.info('record msg chat_id')
     filename = f"history_{chat_id}.txt"
     key = chats.get(chat_id)
     if key:
@@ -128,6 +131,7 @@ def automatic_response(words, msg, vocabularies):
 
 
 def parse_regular_chat(msg):
+    logger.info("parsing regular chat")
     answer = False
     giphy = False
     for sentence in msg.sentences:
@@ -148,7 +152,11 @@ def parse_regular_chat(msg):
         if joke:
             return joke, giphy
 
-        automatic = automatic_response(skynet, words, T1000_RESPONSE)
+        automatic = automatic_response(SKYNET, words, T1000_RESPONSE)
+        if automatic:
+            return automatic, True
+
+        automatic = automatic_response(MACRI, words, MACRI_RESPONSES)
         if automatic:
             return automatic, True
 
@@ -175,8 +183,10 @@ def prepare_text(text):
 
 @run_async
 def parse_msgs(bot, update):
-    logger.info(f"parse_msgs... by {update.message.from_user.name}")
+    username = update.message.from_user.username
     chat_id = update.message.chat_id
+
+    logger.info(f"parse_msgs... by %s", username)
     record_msg(update.message.from_user.name, update.message.text, chat_id=chat_id)
 
     get_or_create_user(update.message.from_user)

@@ -140,7 +140,9 @@ NONE_RESPONSES = (
     "labura vago",
     "no, manzana",
     "piola",
-    emojize(":trollface:", use_aliases=True),
+    emojize(":facepalm:", use_aliases=True),
+    emojize(":facepalm:", use_aliases=True),
+    emojize(":facepalm:", use_aliases=True),
     "toda la onda",
     "te parece? dejame que lo medito",
     "leete un libro o dos",
@@ -157,6 +159,7 @@ NONE_RESPONSES = (
     "🙄",
     emojize(":no_mouth:", use_aliases=True),
     emojize(":octocat:", use_aliases=True),
+    emojize(":octocat:", use_aliases=True),
     emojize(":sunglasses:", use_aliases=True),
     emojize(":clap:", use_aliases=True),
     emojize(":sob:", use_aliases=True),
@@ -168,7 +171,23 @@ T1000_RESPONSE = (
     "https://media.giphy.com/media/TAywY9f1YFila/giphy.gif",
     "https://media.giphy.com/media/BRKsxNP8kY5lS/giphy.gif",
     "https://media.giphy.com/media/iFCQhoTjoOgms/giphy.gif",
+    "https://media.giphy.com/media/5fiK0rNtBmV5C/giphy.gif",
+    "https://media.giphy.com/media/bER5GmwhaPJmg/giphy.gif",
+    "https://media.giphy.com/media/mIZ9rPeMKefm0/giphy.gif",
+    "https://media.giphy.com/media/sFTWiBKYYWKVa/giphy.gif",
+    "https://media.giphy.com/media/a2fVCj2CudIiY/giphy.gif",
+    "https://media.giphy.com/media/10uTjZCI1pGVZS/giphy.gif",
 )
+MACRI_RESPONSES = {
+    'https://media.giphy.com/media/129NVCr1UfsGTS/giphy.gif',
+    'https://media.giphy.com/media/d18QgzK6jyYfe/giphy.gif',
+    'https://media.giphy.com/media/OqZ9by7oPd3H2/giphy.gif',
+    'https://media.giphy.com/media/72YCdFJc0Jt2U/giphy.gif',
+    'https://media.giphy.com/media/F19jJkiXfJoZO/giphy.gif',
+    'https://media.giphy.com/media/t3Qa4vM9HpXnW/giphy.gif',
+    'https://media.giphy.com/media/l2JhOVyjSHGejoXXq/giphy.gif',
+    'https://media.giphy.com/media/4An1AU8RxUzQI/giphy.gif'
+}
 
 FASO_RESPONSE = (
     "https://media.giphy.com/media/4a1BW6oEvxPhK/giphy.gif",
@@ -182,6 +201,8 @@ WINDOWS_RESPONSE = (
     "https://media.giphy.com/media/3o6gDUY3B8ocAgMNhu/giphy.gif",
     "https://media.giphy.com/media/edl5t7nDVPtC/giphy.gif",
     "https://media.giphy.com/media/xTiTnvMb8gkmBvwFiM/giphy.gif",
+    "https://media.giphy.com/media/NHIecaiSc7YjK/giphy.gif",
 )
 
-skynet = ("skynet", "bot")
+SKYNET = ("skynet", "bot", "robot")
+MACRI = ("macri", "gato", "mauricio", )
