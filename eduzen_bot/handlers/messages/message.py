@@ -37,20 +37,26 @@ chats = {"288031841": "t3"}
 def get_or_create_user(user):
     data = user.to_dict()
     created = None
+    user = None
 
     try:
         user, created = User.get_or_create(**data)
     except peewee.IntegrityError:
         logger.warn("User already created")
-        user = User.update(**data)
 
-    if created:
+    if user and created:
         logger.debug(f"User {user.username} created")
+        return
+
+    try:
+        user = User.update(**data)
+    except Exception:
+        logger.exception('User cannot be updated')
 
 
 @run_async
 def record_msg(user, msg, chat_id):
-    logger.info('chat_id: %s', (chat_id, ))
+    logger.info('chat_id: %s', chat_id)
     filename = f"history_{chat_id}.txt"
     key = chats.get(chat_id)
     if key:
