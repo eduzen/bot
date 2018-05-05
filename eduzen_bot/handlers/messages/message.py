@@ -3,6 +3,7 @@ import logging
 import random
 import codecs
 
+import peewee
 from telegram import ChatAction
 from telegram.ext.dispatcher import run_async
 
@@ -28,23 +29,26 @@ from textblob import TextBlob
 
 logger = logging.getLogger(__name__)
 
-
-@run_async
-def get_or_create_user(user):
-    try:
-        data = user.to_dict()
-        user, created = User.get_or_create(**data)
-        if created:
-            logger.debug(f"User {user.username} created")
-    except Exception:
-        logger.exception("User cannot be created")
-
-
 chats = {"288031841": "t3"}
 
 
 @run_async
+def get_or_create_user(user):
+    data = user.to_dict()
+
+    try:
+        user, created = User.get_or_create(**data)
+    except peewee.IntegrityError:
+        logger.warn("User already created")
+        User.update(**data)
+
+    if created:
+        logger.debug(f"User {user.username} created")
+
+
+@run_async
 def record_msg(user, msg, chat_id):
+    logger.info('chat_id: %s', (chat_id, ))
     filename = f"history_{chat_id}.txt"
     key = chats.get(chat_id)
     if key:
