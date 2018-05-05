@@ -1,6 +1,5 @@
-import logging
-
 from telegram import ChatAction
+import structlog
 
 from api.expenses import send_expense
 from api.dolar import get_dolar, parse_bnc
@@ -12,7 +11,7 @@ from models import User, Question
 from auth.restricted import restricted
 
 
-logger = logging.getLogger(__name__)
+logger = structlog.get_logger(filename=__name__)
 
 
 def weather(bot, update, args):
@@ -123,12 +122,15 @@ def cotizaciones(bot, update, args):
 
 
 def btc(bot, update, args):
-    bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
+    chat_id = update.message.chat_id
+    bot.send_chat_action(chat_id=chat_id, action=ChatAction.TYPING)
     logger.info(f"Btc... by {update.message.from_user.name}")
 
     text = get_btc()
+    if not text:
+        bot.send_message(chat_id=chat_id, text="Ups, no pudimos conseguir la info")
 
-    bot.send_message(chat_id=update.message.chat_id, text=text)
+    bot.send_message(chat_id=chat_id, text=text)
 
 
 def get_users(bot, update, args):

@@ -3,7 +3,7 @@ chardet==3.0.4
 future==0.16.0
 idna==2.6
 Pygments==2.2.0
-python-telegram-bot==10.0.1
+python-telegram-bot==10.1.0
 requests==2.18.4
 urllib3==1.22
 wmctrl==0.3

@@ -1,9 +1,10 @@
-import logging
+import structlog
 import requests
 
 from bs4 import BeautifulSoup
 
-logger = logging.getLogger(__name__)
+logger = structlog.get_logger()
+
 
 lanacion = "http://servicios.lanacion.com.ar/pronostico-del-tiempo/capital-federal/capital-federal"
 

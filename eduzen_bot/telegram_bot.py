@@ -1,4 +1,4 @@
-import logging
+import structlog
 
 from telegram.ext import (
     CommandHandler, MessageHandler, Filters, InlineQueryHandler, Updater
@@ -8,7 +8,7 @@ from telegram.error import (
 )
 from keys import TOKEN
 
-logger = logging.getLogger(__name__)
+logger = structlog.get_logger(filename=__name__)
 
 
 class TelegramBot(object):
@@ -16,7 +16,7 @@ class TelegramBot(object):
 
     def __init__(self, workers=4):
         self.updater = Updater(token=TOKEN, workers=workers)
-        logger.info("Created updater for %s", self.updater.bot.name)
+        logger.info("Created updater for %s" % (self.updater.bot.name))
         self.dispatcher = self.updater.dispatcher
         self.dispatcher.add_error_handler(self.error)
 
@@ -34,19 +34,19 @@ class TelegramBot(object):
             logger.error("Update caused Unauthorized error")
         except BadRequest:
             # handle malformed requests - read more below!
-            logger.error('Update "%s" caused error "%s"', update, error)
+            logger.error('Update "%s" caused error "%s"', (update, error))
         except TimedOut:
             # handle slow connection problems
-            logger.warning('Update "%s" caused TimedOut "%s"', update, error)
+            logger.warning('Update "%s" caused TimedOut "%s"', (update, error))
         except NetworkError:
             # handle other connection problems
-            logger.error('Update "%s" caused error "%s"', update, error)
+            logger.error('Update "%s" caused error "%s"', (update, error))
         except ChatMigrated as e:
             # the chat_id of a group has changed, use e.new_chat_id instead
-            logger.error('Update "%s" caused error "%s"', update, error)
+            logger.error('Update "%s" caused error "%s"', (update, error))
         except TelegramError:
             # handle all other telegram related errors
-            logger.error('Update "%s" caused error "%s"', update, error)
+            logger.error('Update "%s" caused error "%s"', (update, error))
 
     def add_handler(self, handler):
         self.dispatcher.add_handler(handler)

@@ -34,19 +34,21 @@ from handlers.messages.message import (parse_msgs)
 from telegram_bot import TelegramBot
 
 
-logger = structlog.get_logger()
+logger = structlog.get_logger(filename=__name__)
 
 
 def main():
 
-    def stop_and_restart():
+    def stop_and_restart(bot):
         """Gracefully stop the Updater and replace the current process with a new one"""
         bot.updater.stop()
         os.execl(sys.executable, sys.executable, *sys.argv)
 
     def restart(bot, update):
         bot.send_message(chat_id=update.message.chat_id, text="Bot is restarting...")
-        Thread(target=stop_and_restart).start()
+        t = Thread(target=stop_and_restart, args=(bot, ))
+        t.start()
+        t.join()
 
     logger.info("Starting main...")
 
