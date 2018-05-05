@@ -30,9 +30,9 @@ from .vocabulary import (
 os.environ["NLTK_DATA"] = os.getcwd() + "/nltk_data"
 from textblob import TextBlob
 
-logger = get_logger(filename=__name__)
-
 chats = {"288031841": "t3"}
+
+logger = logging.getLogger(__name__)
 
 
 @run_async
@@ -59,7 +59,7 @@ def get_or_create_user(user):
 
 @run_async
 def record_msg(user, msg, chat_id):
-    logger.info('record msg chat_id')
+    logger.info('Recording msg chat_id %s', chat_id)
     filename = f"history_{chat_id}.txt"
     key = chats.get(chat_id)
     if key:
@@ -183,10 +183,12 @@ def prepare_text(text):
 
 @run_async
 def parse_msgs(bot, update):
+
     username = update.message.from_user.username
     chat_id = update.message.chat_id
 
-    logger.info(f"parse_msgs... by %s", username)
+    logger.info("parse_msgs... by %s", username)
+
     record_msg(update.message.from_user.name, update.message.text, chat_id=chat_id)
 
     get_or_create_user(update.message.from_user)
