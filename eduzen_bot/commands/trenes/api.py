@@ -16,7 +16,7 @@ def get_tweets(api, username, count, date):
     return "\n".join(tweets)
 
 
-def get_subte(count=20):
+def get_trenes(count=20):
     if count > 20:
         count = 20
     auth = tweepy.OAuthHandler(TWITTER["CONSUMER_KEY"], TWITTER["CONSUMER_SECRET"])
@@ -24,6 +24,6 @@ def get_subte(count=20):
     api = tweepy.API(auth)
     now = datetime.now()
     today = now.date().isoformat()
-    data = get_tweets(api, "subteba", count=count, date=now)
-    data = f"Estado Subtes BA by @subteba ({today}):\n{data}"
+    data = get_tweets(api, "HorariosTren", count=count, date=now)
+    data = f"Transito BA by @horariostren ({today}):\n{data}"
     return data

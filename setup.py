@@ -44,7 +44,7 @@ setup(
     include_package_data=True,
     install_requires=requirements,
     dependency_links=dependency_links,
-    zip_safe=False,
+    zip_safe=True,
     keywords="eduzen_bot",
     classifiers=[
         "Development Status :: 2 - Pre-Alpha",

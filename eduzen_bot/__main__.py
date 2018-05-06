@@ -33,6 +33,28 @@ from handlers.commands.questions import button
 from handlers.messages.message import (parse_msgs)
 from telegram_bot import TelegramBot
 
+from commands.btc.btc import btc
+from commands.dolar.dolar import dolar, cotizaciones
+from commands.subte.subte import subte, subte_novedades
+from commands.transito.transito import transito
+from commands.weather.weather import weather
+from commands.questions.questions import (add_question, add_answer, edit_question, remove_question, get_questions)
+
+c = {
+    "cambio": cotizaciones,
+    "dolar": dolar,
+    "btc": btc,
+    "subte": subte,
+    "transito": transito,
+    "subtenews": subte_novedades,
+    "transito": transito,
+    "clima": weather,
+    "add_question": add_question,
+    "add_answer": add_answer,
+    "edit_question": edit_question,
+    "remove": remove_question,
+    "questions": get_questions,
+}
 
 logger = structlog.get_logger(filename=__name__)
 
@@ -57,20 +79,15 @@ def main():
     message_handlers = [parse_msgs]
 
     bot.register_commands(COMMANDS)
+    bot.register_commands(c)
     bot.register_message_handler(message_handlers)
 
-    bot.add_handler(
-        CommandHandler("restart", restart, filters=Filters.user(username="@eduzen"))
-    )
+    bot.add_handler(CommandHandler("restart", restart, filters=Filters.user(username="@eduzen")))
 
-    set_handler = bot.create_command_args(
-        "set", set_timer, pass_args=True, pass_job_queue=True, pass_chat_data=True
-    )
+    set_handler = bot.create_command_args("set", set_timer, pass_args=True, pass_job_queue=True, pass_chat_data=True)
     bot.add_handler(set_handler)
 
-    unset_handler = bot.create_command_args(
-        "unset", unset, pass_args=False, pass_job_queue=False, pass_chat_data=True
-    )
+    unset_handler = bot.create_command_args("unset", unset, pass_args=False, pass_job_queue=False, pass_chat_data=True)
     bot.add_handler(unset_handler)
 
     code_handler = bot.create_inlinequery(code_markdown)
