@@ -30,7 +30,7 @@ from .vocabulary import (
 os.environ["NLTK_DATA"] = os.getcwd() + "/nltk_data"
 from textblob import TextBlob
 
-chats = {"288031841": "t3"}
+chats = {"-288031841": "t3"}
 
 logger = logging.getLogger(__name__)
 
@@ -54,12 +54,12 @@ def get_or_create_user(user):
         user = User.update(**data)
         logger.debug("User updated")
     except Exception:
-        logger.exception('User cannot be updated')
+        logger.exception("User cannot be updated")
 
 
 @run_async
 def record_msg(user, msg, chat_id):
-    logger.info('Recording msg chat_id %s', chat_id)
+    logger.info("Recording msg chat_id %s", chat_id)
     filename = f"history_{chat_id}.txt"
     key = chats.get(chat_id)
     if key:

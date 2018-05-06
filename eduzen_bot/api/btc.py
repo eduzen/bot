@@ -51,6 +51,8 @@ def get_btc():
     if r and r.status_code == 200:
         return process_coindesk(r)
 
-    logger.error("Something went wrong when it gets btc. Status code: %s", r.status_code)
+    logger.error(
+        "Something went wrong when it gets btc. Status code: %s", r.status_code
+    )
 
     return "Perdón! No hay ninguna api disponible!"

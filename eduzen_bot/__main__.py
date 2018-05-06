@@ -38,15 +38,17 @@ logger = structlog.get_logger(filename=__name__)
 
 
 def main():
+    bot = TelegramBot()
 
-    def stop_and_restart(bot):
+    def stop_and_restart():
         """Gracefully stop the Updater and replace the current process with a new one"""
+        logger.info("stop and restart eduzen_bot")
         bot.updater.stop()
         os.execl(sys.executable, sys.executable, *sys.argv)
 
     def restart(bot, update):
         bot.send_message(chat_id=update.message.chat_id, text="Bot is restarting...")
-        t = Thread(target=stop_and_restart, args=(bot, ))
+        t = Thread(target=stop_and_restart)
         t.start()
         t.join()
 
@@ -54,7 +56,6 @@ def main():
 
     message_handlers = [parse_msgs]
 
-    bot = TelegramBot()
     bot.register_commands(COMMANDS)
     bot.register_message_handler(message_handlers)
 

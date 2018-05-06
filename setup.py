@@ -56,8 +56,6 @@ setup(
     tests_require=test_requirements,
     setup_requires=setup_requirements,
     entry_points={
-        'database_scripts': [
-            'initialize_db = eduzen_bot.scripts.initialize_db:main',
-        ]
+        "database_scripts": ["initialize_db = eduzen_bot.scripts.initialize_db:main"]
     },
 )

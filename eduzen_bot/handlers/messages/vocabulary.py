@@ -179,14 +179,14 @@ T1000_RESPONSE = (
     "https://media.giphy.com/media/10uTjZCI1pGVZS/giphy.gif",
 )
 MACRI_RESPONSES = (
-    'https://media.giphy.com/media/129NVCr1UfsGTS/giphy.gif',
-    'https://media.giphy.com/media/d18QgzK6jyYfe/giphy.gif',
-    'https://media.giphy.com/media/OqZ9by7oPd3H2/giphy.gif',
-    'https://media.giphy.com/media/72YCdFJc0Jt2U/giphy.gif',
-    'https://media.giphy.com/media/F19jJkiXfJoZO/giphy.gif',
-    'https://media.giphy.com/media/t3Qa4vM9HpXnW/giphy.gif',
-    'https://media.giphy.com/media/l2JhOVyjSHGejoXXq/giphy.gif',
-    'https://media.giphy.com/media/4An1AU8RxUzQI/giphy.gif'
+    "https://media.giphy.com/media/129NVCr1UfsGTS/giphy.gif",
+    "https://media.giphy.com/media/d18QgzK6jyYfe/giphy.gif",
+    "https://media.giphy.com/media/OqZ9by7oPd3H2/giphy.gif",
+    "https://media.giphy.com/media/72YCdFJc0Jt2U/giphy.gif",
+    "https://media.giphy.com/media/F19jJkiXfJoZO/giphy.gif",
+    "https://media.giphy.com/media/t3Qa4vM9HpXnW/giphy.gif",
+    "https://media.giphy.com/media/l2JhOVyjSHGejoXXq/giphy.gif",
+    "https://media.giphy.com/media/4An1AU8RxUzQI/giphy.gif",
 )
 
 FASO_RESPONSE = (
@@ -204,5 +204,5 @@ WINDOWS_RESPONSE = (
     "https://media.giphy.com/media/NHIecaiSc7YjK/giphy.gif",
 )
 
-SKYNET = ("skynet", "bot", "robot", )
-MACRI = ("macri", "gato", "mauricio", )
+SKYNET = ("skynet", "bot", "robot")
+MACRI = ("macri", "gato", "mauricio")
