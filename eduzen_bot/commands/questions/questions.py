@@ -6,6 +6,14 @@ from models import User, Question
 logger = structlog.get_logger(filename=__name__)
 
 
+def get_users(bot, update, args):
+    bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
+    logger.info(f"Get_users... by {update.message.from_user.name}")
+
+    txt = [user.username for user in User.select()]
+    bot.send_message(chat_id=update.message.chat_id, text="Usuarios: , ".join(txt))
+
+
 def get_questions(bot, update, args):
     bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
     try:

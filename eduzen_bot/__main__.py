@@ -34,26 +34,37 @@ from handlers.messages.message import (parse_msgs)
 from telegram_bot import TelegramBot
 
 from commands.btc.btc import btc
+from commands.expenses.expenses import expense
+from commands.trenes.trenes import trenes
 from commands.dolar.dolar import dolar, cotizaciones
 from commands.subte.subte import subte, subte_novedades
 from commands.transito.transito import transito
 from commands.weather.weather import weather
-from commands.questions.questions import (add_question, add_answer, edit_question, remove_question, get_questions)
+from commands.questions.questions import (
+    add_question, add_answer, edit_question, remove_question, get_questions, get_users
+)
+from commands.basic.basic import caps, ayuda, start
 
 c = {
     "cambio": cotizaciones,
     "dolar": dolar,
+    "gasto": expense,
     "btc": btc,
     "subte": subte,
     "transito": transito,
+    "trenes": trenes,
     "subtenews": subte_novedades,
     "transito": transito,
     "clima": weather,
     "add_question": add_question,
     "add_answer": add_answer,
+    "users": get_users,
     "edit_question": edit_question,
     "remove": remove_question,
     "questions": get_questions,
+    "caps": caps,
+    "ayuda": ayuda,
+    "start": start,
 }
 
 logger = structlog.get_logger(filename=__name__)

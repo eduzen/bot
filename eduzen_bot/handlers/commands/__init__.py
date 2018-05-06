@@ -20,11 +20,6 @@ from handlers.commands.commands import (
 )
 
 COMMANDS = {
-    "caps": caps,
-    "ayuda": ayuda,
-    "start": start,
-    "users": get_users,
-    "gasto": expense,
     "code": code,
     "question_menu": q_menu,
     "qmenu": q_menu,
