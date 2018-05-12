@@ -14,6 +14,12 @@ touch keys.py
 
 ```python
 TOKEN = 'some_token'
+APP_ID = ''
+TWITTER = {}
+TWITTER["CONSUMER_KEY"] = 'consumer_key'
+TWITTER["CONSUMER_SECRET"] = ""
+TWITTER["ACCESS_TOKEN"] = ""
+TWITTER["ACCESS_TOKEN_SECRET"] = "access_token_secret"
 ```
 
 ## Algunos commandos para pasarle a botfather
@@ -28,6 +34,7 @@ edit_question - Editas una pregunta
 add_answer - Agrega respuesta pasando Id
 remove - Borra una pregunta
 questions - Lista preguntas
+question_menu - Menu de preguntas
 caps - convierte a mayusculas
 gasto - agrega un gasto
 start - ayuda

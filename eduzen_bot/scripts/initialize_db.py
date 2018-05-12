@@ -1,4 +1,5 @@
 import sys
+
 from peewee import SqliteDatabase
 import structlog
 

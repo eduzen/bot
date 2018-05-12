@@ -1,9 +1,9 @@
-import logging
+import structlog
 from functools import wraps
 
 LIST_OF_ADMINS = ("3652654",)
 
-logger = logging.getLogger(__name__)
+logger = structlog.get_logger(filename=__name__)
 
 
 def restricted(func):
