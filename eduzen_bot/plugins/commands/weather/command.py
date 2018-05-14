@@ -1,7 +1,7 @@
 import structlog
 from telegram import ChatAction
 
-from weather.api import get_weather
+from .api import get_weather
 
 logger = structlog.get_logger()
 

@@ -35,7 +35,7 @@ def parse_bnc():
     data = data[0].get_text().strip().replace("\n", " ").replace("  ", "\n")
     data = data.replace("\n ", dolar, 1).replace("\n ", euro, 1).replace("\n ", real, 1)
     data = data.replace("U.S.A", "")
-    data = f"{data}\n(*) cotización cada 100 unidades.\n {punch}"
+    data = f"{data}\n(*) cotización cada 100 unidades.\n {punch} by banco nación"
 
     return data
 
@@ -44,7 +44,9 @@ def get_dolar():
     r = requests.get(API, params={"app_id": APP_ID})
 
     if r.status_code != 200:
-        logger.error("Something went wrong when it gets dollar. Status code: %s", r.status_code)
+        logger.error(
+            "Something went wrong when it gets dollar. Status code: %s", r.status_code
+        )
         text = "Perdón! La api no está  disponible!"
         return text
 

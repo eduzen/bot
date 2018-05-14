@@ -1,7 +1,7 @@
 import structlog
 from telegram import ChatAction
 
-from transito.api import get_transito
+from .api import get_transito
 
 logger = structlog.get_logger(filename=__name__)
 
@@ -12,7 +12,9 @@ def transito(bot, update, args):
 
     text = get_transito()
     if not text:
-        bot.send_message(chat_id=update.message.chat_id, text="Ups, no pudimos conseguir la info")
+        bot.send_message(
+            chat_id=update.message.chat_id, text="Ups, no pudimos conseguir la info"
+        )
         return
 
     bot.send_message(chat_id=update.message.chat_id, text=text)

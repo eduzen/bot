@@ -1,7 +1,7 @@
 import structlog
 from telegram import ChatAction
 
-from btc.api import get_btc
+from .api import get_btc
 
 logger = structlog.get_logger()
 

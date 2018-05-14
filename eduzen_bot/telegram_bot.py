@@ -1,3 +1,5 @@
+import imp
+import os
 import structlog
 
 from telegram.ext import (
@@ -10,6 +12,10 @@ from keys import TOKEN
 
 logger = structlog.get_logger(filename=__name__)
 
+PLUGINS_CMD_PATH = os.path.join(
+    os.path.dirname(os.path.abspath(__file__)), "plugins/commands"
+)
+
 
 class TelegramBot(object):
     """Just a class for python-telegram-bot"""
@@ -19,6 +25,8 @@ class TelegramBot(object):
         logger.info("Created updater for %s" % (self.updater.bot.name))
         self.dispatcher = self.updater.dispatcher
         self.dispatcher.add_error_handler(self.error)
+
+        self._load_commands()
 
     def start(self):
         self.updater.start_polling()
@@ -88,3 +96,32 @@ class TelegramBot(object):
     def register_message_handler(self, args):
         msgs = self.create_list_of_msg_handlers(args)
         self.add_list_of_handlers(msgs)
+
+    def _get_plugins(self):
+        plugins = []
+        possible_plugins = os.listdir(PLUGINS_CMD_PATH)
+        for plugin in possible_plugins:
+            location = os.path.join(PLUGINS_CMD_PATH, plugin)
+            if not os.path.isdir(location) or "command.py" not in os.listdir(location):
+                continue
+
+            info = imp.find_module("command", [location])
+            plugins.append({"name": plugin, "info": info})
+        return plugins
+
+    def _load_plugin(self, plugin):
+        return imp.load_module("command", *plugin["info"])
+
+    def import_plugins(self):
+        plugins = self._get_plugins()
+        for plugin in plugins:
+            import pdb;pdb.set_trace()
+            imported_plugin = self._load_plugin(plugin)
+            yield imported_plugin
+
+    def _load_commands(self):
+        commands = {}
+        for plugin in self.import_plugins():
+            commands[plugin] = plugin
+
+        self.register_commands(commands)

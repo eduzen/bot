@@ -25,27 +25,29 @@ from telegram.ext import CommandHandler
 from telegram.ext import CallbackQueryHandler
 
 from eduzen_bot import initialize_logging, set_handler
-from handlers.commands.alarm import set_timer, unset
-from handlers.commands import COMMANDS
-from handlers.messages.inline import code_markdown
-from handlers.messages.unknown import unknown
-from handlers.commands.questions import button
-from handlers.messages.message import (parse_msgs)
-from telegram_bot import TelegramBot
+from eduzen_bot.telegram_bot import TelegramBot
 
-from commands.btc.btc import btc
-from commands.expenses.expenses import expense
-from commands.trenes.trenes import trenes
-from commands.dolar.dolar import dolar, cotizaciones
-from commands.subte.subte import subte, subte_novedades
-from commands.transito.transito import transito
-from commands.weather.weather import weather
-from commands.questions.questions import (
+from plugins.commands.alarms.command import set_timer, unset
+from plugins.messages.inline import code_markdown
+from plugins.messages.unknown import unknown
+from plugins.commands.questions.menu import button
+from plugins.messages.message import (parse_msgs)
+
+from plugins.commands.btc.command import btc
+from plugins.commands.expenses.command import expense
+from plugins.commands.trenes.command import trenes
+from plugins.commands.code.command import code
+from plugins.commands.dolar.command import dolar, cotizaciones
+from plugins.commands.subte.command import subte, subte_novedades
+from plugins.commands.transito.command import transito
+from plugins.commands.weather.command import weather
+from plugins.commands.questions.command import (
     add_question, add_answer, edit_question, remove_question, get_questions, get_users
 )
-from commands.basic.basic import caps, ayuda, start
+from plugins.commands.questions.menu import q_menu
+from plugins.commands.basic.command import caps, ayuda, start
 
-c = {
+COMMANDS = {
     "cambio": cotizaciones,
     "dolar": dolar,
     "gasto": expense,
@@ -65,6 +67,9 @@ c = {
     "caps": caps,
     "ayuda": ayuda,
     "start": start,
+    "code": code,
+    "question_menu": q_menu,
+    "qmenu": q_menu,
 }
 
 logger = structlog.get_logger(filename=__name__)
@@ -90,15 +95,20 @@ def main():
     message_handlers = [parse_msgs]
 
     bot.register_commands(COMMANDS)
-    bot.register_commands(c)
     bot.register_message_handler(message_handlers)
 
-    bot.add_handler(CommandHandler("restart", restart, filters=Filters.user(username="@eduzen")))
+    bot.add_handler(
+        CommandHandler("restart", restart, filters=Filters.user(username="@eduzen"))
+    )
 
-    set_handler = bot.create_command_args("set", set_timer, pass_args=True, pass_job_queue=True, pass_chat_data=True)
+    set_handler = bot.create_command_args(
+        "set", set_timer, pass_args=True, pass_job_queue=True, pass_chat_data=True
+    )
     bot.add_handler(set_handler)
 
-    unset_handler = bot.create_command_args("unset", unset, pass_args=False, pass_job_queue=False, pass_chat_data=True)
+    unset_handler = bot.create_command_args(
+        "unset", unset, pass_args=False, pass_job_queue=False, pass_chat_data=True
+    )
     bot.add_handler(unset_handler)
 
     code_handler = bot.create_inlinequery(code_markdown)

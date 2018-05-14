@@ -1,7 +1,7 @@
 import structlog
 from telegram import ChatAction
 
-from trenes.api import get_trenes
+from .api import get_trenes
 
 logger = structlog.get_logger(filename=__name__)
 

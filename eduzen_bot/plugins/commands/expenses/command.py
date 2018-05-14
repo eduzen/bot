@@ -2,7 +2,7 @@ from telegram import ChatAction
 from auth.restricted import restricted
 import structlog
 
-from expenses.api import send_expense
+from .api import send_expense
 
 logger = structlog.get_logger(filename=__name__)
 
