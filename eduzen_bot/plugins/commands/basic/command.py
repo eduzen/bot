@@ -1,3 +1,8 @@
+"""
+start - start
+caps - caps
+help - ayuda
+"""
 import structlog
 import peewee
 from telegram.ext.dispatcher import run_async

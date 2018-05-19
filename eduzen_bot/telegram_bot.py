@@ -1,5 +1,6 @@
-import imp
+import glob
 import os
+from pluginbase import PluginBase
 import structlog
 
 from telegram.ext import (
@@ -21,12 +22,12 @@ class TelegramBot(object):
     """Just a class for python-telegram-bot"""
 
     def __init__(self, workers=4):
+        self.plugin_base = PluginBase(package="eduzen_bot.plugins")
         self.updater = Updater(token=TOKEN, workers=workers)
         logger.info("Created updater for %s" % (self.updater.bot.name))
         self.dispatcher = self.updater.dispatcher
         self.dispatcher.add_error_handler(self.error)
-
-        self._load_commands()
+        self._load_plugins()
 
     def start(self):
         self.updater.start_polling()
@@ -98,30 +99,32 @@ class TelegramBot(object):
         self.add_list_of_handlers(msgs)
 
     def _get_plugins(self):
-        plugins = []
-        possible_plugins = os.listdir(PLUGINS_CMD_PATH)
-        for plugin in possible_plugins:
-            location = os.path.join(PLUGINS_CMD_PATH, plugin)
-            if not os.path.isdir(location) or "command.py" not in os.listdir(location):
+        plugins = {}
+        for plugin_path in os.scandir(PLUGINS_CMD_PATH):
+            if not (
+                "pycache" not in plugin_path.path and "init" not in plugin_path.path
+            ):
                 continue
 
-            info = imp.find_module("command", [location])
-            plugins.append({"name": plugin, "info": info})
+            logger.info(f"{plugin_path.path} found!")
+
+            plugin_source = self.plugin_base.make_plugin_source(
+                searchpath=[plugin_path.path]
+            )
+
+            plugin = plugin_source.load_plugin("command")
+            if not plugin.__doc__:
+                logger.info(f"Plugin.__doc__ not found!")
+                continue
+
+            for line in plugin.__doc__.strip().splitlines():
+                command = [substring.strip() for substring in line.strip().split("-")]
+                plugins[command[0]] = getattr(plugin, command[1])
+
         return plugins
 
-    def _load_plugin(self, plugin):
-        return imp.load_module("command", *plugin["info"])
-
-    def import_plugins(self):
+    def _load_plugins(self):
+        logger.info("Loading plugins...")
         plugins = self._get_plugins()
-        for plugin in plugins:
-            import pdb;pdb.set_trace()
-            imported_plugin = self._load_plugin(plugin)
-            yield imported_plugin
-
-    def _load_commands(self):
-        commands = {}
-        for plugin in self.import_plugins():
-            commands[plugin] = plugin
-
-        self.register_commands(commands)
+        logger.info(f"Registering commands!")
+        self.register_commands(plugins)

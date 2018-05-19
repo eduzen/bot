@@ -1,3 +1,6 @@
+"""
+transito - transito
+"""
 import structlog
 from telegram import ChatAction
 

@@ -27,50 +27,14 @@ from telegram.ext import CallbackQueryHandler
 from eduzen_bot import initialize_logging, set_handler
 from eduzen_bot.telegram_bot import TelegramBot
 
-from plugins.commands.alarms.command import set_timer, unset
+from plugins.job_queue.alarms.command import set_timer, unset
 from plugins.messages.inline import code_markdown
 from plugins.messages.unknown import unknown
 from plugins.commands.questions.menu import button
 from plugins.messages.message import (parse_msgs)
-
-from plugins.commands.btc.command import btc
-from plugins.commands.expenses.command import expense
-from plugins.commands.trenes.command import trenes
-from plugins.commands.code.command import code
-from plugins.commands.dolar.command import dolar, cotizaciones
-from plugins.commands.subte.command import subte, subte_novedades
-from plugins.commands.transito.command import transito
-from plugins.commands.weather.command import weather
-from plugins.commands.questions.command import (
-    add_question, add_answer, edit_question, remove_question, get_questions, get_users
-)
 from plugins.commands.questions.menu import q_menu
-from plugins.commands.basic.command import caps, ayuda, start
 
-COMMANDS = {
-    "cambio": cotizaciones,
-    "dolar": dolar,
-    "gasto": expense,
-    "btc": btc,
-    "subte": subte,
-    "transito": transito,
-    "trenes": trenes,
-    "subtenews": subte_novedades,
-    "transito": transito,
-    "clima": weather,
-    "add_question": add_question,
-    "add_answer": add_answer,
-    "users": get_users,
-    "edit_question": edit_question,
-    "remove": remove_question,
-    "questions": get_questions,
-    "caps": caps,
-    "ayuda": ayuda,
-    "start": start,
-    "code": code,
-    "question_menu": q_menu,
-    "qmenu": q_menu,
-}
+COMMANDS = {"question_menu": q_menu, "qmenu": q_menu}
 
 logger = structlog.get_logger(filename=__name__)
 

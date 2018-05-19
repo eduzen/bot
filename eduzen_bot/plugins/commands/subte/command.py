@@ -1,3 +1,7 @@
+"""
+subte - subte
+subtenews - subte_novedades
+"""
 import structlog
 
 from telegram import ChatAction
@@ -10,7 +14,7 @@ logger = structlog.get_logger(filename=__name__)
 
 def subte_novedades(bot, update, args):
     bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
-    logger.info(f"Weather... by {update.message.from_user.name}")
+    logger.info(f"Subte_novedades... by {update.message.from_user.name}")
 
     try:
         amount = int(args[0])
@@ -29,10 +33,11 @@ def subte(bot, update, args):
     logger.info(f"Subte... by {update.message.from_user.name}")
 
     estadosubte = get_estado_del_subte()
+    if estadosubte:
+        estadosubte = f"En el subte:\n{estadosubte}"
+        bot.send_message(chat_id=update.message.chat_id, text=estadosubte)
+
     metrovias = get_estado_metrovias_html()
-    if not estadosubte and not metrovias:
-        return
-
-    estadosubte = f"En el subte:\n{estadosubte}\nWeb metrovias:\n{metrovias}"
-
-    bot.send_message(chat_id=update.message.chat_id, text=estadosubte)
+    if metrovias:
+        metrovias = f"Web metrovias:\n{metrovias}"
+        bot.send_message(chat_id=update.message.chat_id, text=metrovias)

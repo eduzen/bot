@@ -1,3 +1,9 @@
+"""
+set - Setear alarma
+unset - Sacar alarma
+"""
+
+
 def alarm(bot, job):
     """Send the alarm message."""
     bot.send_message(job.context, text="Beep!")

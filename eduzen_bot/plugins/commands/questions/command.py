@@ -1,3 +1,13 @@
+"""
+users - get_users
+questions - get_questions
+edit_question - edit_question
+remove - remove_question
+add_question - add_question
+add_answer - add_answer
+edit_question - edit_question
+
+"""
 import structlog
 from telegram import ChatAction
 

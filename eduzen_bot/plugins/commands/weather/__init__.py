@@ -1,3 +1,0 @@
-"""
-clima - weather
-"""

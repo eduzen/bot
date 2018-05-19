@@ -1,3 +1,6 @@
+"""
+clima - weather
+"""
 import structlog
 from telegram import ChatAction
 
