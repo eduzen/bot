@@ -16,3 +16,4 @@ docopt==0.6.2
 structlog==18.1.0
 pyyaml==3.12
 colorama==0.3.9
+pluginbase==0.5
