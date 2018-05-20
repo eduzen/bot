@@ -177,6 +177,10 @@ T1000_RESPONSE = (
     "https://media.giphy.com/media/sFTWiBKYYWKVa/giphy.gif",
     "https://media.giphy.com/media/a2fVCj2CudIiY/giphy.gif",
     "https://media.giphy.com/media/10uTjZCI1pGVZS/giphy.gif",
+    "https://media.giphy.com/media/tNC2rod1uTrdC/giphy.gif",
+    "https://media.giphy.com/media/duWEiWy46DpuM/giphy.gif",
+    "https://media.giphy.com/media/AveqHEFnMyaeA/giphy.gif",
+    "https://media.giphy.com/media/cFgb5p5e1My3K/giphy.gif",
 )
 MACRI_RESPONSES = (
     "https://media.giphy.com/media/129NVCr1UfsGTS/giphy.gif",
@@ -205,4 +209,4 @@ WINDOWS_RESPONSE = (
 )
 
 SKYNET = ("skynet", "bot", "robot")
-MACRI = ("macri", "gato", "mauricio")
+MACRI = ("macri", "gato", "mauricio", "dolar")

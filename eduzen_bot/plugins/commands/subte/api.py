@@ -2,10 +2,12 @@ from datetime import datetime
 
 import structlog
 import tweepy
+from emoji import emojize
 
 from keys import TWITTER
 
 logger = structlog.get_logger(filename=__name__)
+metro = emojize(":metro:", use_aliases=True)
 
 
 def get_tweets(api, username, count, date):
@@ -15,7 +17,7 @@ def get_tweets(api, username, count, date):
         if (date - tweet.created_at).days < 1
     ]
     if not tweets:
-        return "No hay novedades de subtes para hoy"
+        return f"No hay novedades de subtes {metro} para hoy"
 
     return "\n".join(tweets)
 
@@ -29,5 +31,5 @@ def get_subte(count=20):
     now = datetime.now()
     today = now.date().isoformat()
     data = get_tweets(api, "subteba", count=count, date=now)
-    data = f"Estado Subtes BA by @subteba ({today}):\n{data}"
+    data = f"Estado Subtes {metro} BA by @subteba ({today}):\n{data}"
     return data

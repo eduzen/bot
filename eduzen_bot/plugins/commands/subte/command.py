@@ -5,11 +5,13 @@ subtenews - subte_novedades
 import structlog
 
 from telegram import ChatAction
+from emoji import emojize
 
 from api import get_subte
 from subte.crawlers import get_estado_del_subte, get_estado_metrovias_html
 
 logger = structlog.get_logger(filename=__name__)
+metro = emojize(":metro:", use_aliases=True)
 
 
 def subte_novedades(bot, update, args):
@@ -25,7 +27,7 @@ def subte_novedades(bot, update, args):
     if not text:
         return
 
-    bot.send_message(chat_id=update.message.chat_id, text=text)
+    bot.send_message(chat_id=update.message.chat_id, text=f"{metro} text")
 
 
 def subte(bot, update, args):
@@ -34,10 +36,10 @@ def subte(bot, update, args):
 
     estadosubte = get_estado_del_subte()
     if estadosubte:
-        estadosubte = f"En el subte:\n{estadosubte}"
+        estadosubte = f"{metro} En el subte:\n{estadosubte}"
         bot.send_message(chat_id=update.message.chat_id, text=estadosubte)
 
     metrovias = get_estado_metrovias_html()
     if metrovias:
-        metrovias = f"Web metrovias:\n{metrovias}"
+        metrovias = f"Web metrovias {metro}:\n{metrovias}"
         bot.send_message(chat_id=update.message.chat_id, text=metrovias)
