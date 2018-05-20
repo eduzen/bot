@@ -1,7 +1,7 @@
 import structlog
 from functools import wraps
 
-LIST_OF_ADMINS = ("3652654",)
+from keys import LIST_OF_ADMINS
 
 logger = structlog.get_logger(filename=__name__)
 
