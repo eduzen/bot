@@ -1,6 +1,6 @@
-import glob
 import os
-from pluginbase import PluginBase
+from functools import partial
+import pkgutil
 import structlog
 
 from telegram.ext import (
@@ -13,16 +13,14 @@ from keys import TOKEN
 
 logger = structlog.get_logger(filename=__name__)
 
-PLUGINS_CMD_PATH = os.path.join(
-    os.path.dirname(os.path.abspath(__file__)), "plugins/commands"
-)
+here = os.path.abspath(os.path.dirname(__file__))
+get_path = partial(os.path.join, here)
 
 
 class TelegramBot(object):
     """Just a class for python-telegram-bot"""
 
     def __init__(self, workers=4):
-        self.plugin_base = PluginBase(package="eduzen_bot.plugins")
         self.updater = Updater(token=TOKEN, workers=workers)
         logger.info("Created updater for %s" % (self.updater.bot.name))
         self.dispatcher = self.updater.dispatcher
@@ -98,28 +96,26 @@ class TelegramBot(object):
         msgs = self.create_list_of_msg_handlers(args)
         self.add_list_of_handlers(msgs)
 
+    def _get_commands(self, plugin):
+        plugins = {}
+        for line in plugin.__doc__.strip().splitlines():
+            command = [substring.strip() for substring in line.strip().split("-")]
+            plugins[command[0]] = getattr(plugin, command[1])
+        return plugins
+
     def _get_plugins(self):
         plugins = {}
-        for plugin_path in os.scandir(PLUGINS_CMD_PATH):
-            if not (
-                "pycache" not in plugin_path.path and "init" not in plugin_path.path
-            ):
-                continue
+        plugins_path = get_path("plugins/commands")
+        for importer, package_name, _ in pkgutil.iter_modules([plugins_path]):
+            logger.info(f"Loading {package_name}...")
+            sub_modules = get_path(plugins_path, package_name)
+            importer.find_module(package_name).load_module(package_name)
+            for importer, package_name, _ in pkgutil.iter_modules([sub_modules]):
+                plugin = importer.find_module(package_name).load_module(package_name)
+                if not plugin.__doc__:
+                    continue
 
-            logger.info(f"{plugin_path.path} found!")
-
-            plugin_source = self.plugin_base.make_plugin_source(
-                searchpath=[plugin_path.path]
-            )
-
-            plugin = plugin_source.load_plugin("command")
-            if not plugin.__doc__:
-                logger.info(f"Plugin.__doc__ not found!")
-                continue
-
-            for line in plugin.__doc__.strip().splitlines():
-                command = [substring.strip() for substring in line.strip().split("-")]
-                plugins[command[0]] = getattr(plugin, command[1])
+                plugins.update(self._get_commands(plugin))
 
         return plugins
 
@@ -128,3 +124,4 @@ class TelegramBot(object):
         plugins = self._get_plugins()
         logger.info(f"Registering commands!")
         self.register_commands(plugins)
+        logger.info(f"Commands added!")

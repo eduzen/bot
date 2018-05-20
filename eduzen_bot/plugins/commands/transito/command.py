@@ -4,7 +4,7 @@ transito - transito
 import structlog
 from telegram import ChatAction
 
-from .api import get_transito
+from api import get_transito
 
 logger = structlog.get_logger(filename=__name__)
 

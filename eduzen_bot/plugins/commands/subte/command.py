@@ -6,8 +6,8 @@ import structlog
 
 from telegram import ChatAction
 
-from .api import get_subte
-from .crawlers import get_estado_del_subte, get_estado_metrovias_html
+from api import get_subte
+from subte.crawlers import get_estado_del_subte, get_estado_metrovias_html
 
 logger = structlog.get_logger(filename=__name__)
 
