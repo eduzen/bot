@@ -9,7 +9,7 @@ from telegram.ext import (
 from telegram.error import (
     TelegramError, Unauthorized, BadRequest, TimedOut, ChatMigrated, NetworkError
 )
-from keys import TOKEN
+from keys import TOKEN, EDUZEN_ID
 
 logger = structlog.get_logger(filename=__name__)
 
@@ -29,6 +29,7 @@ class TelegramBot(object):
 
     def start(self):
         self.updater.start_polling()
+        self.send_msg_to_eduzen("eduzen_bot reiniciado!")
         self.updater.idle()
 
     def error(self, bot, update, error):
@@ -61,6 +62,10 @@ class TelegramBot(object):
     def add_list_of_handlers(self, handlers):
         for handler in handlers:
             self.add_handler(handler)
+
+    def send_msg_to_eduzen(self, msg):
+        logger.info("aviso a eduzen")
+        self.updater.bot.send_message(EDUZEN_ID, msg)
 
     def create_command(self, name, func):
         return CommandHandler(name, func, pass_args=True)

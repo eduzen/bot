@@ -181,6 +181,7 @@ T1000_RESPONSE = (
     "https://media.giphy.com/media/duWEiWy46DpuM/giphy.gif",
     "https://media.giphy.com/media/AveqHEFnMyaeA/giphy.gif",
     "https://media.giphy.com/media/cFgb5p5e1My3K/giphy.gif",
+    "https://media.giphy.com/media/1Mng0gXC5Tpcs/giphy.gif",
 )
 MACRI_RESPONSES = (
     "https://media.giphy.com/media/129NVCr1UfsGTS/giphy.gif",

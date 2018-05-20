@@ -44,26 +44,22 @@ def main():
 
     def stop_and_restart():
         """Gracefully stop the Updater and replace the current process with a new one"""
-        logger.info("stop and restart eduzen_bot")
+        logger.info("Restarting eduzen_bot...\n")
         bot.updater.stop()
         os.execl(sys.executable, sys.executable, *sys.argv)
 
     def restart(bot, update):
         bot.send_message(chat_id=update.message.chat_id, text="Bot is restarting...")
-        t = Thread(target=stop_and_restart)
-        t.start()
-        t.join()
+        Thread(target=stop_and_restart).start()
 
-    logger.info("Starting main...")
+    bot.add_handler(
+        CommandHandler("restart", restart, filters=Filters.user(username="@eduzen"))
+    )
 
     message_handlers = [parse_msgs]
 
     bot.register_commands(COMMANDS)
     bot.register_message_handler(message_handlers)
-
-    bot.add_handler(
-        CommandHandler("restart", restart, filters=Filters.user(username="@eduzen"))
-    )
 
     set_handler = bot.create_command_args(
         "set", set_timer, pass_args=True, pass_job_queue=True, pass_chat_data=True
@@ -94,6 +90,7 @@ if __name__ == "__main__":
     initialize_logging(verbose=verbose, level=level)
 
     try:
+        logger.info("Starting main...")
         main()
     except Exception:
         logger.exception("bye bye")
