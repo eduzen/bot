@@ -2,6 +2,7 @@
 start - start
 caps - caps
 help - ayuda
+msg - send_private_msg
 """
 import structlog
 import peewee
@@ -10,6 +11,18 @@ from telegram.ext.dispatcher import run_async
 from models import User
 
 logger = structlog.get_logger(filename=__name__)
+
+
+def send_private_msg(bot, update, args):
+    if not args:
+        update.message.reply_text("Se usa: /msg <:user_id> <:msg>")
+        return
+
+    if len(args) < 2:
+        update.message.reply_text("Se usa: /msg <:user_id> <:msg>")
+        return
+
+    bot.send_message(args[0], args[1])
 
 
 @run_async

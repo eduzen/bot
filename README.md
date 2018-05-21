@@ -39,6 +39,7 @@ caps - convierte a mayusculas
 gasto - agrega un gasto
 start - ayuda
 code - Highlighted code
+msg - Envia un msg privado
 subte -  Estado del subte
 subtenews - Estado del subte, acepta numero de tweets
 transito -  Estado del transito
@@ -47,4 +48,5 @@ set - Setear alarma
 unset - Sacar alarma
 qmenu - Menu para preguntas
 restart - Reiniciar el bot
+pull - Actualiza el codigo del bot
 ```
