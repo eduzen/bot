@@ -24,8 +24,8 @@ def update_repo(bot, update, args):
 
     if result.returncode == 0:
         logger.warn("Code updated!")
-        msg = result.stdout
+        msg = result.stdout.decode('utf-8')
     elif result.returncode == 1:
-        msg = result.stderr
+        msg = result.stderr.decode('utf-8')
 
     update.message.reply_text(msg)
