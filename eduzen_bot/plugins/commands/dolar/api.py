@@ -18,7 +18,6 @@ punch = emojize(":punch:", use_aliases=True)
 
 
 def get_response(url):
-    response = ""
     try:
         response = requests.get(url)
     except requests.exceptions.ConnectionError:
@@ -27,13 +26,8 @@ def get_response(url):
     return response
 
 
-def parse_bnc():
-    r = get_response(BNC)
-
-    if r.status_code != 200:
-        return False
-
-    data = r.text
+def process_bcn(response):
+    data = response.text
     if not data:
         return False
 
@@ -46,9 +40,18 @@ def parse_bnc():
     data = data[0].get_text().strip().replace("\n", " ").replace("  ", "\n")
     data = data.replace("\n ", dolar, 1).replace("\n ", euro, 1).replace("\n ", real, 1)
     data = data.replace("U.S.A", "")
-    data = f"{data}\n(*) cotización cada 100 unidades.\n{punch} by http://www.bna.com.ar/"
+    data = f"{data}\n(*) cotización cada 100 unidades.\n{punch} by bna.com.ar"
 
     return data
+
+
+def parse_bnc():
+    r = get_response(BNC)
+
+    if r and r.status_code == 200:
+        return process_bcn(r)
+    else:
+        return "Banco nación no responde"
 
 
 def get_dollar():

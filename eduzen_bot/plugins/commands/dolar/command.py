@@ -14,6 +14,18 @@ def get_dolar(bot, update, args):
     bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
     logger.info(f"Dollar... by {update.message.from_user.name}")
 
+    if not args:
+        data = parse_bnc()
+        if data:
+            bot.send_message(chat_id=update.message.chat_id, text=data)
+            return
+
+    if 'v' not in args:
+        data = get_dollar()
+        if data:
+            bot.send_message(chat_id=update.message.chat_id, text=data)
+        return
+
     data = get_dollar()
     if data:
         bot.send_message(chat_id=update.message.chat_id, text=data)
@@ -48,7 +60,3 @@ def get_cotizaciones(bot, update, args):
         return
 
     bot.send_message(chat_id=update.message.chat_id, text=data)
-
-    data = get_dollar()
-    if data:
-        bot.send_message(chat_id=update.message.chat_id, text=data)
