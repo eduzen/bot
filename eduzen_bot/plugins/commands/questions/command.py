@@ -13,9 +13,10 @@ from telegram import ChatAction
 
 from models import User, Question
 
+from auth.restricted import restricted
 logger = structlog.get_logger(filename=__name__)
 
-
+@restricted
 def get_users(bot, update, args):
     bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
     logger.info(f"Get_users... by {update.message.from_user.name}")
