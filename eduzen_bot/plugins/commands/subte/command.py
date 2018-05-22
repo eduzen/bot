@@ -27,7 +27,7 @@ def subte_novedades(bot, update, args):
     if not text:
         return
 
-    bot.send_message(chat_id=update.message.chat_id, text=f"{metro} text")
+    bot.send_message(chat_id=update.message.chat_id, text=f"{metro} {text}")
 
 
 def subte(bot, update, args):
