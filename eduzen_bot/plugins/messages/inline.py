@@ -15,7 +15,7 @@ def code_markdown(bot, update):
 
     results = [
         InlineQueryResultArticle(
-            id=uuid4().hex[:8],
+            id=uuid4(),
             title="code",
             input_message_content=InputTextMessageContent(
                 f"```\n{query}\n```",

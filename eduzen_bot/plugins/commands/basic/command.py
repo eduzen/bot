@@ -13,6 +13,7 @@ from models import User
 logger = structlog.get_logger(filename=__name__)
 
 
+@run_async
 def send_private_msg(bot, update, args):
     if not args:
         update.message.reply_text("Se usa: /msg <:user_id> <:msg>")
@@ -49,6 +50,7 @@ def get_or_create_user(user):
         logger.exception("User cannot be updated")
 
 
+@run_async
 def start(bot, update, args):
     logger.info(f"Starting comand... by {update.message.from_user.name}")
     user = update.message.from_user
@@ -63,6 +65,7 @@ def start(bot, update, args):
     user = get_or_create_user(user)
 
 
+@run_async
 def ayuda(bot, update, args):
     logger.info(f"Help comand... by {update.message.from_user.name}")
     bot.send_message(
@@ -81,6 +84,7 @@ def ayuda(bot, update, args):
     )
 
 
+@run_async
 def caps(bot, update, args):
     logger.info(f"caps... by {update.message.from_user.name}")
     if not args:
