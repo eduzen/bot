@@ -22,7 +22,7 @@ def get_dolar(bot, update, args):
             bot.send_message(chat_id=update.message.chat_id, text=data)
             return
 
-    if 'v' not in args:
+    if "v" not in args:
         data = get_dollar()
         if data:
             bot.send_message(chat_id=update.message.chat_id, text=data)

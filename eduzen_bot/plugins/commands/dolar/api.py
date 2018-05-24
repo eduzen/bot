@@ -50,6 +50,7 @@ def parse_bnc():
 
     if r and r.status_code == 200:
         return process_bcn(r)
+
     else:
         return "Banco nación no responde"
 

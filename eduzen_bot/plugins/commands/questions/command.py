@@ -14,7 +14,9 @@ from telegram import ChatAction
 from models import User, Question
 
 from auth.restricted import restricted
+
 logger = structlog.get_logger(filename=__name__)
+
 
 @restricted
 def get_users(bot, update, args):
