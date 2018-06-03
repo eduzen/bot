@@ -123,7 +123,7 @@ def add_question(bot, update, args):
     bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
     logger.info(f"Add_question... by {update.message.from_user.name}")
     if not args:
-        update.message.reply_text("Se usa: /pregunta <:tu_pregunta>")
+        update.message.reply_text("Se usa: /add_question <:tu_pregunta>")
         return
 
     username = update.message.from_user.name

@@ -104,3 +104,7 @@ keys.py
 history.txt
 *.db
 .pytest_cache/
+.vscode/
+*.ipynb
+bot.code-workspace
+*.txt
