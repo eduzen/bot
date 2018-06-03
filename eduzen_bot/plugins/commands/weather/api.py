@@ -46,4 +46,4 @@ def get_weather():
         msg.append(text)
 
     msg = "\n".join(msg)
-    return f"Capital federal: {msg}"
+    return f"Capital federal: {msg}\nBy lanacion.com.ar"
