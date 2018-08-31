@@ -10,6 +10,7 @@ logger = logging.getLogger(__name__)
 API = "https://openexchangerates.org/api/latest.json"
 OTHER_API = "http://ws.geeklab.com.ar/dolar/get-dolar-json.php"
 BNC = "http://www.bna.com.ar/"
+DOLAR_HOY = "http://dolarhoy.com/"
 
 dolar = emojize(":dollar:", use_aliases=True)
 euro = "\n🇪🇺"
@@ -45,6 +46,28 @@ def process_bcn(response):
     return data
 
 
+def process_dolarhoy(response):
+    data = response.text
+    if not data:
+        return False
+
+    soup = BeautifulSoup(data, "html.parser")
+    data = soup.find_all("table")
+
+    if not data:
+        return False
+
+    d = []
+    for table in data:
+        childs = [i.get_text() for i in table.find_all('td')]
+        childs = "\n".join(childs)
+        d.append(childs)
+    d = "\n".join(d)
+    data = f"{d}\n{punch} by dolarhoy.com"
+
+    return data
+
+
 def parse_bnc():
     r = get_response(BNC)
 
@@ -52,7 +75,14 @@ def parse_bnc():
         return process_bcn(r)
 
     else:
-        return "Banco nación no responde"
+        return "Banco nación no responde 🤷‍♀"
+
+def parse_dolarhoy():
+    r = get_response(DOLAR_HOY)
+    if r and r.status_code == 200:
+        return process_dolarhoy(r)
+    return "Dolar hoy no responde 🤷‍♀"
+
 
 
 def get_dollar():

@@ -1,14 +1,30 @@
 """
 cambio - get_cotizaciones
 dolar - get_dolar
+dolarhoy - get_dolarhoy
 """
 import structlog
 from telegram import ChatAction
 from telegram.ext.dispatcher import run_async
 
-from api import parse_bnc, get_dollar, get_dolar_blue
+from api import parse_bnc, get_dollar, get_dolar_blue, parse_dolarhoy
 
 logger = structlog.get_logger(filename=__name__)
+
+
+@run_async
+def get_dolarhoy(bot, update, args):
+    bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
+    logger.info(f"Dollar... by {update.message.from_user.name}")
+
+    data = parse_dolarhoy()
+    if not data:
+        bot.send_message(
+            chat_id=update.message.chat_id, text="No pudimos conseguir la info"
+        )
+        return
+
+    bot.send_message(chat_id=update.message.chat_id, text=data)
 
 
 @run_async
