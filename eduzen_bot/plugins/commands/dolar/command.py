@@ -24,7 +24,7 @@ def get_dolarhoy(bot, update, args):
         )
         return
 
-    bot.send_message(chat_id=update.message.chat_id, text=data)
+    bot.send_message(chat_id=update.message.chat_id, text=data, parse_mode='markdown')
 
 
 @run_async

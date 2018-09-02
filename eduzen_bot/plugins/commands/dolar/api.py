@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 API = "https://openexchangerates.org/api/latest.json"
 OTHER_API = "http://ws.geeklab.com.ar/dolar/get-dolar-json.php"
 BNC = "http://www.bna.com.ar/"
-DOLAR_HOY = "http://dolarhoy.com/"
+DOLAR_HOY = "http://dolarhoy.com/Usd"
 
 dolar = emojize(":dollar:", use_aliases=True)
 euro = "\n🇪🇺"
@@ -57,13 +57,18 @@ def process_dolarhoy(response):
     if not data:
         return False
 
-    d = []
+    cotizaciones = []
     for table in data:
-        childs = [i.get_text() for i in table.find_all('td')]
-        childs = "\n".join(childs)
-        d.append(childs)
-    d = "\n".join(d)
-    data = f"{d}\n{punch} by dolarhoy.com"
+        for row_cotizacion in table.tbody.find_all('tr'):
+            cotizaciones.append(
+                [item.get_text() for item in row_cotizacion.find_all('td')]
+            )
+    # Format for output
+    result = '\n'.join(
+        "{:20} | {:7} | {:7}".format(*cot)
+        for cot in cotizaciones)
+
+    data = f"```\n{result}```\n{punch} by dolarhoy.com"
 
     return data
 
