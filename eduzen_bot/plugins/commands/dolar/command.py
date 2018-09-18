@@ -34,7 +34,7 @@ def get_dolarfuturo(bot, update, args):
     bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
     logger.info(f"Dolla... by {update.message.from_user.name}")
 
-    data = parse_dolarfuturo()
+    data = get_dolarfuturo()
     if not data:
         bot.send_message(
             chat_id=update.message.chat_id, text="No pudimos conseguir la info"
