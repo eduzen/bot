@@ -97,6 +97,7 @@ def pretty_print_dolar(cotizaciones):
 
 
 def process_dolarfuturo(response):
+    response.encoding = 'utf-8'
     data = response.text
     if not data:
         return False
@@ -113,7 +114,7 @@ def process_dolarfuturo(response):
             td = [item.get_text() for item in trs.find_all('th')]
 
             for item in trs.find_all('td'):
-                text = item.get_text().replace('DÃ³lar', '').strip()
+                text = item.get_text().replace('Dólar', '').strip()
                 td.append(text)
 
             cotizaciones.append(
