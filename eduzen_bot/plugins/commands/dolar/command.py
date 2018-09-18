@@ -32,9 +32,9 @@ def get_dolarhoy(bot, update, args):
 @run_async
 def get_dolarfuturo(bot, update, args):
     bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
-    logger.info(f"Dollar... by {update.message.from_user.name}")
+    logger.info(f"Dolla... by {update.message.from_user.name}")
 
-    data = parse_dolarhoy()
+    data = parse_dolarfuturo()
     if not data:
         bot.send_message(
             chat_id=update.message.chat_id, text="No pudimos conseguir la info"
