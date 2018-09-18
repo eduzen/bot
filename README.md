@@ -49,4 +49,5 @@ unset - Sacar alarma
 qmenu - Menu para preguntas
 restart - Reiniciar el bot
 pull - Actualiza el codigo del bot
+teatro - Lo mas buscado en AlternativaTeatral, acepta nro
 ```
