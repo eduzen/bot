@@ -1,6 +1,7 @@
 import logging
 import requests
-
+from collections import defaultdict
+import unicodedata
 from emoji import emojize
 from bs4 import BeautifulSoup
 from eduzen_bot.keys import APP_ID
@@ -45,6 +46,53 @@ def process_bcn(response):
 
     return data
 
+def normalize(tag):
+    """Normalize a single tag: remove non valid chars, lower case all."""
+
+    tag_stripped = tag.lower().replace("banco", "").replace(" - ", "-").strip()
+    value = unicodedata.normalize("NFKD", tag_stripped)
+    value = value.encode('ascii', 'ignore').decode('utf-8')
+    return value.capitalize()
+
+def get_cotizaciones(response_soup):
+    """Returns a dict of cotizaciones with banco as keys and exchange rate as value.
+
+   {
+       "Banco Nación": {
+           "Compra": "30.00",
+           "Venta": "32.00",
+       },
+       "Banco Galicia": {
+           "Compra": "31.00",
+           "Venta": "33.00",
+       }
+   }
+
+   """
+    cotizaciones = defaultdict(dict)
+    for table in response_soup:
+        # Get cotizaciones
+        for row_cotizacion in table.tbody.find_all('tr'):
+            banco, compra, venta = (item.get_text() for item in row_cotizacion.find_all('td'))
+            banco = normalize(banco)
+            cotizaciones[banco]['compra'] = compra
+            cotizaciones[banco]['venta'] = venta
+
+    return cotizaciones
+
+def pretty_print_dolar(cotizaciones):
+    """Returns dolar rates separated by newlines and with code markdown syntax.
+   ```
+   Banco Nacion  | $30.00 | $40.00
+   Banco Galicia | $30.00 | $40.00
+                  ...
+   ```
+   """
+    MONOSPACE = "```\n{}\n```"
+    return MONOSPACE.format('\n'.join(
+            "{:19} | {:7} | {:7}".format(banco, valor['compra'], valor['venta'])
+            for banco, valor in cotizaciones.items()
+        ))
 
 def process_dolarhoy(response):
     data = response.text
@@ -57,18 +105,9 @@ def process_dolarhoy(response):
     if not data:
         return False
 
-    cotizaciones = []
-    for table in data:
-        for row_cotizacion in table.tbody.find_all('tr'):
-            cotizaciones.append(
-                [item.get_text() for item in row_cotizacion.find_all('td')]
-            )
-    # Format for output
-    result = '\n'.join(
-        "{:20} | {:7} | {:7}".format(*cot)
-        for cot in cotizaciones)
+    cotizaciones = get_cotizaciones(data)
 
-    data = f"```\n{result}```\n{punch} by dolarhoy.com"
+    data = pretty_print_dolar(cotizaciones)
 
     return data
 
