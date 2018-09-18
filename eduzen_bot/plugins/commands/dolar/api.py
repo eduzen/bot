@@ -114,8 +114,11 @@ def process_dolarfuturo(response):
             td = [item.get_text() for item in trs.find_all('th')]
 
             for item in trs.find_all('td'):
-                text = item.get_text().replace('Dólar', '').strip()
-                td.append(text)
+                text = item.get_text().strip().lower()
+                text = unicodedata.normalize("NFKD", text)
+                text = text.encode('ascii', 'ignore').decode('utf-8')
+                text = text.replace('dolar', '').strip()
+                td.append(text.capitalize())
 
             cotizaciones.append(
                 " ".join(td)
