@@ -32,6 +32,8 @@ def process_alternativa(response):
     data = data[0]
     results = []
     for li in data.find_all('li'):
+        for a in li.find_all('a', href=True):
+            a['href']
         results.append(li.get_text())
 
     return results

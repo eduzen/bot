@@ -11,6 +11,7 @@ API = "https://openexchangerates.org/api/latest.json"
 OTHER_API = "http://ws.geeklab.com.ar/dolar/get-dolar-json.php"
 BNC = "http://www.bna.com.ar/"
 DOLAR_HOY = "http://dolarhoy.com/Usd"
+ROFEX = "http://www.ambito.com/economia/mercados/indices/rofex/"
 
 dolar = emojize(":dollar:", use_aliases=True)
 euro = "\n🇪🇺"
@@ -42,6 +43,31 @@ def process_bcn(response):
     data = data.replace("\n ", dolar, 1).replace("\n ", euro, 1).replace("\n ", real, 1)
     data = data.replace("U.S.A", "")
     data = f"{data}\n(*) cotización cada 100 unidades.\n{punch} by bna.com.ar"
+
+    return data
+
+
+def process_dolarfuturo(response):
+    data = response.text
+    if not data:
+        return False
+
+    soup = BeautifulSoup(data, "html.parser")
+    data = soup.find_all("table")
+
+    if not data:
+        return False
+
+    cotizaciones = []
+    for table in data:
+        for trs in table.find_all('tr'):
+            td = [item.get_text() for item in trs.find_all('th')]
+            td += [item.get_text() for item in trs.find_all('td')]
+            cotizaciones.append(
+                " ".join(td)
+            )
+    result = "\n".join(cotizaciones)
+    data = f"```\n{result}```\n{punch} by rofex by ambito"
 
     return data
 
@@ -82,12 +108,19 @@ def parse_bnc():
     else:
         return "Banco nación no responde 🤷‍♀"
 
+
 def parse_dolarhoy():
     r = get_response(DOLAR_HOY)
     if r and r.status_code == 200:
         return process_dolarhoy(r)
-    return "Dolar hoy no responde 🤷‍♀"
+    return "Dolarhoy hoy no responde 🤷‍♀"
 
+
+def get_dolarfuturo():
+    r = get_response(ROFEX)
+    if r and r.status_code == 200:
+        return process_dolarfuturo(r)
+    return "Rofex no responde 🤷‍♀"
 
 
 def get_dollar():
