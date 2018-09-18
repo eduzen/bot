@@ -155,7 +155,7 @@ def parse_dolarhoy():
     return "Dolarhoy hoy no responde 🤷‍♀"
 
 
-def get_dolarfuturo():
+def parse_dolarfuturo():
     r = get_response(ROFEX)
     if r and r.status_code == 200:
         return process_dolarfuturo(r)
