@@ -8,7 +8,7 @@ import structlog
 from telegram import ChatAction
 from telegram.ext.dispatcher import run_async
 
-from api import parse_bnc, get_dollar, get_dolar_blue, parse_dolarhoy, get_dolarfuturo
+from api import parse_bnc, get_dollar, get_dolar_blue, parse_dolarhoy, parse_dolarfuturo
 
 logger = structlog.get_logger(filename=__name__)
 
