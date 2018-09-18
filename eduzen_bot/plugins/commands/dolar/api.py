@@ -95,6 +95,7 @@ def pretty_print_dolar(cotizaciones):
             for banco, valor in cotizaciones.items()
         ))
 
+
 def process_dolarfuturo(response):
     data = response.text
     if not data:
@@ -110,7 +111,11 @@ def process_dolarfuturo(response):
     for table in data:
         for trs in table.find_all('tr'):
             td = [item.get_text() for item in trs.find_all('th')]
-            td += [item.get_text() for item in trs.find_all('td')]
+
+            for item in trs.find_all('td'):
+                text = item.get_text().replace('DÃ³lar', '').strip()
+                td.append(text)
+
             cotizaciones.append(
                 " ".join(td)
             )
