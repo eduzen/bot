@@ -71,14 +71,14 @@ def get_cotizaciones(response_soup):
 
    """
     cotizaciones = defaultdict(dict)
-    for table in response_soup:
-        # Get cotizaciones
-        for row_cotizacion in table.tbody.find_all('tr'):
-            banco, compra, venta = (item.get_text() for item in row_cotizacion.find_all('td'))
-            banco = banco.lower().replace("banco", "").replace(" - ", "-").strip()
-            banco = normalize(banco)
-            cotizaciones[banco]['compra'] = compra
-            cotizaciones[banco]['venta'] = venta
+    table = response_soup[0]
+    # Get cotizaciones
+    for row_cotizacion in table.tbody.find_all('tr'):
+        banco, compra, venta = (item.get_text() for item in row_cotizacion.find_all('td'))
+        banco = banco.lower().replace("banco", "").replace(" - ", "-").strip()
+        banco = normalize(banco)
+        cotizaciones[banco]['compra'] = compra
+        cotizaciones[banco]['venta'] = venta
 
     return cotizaciones
 
