@@ -47,13 +47,13 @@ def process_bcn(response):
 
     return data
 
+
 def normalize(tag):
     """Normalize a single tag: remove non valid chars, lower case all."""
-
-    tag_stripped = tag.lower().replace("banco", "").replace(" - ", "-").strip()
-    value = unicodedata.normalize("NFKD", tag_stripped)
+    value = unicodedata.normalize("NFKD", tag)
     value = value.encode('ascii', 'ignore').decode('utf-8')
     return value.capitalize()
+
 
 def get_cotizaciones(response_soup):
     """Returns a dict of cotizaciones with banco as keys and exchange rate as value.
@@ -75,6 +75,7 @@ def get_cotizaciones(response_soup):
         # Get cotizaciones
         for row_cotizacion in table.tbody.find_all('tr'):
             banco, compra, venta = (item.get_text() for item in row_cotizacion.find_all('td'))
+            banco = banco.lower().replace("banco", "").replace(" - ", "-").strip()
             banco = normalize(banco)
             cotizaciones[banco]['compra'] = compra
             cotizaciones[banco]['venta'] = venta
@@ -111,23 +112,28 @@ def process_dolarfuturo(response):
     cotizaciones = []
     for table in data:
         for trs in table.find_all('tr'):
-            td = [
-                unicodedata.normalize("NFKD", item.get_text().strip().lower()).encode('ascii', 'ignore').decode('utf-8').replace('dolar', '').strip()
-                for item in trs.find_all('th')
+            cols = []
+            for item in trs.find_all('th'):
+                text = item.get_text().strip().lower()
+                text = normalize(text)
+                text = text.lower().replace('dolar', '').strip()
+                cols.append(text.capitalize())
+
+            cols += [
+                item.get_text().strip()
+                for item in trs.find_all('td')
+                if '-' not in item.get_text().strip()
             ]
 
-            for item in trs.find_all('td'):
-                text = item.get_text().strip().lower()
-                text = unicodedata.normalize("NFKD", text)
-                text = text.encode('ascii', 'ignore').decode('utf-8')
-                text = text.replace('dolar', '').strip()
-                td.append(text.capitalize())
+            if not len(cols) > 2:
+                continue
 
             cotizaciones.append(
-                " ".join(td)
+                "{:16} | {:6} | {:6}".format(*cols)
             )
+
     result = "\n".join(cotizaciones)
-    data = f"```\n{result}```\n{punch} by rofex by ambito"
+    data = f"```\n{result}```\n{punch} by rofex by http://www.ambito.com/"
 
     return data
 
