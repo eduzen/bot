@@ -93,7 +93,7 @@ def pretty_print_dolar(cotizaciones):
     MONOSPACE = "```\n{}\n```"
     return MONOSPACE.format('\n'.join(
             "{:19} | {:7} | {:7}".format(banco, valor['compra'], valor['venta'])
-            for banco, valor in cotizaciones.items()
+            for banco, valor in sorted(cotizaciones.items())
         ))
 
 
