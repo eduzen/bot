@@ -75,7 +75,7 @@ INTRO_QUESTIONS = (
     "en qué andás",
 )
 
-JOKE_KEYWORDS = ("jaja", "jajja", "jjaja", "jeje", "je", "ja", "haha")
+JOKE_KEYWORDS = ("jaja", "jeje", "haha")
 
 JOKE_RESPONSES = (
     "jaja",
@@ -182,6 +182,15 @@ T1000_RESPONSE = (
     "https://media.giphy.com/media/AveqHEFnMyaeA/giphy.gif",
     "https://media.giphy.com/media/cFgb5p5e1My3K/giphy.gif",
     "https://media.giphy.com/media/1Mng0gXC5Tpcs/giphy.gif",
+    "https://media.giphy.com/media/FQxxGAgpD9bIA/giphy.gif",
+    "https://media.giphy.com/media/6KR76Y9TErcw8/giphy.gif",
+    "https://media.giphy.com/media/eFI7xZhOArQpW/giphy.gif",
+    "https://media.giphy.com/media/l3vQY9AQCSP3WtLBS/giphy.gif",
+    "https://media.giphy.com/media/l1J3EuumzYAGoIQGA/giphy.gif",
+    "https://media.giphy.com/media/RwHAVvJy3uA6Y/giphy.gif",
+    "https://media.giphy.com/media/10FwycrnAkpshW/giphy.gif",
+    "https://media.giphy.com/media/u4DnvVypp0q8U/giphy.gif",
+
 )
 MACRI_RESPONSES = (
     "https://media.giphy.com/media/129NVCr1UfsGTS/giphy.gif",
@@ -192,12 +201,25 @@ MACRI_RESPONSES = (
     "https://media.giphy.com/media/t3Qa4vM9HpXnW/giphy.gif",
     "https://media.giphy.com/media/l2JhOVyjSHGejoXXq/giphy.gif",
     "https://media.giphy.com/media/4An1AU8RxUzQI/giphy.gif",
+    "https://media.giphy.com/media/5WIFVi9miE8XAUUYml/giphy.gif",
+    "https://media.giphy.com/media/5UI1FsrWLnVi2C8MCh/giphy.gif",
+    "https://media.giphy.com/media/sRKgZvCXJuNiZMO31t/giphy.gif",
+    "https://media.giphy.com/media/7DPex5jZHwM80/giphy.gif",
+    "https://media.giphy.com/media/f3UTS0BzHoDLO/giphy.gif",
+    "https://media.giphy.com/media/f3UTS0BzHoDLO/giphy.gif",
+    "https://media.giphy.com/media/6H0W1hu86y12M/giphy.gif",
+    "https://media.giphy.com/media/RwHAVvJy3uA6Y/giphy.gif",
+    "https://media.giphy.com/media/8ef68WfQPpwVa/giphy.gif",
+    "https://media.giphy.com/media/T1bzWiOvyWDyU/giphy.gif",
+
 )
 
 FASO_RESPONSE = (
     "https://media.giphy.com/media/4a1BW6oEvxPhK/giphy.gif",
     "https://media.giphy.com/media/iFCQhoTjoOgms/giphy.gif",
     "https://media.giphy.com/media/xTka034bGJ8H7wH1io/giphy.gif",
+    "https://media.giphy.com/media/8ef68WfQPpwVa/giphy.gif",
+    "https://media.giphy.com/media/70Asu3n7btVgk/giphy.gif",
 )
 
 WINDOWS_RESPONSE = (

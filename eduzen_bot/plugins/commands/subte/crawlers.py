@@ -22,12 +22,21 @@ def get_estado_del_subte(amount=0):
 
     text = []
     for row in table[0].find_all("tr"):
+        cols = []
         for cell in row.find_all("td"):
-            text.append(cell.get_text().strip())
-            text.append(" ")
-        text.append("\n")
+            t = cell.get_text().strip().lower()
+            if "desde" in t:
+                t = t.replace("desde ", "").strip()[:-5]
+            cols.append(t.capitalize())
 
-    return "".join(text)
+        print(cols)
+        if 'normal' not in cols:
+            cols.append(":warning:")
+
+        text.append(" ".join(cols))
+
+        return "\n".join(text)
+
 
 
 def get_estado_metrovias_html(amount=0):

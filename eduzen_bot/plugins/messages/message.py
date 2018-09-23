@@ -189,9 +189,9 @@ def parse_msgs(bot, update):
 
     logger.info("parse_msgs... by %s", username)
 
-    record_msg(update.message.from_user.name, update.message.text, chat_id=chat_id)
+    # record_msg(update.message.from_user.name, update.message.text, chat_id=chat_id)
 
-    get_or_create_user(update.message.from_user)
+    # get_or_create_user(update.message.from_user)
 
     text = prepare_text(update.message.text)
     blob = TextBlob(text)
