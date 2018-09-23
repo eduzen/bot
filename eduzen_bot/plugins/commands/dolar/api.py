@@ -20,7 +20,7 @@ real = "\n🇧🇷"
 punch = emojize(":punch:", use_aliases=True)
 
 
-def normalize(text, limit=11):
+def trim(text, limit=11):
     """Trim and append . if text is too long. Else return it unmodified"""
     return f"{text[:limit]}." if len(text) > limit else text
 
@@ -102,7 +102,7 @@ def pretty_print_dolar(cotizaciones):
     return MONOSPACE.format(
         "\n".join(
             "{:12} | {:7} | {:7}".format(
-                normalize(banco), valor["compra"], valor["venta"]
+                trim(banco), valor["compra"], valor["venta"]
             )
             for banco, valor in sorted(cotizaciones.items())
         )
