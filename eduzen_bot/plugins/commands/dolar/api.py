@@ -20,6 +20,11 @@ real = "\n🇧🇷"
 punch = emojize(":punch:", use_aliases=True)
 
 
+def normalize(text, limit=11):
+    """Trim and append . if text is too long. Else return it unmodified"""
+    return f"{text[:limit]}." if len(text) > limit else text
+
+
 def get_response(url):
     try:
         response = requests.get(url)
@@ -51,7 +56,7 @@ def process_bcn(response):
 def normalize(tag):
     """Normalize a single tag: remove non valid chars, lower case all."""
     value = unicodedata.normalize("NFKD", tag)
-    value = value.encode('ascii', 'ignore').decode('utf-8')
+    value = value.encode("ascii", "ignore").decode("utf-8")
     return value.capitalize()
 
 
@@ -73,14 +78,17 @@ def get_cotizaciones(response_soup):
     cotizaciones = defaultdict(dict)
     table = response_soup[0]
     # Get cotizaciones
-    for row_cotizacion in table.tbody.find_all('tr'):
-        banco, compra, venta = (item.get_text() for item in row_cotizacion.find_all('td'))
+    for row_cotizacion in table.tbody.find_all("tr"):
+        banco, compra, venta = (
+            item.get_text() for item in row_cotizacion.find_all("td")
+        )
         banco = banco.lower().replace("banco", "").replace(" - ", "-").strip()
         banco = normalize(banco)
-        cotizaciones[banco]['compra'] = compra
-        cotizaciones[banco]['venta'] = venta
+        cotizaciones[banco]["compra"] = compra
+        cotizaciones[banco]["venta"] = venta
 
     return cotizaciones
+
 
 def pretty_print_dolar(cotizaciones):
     """Returns dolar rates separated by newlines and with code markdown syntax.
@@ -91,14 +99,18 @@ def pretty_print_dolar(cotizaciones):
    ```
    """
     MONOSPACE = "```\n{}\n```"
-    return MONOSPACE.format('\n'.join(
-            "{:19} | {:7} | {:7}".format(banco, valor['compra'], valor['venta'])
+    return MONOSPACE.format(
+        "\n".join(
+            "{:12} | {:7} | {:7}".format(
+                normalize(banco), valor["compra"], valor["venta"]
+            )
             for banco, valor in sorted(cotizaciones.items())
-        ))
+        )
+    )
 
 
 def process_dolarfuturo(response):
-    response.encoding = 'utf-8'
+    response.encoding = "utf-8"
     data = response.text
     if not data:
         return False
@@ -111,26 +123,24 @@ def process_dolarfuturo(response):
 
     cotizaciones = []
     for table in data:
-        for trs in table.find_all('tr'):
+        for trs in table.find_all("tr"):
             cols = []
-            for item in trs.find_all('th'):
+            for item in trs.find_all("th"):
                 text = item.get_text().strip().lower()
                 text = normalize(text)
-                text = text.lower().replace('dolar', '').strip()
+                text = text.lower().replace("dolar", "").strip()
                 cols.append(text.capitalize())
 
             cols += [
                 item.get_text().strip()
-                for item in trs.find_all('td')
-                if '-' not in item.get_text().strip()
+                for item in trs.find_all("td")
+                if "-" not in item.get_text().strip()
             ]
 
             if not len(cols) > 2:
                 continue
 
-            cotizaciones.append(
-                "{:16} | {:6} | {:6}".format(*cols)
-            )
+            cotizaciones.append("{:16} | {:6} | {:6}".format(*cols))
 
     result = "\n".join(cotizaciones)
     data = f"```\n{result}```\n{punch} by rofex by http://www.ambito.com/"
