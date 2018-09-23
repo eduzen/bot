@@ -1,6 +1,8 @@
 import requests
 from bs4 import BeautifulSoup
+from emoji import emojize
 
+warning = emojize(":warning:", use_aliases=True)
 
 def get_estado_del_subte(amount=0):
     r = requests.get("http://enelsubte.com/estado/")
@@ -25,13 +27,15 @@ def get_estado_del_subte(amount=0):
         cols = []
         for cell in row.find_all("td"):
             t = cell.get_text().strip().lower()
+            print(t)
             if "desde" in t:
                 t = t.replace("desde ", "").strip()[:-5]
+                t = t.replace("\n", "")
+
             cols.append(t.capitalize())
 
-        print(cols)
         if 'normal' not in cols:
-            cols.append(":warning:")
+            cols.append(warning)
 
         text.append(" ".join(cols))
 
