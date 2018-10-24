@@ -11,3 +11,4 @@ RUN pip install -r requirements.txt
 
 COPY . /code/
 RUN python setup.py develop
+RUN python -m textblob.download_corpora
