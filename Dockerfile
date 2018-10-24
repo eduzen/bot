@@ -1,28 +1,14 @@
-FROM ubuntu:18.04
+FROM python:3.6-onbuild
 
-ENV LANG C.UTF-8
+ENV PYTHONUNBUFFERED 1
+ENV PYTHONPATH /code:$PYTHONPATH
 
-RUN \
-  sed -i 's/# \(.*multiverse$\)/\1/g' /etc/apt/sources.list && \
-  apt-get update && \
-  apt-get -y upgrade && \
-  apt-get install -y build-essential && \
-  apt-get install -y software-properties-common && \
-  apt-get install -y byobu curl git htop man unzip vim wget && \
-  apt-get install -y python3 python3-dev python3-pip && \
-  rm -rf /var/lib/apt/lists/* \
-  python3 setup.py develop
+RUN mkdir /code
+WORKDIR /code
 
-# Add files.
-ADD . /root
+COPY requirements-dev.txt requirements.txt /code/
+RUN pip install -r requirements.txt
 
-RUN pip3 install -r /root/requirements-dev.txt
-
-# Set environment variables.
-ENV HOME /root
-
-# Define working directory.
-WORKDIR /root
-
-# Define default command.
-CMD ["python3", "eduzen_bot", "-v"]
+COPY . /code/
+RUN python setup.py develop
+RUN python -m textblob.download_corpora

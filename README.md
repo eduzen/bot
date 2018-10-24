@@ -1,16 +1,16 @@
 # Just another telegram-bot
 
-```bash
-pip install -r requirements.txt
-python -m textblob.download_corpora
-```
+## Installation
+
+This project runs with `docker` (you can use traditional `virtualenv` but it's prepared out of the box for `docker`).
+Also to manage docker, we are using [docker-compose](https://docs.docker.com/compose/).
 
 ## Create a keys file
 
 ```bash
 touch keys.py
 ```
-## Fill it with your token
+## Fill it with your twitter tokens
 
 ```python
 TOKEN = 'some_token'
@@ -22,7 +22,21 @@ TWITTER["ACCESS_TOKEN"] = ""
 TWITTER["ACCESS_TOKEN_SECRET"] = "access_token_secret"
 ```
 
+## Usage
+
+If you already have `docker` and `docker-compose`, just run:
+
+```bash
+make start
+
+# only test and flake8
+make test
+```
+
+This command will download the images and build them in a container.
+
 ## Algunos commandos para pasarle a botfather
+
 ```
 cambio - Cotización de varias divisas
 clima - Temperatura en baires

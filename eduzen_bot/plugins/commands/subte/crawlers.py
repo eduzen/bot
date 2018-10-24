@@ -27,7 +27,6 @@ def get_estado_del_subte(amount=0):
         cols = []
         for cell in row.find_all("td"):
             t = cell.get_text().strip().lower()
-            print(t)
             if "desde" in t:
                 t = t.replace("desde ", "").strip()[:-5]
                 t = t.replace("\n", "")
@@ -67,7 +66,8 @@ def get_estado_metrovias_html(amount=0):
     text = []
     for row in table[0].find_all("tr"):
         for cell in row.find_all("td"):
-            text.append(cell.get_text().strip())
+            t = cell.get_text().strip()
+            text.append(t)
             text.append(" ")
         text.append("\n")
 
