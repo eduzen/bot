@@ -11,7 +11,6 @@ logger = structlog.get_logger(filename=__name__)
 def search_serie(bot, update, **kwargs):
     args = kwargs.get('args')
     chat_data = kwargs.get('chat_data')
-    logger.info(f"Search serie {args}")
     if not args:
         bot.send_message(
             chat_id=update.message.chat_id,
@@ -20,4 +19,5 @@ def search_serie(bot, update, **kwargs):
         return
 
     query = ' '.join(args)
+    logger.info(f"Search serie {args}")
     tmdb_search(bot, update.message.chat_id, chat_data, query)
