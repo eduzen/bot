@@ -68,7 +68,7 @@ class TelegramBot(object):
         self.updater.bot.send_message(EDUZEN_ID, msg)
 
     def create_command(self, name, func):
-        return CommandHandler(name, func, pass_args=True)
+        return CommandHandler(name, func, pass_args=True, pass_chat_data=True)
 
     def create_command_args(
         self, name, func, pass_args=True, pass_job_queue=True, pass_chat_data=True

@@ -1,19 +1,24 @@
 help:
 	@echo "help  -- print this help"
 	@echo "build -- build bot"
-	@echo "start -- start docker stack"
+	@echo "start -- start docker stack (and rebuild) detached"
+	@echo "up 	 -- up docker container"
 	@echo "stop  -- stop docker stack"
 	@echo "ps    -- show status"
 	@echo "clean -- clean all artifacts"
 	@echo "test  -- run tests using docker"
 	@echo "dockershell -- bash shell inside of docker"
-	@echo "bootstrap --build containers, run django migrations, load fixtures and create the a superuser"
+	@echo "shell -- run ipython shell"
+	@echo "clean-python -- clean all python cache and stuff"
 
 build:
 	docker-compose build
 
 start: clean
-	docker-compose up --build
+	docker-compose up --build -d
+
+up:
+	docker-compose up
 
 stop:
 	docker-compose stop
@@ -35,4 +40,14 @@ test: build pep8 only_test
 dockershell:
 	docker-compose run --rm eduzenbot bash
 
-.PHONY: help start stop ps clean test dockershell shell_plus only_test pep8
+shell:
+	docker-compose run --rm eduzenbot ipython3
+
+clean-python:
+	rm -fr build
+	rm -fr dist
+	find . -name '*.pyc' -exec rm -f {} \;
+	find . -name '*.pyo' -exec rm -f {} \;
+	find . -name '*~' -exec rm -f {} \;
+
+.PHONY: help start up stop ps clean test dockershell shell only_test pep8 clean-python
