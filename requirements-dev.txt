@@ -14,3 +14,4 @@ fancycompleter==0.8
 ipython==7.0.1
 flake8==3.6.0
 wdb
+black

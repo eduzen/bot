@@ -9,14 +9,22 @@ handlers = {
     "go_back_serie": callbacks.go_back,
     "all_episodes": callbacks.all_episodes,
     "get_season": callbacks.get_season,
+    "get_episode": callbacks.get_episode,
 }
+
+def _select_handler(key):
+    if key.startswith('get_season'):
+        return handlers["get_season"]
+
+    if key.startswith("get_episode"):
+        return handlers["get_episode"]
+
+    return handlers.get(key)
 
 def callback_query(bot, update, **kwargs):
     query = update.callback_query
-    func = handlers.get(query.data)
 
-    if query.data.startswith('get_season'):
-        func = handlers["get_season"]
+    func = _select_handler(query.data)
 
     if not func:
         bot.edit_message_text(
@@ -25,7 +33,6 @@ def callback_query(bot, update, **kwargs):
             message_id=query.message.message_id
         )
         return
-
 
     chat_data = kwargs.get('chat_data')
     if not chat_data:

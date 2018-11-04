@@ -1,5 +1,6 @@
 """
 serie - search_serie
+series - search_serie
 """
 import structlog
 from api import tmdb_search
