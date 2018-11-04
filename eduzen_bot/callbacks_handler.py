@@ -1,15 +1,22 @@
 import structlog
-from eduzen_bot.plugins.commands.series.callbacks import latest_episodes
+from eduzen_bot.plugins.commands.series import callbacks
+from eduzen_bot.plugins.commands.series.keyboards import serie_keyboard
 
 log = structlog.getLogger(filename=__name__)
 
 handlers = {
-    "latest_episodes": latest_episodes
+    "latest_episodes": callbacks.latest_episodes,
+    "go_back_serie": callbacks.go_back,
+    "all_episodes": callbacks.all_episodes,
+    "get_season": callbacks.get_season,
 }
 
 def callback_query(bot, update, **kwargs):
     query = update.callback_query
     func = handlers.get(query.data)
+
+    if query.data.startswith('get_season'):
+        func = handlers["get_season"]
 
     if not func:
         bot.edit_message_text(
@@ -18,6 +25,7 @@ def callback_query(bot, update, **kwargs):
             message_id=query.message.message_id
         )
         return
+
 
     chat_data = kwargs.get('chat_data')
     if not chat_data:
@@ -39,4 +47,4 @@ def callback_query(bot, update, **kwargs):
     try:
         func(bot, update, **context)
     except Exception:
-        log.info('Something went wrong')
+        log.exception('Something went wrong')
