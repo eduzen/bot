@@ -182,8 +182,8 @@ def get_episode(bot, update, **context):
     answer = update.callback_query.data
     episode = answer.split("_")[-1]
 
-    update.callback_query.answer(text=f"Loading torrents of episode {episode}")
-    episode_list = chat_data["context"]["selected_season_episodes"][int(episode)]
+    # update.callback_query.answer(text=f"Loading torrents of episode {episode}")
+    episode_list = serie["selected_season_episodes"][int(episode)]
     the_episodes = prettify_episodes(episode_list)
     response = the_episodes if the_episodes else "No episodes found."
     keyboard = keyboards.serie_go_back_keyboard()
@@ -198,6 +198,7 @@ def get_episode(bot, update, **context):
             f"Selected option '{answer}' would leave text as it is. Ignoring to avoid exception. '{response}' "
         )
 
+    return
     if response:
         # Remove season and episode context so we can start the search again if the user wants to download another episode.
         context.pop("selected_season_episodes", None)

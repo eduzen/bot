@@ -25,7 +25,6 @@ def callback_query(bot, update, **kwargs):
     query = update.callback_query
 
     func = _select_handler(query.data)
-
     if not func:
         bot.edit_message_text(
             text=f"Selected option: {query.data} doesn't work yet",
