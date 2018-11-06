@@ -10,6 +10,7 @@ Also to manage docker, we are using [docker-compose](https://docs.docker.com/com
 ```bash
 touch keys.py
 ```
+
 ## Fill it with your twitter tokens
 
 ```python
@@ -37,7 +38,7 @@ This command will download the images and build them in a container.
 
 ## Algunos commandos para pasarle a botfather
 
-```
+```json
 cambio - Cotización de varias divisas
 clima - Temperatura en baires
 dolar - Cotización del dolar
@@ -64,4 +65,7 @@ qmenu - Menu para preguntas
 restart - Reiniciar el bot
 pull - Actualiza el codigo del bot
 teatro - Lo mas buscado en AlternativaTeatral, acepta nro
+serie - Buscar serie y torrents
+dolarhoy - Buscar el dolar en varios bancos
+dolarfuturo - Buscar el dolar futuro by rofex
 ```

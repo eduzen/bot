@@ -1,4 +1,4 @@
-import logging
+import structlog
 import requests
 from collections import defaultdict
 import unicodedata
@@ -6,7 +6,7 @@ from emoji import emojize
 from bs4 import BeautifulSoup
 from eduzen_bot.keys import APP_ID
 
-logger = logging.getLogger(__name__)
+logger = structlog.get_logger(filename=__name__)
 
 API = "https://openexchangerates.org/api/latest.json"
 OTHER_API = "http://ws.geeklab.com.ar/dolar/get-dolar-json.php"

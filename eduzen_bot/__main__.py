@@ -26,15 +26,13 @@ from telegram.ext import CallbackQueryHandler
 
 from eduzen_bot import initialize_logging, set_handler
 from eduzen_bot.telegram_bot import TelegramBot
+from eduzen_bot.callbacks_handler import callback_query
 
 from plugins.job_queue.alarms.command import set_timer, unset
 from plugins.messages.inline import code_markdown
 from plugins.messages.unknown import unknown
-from plugins.commands.questions.menu import button
 from plugins.messages.message import (parse_msgs)
-from plugins.commands.questions.menu import q_menu
 
-COMMANDS = {"question_menu": q_menu, "qmenu": q_menu}
 
 logger = structlog.get_logger(filename=__name__)
 
@@ -58,7 +56,6 @@ def main():
 
     message_handlers = [parse_msgs]
 
-    bot.register_commands(COMMANDS)
     bot.register_message_handler(message_handlers)
 
     set_handler = bot.create_command_args(
@@ -77,7 +74,7 @@ def main():
     unknown_handler = bot.create_msg(unknown, Filters.command)
     bot.add_handler(unknown_handler)
 
-    bot.add_handler(CallbackQueryHandler(button))
+    bot.add_handler(CallbackQueryHandler(callback_query, pass_chat_data=True))
     bot.start()
 
 

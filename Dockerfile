@@ -6,9 +6,10 @@ ENV PYTHONPATH /code:$PYTHONPATH
 RUN mkdir /code
 WORKDIR /code
 
+RUN pip install --upgrade pip
 COPY requirements-dev.txt requirements.txt /code/
-RUN pip install -r requirements.txt
+RUN pip install -r requirements-dev.txt
 
 COPY . /code/
 RUN python setup.py develop
-RUN python -m textblob.download_corpora
+# RUN python -m textblob.download_corpora
