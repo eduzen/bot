@@ -10,7 +10,7 @@ logger = structlog.get_logger(filename=__name__)
 
 
 @restricted
-def code(bot, update, args):
+def code(bot, update, args, **kwargs):
     bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
     logger.info(f"Code... by {update.message.from_user.name}")
 

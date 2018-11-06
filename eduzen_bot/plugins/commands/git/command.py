@@ -12,7 +12,7 @@ logger = structlog.get_logger(filename=__name__)
 
 @run_async
 @restricted
-def update_repo(bot, update, args):
+def update_repo(bot, update, args, **kwargs):
     logger.warn("Trying to update bot code")
 
     result = subprocess.run(

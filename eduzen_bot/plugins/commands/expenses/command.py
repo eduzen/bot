@@ -11,7 +11,7 @@ logger = structlog.get_logger(filename=__name__)
 
 
 @restricted
-def expense(bot, update, args):
+def expense(bot, update, args, **kwargs):
     bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
     logger.info(f"expenses... by {update.message.from_user.name}")
     if not update.message.from_user.name == "@eduzen":

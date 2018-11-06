@@ -16,7 +16,7 @@ metro = emojize(":metro:", use_aliases=True)
 
 
 @run_async
-def subte_novedades(bot, update, args):
+def subte_novedades(bot, update, args, **kwargs):
     bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
     logger.info(f"Subte_novedades... by {update.message.from_user.name}")
 
@@ -33,7 +33,7 @@ def subte_novedades(bot, update, args):
 
 
 @run_async
-def subte(bot, update, args):
+def subte(bot, update, args, **kwargs):
     bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
     logger.info(f"Subte... by {update.message.from_user.name}")
 

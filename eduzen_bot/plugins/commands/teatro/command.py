@@ -11,7 +11,7 @@ logger = structlog.get_logger(filename=__name__)
 
 
 @run_async
-def get_ranking(bot, update, args):
+def get_ranking(bot, update, args, **kwargs):
     bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
     logger.info(f"Teatro... by {update.message.from_user.name}")
 

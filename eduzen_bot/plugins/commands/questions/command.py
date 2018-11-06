@@ -19,7 +19,7 @@ logger = structlog.get_logger(filename=__name__)
 
 
 @restricted
-def get_users(bot, update, args):
+def get_users(bot, update, args, **kwargs):
     bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
     logger.info(f"Get_users... by {update.message.from_user.name}")
 
@@ -27,7 +27,7 @@ def get_users(bot, update, args):
     bot.send_message(chat_id=update.message.chat_id, text="Usuarios: , ".join(txt))
 
 
-def get_questions(bot, update, args):
+def get_questions(bot, update, args, **kwargs):
     bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
     try:
         logger.info(f"Get_questions... by {update.message.from_user.name}")
@@ -43,7 +43,7 @@ def get_questions(bot, update, args):
         bot.send_message(chat_id=update.message.chat_id, text="Mmm algo malo pasó")
 
 
-def edit_question(bot, update, args):
+def edit_question(bot, update, args, **kwargs):
     bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
     logger.info(f"Edit_question... by {update.message.from_user.name}")
     if not args:
@@ -83,7 +83,7 @@ def edit_question(bot, update, args):
     )
 
 
-def add_answer(bot, update, args):
+def add_answer(bot, update, args, **kwargs):
     bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
     logger.info(f"Add_question... by {update.message.from_user.name}")
     if not args:
@@ -119,7 +119,7 @@ def add_answer(bot, update, args):
     )
 
 
-def add_question(bot, update, args):
+def add_question(bot, update, args, **kwargs):
     bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
     logger.info(f"Add_question... by {update.message.from_user.name}")
     if not args:
@@ -147,7 +147,7 @@ def add_question(bot, update, args):
         )
 
 
-def remove_question(bot, update, args):
+def remove_question(bot, update, args, **kwargs):
     bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
     logger.info(f"Add_question... by {update.message.from_user.name}")
     if not args:

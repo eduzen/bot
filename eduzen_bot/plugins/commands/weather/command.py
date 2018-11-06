@@ -11,7 +11,7 @@ logger = structlog.get_logger()
 
 
 @run_async
-def weather(bot, update, args):
+def weather(bot, update, args, **kwargs):
     bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
     logger.info(f"Weather... by {update.message.from_user.name}")
 

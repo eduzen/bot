@@ -11,7 +11,7 @@ logger = structlog.get_logger(filename=__name__)
 
 
 @run_async
-def transito(bot, update, args):
+def transito(bot, update, args, **kwargs):
     bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
     logger.info(f"Tránsito... by {update.message.from_user.name}")
 

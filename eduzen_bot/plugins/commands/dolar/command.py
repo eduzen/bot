@@ -30,7 +30,7 @@ def get_dolarhoy(bot, update, args, **kwargs):
 
 
 @run_async
-def get_dolarfuturo(bot, update, args):
+def get_dolarfuturo(bot, update, args, **kwargs):
     bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
     logger.info(f"Dolla... by {update.message.from_user.name}")
 
@@ -45,7 +45,7 @@ def get_dolarfuturo(bot, update, args):
 
 
 @run_async
-def get_dolar(bot, update, args):
+def get_dolar(bot, update, args, **kwargs):
     bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
     logger.info(f"Dollar... by {update.message.from_user.name}")
 
@@ -80,7 +80,7 @@ def get_dolar(bot, update, args):
 
 
 @run_async
-def get_cotizaciones(bot, update, args):
+def get_cotizaciones(bot, update, args, **kwargs):
     bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
     logger.info(f"cotizaciones... by {update.message.from_user.name}")
 
