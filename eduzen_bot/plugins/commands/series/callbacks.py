@@ -13,6 +13,32 @@ EZTV_API_ERROR = (
 
 logger = structlog.getLogger(filename=__name__)
 
+def prettify_episodes(episodes, header=None):
+    episodes = '\n\n'.join(
+        prettify_episode(ep) for ep in episodes
+    )
+    if header:
+        episodes = '\n'.join((header, episodes))
+
+    return episodes
+
+
+def prettify_episode(ep):
+    """Episodes have name, season, episode, torrent, magnet, size, seeds and released attributes"""
+    # Some episodes do not have a torrent download. But they do have a magnet link.
+    # Since magnet links are not clickable on telegram, we leave them as a fallback.
+    if ep.torrent:
+        header = f"[{ep.name}]({ep.torrent})\n"
+    elif ep.magnet:
+        header = (f"Magnet: {monospace(ep.magnet)}")
+    else:
+        header = 'No torrent nor magnet available for this episode.'
+
+    return (
+        f"{header}"
+        f"🌱 Seeds: {ep.seeds} | 🗳 Size: {ep.size or '-'}"
+    )
+
 
 @lru_cache(5)
 def prettify_torrents(torrents):
@@ -20,6 +46,7 @@ def prettify_torrents(torrents):
 
 
 def prettify_torrent(name, torrent_url, seeds, size):
+    name = name.replace("[", "").replace("]", "")
     return f"🏴‍☠️ [{name}]({torrent_url})\n" f"🌱 Seeds: {seeds} | 🗳 Size: {size}MB\n"
 
 
@@ -181,7 +208,6 @@ def get_episode(bot, update, **context):
     serie = context["data"]["serie"]
     answer = update.callback_query.data
     episode = answer.split("_")[-1]
-
     # update.callback_query.answer(text=f"Loading torrents of episode {episode}")
     episode_list = serie["selected_season_episodes"][int(episode)]
     the_episodes = prettify_episodes(episode_list)
@@ -198,31 +224,27 @@ def get_episode(bot, update, **context):
             f"Selected option '{answer}' would leave text as it is. Ignoring to avoid exception. '{response}' "
         )
 
-    return
-    if response:
-        # Remove season and episode context so we can start the search again if the user wants to download another episode.
-        context.pop("selected_season_episodes", None)
+def load_episodes(bot, update, **context):
+    serie = context["data"]["serie"]
+    seasons = serie.get("seasons")
+    answer = update.callback_query.data
 
-        # Resend series basic description
-        message = context["data"]["message_info"]
-        response = prettify_serie(*message)
-        keyboard = serie_keyboard()
-        # tothink: Maybe implement relative go back. chat_data context should be more intelligent to support that.
-        # temp key on chat_data (active_season) that resets after each episode go back?
+    if not seasons:
+        update.callback_query.answer(text="Loading episodes.. this may take a while")
+        serie["seasons"] = get_all_seasons(
+            serie["name"], serie["raw_name"]
+        )
+        seasons = serie["seasons"]
 
-    elif answer == LOAD_EPISODES:
-        # Load all episodes parsing eztv web page
-        # They should be loaded by now but just in case.
-        seasons = chat_data["context"].get("seasons")
-        if not seasons:
-            update.callback_query.answer(text="Loading episodes.. this may take a while")
-            seasons = chat_data["context"]["seasons"] = get_all_seasons(
-                context["data"]["series_name"], context["data"]["series_raw_name"]
-            )
+    response = "Choose a season to see its episodes."
+    keyboard = keyboards.serie_season(seasons)
 
-        response = "Choose a season to see its episodes."
-        keyboard = serie_season_keyboard(seasons)
+    original_text = update.callback_query.message.text
+    if response != original_text:
+        update.callback_query.edit_message_text(
+            text=response, reply_markup=keyboard, parse_mode="markdown", disable_web_page_preview=True
+        )
     else:
-        keyboard = serie_go_back_keyboard()
-        response = "Unknown button %s" % answer
-        logger.info("We shouldn't be here. chat_data=%s, answer=%s", chat_data, answer)
+        logger.info(
+            f"Selected option '{answer}' would leave text as it is. Ignoring to avoid exception. '{response}' "
+        )
