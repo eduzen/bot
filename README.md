@@ -65,7 +65,11 @@ qmenu - Menu para preguntas
 restart - Reiniciar el bot
 pull - Actualiza el codigo del bot
 teatro - Lo mas buscado en AlternativaTeatral, acepta nro
-serie - Buscar serie y torrents
-dolarhoy - Buscar el dolar en varios bancos
-dolarfuturo - Buscar el dolar futuro by rofex
+dolarhoy - distintas cotizaciones
+dolarfuturo - dolar futuro rofex
+series - series para bajar
+serie - serie para bajar
+peli - buscar pelis
+movie - buscar pelis
+pelicula - buscar pelis
 ```

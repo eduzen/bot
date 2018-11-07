@@ -1,15 +1,18 @@
 import structlog
-from eduzen_bot.plugins.commands.series import callbacks
-from eduzen_bot.plugins.commands.series.keyboards import serie_keyboard
+from eduzen_bot.plugins.commands.series import callbacks as series_callbacks
+from eduzen_bot.plugins.commands.movies import callbacks as movies_callbacks
 
 log = structlog.getLogger(filename=__name__)
 
 handlers = {
-    "latest_episodes": callbacks.latest_episodes,
-    "go_back_serie": callbacks.go_back,
-    "all_episodes": callbacks.all_episodes,
-    "get_season": callbacks.get_season,
-    "get_episode": callbacks.get_episode,
+    "latest_episodes": series_callbacks.latest_episodes,
+    "go_back_serie": series_callbacks.go_back,
+    "all_episodes": series_callbacks.all_episodes,
+    "get_season": series_callbacks.get_season,
+    "get_episode": series_callbacks.get_episode,
+    "get_movie_imdb": movies_callbacks.get_movie_imdb,
+    "get_movie_youtube": movies_callbacks.get_movie_youtube,
+    "get_movie_torrent": movies_callbacks.get_movie_torrent,
 }
 
 def _select_handler(key):
