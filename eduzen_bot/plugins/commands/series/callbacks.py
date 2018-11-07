@@ -13,6 +13,9 @@ EZTV_API_ERROR = (
 
 logger = structlog.getLogger(filename=__name__)
 
+def monospace(text):
+    return f'```\n{text}\n```'
+
 def prettify_episodes(episodes, header=None):
     episodes = '\n\n'.join(
         prettify_episode(ep) for ep in episodes
