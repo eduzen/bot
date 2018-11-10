@@ -2,28 +2,15 @@ import structlog
 import requests
 from functools import lru_cache
 from eduzen_bot.plugins.commands.series import keyboards
+from eduzen_bot.plugins.commands.series.constants import EZTV_NO_RESULTS, EZTV_API_ERROR
 from eduzen_bot.plugins.commands.series.api import prettify_serie, get_all_seasons
 
-EZTV_NO_RESULTS = (
-    "Eztv api did not return any torrent result for the series❕\n" "Please notice it's still in beta mode 🐣\n"
-)
-EZTV_API_ERROR = (
-    "EZTV api failed to respond with latest torrents." "Try 'Load all episodes' option and look for latest episode."
-)
 
 logger = structlog.getLogger(filename=__name__)
 
+
 def monospace(text):
-    return f'```\n{text}\n```'
-
-def prettify_episodes(episodes, header=None):
-    episodes = '\n\n'.join(
-        prettify_episode(ep) for ep in episodes
-    )
-    if header:
-        episodes = '\n'.join((header, episodes))
-
-    return episodes
+    return f"```\n{text}\n```"
 
 
 def prettify_episode(ep):
@@ -33,14 +20,19 @@ def prettify_episode(ep):
     if ep.torrent:
         header = f"[{ep.name}]({ep.torrent})\n"
     elif ep.magnet:
-        header = (f"Magnet: {monospace(ep.magnet)}")
+        header = f"Magnet: {monospace(ep.magnet)}"
     else:
-        header = 'No torrent nor magnet available for this episode.'
+        header = "No torrent nor magnet available for this episode."
 
-    return (
-        f"{header}"
-        f"🌱 Seeds: {ep.seeds} | 🗳 Size: {ep.size or '-'}"
-    )
+    return f"{header}" f"🌱 Seeds: {ep.seeds} | 🗳 Size: {ep.size or '-'}"
+
+
+def prettify_episodes(episodes, header=None):
+    episodes = "\n\n".join(prettify_episode(ep) for ep in episodes)
+    if header:
+        episodes = "\n".join((header, episodes))
+
+    return episodes
 
 
 @lru_cache(5)
@@ -72,11 +64,12 @@ def _minify_torrents(torrents):
 def go_back(bot, update, **context):
     # Remove season and episode context so we can start the search again if the user wants to download another episode.
     context.pop("selected_season_episodes", None)
+    answer = update.callback_query.data
 
     # Resend series basic description
-    serie = context["data"]["serie"]
+    serie = context["data"]
     response = prettify_serie(serie)
-    keyboard = keyboards.serie_keyboard()
+    keyboard = keyboards.serie()
     # tothink: Maybe implement relative go back. chat_data context should be more intelligent to support that.
     # temp key on chat_data (active_season) that resets after each episode go back?
     # update.callback_query.answer(text='')
@@ -119,8 +112,8 @@ def latest_episodes(bot, update, **context):
     logger.info("Called latest episodes")
 
     if not context:
-        message = f"Lpm, no pude responder a tu pedido.\n" f"Probá invocando de nuevo el comando a ver si me sale 😊"
-        logger.info(f"Conflicting update: '{update.to_dict()}'. Chat data: {chat_data}")
+        message = "Lpm, no pude responder a tu pedido.\n" "Probá invocando de nuevo el comando a ver si me sale 😊"
+        logger.info(f"Conflicting update: '{update.to_dict()}'")
         bot.send_message(chat_id=update.callback_query.message.chat_id, text=message, parse_mode="markdown")
         # Notify telegram we have answered
         update.callback_query.answer(text="")
@@ -128,12 +121,11 @@ def latest_episodes(bot, update, **context):
 
     # Get user selection
     answer = update.callback_query.data
-    query = update.callback_query
 
     # Get latest episodes from eztv api
     # update.callback_query.answer(text='Getting latest episodes..')
 
-    data = context["data"]["serie"]
+    data = context["data"]
     imdb_id = data["imdb_id"]
     torrents = get_torrents_by_id(imdb_id)
 
@@ -144,8 +136,6 @@ def latest_episodes(bot, update, **context):
 
     pretty_torrents = prettify_torrents(torrents)
     response = pretty_torrents if pretty_torrents else EZTV_API_ERROR
-
-    # update.callback_query.answer(text='🤫')
 
     original_text = update.callback_query.message.text
     if response != original_text:
@@ -162,7 +152,8 @@ def latest_episodes(bot, update, **context):
 
 
 def all_episodes(bot, update, **context):
-    serie = context["data"]["serie"]
+    serie = context["data"]
+    answer = update.callback_query.data
 
     seasons = serie.get("seasons")
     if not seasons:
@@ -185,7 +176,7 @@ def all_episodes(bot, update, **context):
 
 
 def get_season(bot, update, **context):
-    serie = context["data"]["serie"]
+    serie = context["data"]
     answer = update.callback_query.data
     season_choice = answer.split("_")[-1]
 
@@ -207,8 +198,9 @@ def get_season(bot, update, **context):
             f"Selected option '{answer}' would leave text as it is. Ignoring to avoid exception. '{response}' "
         )
 
+
 def get_episode(bot, update, **context):
-    serie = context["data"]["serie"]
+    serie = context["data"]
     answer = update.callback_query.data
     episode = answer.split("_")[-1]
     # update.callback_query.answer(text=f"Loading torrents of episode {episode}")
@@ -227,16 +219,15 @@ def get_episode(bot, update, **context):
             f"Selected option '{answer}' would leave text as it is. Ignoring to avoid exception. '{response}' "
         )
 
+
 def load_episodes(bot, update, **context):
-    serie = context["data"]["serie"]
+    serie = context["data"]
     seasons = serie.get("seasons")
     answer = update.callback_query.data
 
     if not seasons:
         update.callback_query.answer(text="Loading episodes.. this may take a while")
-        serie["seasons"] = get_all_seasons(
-            serie["name"], serie["raw_name"]
-        )
+        serie["seasons"] = get_all_seasons(serie["name"], serie["raw_name"])
         seasons = serie["seasons"]
 
     response = "Choose a season to see its episodes."

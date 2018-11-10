@@ -1,27 +1,30 @@
 import structlog
-import re
-from collections import defaultdict, namedtuple
-from bs4 import BeautifulSoup
 import requests
-from telegram import InlineKeyboardMarkup, InlineKeyboardButton as Button
-from functools import lru_cache
-from eduzen_bot.keys import TMDB
 import tmdbsimple as tmdb
-from eduzen_bot.plugins.commands.series.keyboards import serie_keyboard
+
+from collections import defaultdict
+from bs4 import BeautifulSoup
+from functools import lru_cache
+
+from eduzen_bot.keys import TMDB
+from eduzen_bot.plugins.commands.series import keyboards
+from eduzen_bot.plugins.commands.series.constants import (
+    BASEURL_IMAGE,
+    BASEURL,
+    LANG,
+    EPISODE_PATTERNS,
+    SIZE,
+    RELEASED,
+    SEEDS,
+    MAGNET,
+    TORRENT,
+    Episode
+)
+
 
 logger = structlog.get_logger(filename=__name__)
 
-baseurl_image = "http://image.tmdb.org/t/p/original"
-baseurl = "https://www.themoviedb.org/"
 tmdb.API_KEY = TMDB["API_KEY"]
-
-SEASON_REGEX = re.compile(r"S(\d{1,})E(\d{1,})")  # S01E15
-ALT_SEASON_REGEX = re.compile(r"(\d{1,})x(\d{1,})")  # 1x15
-EPISODE_PATTERNS = [SEASON_REGEX, ALT_SEASON_REGEX]
-Episode = namedtuple("Episode", ["name", "season", "episode", "magnet", "torrent", "size", "released", "seeds"])
-NAME, SIZE, RELEASED, SEEDS = 0, 2, 3, 4
-MAGNET, TORRENT = 0, 1
-lang = {"es": "español", "en": "english", "de": "deutsch", "it": "italiano"}
 
 
 @lru_cache(20)
@@ -83,10 +86,13 @@ def get_all_seasons(series_name, raw_user_query):
         name = torrent[0].text.strip()
 
         # Filter fake results that include series name but separated between other words.
-        # For example, a query for The 100 also returns '*The* TV Show S07E00 Catfish Keeps it *100*' which we don't want
-        # We also use the raw_user_query because sometimes the complete name from tmdb is not the same name used on eztv.
+        # For example, a query for The 100 also returns
+        # '*The* TV Show S07E00 Catfish Keeps it *100*' which we don't want
+        # We also use the raw_user_query because sometimes the complete name from
+        # tmdb is not the same name used on eztv.
         if not series_name.lower() in name.lower() and not raw_user_query.lower() in name.lower():
-            # The tradeoff is that we don't longer work for series with typos. But it's better than giving fake results.
+            # The tradeoff is that we don't longer work for series with typos.
+            # But it's better than giving fake results.
             logger.info(f"Fake result '{name}' for query '{series_name}'")
             return None
 
@@ -143,67 +149,26 @@ def rating_stars(rating):
 def prettify_serie(serie):
     name = serie["name"]
     if serie.get("first_air_date"):
-        l = lang.get(serie["original_language"], serie["original_language"])
-        name = f"[{name}]({baseurl}tv/{serie['id']}) " f"({serie['first_air_date']}) | lang: {l}"
+        lang = LANG.get(serie["original_language"], serie["original_language"])
+        name = f"[{name}]({BASEURL}tv/{serie['id']}) " f"({serie['first_air_date']}) | lang: {lang}"
     stars = rating_stars(serie["vote_average"])
     return "\n".join((name, stars, serie["overview"]))
 
 
-def tmdb_search(bot, chat_id, chat_data, query):
+def get_related_series(query):
     search = tmdb.Search()
     response = search.tv(query=query)
 
-    if not response["results"]:
-        bot_reply = bot.send_message(
-            chat_id=chat_id,
-            text=(f"No encontré información en imdb sobre _'{query}'_." " Está bien escrito el nombre?"),
-            parse_mode="markdown",
-        )
+    return response["results"]
 
-    serie = search.results[0]
 
-    image = f"{baseurl_image}{serie['backdrop_path'] or serie['poster_path']}"
-    response = prettify_serie(serie)
+def get_poster_url(serie):
+    return f"{BASEURL_IMAGE}{serie['backdrop_path'] or serie['poster_path']}"
 
-    # We reply here with basic info because further info may take a while to process.
-    bot.send_photo(chat_id, image)
 
-    bot_reply = bot.send_message(chat_id=chat_id, text=response, parse_mode="markdown", disable_web_page_preview=True)
+def get_keyboard():
+    return keyboards.serie()
 
-    r = requests.get(
-        f"https://api.themoviedb.org/3/tv/{serie['id']}/external_ids", params={"api_key": TMDB["API_KEY"]}
-    )
-    if r.status_code != 200:
-        logger.info("Request for imdb id was not succesfull.")
-        bot.send_message(chat_id=chat_id, text="La api de imdb se puso la gorra 👮", parse_mode="markdown")
-        return
 
-    data = r.json()
-    if not data:
-        return
-
-    try:
-        imdb_id = data["imdb_id"].replace("t", "")  # tt<id> -> <id>
-    except (KeyError, AttributeError):
-        logger.info("imdb id for the movie not found")
-        bot.send_message(
-            chat_id=chat_id,
-            text="👎 No encontré el id de imdb de esta serie, imposible de bajar por acá",
-            parse_mode="markdown",
-        )
-        return
-
-    serie.update({"imdb_id": imdb_id})
-    # Build context based on the imdb_id
-    chat_data["context"] = {"data": {"serie": serie}, "command": "serie", "edit_original_text": True}
-
-    # Now that i have the imdb_id, show buttons to retrieve extra info.
-    keyboard = serie_keyboard()
-    bot.edit_message_reply_markup(
-        chat_id=chat_id,
-        message_id=bot_reply.message_id,
-        text=bot_reply.caption,
-        reply_markup=keyboard,
-        parse_mode="markdown",
-        disable_web_page_preview=True,
-    )
+def get_serie_detail(pk):
+    return tmdb.TV(pk)
