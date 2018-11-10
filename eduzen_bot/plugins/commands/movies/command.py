@@ -15,28 +15,25 @@ logger = structlog.get_logger(filename=__name__)
 
 @run_async
 def get_movie(bot, update, **kwargs):
-    args = kwargs.get('args')
-    chat_data = kwargs.get('chat_data')
+    args = kwargs.get("args")
+    chat_data = kwargs.get("chat_data")
     if not args:
         bot.send_message(
             chat_id=update.message.chat_id,
-            text='Necesito que me pases una pelicula. `/pelicula <nombre>`',
-            parse_mode='markdown'
+            text="Necesito que me pases una pelicula. `/pelicula <nombre>`",
+            parse_mode="markdown",
         )
         return
 
-    query = ' '.join(args)
+    query = " ".join(args)
     movie = tmdb_movie_search(bot, update.message.chat_id, chat_data, query)
 
     if not movie:
-        bot.send_message(
-            chat_id=update.message.chat_id,
-            text='No encontré info sobre %s' % query,
-        )
+        bot.send_message(chat_id=update.message.chat_id, text="No encontré info sobre %s" % query)
         return
 
     # Give context to button handlers
-    chat_data['movie'] = movie[0]
+    chat_data["movie"] = movie[0]
 
     movie_details, poster = prettify_movie(movie[0])
     if poster:
@@ -46,6 +43,6 @@ def get_movie(bot, update, **kwargs):
         chat_id=update.message.chat_id,
         text=movie_details,
         reply_markup=keyboards.pelis(),
-        parse_mode='markdown',
+        parse_mode="markdown",
         disable_web_page_preview=True,
     )

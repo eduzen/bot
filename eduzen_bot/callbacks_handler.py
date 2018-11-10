@@ -39,13 +39,13 @@ def callback_query(bot, update, **kwargs):
     chat_data = kwargs.get('chat_data')
     if not chat_data:
         bot.edit_message_text(
-            text=f"Perdoname che, algo paso en el medio. Empecemos de nuevo con el commando original",
+            text="Menschliches, Allzumenschliches...\nPerdoname che, algo paso en el medio. Empecemos de nuevo con el commando original",
             chat_id=query.message.chat_id,
             message_id=query.message.message_id
         )
         bot.send_message(
             chat_id=update.callback_query.message.chat_id,
-            text="preguntame de nuevo",
+            text="Preguntame de nuevo. Errare humanum est.",
             parse_mode='markdown'
         )
         return
@@ -56,4 +56,9 @@ def callback_query(bot, update, **kwargs):
     try:
         func(bot, update, **context)
     except Exception:
-        log.exception('Something went wrong')
+        log.exception('El callback se rompió... ')
+        bot.send_message(
+            chat_id=update.callback_query.message.chat_id,
+            text="Errare humanum est.",
+            parse_mode='markdown'
+        )

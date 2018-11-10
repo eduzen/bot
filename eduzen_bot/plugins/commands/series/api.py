@@ -18,7 +18,7 @@ from eduzen_bot.plugins.commands.series.constants import (
     SEEDS,
     MAGNET,
     TORRENT,
-    Episode
+    Episode,
 )
 
 
@@ -147,12 +147,20 @@ def rating_stars(rating):
 
 
 def prettify_serie(serie):
-    name = serie["name"]
-    if serie.get("first_air_date"):
-        lang = LANG.get(serie["original_language"], serie["original_language"])
-        name = f"[{name}]({BASEURL}tv/{serie['id']}) " f"({serie['first_air_date']}) | lang: {lang}"
+    name = f"[{serie['name']}]({BASEURL}tv/{serie['id']})"
+    original_name = f"*Original name*: {serie['original_name']}"
+    number_of_seasons = f"*Number of seasons*: {serie['number_of_seasons']}"
+    number_of_episodes = f"*Number of episodes*: {serie['number_of_episodes']}"
+    next_episode = f"*Next episode*: {serie['next_episode']}"
+    lang = LANG.get(serie["original_language"], serie["original_language"])
+    lang = f"*Lang*: {lang}"
+    first_air_date = f"({serie.get('first_air_date', 'unannounced')})"
     stars = rating_stars(serie["vote_average"])
-    return "\n".join((name, stars, serie["overview"]))
+    title = f"{name} | {first_air_date} | {lang}"
+    data = f"{number_of_seasons} | {number_of_episodes}"
+    response = "\n".join((title, original_name, stars, serie["overview"], data, next_episode))
+
+    return response
 
 
 def get_related_series(query):
@@ -162,8 +170,13 @@ def get_related_series(query):
     return response["results"]
 
 
+def get_full_image_path(relativpath):
+    return f"{BASEURL_IMAGE}{relativpath}"
+
+
 def get_poster_url(serie):
-    return f"{BASEURL_IMAGE}{serie['backdrop_path'] or serie['poster_path']}"
+    poster = serie.get("backdrop_path") or serie.get("poster_path")
+    return get_full_image_path(poster)
 
 
 def get_keyboard():

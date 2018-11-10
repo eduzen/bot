@@ -1,9 +1,11 @@
 import structlog
 import requests
 from functools import lru_cache
+from telegram import InputMediaPhoto
+
 from eduzen_bot.plugins.commands.series import keyboards
 from eduzen_bot.plugins.commands.series.constants import EZTV_NO_RESULTS, EZTV_API_ERROR
-from eduzen_bot.plugins.commands.series.api import prettify_serie, get_all_seasons
+from eduzen_bot.plugins.commands.series.api import prettify_serie, get_all_seasons, get_poster_url
 
 
 logger = structlog.getLogger(filename=__name__)
@@ -155,6 +157,7 @@ def all_episodes(bot, update, **context):
     serie = context["data"]
     answer = update.callback_query.data
 
+
     seasons = serie.get("seasons")
     if not seasons:
         update.callback_query.answer(text="Loading episodes... this may take a while")
@@ -177,19 +180,30 @@ def all_episodes(bot, update, **context):
 
 def get_season(bot, update, **context):
     serie = context["data"]
+    poster_chat = context["poster_chat"]
     answer = update.callback_query.data
-    season_choice = answer.split("_")[-1]
+    season_choice = int(answer.split("_")[-1])
 
     update.callback_query.answer(text=f"Loading episodes from season {season_choice}")
 
-    season_episodes = serie["seasons"][int(season_choice)]
+    season_overview = serie['seasons_info'][season_choice - 1]['overview']
+
+    try:
+        url = get_poster_url(serie['seasons_info'][season_choice  - 1])
+        poster = InputMediaPhoto(url)
+        poster_chat.edit_media(poster)
+    except Exception:
+        logger.info("No hay poster para esta temporada")
+
+    season_episodes = serie["seasons"][season_choice]
     serie["selected_season_episodes"] = season_episodes
-    response = f"You chose season {season_choice}."
+    response = f"You chose season {season_choice}.\n{season_overview}"
     logger.info(f"Season {season_choice} episodes {sorted(tuple(season_episodes.keys()))}")
     keyboard = keyboards.serie_episodes(season_episodes)
 
     original_text = update.callback_query.message.text
     if response != original_text:
+
         update.callback_query.edit_message_text(
             text=response, reply_markup=keyboard, parse_mode="markdown", disable_web_page_preview=True
         )

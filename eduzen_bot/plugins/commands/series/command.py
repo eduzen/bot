@@ -35,15 +35,7 @@ def search_serie(bot, update, **kwargs):
         return
 
     serie = results[0]
-
-    poster_url = get_poster_url(serie)
-    bot.send_photo(chat_id, poster_url)
-
     bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
-    response = prettify_serie(serie)
-
-    bot_reply = bot.send_message(chat_id=chat_id, text=response, parse_mode="markdown", disable_web_page_preview=True)
-
     serie_object = get_serie_detail(serie["id"])
     external_ids = serie_object.external_ids()
 
@@ -59,17 +51,27 @@ def search_serie(bot, update, **kwargs):
         return
 
     extra_info = serie_object.info()
+    next_episode = "unannounced"
+    if extra_info.get("next_episode_to_air"):
+        next_episode = extra_info["next_episode_to_air"].get("air_date",  "unannounced")
 
     serie.update(
         {
             "imdb_id": imdb_id,
-            "seasons": extra_info["seasons"],
+            "seasons_info": extra_info["seasons"],
             "number_of_episodes": extra_info["number_of_episodes"],
             "number_of_seasons": extra_info["number_of_seasons"],
+            "next_episode": next_episode,
+            "original_name": extra_info.get("original_name"),
         }
     )
+    response = prettify_serie(serie)
 
-    chat_data["context"] = {"data": serie, "command": "serie", "edit_original_text": True}
+    poster_url = get_poster_url(serie)
+    poster_chat = bot.send_photo(chat_id, poster_url)
+    bot_reply = bot.send_message(chat_id=chat_id, text=response, parse_mode="markdown", disable_web_page_preview=True)
+
+    chat_data["context"] = {"data": serie, "command": "serie", "edit_original_text": True, "poster_chat": poster_chat}
 
     bot.edit_message_reply_markup(
         chat_id=chat_id,
