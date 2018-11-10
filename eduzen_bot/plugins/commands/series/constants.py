@@ -5,7 +5,7 @@ BASEURL_IMAGE = "http://image.tmdb.org/t/p/original"
 
 BASEURL = "https://www.themoviedb.org/"
 
-LANG = {"es": "español", "en": "english", "de": "deutsch", "it": "italiano"}
+LANG = {"es": "español", "en": "english", "de": "deutsch", "it": "italiano", "fr": "francais"}
 
 SEASON_REGEX = re.compile(r"S(\d{1,})E(\d{1,})")  # S01E15
 
