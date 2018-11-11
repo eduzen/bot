@@ -14,10 +14,13 @@ help:
 build:
 	docker-compose build
 
-start: clean
+start-build: clean
 	docker-compose up --build -d
 
 up:
+	docker-compose up -d
+
+start:
 	docker-compose up
 
 stop:

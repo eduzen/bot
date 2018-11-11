@@ -2,18 +2,17 @@ import structlog
 import tmdbsimple as tmdb
 
 from eduzen_bot.keys import TMDB
+from eduzen_bot.plugins.commands.movies.constants import IMDB_LINK, YT_LINK
 from eduzen_bot.plugins.commands.movies.api import get_yts_torrent_info, get_yt_trailer
 
 
 logger = structlog.get_logger(filename=__name__)
 
-IMDB_LINK = 'https://www.imdb.com/title/{}'
-YT_LINK = 'https://www.youtube.com/watch?v={}'
 tmdb.API_KEY = TMDB["API_KEY"]
 
 
 def get_movie_imdb(bot, update, **context):
-    imdb_id = context['data']['movie']['imdb_id']
+    imdb_id = context['data']['imdb_id']
     answer = f"[IMDB]({IMDB_LINK.format(imdb_id)}"
 
     bot.send_message(

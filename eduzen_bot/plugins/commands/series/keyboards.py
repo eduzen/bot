@@ -4,8 +4,8 @@ from telegram import InlineKeyboardMarkup, InlineKeyboardButton as Button
 def serie():
     buttons = [
         [
-            Button("Latest episodes", callback_data="latest_episodes"),
-            Button("Load all episodes", callback_data="all_episodes"),
+            Button("Latest episodes (torrents)", callback_data="latest_episodes"),
+            Button("Load all episodes (torrents)", callback_data="all_episodes"),
         ]
     ]
     return InlineKeyboardMarkup(buttons)
