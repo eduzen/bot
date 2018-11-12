@@ -160,7 +160,7 @@ def all_episodes(bot, update, **context):
     seasons = serie.get("seasons")
     if not seasons:
         update.callback_query.answer(text="Loading episodes... this may take a while")
-        seasons = get_all_seasons(serie["name"], serie["original_name"])
+        seasons = get_all_seasons(serie["name"], serie["original_name"], serie['number_of_seasons'])
         serie["seasons"] = seasons
 
     response = "Choose a season to see its episodes."

@@ -28,7 +28,7 @@ tmdb.API_KEY = TMDB["API_KEY"]
 
 
 @lru_cache(20)
-def get_all_seasons(series_name, raw_user_query):
+def get_all_seasons(series_name, raw_user_query, number_of_seasons):
     """Parses eztv search page in order to return all episodes of a given series.
     Args:
         series_name: Full series name as it is on tmdb
@@ -94,7 +94,7 @@ def get_all_seasons(series_name, raw_user_query):
             # The tradeoff is that we don't longer work for series with typos.
             # But it's better than giving fake results.
             logger.info(f"Fake result '{name}' for query '{series_name}'")
-            return None
+            return
 
         for pattern in EPISODE_PATTERNS:
             match = pattern.search(name)
@@ -104,7 +104,10 @@ def get_all_seasons(series_name, raw_user_query):
         else:
             # No season and episode found
             logger.info(f"Could not read season and episode data from torrent '{name}'")
-            return None
+            return
+
+        if not season or int(season) > number_of_seasons:
+            return
 
         return Episode(
             name=name.replace("[", "").replace("]", ""),
@@ -116,7 +119,6 @@ def get_all_seasons(series_name, raw_user_query):
             released=torrent[RELEASED].text.strip(),
             seeds=torrent[SEEDS].text.strip(),
         )
-
     # Parse episodes from web
     series_query = raw_user_query.replace(" ", "-")
     r = requests.get(f"https://eztv.ag/search/{series_query}")
