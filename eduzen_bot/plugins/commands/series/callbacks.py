@@ -157,7 +157,6 @@ def all_episodes(bot, update, **context):
     serie = context["data"]
     answer = update.callback_query.data
 
-
     seasons = serie.get("seasons")
     if not seasons:
         update.callback_query.answer(text="Loading episodes... this may take a while")
@@ -186,10 +185,10 @@ def get_season(bot, update, **context):
 
     update.callback_query.answer(text=f"Loading episodes from season {season_choice}")
 
-    season_overview = serie['seasons_info'][season_choice - 1]['overview']
+    season_overview = serie["seasons_info"][season_choice - 1]["overview"]
 
     try:
-        url = get_poster_url(serie['seasons_info'][season_choice  - 1])
+        url = get_poster_url(serie["seasons_info"][season_choice - 1])
         poster = InputMediaPhoto(url)
         poster_chat.edit_media(poster)
     except Exception:

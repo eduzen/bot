@@ -3,7 +3,7 @@ import structlog
 import tmdbsimple as tmdb
 
 from eduzen_bot.keys import TMDB
-from eduzen_bot.plugins.commands.movies.constants import BASEURL_IMAGE, YT_LINK
+from eduzen_bot.plugins.commands.movies.constants import BASEURL_IMAGE, YT_LINK, YTS_API
 
 
 logger = structlog.get_logger(filename=__name__)
@@ -22,9 +22,10 @@ def tmdb_movie_search(query):
 
 def get_director(obj):
     cred = obj.credits()
-    directors = [crew['name'] for crew in cred['crew'] if 'director' == crew['job'].lower()]
+    directors = [crew["name"] for crew in cred["crew"] if "director" == crew["job"].lower()]
 
     return ", ".join(directors)
+
 
 def prettify_movie(movie, obj):
     movie_info = get_basic_info(movie)
@@ -54,18 +55,19 @@ def prettify_basic_movie_info(title, rating, overview, year, image, directors):
     stars = rating_stars(rating)
     return (f"{title} ({year}) - {directors}\n" f"{stars}\n\n" f"{overview}\n\n"), image
 
+
 def get_movie_detail(pk):
     return tmdb.Movies(pk)
 
+
 def get_yt_trailer(videos):
-    key = videos["results"][-1]["key"]
-    return YT_LINK.format(key)
+    youtube_videos = [f"[{video['name']}]({YT_LINK.format(video['key'])})" for video in videos]
+    return youtube_videos
 
 
 def get_yts_torrent_info(imdb_id):
-    yts_api = "https://yts.am/api/v2/list_movies.json"
     try:
-        r = requests.get(yts_api, params={"query_term": imdb_id})
+        r = requests.get(YTS_API, params={"query_term": imdb_id})
     except requests.exceptions.ConnectionError:
         logger.info("yts api no responde.")
         return None

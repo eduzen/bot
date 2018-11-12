@@ -47,8 +47,8 @@ def get_movie(bot, update, **kwargs):
             parse_mode="markdown",
         )
         return
-
-    movie.update({"imdb_id": imdb_id, "imdb_link": IMDB_LINK.format(imdb_id)})
+    videos = movie_object.videos()
+    movie.update({"imdb_id": imdb_id, "imdb_link": IMDB_LINK.format(imdb_id), "videos": videos["results"]})
 
     movie_details, poster = prettify_movie(movie, movie_object)
 
