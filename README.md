@@ -72,4 +72,5 @@ serie - serie para bajar
 peli - buscar pelis
 movie - buscar pelis
 pelicula - buscar pelis
+feriados - feriados en la argentina
 ```
