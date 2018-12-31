@@ -1,7 +1,8 @@
 import logging
 import requests
-
 from bs4 import BeautifulSoup
+
+from keys import openweathermap_token
 
 logger = logging.getLogger(__name__)
 
@@ -17,6 +18,27 @@ headers = {
     "Upgrade-Insecure-Requests": "1",
 }
 
+openweathermap = "https://api.openweathermap.org/data/2.5/weather?q={city_name}&APPID={token}&units=metric"
+
+
+def get_klima(city_name="München"):
+    r = requests.get(openweathermap.format(city_name=city_name, token=openweathermap_token))
+    msg = "No pudimos conseguir el clima"
+
+    if r.status_code != 200:
+        return msg
+
+    data = r.json()
+    if not data:
+        return msg
+
+    msg = (
+        f"*Das Klima in {city_name}*\n"
+        f"Temperatur {data['main']['temp']} °C regentage {data['main']['humidity']}%\n"
+        f"Temperaturmaximum {data['main']['temp_max']} °C\n"
+        f"Temperaturminimum {data['main']['temp_min']} °C\n"
+    )
+    return f"{msg}\nBy api.openweathermap.org"
 
 def get_weather():
     r = requests.get(lanacion, headers=headers)

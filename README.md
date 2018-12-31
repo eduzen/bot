@@ -41,6 +41,7 @@ This command will download the images and build them in a container.
 ```json
 cambio - Cotización de varias divisas
 clima - Temperatura en baires
+klima - Temperatura en München
 dolar - Cotización del dolar
 btc - Cotización del bitcoin
 users - Lista de usuarios
