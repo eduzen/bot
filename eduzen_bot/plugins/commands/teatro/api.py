@@ -9,9 +9,9 @@ logger = logging.getLogger(__name__)
 ALTERNATIVA = "http://www.alternativateatral.com/"
 
 
-def get_response(url):
+def get_response(url, verify=False):
     try:
-        response = requests.get(url)
+        response = requests.get(url, verify=verify)
     except requests.exceptions.ConnectionError:
         return
 

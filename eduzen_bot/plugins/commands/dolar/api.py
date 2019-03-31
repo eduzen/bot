@@ -1,6 +1,8 @@
+import re
 import structlog
+import calendar
 import requests
-from collections import defaultdict
+from collections import defaultdict, namedtuple
 import unicodedata
 from emoji import emojize
 from bs4 import BeautifulSoup
@@ -12,12 +14,14 @@ API = "https://openexchangerates.org/api/latest.json"
 OTHER_API = "http://ws.geeklab.com.ar/dolar/get-dolar-json.php"
 BNC = "http://www.bna.com.ar/"
 DOLAR_HOY = "http://dolarhoy.com/Usd"
-ROFEX = "http://www.ambito.com/economia/mercados/indices/rofex/"
+ROFEX = "https://www.rofex.com.ar/"
 
 dolar = emojize(":dollar:", use_aliases=True)
 euro = "\n🇪🇺"
 real = "\n🇧🇷"
 punch = emojize(":punch:", use_aliases=True)
+DOLAR_REGEX = re.compile(r'DLR(\d{2})(\d{4})')
+Contrato = namedtuple('Contrato', ['mes', 'año', 'valor'])
 
 
 def trim(text, limit=11):
@@ -25,9 +29,9 @@ def trim(text, limit=11):
     return f"{text[:limit]}." if len(text) > limit else text
 
 
-def get_response(url):
+def get_response(url, verify=True):
     try:
-        response = requests.get(url)
+        response = requests.get(url, verify=verify)
     except requests.exceptions.ConnectionError:
         return
 
@@ -108,44 +112,33 @@ def pretty_print_dolar(cotizaciones):
         )
     )
 
+def prettify_rofex(contratos):
+    values = '\n'.join(
+        f"{year} {month:<12} | {value[:5]}" for month, year, value in contratos
+    )
+    header = '  Dólar  | Valor\n'
+    return  f"```{header}{values}```" if contratos is not None else "EMPTY_MESSAGE"
 
 def process_dolarfuturo(response):
     response.encoding = "utf-8"
     data = response.text
     if not data:
         return False
-
     soup = BeautifulSoup(data, "html.parser")
-    data = soup.find_all("table")
+    data = soup.find('table', class_='table-rofex')
+    cotizaciones = data.find_all('tr')[1:]  # Exclude header
 
     if not data:
         return False
 
-    cotizaciones = []
-    for table in data:
-        for trs in table.find_all("tr"):
-            cols = []
-            for item in trs.find_all("th"):
-                text = item.get_text().strip().lower()
-                text = normalize(text)
-                text = text.lower().replace("dolar", "").strip()
-                cols.append(text.capitalize())
+    contratos = []
+    for cotizacion in cotizaciones:
+        contrato, valor, _, _, _ = cotizacion.find_all('td')
+        month, year = DOLAR_REGEX.match(contrato.text).groups()
+        month = calendar.month_name[int(month)]
+        contratos.append(Contrato(month, year, valor.text))
 
-            cols += [
-                item.get_text().strip()
-                for item in trs.find_all("td")
-                if "-" not in item.get_text().strip()
-            ]
-
-            if not len(cols) > 2:
-                continue
-
-            cotizaciones.append("{:16} | {:6} | {:6}".format(*cols))
-
-    result = "\n".join(cotizaciones)
-    data = f"```\n{result}```\n{punch} by rofex by http://www.ambito.com/"
-
-    return data
+    return prettify_rofex(contratos)
 
 
 def process_dolarhoy(response):

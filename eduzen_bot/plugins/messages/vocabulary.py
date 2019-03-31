@@ -75,7 +75,7 @@ INTRO_QUESTIONS = (
     "en qué andás",
 )
 
-JOKE_KEYWORDS = ("jaja", "jeje", "haha")
+JOKE_KEYWORDS = ("", "", "")
 
 JOKE_RESPONSES = (
     "jaja",
