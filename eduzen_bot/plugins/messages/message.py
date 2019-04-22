@@ -183,7 +183,16 @@ def prepare_text(text):
 
 @run_async
 def parse_msgs(bot, update):
-    entities = update.message.parse_entities()
+    message = update.message
+    if not message:
+        return
+
+    try:
+        entities = update.message.parse_entities()
+    except Exception:
+        logger.exception("Parece que no hay parse_entities")
+        return
+
     mentions = [
         value
         for key, value in entities.items()

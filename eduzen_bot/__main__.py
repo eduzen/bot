@@ -16,9 +16,12 @@ Options:
 """
 import os
 import sys
+import logging
 from threading import Thread
 
-import structlog
+import sentry_sdk
+from sentry_sdk.integrations.logging import LoggingIntegration
+from dotenv import load_dotenv
 from docopt import docopt
 from telegram.ext import Filters
 from telegram.ext import CommandHandler
@@ -33,8 +36,18 @@ from plugins.messages.inline import code_markdown
 from plugins.messages.unknown import unknown
 from plugins.messages.message import (parse_msgs)
 
+load_dotenv()
 
-logger = structlog.get_logger(filename=__name__)
+sentry_logging = LoggingIntegration(
+    level=logging.DEBUG,        # Capture info and above as breadcrumbs
+    event_level=logging.ERROR  # Send errors as events
+)
+
+sentry_sdk.init(
+    dsn=os.environ.get("SENTRY_DSN", ''),
+    integrations=[sentry_logging],
+    release=os.environ.get("RELEASE", 'eduzen_bot@1.0')
+)
 
 
 def main():
@@ -42,7 +55,7 @@ def main():
 
     def stop_and_restart():
         """Gracefully stop the Updater and replace the current process with a new one"""
-        logger.info("Restarting eduzen_bot...\n")
+        logging.info("Restarting eduzen_bot...\n")
         bot.updater.stop()
         os.execl(sys.executable, sys.executable, *sys.argv)
 
@@ -79,7 +92,7 @@ def main():
 
 
 if __name__ == "__main__":
-    arguments = docopt(__doc__, version="eduzen_bot 1.0")
+    arguments = docopt(__doc__, version=os.environ.get("RELEASE", 'eduzen_bot@1.0')
     stream = arguments.get("--stream")
     level = arguments.get("--log_level")
     config = arguments.get("--config")
@@ -87,7 +100,7 @@ if __name__ == "__main__":
     initialize_logging(verbose=verbose, level=level)
 
     try:
-        logger.info("Starting main...")
+        logging.info("Starting main...")
         main()
     except Exception:
-        logger.exception("bye bye")
+        logging.exception("bye bye")
