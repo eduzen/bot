@@ -80,8 +80,8 @@ def get_all_seasons(series_name, raw_user_query, number_of_seasons):
         and returns an episode namedtuple
         """
 
-        # First and last cell contain useless info (link with info and forum link)
-        torrent = torrent.find_all("td")[1:-1]
+        # First cell contain useless info (link with info)
+        torrent = torrent.find_all('td')[1:]
         links = torrent[1].find_all("a")
         name = torrent[0].text.strip()
 
