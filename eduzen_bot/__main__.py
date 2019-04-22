@@ -46,7 +46,7 @@ sentry_logging = LoggingIntegration(
 sentry_sdk.init(
     dsn=os.environ.get("SENTRY_DSN", ''),
     integrations=[sentry_logging],
-    release=os.environ.get("RELEASE", 'eduzen_bot@1.0')
+    release=os.environ.get("RELEASE", 'eduzen_bot@1.1')
 )
 
 
@@ -92,7 +92,7 @@ def main():
 
 
 if __name__ == "__main__":
-    arguments = docopt(__doc__, version=os.environ.get("RELEASE", 'eduzen_bot@1.0')
+    arguments = docopt(__doc__, version=os.environ.get("RELEASE", 'eduzen_bot@1.0'))
     stream = arguments.get("--stream")
     level = arguments.get("--log_level")
     config = arguments.get("--config")
