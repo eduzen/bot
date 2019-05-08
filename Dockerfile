@@ -11,7 +11,7 @@ RUN apk add --update --no-cache --virtual .build-deps \
     build-base \
     libffi-dev \
     openssl-dev && \
-    pip install --no-cache-dir -r requirements_dev.txt && \
+    pip install --no-cache-dir -r requirements-dev.txt && \
     find /usr/local \
         \( -type d -a -name test -o -name tests \) \
         -o \( -type f -a -name '*.pyc' -o -name '*.pyo' \) \
