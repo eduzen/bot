@@ -5,7 +5,7 @@ import pytz
 import structlog
 from datetime import datetime
 
-from api import get_feriados, prettify_feriados, filter_feriados
+from eduzen_bot.plugins.commands.feriados.api import get_feriados, prettify_feriados, filter_feriados
 
 logger = structlog.get_logger(filename=__name__)
 

@@ -108,3 +108,6 @@ history.txt
 *.ipynb
 bot.code-workspace
 *.txt
+.pytype/
+monkeytype.sqlite3
+

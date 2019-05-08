@@ -1,15 +1,16 @@
 from datetime import datetime
 import pytz
 import structlog
+from typing import List, Dict
 
 import requests
 
-from aconstants import month_names, FERIADOS_URL
+from eduzen_bot.plugins.commands.feriados.aconstants import month_names, FERIADOS_URL
 
 logger = structlog.get_logger(filename=__name__)
 
 
-def get_feriados(year):
+def get_feriados(year: int):
     try:
         url = FERIADOS_URL.format(year=year)
         r = requests.get(url, params={'incluir': 'opcional'})
@@ -27,7 +28,7 @@ def get_feriados(year):
     return feriados
 
 
-def filter_feriados(today, feriados):
+def filter_feriados(today: datetime, feriados: List) -> List:
     """Returns the future feriados. Filtering past feriados."""
     return [
         f for f in feriados
@@ -36,7 +37,7 @@ def filter_feriados(today, feriados):
     ]
 
 
-def prettify_feriados(today, feriados, compact=False):
+def prettify_feriados(today: datetime, feriados: Dict, compact=False) -> str:
     """Receives a feriado dict of following feriados and pretty prints them.
     [{
         "motivo": "Año Nuevo",
