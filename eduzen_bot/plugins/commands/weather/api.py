@@ -18,7 +18,9 @@ headers = {
     "Upgrade-Insecure-Requests": "1",
 }
 
-openweathermap = "https://api.openweathermap.org/data/2.5/weather?q={city_name}&APPID={token}&units=metric"
+openweathermap = (
+    "https://api.openweathermap.org/data/2.5/weather?q={city_name}&APPID={token}&units=metric"
+)
 
 
 def get_klima(city_name="München"):
@@ -39,6 +41,7 @@ def get_klima(city_name="München"):
         f"Temperaturminimum {data['main']['temp_min']} °C\n"
     )
     return f"{msg}\nBy api.openweathermap.org"
+
 
 def get_weather():
     r = requests.get(lanacion, headers=headers)

@@ -22,8 +22,5 @@ def code(bot, update, args, **kwargs):
     args = f"```python\n{args} \n```"
 
     bot.send_message(
-        chat_id=update.message.chat_id,
-        text=args,
-        parse_mode="Markdown",
-        disable_notification=True,
+        chat_id=update.message.chat_id, text=args, parse_mode="Markdown", disable_notification=True
     )

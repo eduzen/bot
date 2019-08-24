@@ -84,9 +84,7 @@ def get_cotizaciones(response_soup):
     table = response_soup[0]
     # Get cotizaciones
     for row_cotizacion in table.tbody.find_all("tr"):
-        banco, compra, venta = (
-            item.get_text() for item in row_cotizacion.find_all("td")
-        )
+        banco, compra, venta = (item.get_text() for item in row_cotizacion.find_all("td"))
         banco = banco.lower().replace("banco", "").replace(" - ", "-").strip()
         banco = normalize(banco)
         cotizaciones[banco]["compra"] = compra
@@ -106,19 +104,17 @@ def pretty_print_dolar(cotizaciones):
     MONOSPACE = "```\n{}\n```"
     return MONOSPACE.format(
         "\n".join(
-            "{:12} | {:7} | {:7}".format(
-                trim(banco), valor["compra"], valor["venta"]
-            )
+            "{:12} | {:7} | {:7}".format(trim(banco), valor["compra"], valor["venta"])
             for banco, valor in sorted(cotizaciones.items())
         )
     )
 
+
 def prettify_rofex(contratos):
-    values = '\n'.join(
-        f"{year} {month:<12} | {value[:5]}" for month, year, value in contratos
-    )
+    values = '\n'.join(f"{year} {month:<12} | {value[:5]}" for month, year, value in contratos)
     header = '  Dólar  | Valor\n'
-    return  f"```{header}{values}```" if contratos is not None else "EMPTY_MESSAGE"
+    return f"```{header}{values}```" if contratos is not None else "EMPTY_MESSAGE"
+
 
 def process_dolarfuturo(response):
     response.encoding = "utf-8"
@@ -188,6 +184,7 @@ def process_ambito_dolarfuturo(response):
     valores = "\n".join(datos)
     return f'```       Mes {dolar}   Compra | Venta \n{valores}```'
 
+
 def parse_dolarfuturo():
     r = get_response(AMBITO_FUTURO)
     if r and r.status_code == 200:
@@ -199,9 +196,7 @@ def get_dollar():
     r = requests.get(API, params={"app_id": APP_ID})
 
     if r.status_code != 200:
-        logger.error(
-            "Something went wrong when it gets dollar. Status code: %s", r.status_code
-        )
+        logger.error("Something went wrong when it gets dollar. Status code: %s", r.status_code)
         text = "Perdón! La api no está  disponible!"
         return text
 
@@ -219,9 +214,7 @@ def get_dolar_blue():
     r = requests.get(OTHER_API)
 
     if r.status_code != 200:
-        logger.error(
-            "Something went wrong when it gets dollar. Status code: %s", r.status_code
-        )
+        logger.error("Something went wrong when it gets dollar. Status code: %s", r.status_code)
         text = "Perdón! La api no está  disponible!"
         return text
 

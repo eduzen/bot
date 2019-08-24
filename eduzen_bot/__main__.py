@@ -36,19 +36,19 @@ from eduzen_bot.callbacks_handler import callback_query
 from plugins.job_queue.alarms.command import set_timer, unset
 from plugins.messages.inline import code_markdown
 from plugins.messages.unknown import unknown
-from plugins.messages.message import (parse_msgs)
+from plugins.messages.message import parse_msgs
 
 load_dotenv()
 
 sentry_logging = LoggingIntegration(
-    level=logging.DEBUG,        # Capture info and above as breadcrumbs
-    event_level=logging.ERROR  # Send errors as events
+    level=logging.DEBUG,  # Capture info and above as breadcrumbs
+    event_level=logging.ERROR,  # Send errors as events
 )
 
 sentry_sdk.init(
     dsn=os.environ.get("SENTRY_DSN", ''),
     integrations=[sentry_logging, TornadoIntegration()],
-    release=os.environ.get("RELEASE", 'eduzen_bot@1.2')
+    release=os.environ.get("RELEASE", 'eduzen_bot@1.2'),
 )
 
 
@@ -65,9 +65,7 @@ def main():
         bot.send_message(chat_id=update.message.chat_id, text="Bot is restarting...")
         Thread(target=stop_and_restart).start()
 
-    bot.add_handler(
-        CommandHandler("restart", restart, filters=Filters.user(username="@eduzen"))
-    )
+    bot.add_handler(CommandHandler("restart", restart, filters=Filters.user(username="@eduzen")))
 
     message_handlers = [parse_msgs]
 

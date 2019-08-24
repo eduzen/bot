@@ -16,9 +16,7 @@ def update_repo(bot, update, args, **kwargs):
     logger.warn("Trying to update bot code")
 
     result = subprocess.run(
-        ["git", "pull", "origin", "master"],
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
+        ["git", "pull", "origin", "master"], stdout=subprocess.PIPE, stderr=subprocess.PIPE
     )
     msg = "No paso naranja!"
 

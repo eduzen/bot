@@ -31,9 +31,9 @@ def get_feriados(year: int):
 def filter_feriados(today: datetime, feriados: List) -> List:
     """Returns the future feriados. Filtering past feriados."""
     return [
-        f for f in feriados
-        if (f['mes'] == today.month and f['dia'] >= today.day)
-           or f['mes'] > today.month
+        f
+        for f in feriados
+        if (f['mes'] == today.month and f['dia'] >= today.day) or f['mes'] > today.month
     ]
 
 
@@ -61,11 +61,13 @@ def prettify_feriados(today: datetime, feriados: Dict, compact=False) -> str:
         day=nextest_feriado['dia'],
         month=nextest_feriado['mes'],
         year=today.year,
-        tzinfo=pytz.timezone('America/Argentina/Buenos_Aires')
+        tzinfo=pytz.timezone('America/Argentina/Buenos_Aires'),
     )
-    faltan = (next_feriado_date - today)
-    res = (f"Faltan *{faltan.days} días* para el próximo feriado"
-           f" del *{nextest_feriado['dia']} de {month_names[nextest_feriado['mes']]}*\n\n")
+    faltan = next_feriado_date - today
+    res = (
+        f"Faltan *{faltan.days} días* para el próximo feriado"
+        f" del *{nextest_feriado['dia']} de {month_names[nextest_feriado['mes']]}*\n\n"
+    )
 
     for feriado in feriados:
         # Improvement. Print mes header before feriados of that month

@@ -7,7 +7,6 @@ logger = structlog.get_logger(filename=__name__)
 
 
 def restricted(func):
-
     @wraps(func)
     def wrapped(bot, update, *args, **kwargs):
         user_id = update.effective_user.id

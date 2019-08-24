@@ -26,6 +26,7 @@ def get_director(obj):
 
     return ", ".join(directors)
 
+
 def prettify_movie(movie, obj):
     movie_info = get_basic_info(movie)
     directors = get_director(obj)
@@ -54,12 +55,15 @@ def prettify_basic_movie_info(title, rating, overview, year, image, directors):
     stars = rating_stars(rating)
     return (f"{title} ({year}) - {directors}\n" f"{stars}\n\n" f"{overview}\n\n"), image
 
+
 def get_movie_detail(pk):
     return tmdb.Movies(pk)
+
 
 def get_yt_trailer(videos):
     youtube_videos = [f"[{video['name']}]({YT_LINK.format(video['key'])})" for video in videos]
     return youtube_videos
+
 
 def get_yts_torrent_info(imdb_id):
     try:

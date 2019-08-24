@@ -17,7 +17,10 @@ def search_serie(bot, update, **kwargs):
     args = kwargs.get("args")
     chat_data = kwargs.get("chat_data")
     if not args:
-        bot.send_message(chat_id=update.message.chat_id, text="Te faltó pasarme el nombre de la serie. /serie <serie>")
+        bot.send_message(
+            chat_id=update.message.chat_id,
+            text="Te faltó pasarme el nombre de la serie. /serie <serie>",
+        )
         return
 
     query = " ".join(args)
@@ -29,7 +32,10 @@ def search_serie(bot, update, **kwargs):
     if not results:
         bot_reply = bot.send_message(
             chat_id=chat_id,
-            text=(f"No encontré información en imdb sobre _'{query}'_." " Está bien escrito el nombre?"),
+            text=(
+                f"No encontré información en imdb sobre _'{query}'_."
+                " Está bien escrito el nombre?"
+            ),
             parse_mode="markdown",
         )
         return
@@ -53,7 +59,7 @@ def search_serie(bot, update, **kwargs):
     extra_info = serie_object.info()
     next_episode = "unannounced"
     if extra_info.get("next_episode_to_air"):
-        next_episode = extra_info["next_episode_to_air"].get("air_date",  "unannounced")
+        next_episode = extra_info["next_episode_to_air"].get("air_date", "unannounced")
 
     serie.update(
         {
@@ -69,9 +75,16 @@ def search_serie(bot, update, **kwargs):
 
     poster_url = get_poster_url(serie)
     poster_chat = bot.send_photo(chat_id, poster_url)
-    bot_reply = bot.send_message(chat_id=chat_id, text=response, parse_mode="markdown", disable_web_page_preview=True)
+    bot_reply = bot.send_message(
+        chat_id=chat_id, text=response, parse_mode="markdown", disable_web_page_preview=True
+    )
 
-    chat_data["context"] = {"data": serie, "command": "serie", "edit_original_text": True, "poster_chat": poster_chat}
+    chat_data["context"] = {
+        "data": serie,
+        "command": "serie",
+        "edit_original_text": True,
+        "poster_chat": poster_chat,
+    }
 
     bot.edit_message_reply_markup(
         chat_id=chat_id,

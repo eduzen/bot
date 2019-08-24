@@ -22,9 +22,7 @@ def code_markdown(bot, update):
             ),
         ),
         InlineQueryResultArticle(
-            id=uuid4(),
-            title="Caps",
-            input_message_content=InputTextMessageContent(query.upper()),
+            id=uuid4(), title="Caps", input_message_content=InputTextMessageContent(query.upper())
         ),
         InlineQueryResultArticle(
             id=uuid4(),

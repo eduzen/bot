@@ -190,7 +190,6 @@ T1000_RESPONSE = (
     "https://media.giphy.com/media/RwHAVvJy3uA6Y/giphy.gif",
     "https://media.giphy.com/media/10FwycrnAkpshW/giphy.gif",
     "https://media.giphy.com/media/u4DnvVypp0q8U/giphy.gif",
-
 )
 MACRI_RESPONSES = (
     "https://media.giphy.com/media/129NVCr1UfsGTS/giphy.gif",
@@ -211,7 +210,6 @@ MACRI_RESPONSES = (
     "https://media.giphy.com/media/RwHAVvJy3uA6Y/giphy.gif",
     "https://media.giphy.com/media/8ef68WfQPpwVa/giphy.gif",
     "https://media.giphy.com/media/T1bzWiOvyWDyU/giphy.gif",
-
 )
 
 FASO_RESPONSE = (

@@ -22,6 +22,7 @@ def weather(bot, update, args, **kwargs):
 
     bot.send_message(chat_id=update.message.chat_id, text=text)
 
+
 @run_async
 def klima(bot, update, args, **kwargs):
     bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)

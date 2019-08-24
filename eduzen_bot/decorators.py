@@ -3,6 +3,7 @@ def hash_dict(func):
     Into immutable
     Useful to be compatible with cache
     """
+
     class HDict(dict):
         def __hash__(self):
             return hash(frozenset(self.items()))
@@ -12,4 +13,5 @@ def hash_dict(func):
         args = tuple([HDict(arg) if isinstance(arg, dict) else arg for arg in args])
         kwargs = {k: HDict(v) if isinstance(v, dict) else v for k, v in kwargs.items()}
         return func(*args, **kwargs)
+
     return wrapped

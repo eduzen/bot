@@ -3,11 +3,14 @@ from functools import partial
 import pkgutil
 import structlog
 
-from telegram.ext import (
-    CommandHandler, MessageHandler, Filters, InlineQueryHandler, Updater
-)
+from telegram.ext import CommandHandler, MessageHandler, Filters, InlineQueryHandler, Updater
 from telegram.error import (
-    TelegramError, Unauthorized, BadRequest, TimedOut, ChatMigrated, NetworkError
+    TelegramError,
+    Unauthorized,
+    BadRequest,
+    TimedOut,
+    ChatMigrated,
+    NetworkError,
 )
 from keys import TOKEN, EDUZEN_ID
 

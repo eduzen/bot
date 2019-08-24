@@ -22,7 +22,9 @@ def get_ranking(bot, update, args, **kwargs):
     if not args:
         logger.info(data)
         text = "\n".join(data[:5])
-        text = f"Ranking de lo más buscado en teatro:\n{text}\nBy http://www.alternativateatral.com/"
+        text = (
+            f"Ranking de lo más buscado en teatro:\n{text}\nBy http://www.alternativateatral.com/"
+        )
         bot.send_message(chat_id=update.message.chat_id, text=text)
         return
 
@@ -30,8 +32,7 @@ def get_ranking(bot, update, args, **kwargs):
         amount = int(args[0])
     except (ValueError, TypeError):
         bot.send_message(
-            chat_id=update.message.chat_id,
-            text="El primer parametro tiene que ser un número",
+            chat_id=update.message.chat_id, text="El primer parametro tiene que ser un número"
         )
 
     text = "\n".join(data[:amount])

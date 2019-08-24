@@ -41,9 +41,7 @@ def initialize_logging(verbose=False, level="INFO"):
             # logger configuration
             config["formatters"]["colored"]["()"] = structlog.stdlib.ProcessorFormatter
             config["formatters"]["colored"]["foreign_pre_chain"] = pre_chain
-            config["formatters"]["colored"][
-                "processor"
-            ] = structlog.dev.ConsoleRenderer(
+            config["formatters"]["colored"]["processor"] = structlog.dev.ConsoleRenderer(
                 colors=True
             )
             config["root"]["handlers"].append("stdout")

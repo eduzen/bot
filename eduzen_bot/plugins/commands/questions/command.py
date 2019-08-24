@@ -32,10 +32,7 @@ def get_questions(bot, update, args, **kwargs):
     try:
         logger.info(f"Get_questions... by {update.message.from_user.name}")
         qs = "\n".join(
-            [
-                f"{q.id}: {q.question} | {q.answer} | by {q.user}"
-                for q in Question.select()
-            ]
+            [f"{q.id}: {q.question} | {q.answer} | by {q.user}" for q in Question.select()]
         )
         bot.send_message(chat_id=update.message.chat_id, text=f"{qs}")
     except Exception:
@@ -47,31 +44,24 @@ def edit_question(bot, update, args, **kwargs):
     bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
     logger.info(f"Edit_question... by {update.message.from_user.name}")
     if not args:
-        update.message.reply_text(
-            "Se usa: /edit_question <:id_pregunta> <:tu_respuesta>"
-        )
+        update.message.reply_text("Se usa: /edit_question <:id_pregunta> <:tu_respuesta>")
         return
 
     if len(args) < 2:
-        update.message.reply_text(
-            "Se usa: /edit_question <:id_pregunta> <:tu_respuesta>"
-        )
+        update.message.reply_text("Se usa: /edit_question <:id_pregunta> <:tu_respuesta>")
         return
 
     try:
         question_id = int(args[0])
     except (ValueError, TypeError):
         bot.send_message(
-            chat_id=update.message.chat_id,
-            text="El primer parametro tiene que ser un id",
+            chat_id=update.message.chat_id, text="El primer parametro tiene que ser un id"
         )
 
     try:
         q = Question.get_by_id(question_id)
     except Exception:
-        bot.send_message(
-            chat_id=update.message.chat_id, text="No existe pregunta con ese id"
-        )
+        bot.send_message(chat_id=update.message.chat_id, text="No existe pregunta con ese id")
 
     q.question = " ".join(list(args[1:]))
     q.save()
@@ -98,16 +88,13 @@ def add_answer(bot, update, args, **kwargs):
         question_id = int(args[0])
     except (ValueError, TypeError):
         bot.send_message(
-            chat_id=update.message.chat_id,
-            text="El primer parametro tiene que ser un id",
+            chat_id=update.message.chat_id, text="El primer parametro tiene que ser un id"
         )
 
     try:
         q = Question.get_by_id(question_id)
     except Exception:
-        bot.send_message(
-            chat_id=update.message.chat_id, text="No existe pregunta con ese id"
-        )
+        bot.send_message(chat_id=update.message.chat_id, text="No existe pregunta con ese id")
 
     q.answer = " ".join(list(args[1:]))
     q.save()
@@ -142,9 +129,7 @@ def add_question(bot, update, args, **kwargs):
         bot.send_message(chat_id=update.message.chat_id, text=txt)
     except Exception:
         logger.exception("no pudimos agregar preguntas")
-        bot.send_message(
-            chat_id=update.message.chat_id, text="No pudimos agregar tu pregunta"
-        )
+        bot.send_message(chat_id=update.message.chat_id, text="No pudimos agregar tu pregunta")
 
 
 def remove_question(bot, update, args, **kwargs):
@@ -162,8 +147,7 @@ def remove_question(bot, update, args, **kwargs):
         question_id = int(args[0])
     except (ValueError, TypeError):
         bot.send_message(
-            chat_id=update.message.chat_id,
-            text="El primer parametro tiene que ser un id",
+            chat_id=update.message.chat_id, text="El primer parametro tiene que ser un id"
         )
 
     try:
@@ -173,6 +157,4 @@ def remove_question(bot, update, args, **kwargs):
             bot.send_message(chat_id=update.message.chat_id, text="pregunta eliminada")
     except Exception:
         logger.exception("no pudimos eliminar tu pregunta")
-        bot.send_message(
-            chat_id=update.message.chat_id, text="No pudimos agregar tu pregunta"
-        )
+        bot.send_message(chat_id=update.message.chat_id, text="No pudimos agregar tu pregunta")

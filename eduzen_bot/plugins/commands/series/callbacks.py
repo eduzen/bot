@@ -39,7 +39,9 @@ def prettify_episodes(episodes, header=None):
 
 @lru_cache(5)
 def prettify_torrents(torrents):
-    return "\n".join(prettify_torrent(*torrent) for torrent in torrents if prettify_torrent(*torrent))
+    return "\n".join(
+        prettify_torrent(*torrent) for torrent in torrents if prettify_torrent(*torrent)
+    )
 
 
 def prettify_torrent(name, torrent_url, seeds, size):
@@ -55,7 +57,9 @@ def _minify_torrents(torrents):
             MB = 1024 * 1024
             size_float = int(torrent["size_bytes"]) / MB
             size = f"{size_float:.2f}"
-            minified_torrents.append((torrent["title"], torrent["torrent_url"], torrent["seeds"], size))
+            minified_torrents.append(
+                (torrent["title"], torrent["torrent_url"], torrent["seeds"], size)
+            )
         except Exception:
             logger.exception("Error parsing torrent from eztv api. <%s>", torrent)
             continue
@@ -80,18 +84,24 @@ def go_back(bot, update, **context):
     original_text = update.callback_query.message.text
     if response != original_text:
         update.callback_query.edit_message_text(
-            text=response, reply_markup=keyboard, parse_mode="markdown", disable_web_page_preview=True
+            text=response,
+            reply_markup=keyboard,
+            parse_mode="markdown",
+            disable_web_page_preview=True,
         )
     else:
         logger.info(
-            "Selected option '%s' would leave text as it is." "Ignoring to avoid exception. '%s' " % (answer, response)
+            "Selected option '%s' would leave text as it is."
+            "Ignoring to avoid exception. '%s' " % (answer, response)
         )
 
 
 def get_torrents_by_id(imdb_id, limit=None):
     """Request torrents from api and return a minified torrent representation."""
     try:
-        r = requests.get("https://eztv.ag/api/get-torrents", params={"imdb_id": imdb_id, "limit": limit})
+        r = requests.get(
+            "https://eztv.ag/api/get-torrents", params={"imdb_id": imdb_id, "limit": limit}
+        )
         if r.status_code != 200:
             return
         data = r.json()
@@ -116,7 +126,9 @@ def latest_episodes(bot, update, **context):
     if not context:
         message = "Lpm, no pude responder a tu pedido.\n" "Probá invocando de nuevo el comando a ver si me sale 😊"
         logger.info(f"Conflicting update: '{update.to_dict()}'")
-        bot.send_message(chat_id=update.callback_query.message.chat_id, text=message, parse_mode="markdown")
+        bot.send_message(
+            chat_id=update.callback_query.message.chat_id, text=message, parse_mode="markdown"
+        )
         # Notify telegram we have answered
         update.callback_query.answer(text="")
         return
@@ -133,7 +145,9 @@ def latest_episodes(bot, update, **context):
 
     if not torrents:
         logger.info(f"No torrents for {data['name']}")
-        update.callback_query.edit_message_text(text=EZTV_NO_RESULTS, reply_markup=keyboards.serie_go_back_keyboard())
+        update.callback_query.edit_message_text(
+            text=EZTV_NO_RESULTS, reply_markup=keyboards.serie_go_back_keyboard()
+        )
         return
 
     pretty_torrents = prettify_torrents(torrents)
@@ -149,7 +163,8 @@ def latest_episodes(bot, update, **context):
         )
     else:
         logger.info(
-            "Selected option '%s' would leave text as it is." "Ignoring to avoid exception. '%s' " % (answer, response)
+            "Selected option '%s' would leave text as it is."
+            "Ignoring to avoid exception. '%s' " % (answer, response)
         )
 
 
@@ -160,7 +175,9 @@ def all_episodes(bot, update, **context):
     seasons = serie.get("seasons")
     if not seasons:
         update.callback_query.answer(text="Loading episodes... this may take a while")
-        seasons = get_all_seasons(serie["name"], serie["original_name"], serie['number_of_seasons'])
+        seasons = get_all_seasons(
+            serie["name"], serie["original_name"], serie['number_of_seasons']
+        )
         serie["seasons"] = seasons
 
     response = "Choose a season to see its episodes."
@@ -169,11 +186,15 @@ def all_episodes(bot, update, **context):
     original_text = update.callback_query.message.text
     if response != original_text:
         update.callback_query.edit_message_text(
-            text=response, reply_markup=keyboard, parse_mode="markdown", disable_web_page_preview=True
+            text=response,
+            reply_markup=keyboard,
+            parse_mode="markdown",
+            disable_web_page_preview=True,
         )
     else:
         logger.info(
-            "Selected option '%s' would leave text as it is." "Ignoring to avoid exception. '%s' " % (answer, response)
+            "Selected option '%s' would leave text as it is."
+            "Ignoring to avoid exception. '%s' " % (answer, response)
         )
 
 
@@ -204,7 +225,10 @@ def get_season(bot, update, **context):
     if response != original_text:
 
         update.callback_query.edit_message_text(
-            text=response, reply_markup=keyboard, parse_mode="markdown", disable_web_page_preview=True
+            text=response,
+            reply_markup=keyboard,
+            parse_mode="markdown",
+            disable_web_page_preview=True,
         )
     else:
         logger.info(
@@ -225,7 +249,10 @@ def get_episode(bot, update, **context):
     original_text = update.callback_query.message.text
     if response != original_text:
         update.callback_query.edit_message_text(
-            text=response, reply_markup=keyboard, parse_mode="markdown", disable_web_page_preview=True
+            text=response,
+            reply_markup=keyboard,
+            parse_mode="markdown",
+            disable_web_page_preview=True,
         )
     else:
         logger.info(
@@ -249,7 +276,10 @@ def load_episodes(bot, update, **context):
     original_text = update.callback_query.message.text
     if response != original_text:
         update.callback_query.edit_message_text(
-            text=response, reply_markup=keyboard, parse_mode="markdown", disable_web_page_preview=True
+            text=response,
+            reply_markup=keyboard,
+            parse_mode="markdown",
+            disable_web_page_preview=True,
         )
     else:
         logger.info(

@@ -15,7 +15,9 @@ def get_movie_imdb(bot, update, **context):
     imdb_id = context["data"]["imdb_id"]
     answer = f"[IMDB]({IMDB_LINK.format(imdb_id)}"
 
-    bot.send_message(chat_id=update.callback_query.message.chat_id, text=answer, parse_mode="markdown")
+    bot.send_message(
+        chat_id=update.callback_query.message.chat_id, text=answer, parse_mode="markdown"
+    )
 
 
 def get_movie_youtube(bot, update, **context):
@@ -35,9 +37,14 @@ def get_movie_torrent(bot, update, **context):
     if torrent:
         url, seeds, size, quality = torrent
         answer = (
-            f"🏴‍☠️ [{movie['title']}]({url})\n\n" f"🌱 Seeds: {seeds}\n\n" f"🗳 Size: {size}\n\n" f"🖥 Quality: {quality}"
+            f"🏴‍☠️ [{movie['title']}]({url})\n\n"
+            f"🌱 Seeds: {seeds}\n\n"
+            f"🗳 Size: {size}\n\n"
+            f"🖥 Quality: {quality}"
         )
     else:
         answer = "🚧 No torrent available for this movie."
 
-    bot.send_message(chat_id=update.callback_query.message.chat_id, text=answer, parse_mode="markdown")
+    bot.send_message(
+        chat_id=update.callback_query.message.chat_id, text=answer, parse_mode="markdown"
+    )

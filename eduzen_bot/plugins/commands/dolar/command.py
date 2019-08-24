@@ -20,13 +20,10 @@ def get_dolarhoy(bot, update, args, **kwargs):
 
     data = parse_dolarhoy()
     if not data:
-        bot.send_message(
-            chat_id=update.message.chat_id, text="No pudimos conseguir la info"
-        )
+        bot.send_message(chat_id=update.message.chat_id, text="No pudimos conseguir la info")
         return
 
     bot.send_message(chat_id=update.message.chat_id, text=data, parse_mode='markdown')
-
 
 
 @run_async
@@ -36,9 +33,7 @@ def get_dolarfuturo(bot, update, args, **kwargs):
 
     data = parse_dolarfuturo()
     if not data:
-        bot.send_message(
-            chat_id=update.message.chat_id, text="No pudimos conseguir la info"
-        )
+        bot.send_message(chat_id=update.message.chat_id, text="No pudimos conseguir la info")
         return
 
     bot.send_message(chat_id=update.message.chat_id, text=data, parse_mode='markdown')
@@ -71,9 +66,7 @@ def get_dolar(bot, update, args, **kwargs):
 
     data = parse_bnc()
     if not data:
-        bot.send_message(
-            chat_id=update.message.chat_id, text="No pudimos conseguir la info"
-        )
+        bot.send_message(chat_id=update.message.chat_id, text="No pudimos conseguir la info")
         return
 
     bot.send_message(chat_id=update.message.chat_id, text=data)
@@ -90,9 +83,7 @@ def get_cotizaciones(bot, update, args, **kwargs):
 
     data = parse_bnc()
     if not data:
-        bot.send_message(
-            chat_id=update.message.chat_id, text="No pudimos conseguir la info"
-        )
+        bot.send_message(chat_id=update.message.chat_id, text="No pudimos conseguir la info")
         return
 
     bot.send_message(chat_id=update.message.chat_id, text=data)

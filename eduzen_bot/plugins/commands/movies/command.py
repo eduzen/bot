@@ -6,7 +6,11 @@ pelicula - get_movie
 import structlog
 from telegram.ext import run_async
 
-from eduzen_bot.plugins.commands.movies.api import tmdb_movie_search, prettify_movie, get_movie_detail
+from eduzen_bot.plugins.commands.movies.api import (
+    tmdb_movie_search,
+    prettify_movie,
+    get_movie_detail,
+)
 from eduzen_bot.plugins.commands.movies import keyboards
 from eduzen_bot.plugins.commands.movies.constants import IMDB_LINK
 
@@ -48,7 +52,9 @@ def get_movie(bot, update, **kwargs):
         )
         return
     videos = movie_object.videos()
-    movie.update({"imdb_id": imdb_id, "imdb_link": IMDB_LINK.format(imdb_id), "videos": videos["results"]})
+    movie.update(
+        {"imdb_id": imdb_id, "imdb_link": IMDB_LINK.format(imdb_id), "videos": videos["results"]}
+    )
 
     movie_details, poster = prettify_movie(movie, movie_object)
 
@@ -56,7 +62,12 @@ def get_movie(bot, update, **kwargs):
     if poster:
         poster_chat = bot.send_photo(chat_id=update.message.chat_id, photo=poster)
 
-    chat_data["context"] = {"data": movie, "command": "movie", "edit_original_text": True, "poster_chat": poster_chat}
+    chat_data["context"] = {
+        "data": movie,
+        "command": "movie",
+        "edit_original_text": True,
+        "poster_chat": poster_chat,
+    }
 
     bot.send_message(
         chat_id=update.message.chat_id,

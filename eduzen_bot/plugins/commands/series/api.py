@@ -119,6 +119,7 @@ def get_all_seasons(series_name, raw_user_query, number_of_seasons):
             released=torrent[RELEASED].text.strip(),
             seeds=torrent[SEEDS].text.strip(),
         )
+
     # Parse episodes from web
     series_query = raw_user_query.replace(" ", "-")
     r = requests.get(f"https://eztv.ag/search/{series_query}")

@@ -194,9 +194,7 @@ def parse_msgs(bot, update):
         return
 
     mentions = [
-        value
-        for key, value in entities.items()
-        if "@eduzen_bot" in value or "@eduzenbot" in value
+        value for key, value in entities.items() if "@eduzen_bot" in value or "@eduzenbot" in value
     ]
 
     if not mentions:
@@ -210,9 +208,7 @@ def parse_msgs(bot, update):
 
     answer, gif = parse_regular_chat(blob)
     if answer:
-        bot.send_chat_action(
-            chat_id=update.message.chat_id, action=ChatAction.TYPING
-        )
+        bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
     if answer and not gif:
         bot.send_message(chat_id=update.message.chat_id, text=answer)
     elif answer and gif:

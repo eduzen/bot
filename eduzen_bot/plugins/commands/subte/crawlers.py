@@ -4,6 +4,7 @@ from emoji import emojize
 
 warning = emojize(":warning:", use_aliases=True)
 
+
 def get_estado_del_subte(amount=0):
     r = requests.get("http://enelsubte.com/estado/")
     r.encoding = "utf-8"
@@ -39,7 +40,6 @@ def get_estado_del_subte(amount=0):
         text.append(" ".join(cols))
 
         return "\n".join(text)
-
 
 
 def get_estado_metrovias_html(amount=0):
