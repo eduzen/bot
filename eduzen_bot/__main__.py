@@ -46,7 +46,7 @@ sentry_logging = LoggingIntegration(
 sentry_sdk.init(
     dsn=os.environ.get("SENTRY_DSN", ''),
     integrations=[sentry_logging],
-    release=os.environ.get("RELEASE", 'eduzen_bot@1.1')
+    release=os.environ.get("RELEASE", 'eduzen_bot@1.2')
 )
 
 
