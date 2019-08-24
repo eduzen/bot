@@ -2,7 +2,7 @@ import structlog
 import tmdbsimple as tmdb
 
 from eduzen_bot.keys import TMDB
-from eduzen_bot.plugins.commands.movies.constants import IMDB_LINK, YT_LINK
+from eduzen_bot.plugins.commands.movies.constants import IMDB_LINK
 from eduzen_bot.plugins.commands.movies.api import get_yts_torrent_info, get_yt_trailer
 
 

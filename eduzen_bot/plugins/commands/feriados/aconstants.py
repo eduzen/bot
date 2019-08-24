@@ -1,5 +1,3 @@
-import re
-
 meses = (
     'enero',
     'febrero',

@@ -4,7 +4,6 @@ import random
 import codecs
 
 import peewee
-from structlog import get_logger
 from telegram import ChatAction
 from telegram.ext.dispatcher import run_async
 

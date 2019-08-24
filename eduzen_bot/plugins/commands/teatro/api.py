@@ -2,7 +2,6 @@ import logging
 import requests
 
 from bs4 import BeautifulSoup
-from eduzen_bot.keys import APP_ID
 
 logger = logging.getLogger(__name__)
 

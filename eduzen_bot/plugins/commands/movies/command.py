@@ -21,9 +21,10 @@ logger = structlog.get_logger(filename=__name__)
 def get_movie(bot, update, **kwargs):
     args = kwargs.get("args")
     chat_data = kwargs.get("chat_data")
+    chat_id = update.message.chat_id
     if not args:
         bot.send_message(
-            chat_id=update.message.chat_id,
+            chat_id=chat_id,
             text="Necesito que me pases una pelicula. `/pelicula <nombre>`",
             parse_mode="markdown",
         )
@@ -33,7 +34,7 @@ def get_movie(bot, update, **kwargs):
     movies = tmdb_movie_search(query)
 
     if not movies:
-        bot.send_message(chat_id=update.message.chat_id, text="No encontré info sobre %s" % query)
+        bot.send_message(chat_id=chat_id, text="No encontré info sobre %s" % query)
         return
 
     movie = movies[0]

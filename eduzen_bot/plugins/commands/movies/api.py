@@ -82,5 +82,5 @@ def get_yts_torrent_info(imdb_id):
 
             return url, seeds, size, quality
 
-        except (IndexError, KeyError) as e:
+        except (IndexError, KeyError):
             logger.exception("There was a problem with yts api response")

@@ -52,7 +52,7 @@ class TelegramBot(object):
         except NetworkError:
             # handle other connection problems
             logger.error('Update "%s" caused error "%s"', (update, error))
-        except ChatMigrated as e:
+        except ChatMigrated:
             # the chat_id of a group has changed, use e.new_chat_id instead
             logger.error('Update "%s" caused error "%s"', (update, error))
         except TelegramError:
