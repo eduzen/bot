@@ -15,6 +15,7 @@ OTHER_API = "http://ws.geeklab.com.ar/dolar/get-dolar-json.php"
 BNC = "http://www.bna.com.ar/"
 DOLAR_HOY = "http://dolarhoy.com/Usd"
 ROFEX = "https://www.rofex.com.ar/"
+AMBITO_FUTURO = "https://mercados.ambito.com//dolarfuturo/datos"
 
 dolar = emojize(":dollar:", use_aliases=True)
 euro = "\n🇪🇺"
@@ -176,10 +177,21 @@ def parse_dolarhoy():
     return "Dolarhoy hoy no responde 🤷‍♀"
 
 
+def process_ambito_dolarfuturo(response):
+    data = response.json()
+    datos = []
+    for i in data:
+        mes = i['contrato'].replace('Dólar ', '')
+        venta = i['venta']
+        compra = i['compra']
+        datos.append(f"{mes:<15} {venta:<7} {compra:<5}")
+    valores = "\n".join(datos)
+    return f'```       Mes {dolar}   Compra | Venta \n{valores}```'
+
 def parse_dolarfuturo():
-    r = get_response(ROFEX)
+    r = get_response(AMBITO_FUTURO)
     if r and r.status_code == 200:
-        return process_dolarfuturo(r)
+        return process_ambito_dolarfuturo(r)
     return "Rofex no responde 🤷‍♀"
 
 
