@@ -21,6 +21,8 @@ from threading import Thread
 
 import sentry_sdk
 from sentry_sdk.integrations.logging import LoggingIntegration
+from sentry_sdk.integrations.tornado import TornadoIntegration
+
 from dotenv import load_dotenv
 from docopt import docopt
 from telegram.ext import Filters
@@ -45,7 +47,7 @@ sentry_logging = LoggingIntegration(
 
 sentry_sdk.init(
     dsn=os.environ.get("SENTRY_DSN", ''),
-    integrations=[sentry_logging],
+    integrations=[sentry_logging, TornadoIntegration()],
     release=os.environ.get("RELEASE", 'eduzen_bot@1.2')
 )
 
