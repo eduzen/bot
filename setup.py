@@ -8,7 +8,7 @@ from setuptools import setup, find_packages
 
 def _get_git_tag():
     label = subprocess.check_output(["git", "describe"]).strip().decode("utf8")
-    return str(label)
+    return label
 
 
 with codecs.open("README.md", "r", "utf-8") as readme_file:
