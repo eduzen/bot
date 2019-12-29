@@ -1,4 +1,5 @@
 # Just another telegram-bot
+![Travis (.org) branch](https://img.shields.io/travis/eduzen/bot/master?style=plastic) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/a7d8a79c8e084108ac7469ad1820925a)](https://www.codacy.com/manual/eduzen/bot?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=eduzen/bot&amp;utm_campaign=Badge_Grade)
 
 ## Installation
 
