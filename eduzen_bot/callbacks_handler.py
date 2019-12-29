@@ -48,13 +48,13 @@ def callback_query(update, context, **kwargs):
         )
         return
 
-    context = context.chat_data["context"]
-    log.info(f"from {context['command']} - {query.data}")
+    chat_context = context.chat_data["context"]
+    log.info(f"from {chat_context['command']} - {query.data}")
 
     try:
-        func(update, context, **kwargs)
-    except Exception:
-        log.exception("El callback se rompió... ")
+        func(update, chat_context, **kwargs)
+    except Exception as exc:
+        log.exception(f"El callback se rompió... {exc} {exc.args}")
         context.bot.send_message(
             chat_id=update.callback_query.message.chat_id,
             text="En el medio sucedieron cosas... _Errare humanum est._",

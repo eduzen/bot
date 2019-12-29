@@ -19,8 +19,8 @@ logger = structlog.get_logger(filename=__name__)
 
 @run_async
 def get_movie(update, context, **kwargs):
-    args = kwargs.get("args")
-    chat_data = kwargs.get("chat_data")
+    args = context.args
+    chat_data = context.chat_data
     chat_id = update.message.chat_id
     if not context.args:
         context.bot.send_message(
