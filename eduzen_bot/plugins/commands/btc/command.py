@@ -11,10 +11,10 @@ logger = structlog.get_logger()
 
 
 @run_async
-def btc(bot, update, args, **kwargs):
-    bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
+def btc(update, context, *args, **kwargs):
+    context.bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
     logger.info(f"Btc... by {update.message.from_user.name}")
 
     text = get_btc()
 
-    bot.send_message(chat_id=update.message.chat_id, text=text)
+    context.bot.send_message(chat_id=update.message.chat_id, text=text)

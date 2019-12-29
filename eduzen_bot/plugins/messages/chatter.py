@@ -5,7 +5,7 @@ from telegram import InlineQueryResultArticle, InputTextMessageContent
 logger = logging.getLogger()
 
 
-def code(bot, update):
+def code(update, context):
     query = update.inline_query.query
 
     if not query:
@@ -20,4 +20,4 @@ def code(bot, update):
             input_message_content=InputTextMessageContent(query, "MARKDOWN"),
         )
     ]
-    bot.answer_inline_query(update.inline_query.id, results)
+    context.bot.answer_inline_query(update.inline_query.id, results)

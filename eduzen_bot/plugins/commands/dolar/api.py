@@ -25,7 +25,7 @@ DOLAR_REGEX = re.compile(r'DLR(\d{2})(\d{4})')
 Contrato = namedtuple('Contrato', ['mes', 'año', 'valor'])
 
 
-def trim(text, limit=11):
+def trim(text, limit=11) -> str:
     """Trim and append . if text is too long. Else return it unmodified"""
     return f"{text[:limit]}." if len(text) > limit else text
 

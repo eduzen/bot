@@ -7,7 +7,7 @@ from telegram.utils.helpers import escape_markdown
 logger = logging.getLogger()
 
 
-def code_markdown(bot, update):
+def code_markdown(update, context):
     query = update.inline_query.query
 
     if not query:
@@ -39,4 +39,4 @@ def code_markdown(bot, update):
             ),
         ),
     ]
-    bot.answer_inline_query(update.inline_query.id, results)
+    context.bot.answer_inline_query(update.inline_query.id, results)

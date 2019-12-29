@@ -30,7 +30,7 @@ tmdb.API_KEY = TMDB["API_KEY"]
 @lru_cache(20)
 def get_all_seasons(series_name, raw_user_query, number_of_seasons):
     """Parses eztv search page in order to return all episodes of a given series.
-    Args:
+    context.args:
         series_name: Full series name as it is on tmdb
         raw_user_query: The user query, with possible typos or the incomplete series_name
     Unlike get_latest_episodes handler function, this does not communicate directly

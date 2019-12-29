@@ -57,3 +57,11 @@ def set_handler(arguments):
         return False
 
     return False
+
+
+__all__ = [
+    'models',
+    'keys',
+    'auth',
+    'menus',
+]

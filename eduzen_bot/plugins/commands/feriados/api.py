@@ -23,8 +23,6 @@ def get_feriados(year: int):
         return None
 
     feriados = r.json()
-    logger.debug("Feriados: %s", feriados)
-
     return feriados
 
 

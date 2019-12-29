@@ -2,7 +2,7 @@
 gasto - expense
 """
 from telegram import ChatAction
-from auth.restricted import restricted
+from eduzen_bot.auth.restricted import restricted
 import structlog
 
 from api import send_expense
@@ -11,8 +11,8 @@ logger = structlog.get_logger(filename=__name__)
 
 
 @restricted
-def expense(bot, update, args, **kwargs):
-    bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
+def expense(update, context, *args, **kwargs):
+    context.bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
     logger.info(f"expenses... by {update.message.from_user.name}")
     if not update.message.from_user.name == "@eduzen":
         update.message.reply_text(
@@ -21,7 +21,7 @@ def expense(bot, update, args, **kwargs):
         )
         return
 
-    if not args:
+    if not context.args:
         update.message.reply_text("mmm no enviaste nada!")
         return
 

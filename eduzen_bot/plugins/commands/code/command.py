@@ -4,23 +4,23 @@ code - code
 import structlog
 from telegram import ChatAction
 
-from auth.restricted import restricted
+from eduzen_bot.auth.restricted import restricted
 
 logger = structlog.get_logger(filename=__name__)
 
 
 @restricted
-def code(bot, update, args, **kwargs):
-    bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
+def code(update, context, *args, **kwargs):
+    context.bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
     logger.info(f"Code... by {update.message.from_user.name}")
 
-    if not args:
+    if not context.args:
         return
 
-    args = " ".join(list(args))
+    args = " ".join(context.args)
 
     args = f"```python\n{args} \n```"
 
-    bot.send_message(
+    context.bot.send_message(
         chat_id=update.message.chat_id, text=args, parse_mode="Markdown", disable_notification=True
     )

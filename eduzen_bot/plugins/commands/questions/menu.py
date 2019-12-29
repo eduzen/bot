@@ -1,14 +1,14 @@
 import structlog
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
-from menus.builder import build_menu
-from models import Question
+from eduzen_bot.menus.builder import build_menu
+from eduzen_bot.models import Question
 
 from emoji import emojize
 
 logger = structlog.getLogger(filename=__name__)
 
 
-def q_menu(bot, update, args):
+def q_menu(update, context):
     keyboard = [
         InlineKeyboardButton("Only questions", callback_data="questions"),
         InlineKeyboardButton("Questions & answers", callback_data="answer"),
@@ -16,7 +16,7 @@ def q_menu(bot, update, args):
     ]
     reply_markup = InlineKeyboardMarkup(build_menu(keyboard, n_cols=2))
 
-    bot.send_message(
+    context.bot.send_message(
         chat_id=update.message.chat_id, text="Please choose:", reply_markup=reply_markup
     )
 
@@ -32,7 +32,7 @@ def get_questions(answer=None):
     return f"{qs}\n{punch}"
 
 
-def button(bot, update):
+def button(update, context):
     query = update.callback_query
 
     selected = query.data
@@ -49,7 +49,7 @@ def button(bot, update):
             "Despues resta hablarle al bot `tu pregunta? @eduzen_bot`"
         )
 
-    bot.edit_message_text(
+    context.bot.edit_message_text(
         text=f"{answer}",
         chat_id=query.message.chat_id,
         message_id=query.message.message_id,

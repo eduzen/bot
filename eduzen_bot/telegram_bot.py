@@ -1,4 +1,5 @@
 import os
+import attr
 from functools import partial
 import pkgutil
 import structlog
@@ -12,22 +13,26 @@ from telegram.error import (
     ChatMigrated,
     NetworkError,
 )
-from keys import TOKEN, EDUZEN_ID
-
 logger = structlog.get_logger(filename=__name__)
 
 here = os.path.abspath(os.path.dirname(__file__))
 get_path = partial(os.path.join, here)
 
 
-class TelegramBot(object):
+@attr.s(auto_attribs=True)
+class TelegramBot:
     """Just a class for python-telegram-bot"""
 
-    def __init__(self, workers=4):
-        self.updater = Updater(token=TOKEN, workers=workers)
+    token: str
+    eduzen_id: int = 3652654
+    workers: int = 4
+    use_context: bool = True
+    updater: Updater = None
+
+    def __attrs_post_init__(self):
+        self.updater = Updater(token=self.token, workers=self.workers, use_context=self.use_context)
         logger.info("Created updater for %s" % (self.updater.bot.name))
-        self.dispatcher = self.updater.dispatcher
-        self.dispatcher.add_error_handler(self.error)
+        self.updater.dispatcher.add_error_handler(self.error)
         self._load_plugins()
 
     def start(self):
@@ -39,7 +44,6 @@ class TelegramBot(object):
         """Log Errors caused by Updates."""
         try:
             raise error
-
         except Unauthorized:
             # remove update.message.chat_id from conversation list
             logger.error("Update caused Unauthorized error")
@@ -60,15 +64,18 @@ class TelegramBot(object):
             logger.error('Update "%s" caused error "%s"', (update, error))
 
     def add_handler(self, handler):
-        self.dispatcher.add_handler(handler)
+        self.updater.dispatcher.add_handler(handler)
 
     def add_list_of_handlers(self, handlers):
         for handler in handlers:
             self.add_handler(handler)
 
+    def send_msg(self, msg):
+        self.updater.bot.send_message(msg)
+
     def send_msg_to_eduzen(self, msg):
         logger.info("aviso a eduzen")
-        self.updater.bot.send_message(EDUZEN_ID, msg)
+        self.updater.bot.send_message(self.eduzen_id, msg)
 
     def create_command(self, name, func):
         return CommandHandler(name, func, pass_args=True, pass_chat_data=True)

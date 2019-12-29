@@ -18,12 +18,12 @@ logger = structlog.get_logger(filename=__name__)
 
 
 @run_async
-def get_movie(bot, update, **kwargs):
+def get_movie(update, context, **kwargs):
     args = kwargs.get("args")
     chat_data = kwargs.get("chat_data")
     chat_id = update.message.chat_id
-    if not args:
-        bot.send_message(
+    if not context.args:
+        context.bot.send_message(
             chat_id=chat_id,
             text="Necesito que me pases una pelicula. `/pelicula <nombre>`",
             parse_mode="markdown",
@@ -34,7 +34,7 @@ def get_movie(bot, update, **kwargs):
     movies = tmdb_movie_search(query)
 
     if not movies:
-        bot.send_message(chat_id=chat_id, text="No encontré info sobre %s" % query)
+        context.bot.send_message(chat_id=chat_id, text="No encontré info sobre %s" % query)
         return
 
     movie = movies[0]
@@ -46,7 +46,7 @@ def get_movie(bot, update, **kwargs):
         imdb_id = external_data["imdb_id"]  # tt<id> -> <id>
     except (KeyError, AttributeError):
         logger.info("imdb id for the movie not found")
-        bot.send_message(
+        context.bot.send_message(
             chat_id=chat_id,
             text="👎 No encontré el id de imdb de esta serie, imposible de bajar por acá",
             parse_mode="markdown",
@@ -61,7 +61,7 @@ def get_movie(bot, update, **kwargs):
 
     poster_chat = None
     if poster:
-        poster_chat = bot.send_photo(chat_id=update.message.chat_id, photo=poster)
+        poster_chat = context.bot.send_photo(chat_id=update.message.chat_id, photo=poster)
 
     chat_data["context"] = {
         "data": movie,
@@ -70,7 +70,7 @@ def get_movie(bot, update, **kwargs):
         "poster_chat": poster_chat,
     }
 
-    bot.send_message(
+    context.bot.send_message(
         chat_id=update.message.chat_id,
         text=movie_details,
         reply_markup=keyboards.pelis(),

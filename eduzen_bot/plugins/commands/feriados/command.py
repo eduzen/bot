@@ -14,7 +14,7 @@ from eduzen_bot.plugins.commands.feriados.api import (
 logger = structlog.get_logger(filename=__name__)
 
 
-def feriadosarg(bot, update, *args, **kwargs):
+def feriadosarg(update, context, *args, **kwargs):
     today = datetime.now(pytz.timezone('America/Argentina/Buenos_Aires'))
     feriados = get_feriados(today.year)
     if not feriados:

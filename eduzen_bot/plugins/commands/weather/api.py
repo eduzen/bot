@@ -2,7 +2,7 @@ import logging
 import requests
 from bs4 import BeautifulSoup
 
-from keys import openweathermap_token
+from eduzen_bot.keys import openweathermap_token
 
 logger = logging.getLogger(__name__)
 
