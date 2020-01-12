@@ -67,7 +67,7 @@ def _minify_torrents(torrents):
     return tuple(minified_torrents)
 
 
-def go_back(bot, update, **context):
+def go_back(update, context, **kwargs):
     # Remove season and episode context so we can start the search again if the user wants to download another episode.
     context.pop("selected_season_episodes", None)
     answer = update.callback_query.data
@@ -120,13 +120,13 @@ def get_torrents_by_id(imdb_id, limit=None):
     return _minify_torrents(torrents)
 
 
-def latest_episodes(bot, update, **context):
+def latest_episodes(update, context, **kwargs):
     logger.info("Called latest episodes")
 
     if not context:
         message = "Lpm, no pude responder a tu pedido.\n" "Probá invocando de nuevo el comando a ver si me sale 😊"
         logger.info(f"Conflicting update: '{update.to_dict()}'")
-        bot.send_message(
+        context.bot.send_message(
             chat_id=update.callback_query.message.chat_id, text=message, parse_mode="markdown"
         )
         # Notify telegram we have answered
@@ -168,7 +168,7 @@ def latest_episodes(bot, update, **context):
         )
 
 
-def all_episodes(bot, update, **context):
+def all_episodes(update, context, **kwargs):
     serie = context["data"]
     answer = update.callback_query.data
 
@@ -198,7 +198,7 @@ def all_episodes(bot, update, **context):
         )
 
 
-def get_season(bot, update, **context):
+def get_season(update, context, **kwargs):
     serie = context["data"]
     poster_chat = context["poster_chat"]
     answer = update.callback_query.data
@@ -236,7 +236,7 @@ def get_season(bot, update, **context):
         )
 
 
-def get_episode(bot, update, **context):
+def get_episode(update, context, **kwargs):
     serie = context["data"]
     answer = update.callback_query.data
     episode = answer.split("_")[-1]
@@ -260,7 +260,7 @@ def get_episode(bot, update, **context):
         )
 
 
-def load_episodes(bot, update, **context):
+def load_episodes(update, context, **kwargs):
     serie = context["data"]
     seasons = serie.get("seasons")
     answer = update.callback_query.data

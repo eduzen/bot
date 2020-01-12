@@ -26,22 +26,21 @@ def _select_handler(key):
     return handlers.get(key)
 
 
-def callback_query(bot, update, **kwargs):
+def callback_query(update, context, **kwargs):
     query = update.callback_query
 
     func = _select_handler(query.data)
     if not func:
-        bot.edit_message_text(
+        context.bot.edit_message_text(
             text=f"Selected option: {query.data} doesn't work yet",
             chat_id=query.message.chat_id,
             message_id=query.message.message_id,
         )
         return
 
-    chat_data = kwargs.get("chat_data")
-    if not chat_data:
+    if not context.chat_data:
         txt = "_Errare humanum est._\n" "Algo paso en el medio.\n" "Empecemos de nuevo con el commando original"
-        bot.edit_message_text(
+        context.bot.edit_message_text(
             text=txt,
             chat_id=query.message.chat_id,
             message_id=query.message.message_id,
@@ -49,14 +48,14 @@ def callback_query(bot, update, **kwargs):
         )
         return
 
-    context = chat_data["context"]
-    log.info(f"from {context['command']} - {query.data}")
+    chat_context = context.chat_data["context"]
+    log.info(f"from {chat_context['command']} - {query.data}")
 
     try:
-        func(bot, update, **context)
-    except Exception:
-        log.exception("El callback se rompió... ")
-        bot.send_message(
+        func(update, chat_context, **kwargs)
+    except Exception as exc:
+        log.exception(f"El callback se rompió... {exc} {exc.args}")
+        context.bot.send_message(
             chat_id=update.callback_query.message.chat_id,
             text="En el medio sucedieron cosas... _Errare humanum est._",
             parse_mode="markdown",

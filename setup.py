@@ -1,40 +1,30 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
 """The setup script."""
-
-import sys
 import codecs
+import subprocess
 
 from setuptools import setup, find_packages
-import versioneer
+
+
+def _get_git_tag():
+    label = subprocess.check_output(["git", "describe"]).strip().decode("utf8")
+    return label
+
 
 with codecs.open("README.md", "r", "utf-8") as readme_file:
     readme = readme_file.read()
 
-if sys.version_info < (3, 6):
-    sys.exit("Sorry, Python < 3.6 is not supported")
+with open("requirements.txt") as reqs:
+    requirements = [line.strip() for line in reqs]
 
-requirements_urls = {}
-
-requirements = []
-
-requirements.extend(requirements_urls.keys())
-
-setup_requirements = ["pytest-runner"]
-
-test_requirements = ["pytest"]
-
-dependency_links = list(requirements_urls.values())
-
-
-package_name = "eduzen_bot"
+with open("requirements-dev.txt") as reqs:
+    requirements_dev = [line.strip() for line in reqs if "requirements.txt" not in line.strip()]
 
 
 setup(
-    name=package_name,
-    version=versioneer.get_version(),
-    cmdclass=versioneer.get_cmdclass(),
+    name="eduzen_bot",
+    version=_get_git_tag(),
+    # cmdclass=versioneer.get_cmdclass(),
     url="https://github.com/eduzen/bot",
     description="This is the eduzen_bot for telegram",
     long_description=readme,
@@ -43,8 +33,6 @@ setup(
     packages=find_packages(include=["eduzen_bot*"]),
     include_package_data=True,
     install_requires=requirements,
-    dependency_links=dependency_links,
-    zip_safe=True,
     keywords="eduzen_bot",
     classifiers=[
         "Development Status :: 2 - Pre-Alpha",
@@ -53,7 +41,6 @@ setup(
         "Programming Language :: Python :: 3.6",
     ],
     test_suite="tests",
-    tests_require=test_requirements,
-    setup_requires=setup_requirements,
+    tests_require=requirements + requirements_dev,
     entry_points={"database_scripts": ["initialize_db = eduzen_bot.scripts.initialize_db:main"]},
 )

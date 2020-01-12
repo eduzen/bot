@@ -3,7 +3,7 @@ from datetime import datetime
 import structlog
 import tweepy
 
-from keys import TWITTER
+from eduzen_bot.keys import TWITTER
 
 logger = structlog.get_logger(filename=__name__)
 

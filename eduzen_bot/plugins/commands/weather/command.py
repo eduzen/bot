@@ -12,23 +12,23 @@ logger = structlog.get_logger()
 
 
 @run_async
-def weather(bot, update, args, **kwargs):
-    bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
+def weather(update, context, *args, **kwargs):
+    context.bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
     logger.info(f"Weather... by {update.message.from_user.name}")
 
     text = get_weather()
     if not text:
         return
 
-    bot.send_message(chat_id=update.message.chat_id, text=text)
+    context.bot.send_message(chat_id=update.message.chat_id, text=text)
 
 
 @run_async
-def klima(bot, update, args, **kwargs):
-    bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
+def klima(update, context, *args, **kwargs):
+    context.bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
     logger.info(f"Klima... by {update.message.from_user.name}")
 
-    if not args:
+    if not context.args:
         text = get_klima()
     else:
         city = "".join(args)
@@ -37,4 +37,4 @@ def klima(bot, update, args, **kwargs):
     if not text:
         return
 
-    bot.send_message(chat_id=update.message.chat_id, text=text, parse_mode='markdown')
+    context.bot.send_message(chat_id=update.message.chat_id, text=text, parse_mode='markdown')

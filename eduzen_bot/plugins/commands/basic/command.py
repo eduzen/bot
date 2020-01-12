@@ -8,13 +8,14 @@ import structlog
 import peewee
 from telegram.ext.dispatcher import run_async
 
-from models import User
+from eduzen_bot.models import User
 
 logger = structlog.get_logger(filename=__name__)
 
 
 @run_async
-def send_private_msg(bot, update, args):
+def send_private_msg(update, context):
+    args = context.args
     if not args:
         update.message.reply_text("Se usa: /msg <:user_id> <:msg>")
         return
@@ -23,7 +24,7 @@ def send_private_msg(bot, update, args):
         update.message.reply_text("Se usa: /msg <:user_id> <:msg>")
         return
 
-    bot.send_message(args[0], args[1])
+    context.bot.send_message(args[0], args[1])
 
 
 @run_async
@@ -51,7 +52,7 @@ def get_or_create_user(user):
 
 
 @run_async
-def start(bot, update, args):
+def start(update, context):
     logger.info(f"Starting comand... by {update.message.from_user.name}")
     user = update.message.from_user
 
@@ -66,9 +67,9 @@ def start(bot, update, args):
 
 
 @run_async
-def ayuda(bot, update, args):
+def ayuda(update, context):
     logger.info(f"Help comand... by {update.message.from_user.name}")
-    bot.send_message(
+    context.bot.send_message(
         chat_id=update.message.chat_id,
         text=(
             "las opciones son:\n"
@@ -85,11 +86,11 @@ def ayuda(bot, update, args):
 
 
 @run_async
-def caps(bot, update, args):
+def caps(update, context):
     logger.info(f"caps... by {update.message.from_user.name}")
-    if not args:
+    if not context.args:
         update.message.reply_text("No enviaste nada!")
         return
 
-    text_caps = " ".join(args).upper()
-    bot.send_message(chat_id=update.message.chat_id, text=text_caps)
+    text_caps = " ".join(context.args).upper()
+    context.bot.send_message(chat_id=update.message.chat_id, text=text_caps)

@@ -4,7 +4,7 @@ import structlog
 import tweepy
 from emoji import emojize
 
-from keys import TWITTER
+from eduzen_bot.keys import TWITTER
 
 logger = structlog.get_logger(filename=__name__)
 metro = emojize(":metro:", use_aliases=True)

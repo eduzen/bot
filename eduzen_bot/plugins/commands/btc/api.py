@@ -41,16 +41,11 @@ def process_coindesk(response):
 
 
 def get_btc():
-    r = get_coin_value(COIN_BIN)
-
-    if r and r.status_code == 200:
-        return process_coinbin(r)
-
     r = get_coin_value(COIN_DESK)
 
     if r and r.status_code == 200:
         return process_coindesk(r)
 
-    logger.error("Something went wrong when it gets btc. Status code: %s", r.status_code)
+    logger.error(f"Something went wrong when it gets btc. Status code: {r.status_code}")
 
     return "Perdón! No hay ninguna api disponible!"

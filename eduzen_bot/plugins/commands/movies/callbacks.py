@@ -11,19 +11,19 @@ logger = structlog.get_logger(filename=__name__)
 tmdb.API_KEY = TMDB["API_KEY"]
 
 
-def get_movie_imdb(bot, update, **context):
+def get_movie_imdb(update, context, **kwargs):
     imdb_id = context["data"]["imdb_id"]
     answer = f"[IMDB]({IMDB_LINK.format(imdb_id)}"
 
-    bot.send_message(
+    update.callback_query.bot.send_message(
         chat_id=update.callback_query.message.chat_id, text=answer, parse_mode="markdown"
     )
 
 
-def get_movie_youtube(bot, update, **context):
+def get_movie_youtube(update, context, **kwargs):
     movie = context["data"]
     answer = "\n".join(get_yt_trailer(movie["videos"]))
-    bot.send_message(
+    update.callback_query.bot.send_message(
         chat_id=update.callback_query.message.chat_id,
         text=answer,
         parse_mode="markdown",
@@ -31,7 +31,7 @@ def get_movie_youtube(bot, update, **context):
     )
 
 
-def get_movie_torrent(bot, update, **context):
+def get_movie_torrent(update, context, **kwargs):
     movie = context["data"]
     torrent = get_yts_torrent_info(movie["imdb_id"])
     if torrent:
@@ -45,6 +45,6 @@ def get_movie_torrent(bot, update, **context):
     else:
         answer = "🚧 No torrent available for this movie."
 
-    bot.send_message(
+    update.callback_query.bot.send_message(
         chat_id=update.callback_query.message.chat_id, text=answer, parse_mode="markdown"
     )

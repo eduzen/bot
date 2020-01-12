@@ -12,25 +12,23 @@ logger = structlog.get_logger(filename=__name__)
 
 
 @run_async
-def search_serie(bot, update, **kwargs):
-    bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
-    args = kwargs.get("args")
-    chat_data = kwargs.get("chat_data")
-    if not args:
-        bot.send_message(
+def search_serie(update, context, **kwargs):
+    context.bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
+    if not context.args:
+        context.bot.send_message(
             chat_id=update.message.chat_id,
             text="Te faltó pasarme el nombre de la serie. /serie <serie>",
         )
         return
 
-    query = " ".join(args)
+    query = " ".join(context.args)
     chat_id = update.message.chat_id
 
-    logger.info(f"Search serie {args}")
+    logger.info(f"Search serie", args=context.args)
     results = get_related_series(query)
 
     if not results:
-        bot_reply = bot.send_message(
+        bot_reply = context.bot.send_message(
             chat_id=chat_id,
             text=(
                 f"No encontré información en imdb sobre _'{query}'_."
@@ -41,7 +39,7 @@ def search_serie(bot, update, **kwargs):
         return
 
     serie = results[0]
-    bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
+    context.bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
     serie_object = get_serie_detail(serie["id"])
     external_ids = serie_object.external_ids()
 
@@ -49,7 +47,7 @@ def search_serie(bot, update, **kwargs):
         imdb_id = external_ids["imdb_id"].replace("t", "")  # tt<id> -> <id>
     except (KeyError, AttributeError):
         logger.info("imdb id for the movie not found")
-        bot.send_message(
+        context.bot.send_message(
             chat_id=chat_id,
             text="👎 No encontré el id de imdb de esta serie, imposible de bajar por acá",
             parse_mode="markdown",
@@ -74,19 +72,19 @@ def search_serie(bot, update, **kwargs):
     response = prettify_serie(serie)
 
     poster_url = get_poster_url(serie)
-    poster_chat = bot.send_photo(chat_id, poster_url)
-    bot_reply = bot.send_message(
+    poster_chat = context.bot.send_photo(chat_id, poster_url)
+    bot_reply = context.bot.send_message(
         chat_id=chat_id, text=response, parse_mode="markdown", disable_web_page_preview=True
     )
 
-    chat_data["context"] = {
+    context.chat_data["context"] = {
         "data": serie,
         "command": "serie",
         "edit_original_text": True,
         "poster_chat": poster_chat,
     }
 
-    bot.edit_message_reply_markup(
+    context.bot.edit_message_reply_markup(
         chat_id=chat_id,
         message_id=bot_reply.message_id,
         text=bot_reply.caption,

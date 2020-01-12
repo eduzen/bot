@@ -4,15 +4,15 @@ unset - Sacar alarma
 """
 
 
-def alarm(bot, job):
+def alarm(context):
     """Send the alarm message."""
-    bot.send_message(job.context, text="Beep!")
-    bot.send_document(
-        job.context, document="https://media.giphy.com/media/d3yxg15kJppJilnW/giphy.gif"
+    context.bot.send_message(context.job.context, text="Beep!")
+    context.bot.send_document(
+        context.job.context, document="https://media.giphy.com/media/d3yxg15kJppJilnW/giphy.gif"
     )
 
 
-def set_timer(bot, update, args, job_queue, chat_data):
+def set_timer(update, context, *args, job_queue, chat_data):
     """Add a job to the queue."""
     chat_id = update.message.chat_id
     try:
@@ -32,7 +32,7 @@ def set_timer(bot, update, args, job_queue, chat_data):
         update.message.reply_text("Usage: /set <seconds>")
 
 
-def unset(bot, update, chat_data):
+def unset(update, context, chat_data):
     """Remove the job if the user changed their mind."""
     if "job" not in chat_data:
         update.message.reply_text("No hay timers activados!")

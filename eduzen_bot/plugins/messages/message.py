@@ -1,5 +1,5 @@
 import os
-import logging
+import structlog
 import random
 import codecs
 
@@ -7,7 +7,7 @@ import peewee
 from telegram import ChatAction
 from telegram.ext.dispatcher import run_async
 
-from models import User, Question
+from eduzen_bot.models import User, Question
 from .vocabulary import (
     GREETING_KEYWORDS,
     GREETING_RESPONSES,
@@ -31,7 +31,7 @@ from textblob import TextBlob
 
 chats = {"-288031841": "t3"}
 
-logger = logging.getLogger(__name__)
+logger = structlog.getLogger(filename=__name__)
 
 
 @run_async
@@ -181,7 +181,7 @@ def prepare_text(text):
 
 
 @run_async
-def parse_msgs(bot, update):
+def parse_msgs(update, context):
     message = update.message
     if not message:
         return
@@ -207,10 +207,10 @@ def parse_msgs(bot, update):
 
     answer, gif = parse_regular_chat(blob)
     if answer:
-        bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
+        context.bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
     if answer and not gif:
-        bot.send_message(chat_id=update.message.chat_id, text=answer)
+        context.bot.send_message(chat_id=update.message.chat_id, text=answer)
     elif answer and gif:
-        bot.send_document(chat_id=update.message.chat_id, document=answer)
+        context.bot.send_document(chat_id=update.message.chat_id, document=answer)
 
     return

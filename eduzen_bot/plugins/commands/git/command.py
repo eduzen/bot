@@ -5,14 +5,14 @@ import subprocess
 
 import structlog
 from telegram.ext.dispatcher import run_async
-from auth.restricted import restricted
+from eduzen_bot.auth.restricted import restricted
 
 logger = structlog.get_logger(filename=__name__)
 
 
 @run_async
 @restricted
-def update_repo(bot, update, args, **kwargs):
+def update_repo(update, context, *args, **kwargs):
     logger.warn("Trying to update bot code")
 
     result = subprocess.run(

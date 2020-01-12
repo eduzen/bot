@@ -1,7 +1,7 @@
 import requests
 import structlog
 
-from keys import AUTH, BASE_URL
+from eduzen_bot.keys import AUTH, BASE_URL
 
 logger = structlog.get_logger(filename=__name__)
 
