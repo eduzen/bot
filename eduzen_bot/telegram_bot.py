@@ -40,10 +40,10 @@ class TelegramBot:
         self.send_msg_to_eduzen("eduzen_bot reiniciado!")
         self.updater.idle()
 
-    def error(self, bot, update, error):
+    def error(self, update, context):
         """Log Errors caused by Updates."""
         try:
-            raise error
+            raise context.error
         except Unauthorized:
             # remove update.message.chat_id from conversation list
             logger.error("Update caused Unauthorized error")
