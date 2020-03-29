@@ -49,19 +49,19 @@ class TelegramBot:
             logger.error("Update caused Unauthorized error")
         except BadRequest:
             # handle malformed requests - read more below!
-            logger.error('Update "%s" caused error "%s"', (update, error))
+            logger.error('Update "%s" caused error "%s"', (update, context.error))
         except TimedOut:
             # handle slow connection problems
-            logger.warning('Update "%s" caused TimedOut "%s"', (update, error))
+            logger.warning('Update "%s" caused TimedOut "%s"', (update, context.error))
         except NetworkError:
             # handle other connection problems
-            logger.error('Update "%s" caused error "%s"', (update, error))
+            logger.error('Update "%s" caused error "%s"', (update, context.error))
         except ChatMigrated:
             # the chat_id of a group has changed, use e.new_chat_id instead
-            logger.error('Update "%s" caused error "%s"', (update, error))
+            logger.error('Update "%s" caused error "%s"', (update, context.error))
         except TelegramError:
             # handle all other telegram related errors
-            logger.error('Update "%s" caused error "%s"', (update, error))
+            logger.error('Update "%s" caused error "%s"', (update, context.error))
 
     def add_handler(self, handler):
         self.updater.dispatcher.add_handler(handler)
