@@ -107,7 +107,6 @@ history.txt
 .vscode/
 *.ipynb
 bot.code-workspace
-*.txt
 .pytype/
 monkeytype.sqlite3
 
