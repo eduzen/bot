@@ -13,6 +13,7 @@ from telegram.error import (
     ChatMigrated,
     NetworkError,
 )
+
 logger = structlog.get_logger(filename=__name__)
 
 here = os.path.abspath(os.path.dirname(__file__))
@@ -49,19 +50,19 @@ class TelegramBot:
             logger.error("Update caused Unauthorized error")
         except BadRequest:
             # handle malformed requests - read more below!
-            logger.error('Update "%s" caused error "%s"', (update, context.error))
+            logger.error(f"Update {update} caused error {context.error}")
         except TimedOut:
             # handle slow connection problems
-            logger.warning('Update "%s" caused TimedOut "%s"', (update, context.error))
+            logger.warning(f"Update {update} caused TimedOut {context.error}")
         except NetworkError:
             # handle other connection problems
-            logger.error('Update "%s" caused error "%s"', (update, context.error))
+            logger.error(f"Update {update} caused error {context.error}")
         except ChatMigrated:
             # the chat_id of a group has changed, use e.new_chat_id instead
-            logger.error('Update "%s" caused error "%s"', (update, context.error))
+            logger.error(f"Update {update} caused error {context.error}")
         except TelegramError:
             # handle all other telegram related errors
-            logger.error('Update "%s" caused error "%s"', (update, context.error))
+            logger.error(f"Update {update} caused error {context.error}")
 
     def add_handler(self, handler):
         self.updater.dispatcher.add_handler(handler)
@@ -80,15 +81,9 @@ class TelegramBot:
     def create_command(self, name, func):
         return CommandHandler(name, func, pass_args=True, pass_chat_data=True)
 
-    def create_command_args(
-        self, name, func, pass_args=True, pass_job_queue=True, pass_chat_data=True
-    ):
+    def create_command_args(self, name, func, pass_args=True, pass_job_queue=True, pass_chat_data=True):
         return CommandHandler(
-            name,
-            func,
-            pass_args=pass_args,
-            pass_job_queue=pass_job_queue,
-            pass_chat_data=pass_chat_data,
+            name, func, pass_args=pass_args, pass_job_queue=pass_job_queue, pass_chat_data=pass_chat_data,
         )
 
     def create_inlinequery(self, func):
@@ -137,6 +132,6 @@ class TelegramBot:
     def _load_plugins(self):
         logger.info("Loading plugins...")
         plugins = self._get_plugins()
-        logger.info(f"Registering commands!")
+        logger.info("Registering commands!")
         self.register_commands(plugins)
-        logger.info(f"Commands added!")
+        logger.info("Commands added!")

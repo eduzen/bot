@@ -1,14 +1,14 @@
+import os
+
 import requests
 import structlog
 import tmdbsimple as tmdb
 
-from eduzen_bot.keys import TMDB
 from eduzen_bot.plugins.commands.movies.constants import BASEURL_IMAGE, YT_LINK, YTS_API
-
 
 logger = structlog.get_logger(filename=__name__)
 
-tmdb.API_KEY = TMDB["API_KEY"]
+tmdb.API_KEY = os.getenv("TMDB_API_KEY")
 
 
 def tmdb_movie_search(query):
@@ -22,7 +22,7 @@ def tmdb_movie_search(query):
 
 def get_director(obj):
     cred = obj.credits()
-    directors = [crew['name'] for crew in cred['crew'] if 'director' == crew['job'].lower()]
+    directors = [crew["name"] for crew in cred["crew"] if "director" == crew["job"].lower()]
 
     return ", ".join(directors)
 

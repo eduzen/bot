@@ -1,30 +1,30 @@
-import structlog
-import requests
-import tmdbsimple as tmdb
-
+import os
 from collections import defaultdict
-from bs4 import BeautifulSoup
 from functools import lru_cache
 
-from eduzen_bot.keys import TMDB
+import requests
+import structlog
+import tmdbsimple as tmdb
+from bs4 import BeautifulSoup
+
+
 from eduzen_bot.plugins.commands.series import keyboards
 from eduzen_bot.plugins.commands.series.constants import (
-    BASEURL_IMAGE,
     BASEURL,
-    LANG,
+    BASEURL_IMAGE,
     EPISODE_PATTERNS,
-    SIZE,
+    LANG,
+    MAGNET,
     RELEASED,
     SEEDS,
-    MAGNET,
+    SIZE,
     TORRENT,
     Episode,
 )
 
-
 logger = structlog.get_logger(filename=__name__)
 
-tmdb.API_KEY = TMDB["API_KEY"]
+tmdb.API_KEY = os.getenv("TMDB_API_KEY")
 
 
 @lru_cache(20)
@@ -81,7 +81,7 @@ def get_all_seasons(series_name, raw_user_query, number_of_seasons):
         """
 
         # First cell contain useless info (link with info)
-        torrent = torrent.find_all('td')[1:]
+        torrent = torrent.find_all("td")[1:]
         links = torrent[1].find_all("a")
         name = torrent[0].text.strip()
 

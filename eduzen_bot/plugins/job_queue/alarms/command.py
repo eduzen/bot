@@ -7,9 +7,7 @@ unset - Sacar alarma
 def alarm(context):
     """Send the alarm message."""
     context.bot.send_message(context.job.context, text="Beep!")
-    context.bot.send_document(
-        context.job.context, document="https://media.giphy.com/media/d3yxg15kJppJilnW/giphy.gif"
-    )
+    context.bot.send_document(context.job.context, document="https://media.giphy.com/media/d3yxg15kJppJilnW/giphy.gif")
 
 
 def set_timer(update, context, *args, job_queue, chat_data):

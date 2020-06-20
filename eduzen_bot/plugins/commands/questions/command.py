@@ -36,9 +36,7 @@ def get_questions(update, context, *args, **kwargs):
     context.bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
     try:
         logger.info(f"Get_questions... by {update.message.from_user.name}")
-        qs = "\n".join(
-            [f"{q.id}: {q.question} | {q.answer} | by {q.user}" for q in Question.select()]
-        )
+        qs = "\n".join([f"{q.id}: {q.question} | {q.answer} | by {q.user}" for q in Question.select()])
         context.bot.send_message(chat_id=update.message.chat_id, text=f"{qs}")
     except Exception:
         logger.exception("Problems with get_questions")
@@ -59,9 +57,7 @@ def edit_question(update, context, *args, **kwargs):
     try:
         question_id = int(args[0])
     except (ValueError, TypeError):
-        context.bot.send_message(
-            chat_id=update.message.chat_id, text="El primer parametro tiene que ser un id"
-        )
+        context.bot.send_message(chat_id=update.message.chat_id, text="El primer parametro tiene que ser un id")
 
     try:
         q = Question.get_by_id(question_id)
@@ -72,9 +68,7 @@ def edit_question(update, context, *args, **kwargs):
     q.save()
 
     context.bot.send_message(
-        chat_id=update.message.chat_id,
-        parse_mode="Markdown",
-        text=f"``` {q.question} guardada! ```",
+        chat_id=update.message.chat_id, parse_mode="Markdown", text=f"``` {q.question} guardada! ```",
     )
 
 
@@ -92,9 +86,7 @@ def add_answer(update, context, *args, **kwargs):
     try:
         question_id = int(args[0])
     except (ValueError, TypeError):
-        context.bot.send_message(
-            chat_id=update.message.chat_id, text="El primer parametro tiene que ser un id"
-        )
+        context.bot.send_message(chat_id=update.message.chat_id, text="El primer parametro tiene que ser un id")
 
     try:
         q = Question.get_by_id(question_id)
@@ -105,9 +97,7 @@ def add_answer(update, context, *args, **kwargs):
     q.save()
 
     context.bot.send_message(
-        chat_id=update.message.chat_id,
-        parse_mode="Markdown",
-        text=f"``` {q.question} guardada! ```",
+        chat_id=update.message.chat_id, parse_mode="Markdown", text=f"``` {q.question} guardada! ```",
     )
 
 
@@ -156,9 +146,7 @@ def remove_question(update, context, *args, **kwargs):
     try:
         question_id = int(args[0])
     except (ValueError, TypeError):
-        context.bot.send_message(
-            chat_id=update.message.chat_id, text="El primer parametro tiene que ser un id"
-        )
+        context.bot.send_message(chat_id=update.message.chat_id, text="El primer parametro tiene que ser un id")
 
     try:
         q = Question.get(Question.id == question_id).delete_instance()

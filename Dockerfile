@@ -1,8 +1,9 @@
-FROM python:3.6-alpine
+FROM python:3.8-alpine
 
 ENV PYTHONUNBUFFERED 1
 ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONPATH /code:$PYTHONPATH
+# ENV PYTHONPATH /code:$PYTHONPATH
+RUN echo 'export PS1="\[\e[36m\]botshell>\[\e[m\] "' >> /root/.ashrc
 
 COPY requirements-dev.txt requirements.txt ./
 
@@ -21,3 +22,4 @@ WORKDIR /code
 COPY . /code
 
 RUN python setup.py develop
+CMD ["python3", "eduzen_bot", "-v"]

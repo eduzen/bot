@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """Top-level package for eduzen_bot."""
 
 import os
@@ -41,9 +40,7 @@ def initialize_logging(verbose=False, level="INFO"):
             # logger configuration
             config["formatters"]["colored"]["()"] = structlog.stdlib.ProcessorFormatter
             config["formatters"]["colored"]["foreign_pre_chain"] = pre_chain
-            config["formatters"]["colored"]["processor"] = structlog.dev.ConsoleRenderer(
-                colors=True
-            )
+            config["formatters"]["colored"]["processor"] = structlog.dev.ConsoleRenderer(colors=True)
             config["root"]["handlers"].append("stdout")
 
         logging_config.dictConfig(config)
@@ -60,8 +57,8 @@ def set_handler(arguments):
 
 
 __all__ = [
-    'models',
-    'keys',
-    'auth',
-    'menus',
+    "models",
+    "keys",
+    "auth",
+    "menus",
 ]

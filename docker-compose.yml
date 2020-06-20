@@ -1,18 +1,15 @@
 version: '3'
+
 services:
-    eduzenbot:
-        command: ["python3", "eduzen_bot", "-v"]
-        build:
-            context: .
-            dockerfile: Dockerfile
-        volumes:
-            - .:/code
-        links:
-            - wdb
-        environment:
-            WDB_SOCKET_SERVER: wdb
-            WDB_NO_BROWSER_AUTO_OPEN: "True"
-    wdb:
-        image: kozea/wdb
-        ports:
-            - "1984:1984"
+  eduzenbot:
+    build: .
+    command: ["python3", "eduzen_bot", "-v"]
+    volumes:
+      - .:/code
+    env_file:
+      - .env
+
+  # wdb:
+  #   image: kozea/wdb
+  #   ports:
+  #     - "1984:1984"

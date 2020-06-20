@@ -15,9 +15,7 @@ def code(update, context):
 
     results = [
         InlineQueryResultArticle(
-            id=query.upper(),
-            title="Chat",
-            input_message_content=InputTextMessageContent(query, "MARKDOWN"),
+            id=query.upper(), title="Chat", input_message_content=InputTextMessageContent(query, "MARKDOWN"),
         )
     ]
     context.bot.answer_inline_query(update.inline_query.id, results)

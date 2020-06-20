@@ -1,19 +1,20 @@
+import os
 from datetime import datetime
 
 import structlog
 import tweepy
 
-from eduzen_bot.keys import TWITTER
+TWITTER_CONSUMER_KEY = os.getenv("TWITTER_CONSUMER_KEY")
+TWITTER_CONSUMER_SECRET = os.getenv("TWITTER_CONSUMER_SECRET")
+TWITTER_ACCESS_TOKEN_SECRET = os.getenv("TWITTER_ACCESS_TOKEN_SECRET")
+TWITTER_ACCESS_TOKEN = os.getenv("TWITTER_ACCESS_TOKEN")
+
 
 logger = structlog.get_logger(filename=__name__)
 
 
 def get_tweets(api, username, count, date):
-    tweets = [
-        tweet.text
-        for tweet in api.user_timeline(username, count=count)
-        if (date - tweet.created_at).days < 1
-    ]
+    tweets = [tweet.text for tweet in api.user_timeline(username, count=count) if (date - tweet.created_at).days < 1]
     if not tweets:
         return "No hay novedades de subtes para hoy"
 
@@ -24,8 +25,8 @@ def get_transito(count=20):
     logger.info("get_transito from twitter...")
     if count > 20:
         count = 20
-    auth = tweepy.OAuthHandler(TWITTER["CONSUMER_KEY"], TWITTER["CONSUMER_SECRET"])
-    auth.set_access_token(TWITTER["ACCESS_TOKEN"], TWITTER["ACCESS_TOKEN_SECRET"])
+    auth = tweepy.OAuthHandler(TWITTER_CONSUMER_KEY, TWITTER_CONSUMER_SECRET)
+    auth.set_access_token(TWITTER_ACCESS_TOKEN, TWITTER_ACCESS_TOKEN_SECRET)
     api = tweepy.API(auth)
     now = datetime.now()
     data = get_tweets(api, "solotransito", count=count, date=now)

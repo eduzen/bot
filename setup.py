@@ -1,14 +1,13 @@
 #!/usr/bin/env python
 """The setup script."""
 import codecs
-import subprocess
+import os
 
 from setuptools import setup, find_packages
 
 
-def _get_git_tag():
-    label = subprocess.check_output(["git", "describe"]).strip().decode("utf8")
-    return label
+def _get_tag():
+    return os.getenv("TAG", "dev")
 
 
 with codecs.open("README.md", "r", "utf-8") as readme_file:
@@ -23,7 +22,7 @@ with open("requirements-dev.txt") as reqs:
 
 setup(
     name="eduzen_bot",
-    version=_get_git_tag(),
+    version=_get_tag(),
     # cmdclass=versioneer.get_cmdclass(),
     url="https://github.com/eduzen/bot",
     description="This is the eduzen_bot for telegram",

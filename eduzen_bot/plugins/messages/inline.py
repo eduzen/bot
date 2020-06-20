@@ -17,9 +17,7 @@ def code_markdown(update, context):
         InlineQueryResultArticle(
             id=uuid4(),
             title="code",
-            input_message_content=InputTextMessageContent(
-                f"```\n{query}\n```", parse_mode=ParseMode.MARKDOWN
-            ),
+            input_message_content=InputTextMessageContent(f"```\n{query}\n```", parse_mode=ParseMode.MARKDOWN),
         ),
         InlineQueryResultArticle(
             id=uuid4(), title="Caps", input_message_content=InputTextMessageContent(query.upper())

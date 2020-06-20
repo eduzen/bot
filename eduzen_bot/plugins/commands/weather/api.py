@@ -1,8 +1,9 @@
+import os
 import logging
 import requests
 from bs4 import BeautifulSoup
 
-from eduzen_bot.keys import openweathermap_token
+openweathermap_token = os.getenv("openweathermap_token")
 
 logger = logging.getLogger(__name__)
 
@@ -18,9 +19,7 @@ headers = {
     "Upgrade-Insecure-Requests": "1",
 }
 
-openweathermap = (
-    "https://api.openweathermap.org/data/2.5/weather?q={city_name}&APPID={token}&units=metric"
-)
+openweathermap = "https://api.openweathermap.org/data/2.5/weather?q={city_name}&APPID={token}&units=metric"
 
 
 def get_klima(city_name="München"):

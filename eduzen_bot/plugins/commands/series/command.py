@@ -16,24 +16,20 @@ def search_serie(update, context, **kwargs):
     context.bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
     if not context.args:
         context.bot.send_message(
-            chat_id=update.message.chat_id,
-            text="Te faltó pasarme el nombre de la serie. /serie <serie>",
+            chat_id=update.message.chat_id, text="Te faltó pasarme el nombre de la serie. /serie <serie>",
         )
         return
 
     query = " ".join(context.args)
     chat_id = update.message.chat_id
 
-    logger.info(f"Search serie", args=context.args)
+    logger.info("Search serie", args=context.args)
     results = get_related_series(query)
 
     if not results:
         bot_reply = context.bot.send_message(
             chat_id=chat_id,
-            text=(
-                f"No encontré información en imdb sobre _'{query}'_."
-                " Está bien escrito el nombre?"
-            ),
+            text=(f"No encontré información en imdb sobre _'{query}'_." " Está bien escrito el nombre?"),
             parse_mode="markdown",
         )
         return

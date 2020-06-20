@@ -192,9 +192,7 @@ def parse_msgs(update, context):
         logger.exception("Parece que no hay parse_entities")
         return
 
-    mentions = [
-        value for key, value in entities.items() if "@eduzen_bot" in value or "@eduzenbot" in value
-    ]
+    mentions = [value for key, value in entities.items() if "@eduzen_bot" in value or "@eduzenbot" in value]
 
     if not mentions:
         return

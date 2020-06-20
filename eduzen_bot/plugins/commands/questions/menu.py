@@ -16,9 +16,7 @@ def q_menu(update, context):
     ]
     reply_markup = InlineKeyboardMarkup(build_menu(keyboard, n_cols=2))
 
-    context.bot.send_message(
-        chat_id=update.message.chat_id, text="Please choose:", reply_markup=reply_markup
-    )
+    context.bot.send_message(chat_id=update.message.chat_id, text="Please choose:", reply_markup=reply_markup)
 
 
 def get_questions(answer=None):
@@ -50,8 +48,5 @@ def button(update, context):
         )
 
     context.bot.edit_message_text(
-        text=f"{answer}",
-        chat_id=query.message.chat_id,
-        message_id=query.message.message_id,
-        parse_mode="Markdown",
+        text=f"{answer}", chat_id=query.message.chat_id, message_id=query.message.message_id, parse_mode="Markdown",
     )

@@ -34,7 +34,7 @@ def get_estado_del_subte(amount=0):
 
             cols.append(t.capitalize())
 
-        if 'normal' not in cols:
+        if "normal" not in cols:
             cols.append(warning)
 
         text.append(" ".join(cols))

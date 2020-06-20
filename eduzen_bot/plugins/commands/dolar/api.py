@@ -1,12 +1,14 @@
 import re
 import structlog
+import os
 import calendar
 import requests
 from collections import defaultdict, namedtuple
 import unicodedata
 from emoji import emojize
 from bs4 import BeautifulSoup
-from eduzen_bot.keys import APP_ID
+
+APP_ID = os.getenv("APP_ID")
 
 logger = structlog.get_logger(filename=__name__)
 
@@ -21,8 +23,8 @@ dolar = emojize(":dollar:", use_aliases=True)
 euro = "\n🇪🇺"
 real = "\n🇧🇷"
 punch = emojize(":punch:", use_aliases=True)
-DOLAR_REGEX = re.compile(r'DLR(\d{2})(\d{4})')
-Contrato = namedtuple('Contrato', ['mes', 'año', 'valor'])
+DOLAR_REGEX = re.compile(r"DLR(\d{2})(\d{4})")
+Contrato = namedtuple("Contrato", ["mes", "año", "valor"])
 
 
 def trim(text, limit=11) -> str:
@@ -111,8 +113,8 @@ def pretty_print_dolar(cotizaciones):
 
 
 def prettify_rofex(contratos):
-    values = '\n'.join(f"{year} {month:<12} | {value[:5]}" for month, year, value in contratos)
-    header = '  Dólar  | Valor\n'
+    values = "\n".join(f"{year} {month:<12} | {value[:5]}" for month, year, value in contratos)
+    header = "  Dólar  | Valor\n"
     return f"```{header}{values}```" if contratos is not None else "EMPTY_MESSAGE"
 
 
@@ -122,15 +124,15 @@ def process_dolarfuturo(response):
     if not data:
         return False
     soup = BeautifulSoup(data, "html.parser")
-    data = soup.find('table', class_='table-rofex')
-    cotizaciones = data.find_all('tr')[1:]  # Exclude header
+    data = soup.find("table", class_="table-rofex")
+    cotizaciones = data.find_all("tr")[1:]  # Exclude header
 
     if not data:
         return False
 
     contratos = []
     for cotizacion in cotizaciones:
-        contrato, valor, _, _, _ = cotizacion.find_all('td')
+        contrato, valor, _, _, _ = cotizacion.find_all("td")
         month, year = DOLAR_REGEX.match(contrato.text).groups()
         month = calendar.month_name[int(month)]
         contratos.append(Contrato(month, year, valor.text))
@@ -177,12 +179,12 @@ def process_ambito_dolarfuturo(response):
     data = response.json()
     datos = []
     for i in data:
-        mes = i['contrato'].replace('Dólar ', '')
-        venta = i['venta']
-        compra = i['compra']
+        mes = i["contrato"].replace("Dólar ", "")
+        venta = i["venta"]
+        compra = i["compra"]
         datos.append(f"{mes:<15} {venta:<7} {compra:<5}")
     valores = "\n".join(datos)
-    return f'```       Mes {dolar}   Compra | Venta \n{valores}```'
+    return f"```       Mes {dolar}   Compra | Venta \n{valores}```"
 
 
 def parse_dolarfuturo():

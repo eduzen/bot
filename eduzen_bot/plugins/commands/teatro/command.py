@@ -21,18 +21,14 @@ def get_ranking(update, context, *args, **kwargs):
 
     if not context.args:
         text = "\n".join(data[:5])
-        text = (
-            f"Ranking de lo más buscado en teatro:\n{text}\nBy http://www.alternativateatral.com/"
-        )
+        text = f"Ranking de lo más buscado en teatro:\n{text}\nBy http://www.alternativateatral.com/"
         context.bot.send_message(chat_id=update.message.chat_id, text=text)
         return
 
     try:
         amount = int(context.args[0])
     except (ValueError, TypeError):
-        context.bot.send_message(
-            chat_id=update.message.chat_id, text="El primer parametro tiene que ser un número"
-        )
+        context.bot.send_message(chat_id=update.message.chat_id, text="El primer parametro tiene que ser un número")
 
     try:
         text = "\n".join(data[:amount])

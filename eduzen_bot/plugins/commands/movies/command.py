@@ -24,9 +24,7 @@ def get_movie(update, context, **kwargs):
     chat_id = update.message.chat_id
     if not context.args:
         context.bot.send_message(
-            chat_id=chat_id,
-            text="Necesito que me pases una pelicula. `/pelicula <nombre>`",
-            parse_mode="markdown",
+            chat_id=chat_id, text="Necesito que me pases una pelicula. `/pelicula <nombre>`", parse_mode="markdown",
         )
         return
 
@@ -53,9 +51,7 @@ def get_movie(update, context, **kwargs):
         )
         return
     videos = movie_object.videos()
-    movie.update(
-        {"imdb_id": imdb_id, "imdb_link": IMDB_LINK.format(imdb_id), "videos": videos["results"]}
-    )
+    movie.update({"imdb_id": imdb_id, "imdb_link": IMDB_LINK.format(imdb_id), "videos": videos["results"]})
 
     movie_details, poster = prettify_movie(movie, movie_object)
 

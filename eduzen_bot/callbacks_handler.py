@@ -41,10 +41,7 @@ def callback_query(update, context, **kwargs):
     if not context.chat_data:
         txt = "_Errare humanum est._\n" "Algo paso en el medio.\n" "Empecemos de nuevo con el commando original"
         context.bot.edit_message_text(
-            text=txt,
-            chat_id=query.message.chat_id,
-            message_id=query.message.message_id,
-            parse_mode="markdown",
+            text=txt, chat_id=query.message.chat_id, message_id=query.message.message_id, parse_mode="markdown",
         )
         return
 

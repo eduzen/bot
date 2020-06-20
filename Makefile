@@ -41,7 +41,7 @@ pep8:
 test: build pep8 only_test
 
 dockershell:
-	docker-compose run --rm eduzenbot bash
+	docker-compose run --rm eduzenbot ash
 
 shell:
 	docker-compose run --rm eduzenbot ipython3

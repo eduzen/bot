@@ -13,8 +13,8 @@ logger = structlog.get_logger(filename=__name__)
 def get_feriados(year: int):
     try:
         url = FERIADOS_URL.format(year=year)
-        r = requests.get(url, params={'incluir': 'opcional'})
-        logger.info(f'Retrieved feriados from {r.url}')
+        r = requests.get(url, params={"incluir": "opcional"})
+        logger.info(f"Retrieved feriados from {r.url}")
     except Exception:
         logger.error("Error requestion feriados", exc_info=True)
         return None
@@ -28,11 +28,7 @@ def get_feriados(year: int):
 
 def filter_feriados(today: datetime, feriados: List) -> List:
     """Returns the future feriados. Filtering past feriados."""
-    return [
-        f
-        for f in feriados
-        if (f['mes'] == today.month and f['dia'] >= today.day) or f['mes'] > today.month
-    ]
+    return [f for f in feriados if (f["mes"] == today.month and f["dia"] >= today.day) or f["mes"] > today.month]
 
 
 def prettify_feriados(today: datetime, feriados: Dict, compact=False) -> str:
@@ -56,10 +52,10 @@ def prettify_feriados(today: datetime, feriados: Dict, compact=False) -> str:
     # Get days until next feriado
     nextest_feriado = feriados[0]
     next_feriado_date = datetime(
-        day=nextest_feriado['dia'],
-        month=nextest_feriado['mes'],
+        day=nextest_feriado["dia"],
+        month=nextest_feriado["mes"],
         year=today.year,
-        tzinfo=pytz.timezone('America/Argentina/Buenos_Aires'),
+        tzinfo=pytz.timezone("America/Argentina/Buenos_Aires"),
     )
     faltan = next_feriado_date - today
     res = (

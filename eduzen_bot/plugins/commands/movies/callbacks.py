@@ -37,10 +37,7 @@ def get_movie_torrent(update, context, **kwargs):
     if torrent:
         url, seeds, size, quality = torrent
         answer = (
-            f"🏴‍☠️ [{movie['title']}]({url})\n\n"
-            f"🌱 Seeds: {seeds}\n\n"
-            f"🗳 Size: {size}\n\n"
-            f"🖥 Quality: {quality}"
+            f"🏴‍☠️ [{movie['title']}]({url})\n\n" f"🌱 Seeds: {seeds}\n\n" f"🗳 Size: {size}\n\n" f"🖥 Quality: {quality}"
         )
     else:
         answer = "🚧 No torrent available for this movie."

@@ -17,7 +17,6 @@ Options:
 import os
 import sys
 import logging
-import subprocess
 from threading import Thread
 
 import structlog
@@ -35,19 +34,17 @@ from eduzen_bot import set_handler
 from eduzen_bot.telegram_bot import TelegramBot
 from eduzen_bot.callbacks_handler import callback_query
 
-from .plugins.job_queue.alarms.command import set_timer, unset
-from .plugins.messages.inline import code_markdown
-from .plugins.messages.unknown import unknown
-from .plugins.messages.message import parse_msgs
+from eduzen_bot.plugins.job_queue.alarms.command import set_timer, unset
+from eduzen_bot.plugins.messages.inline import code_markdown
+from eduzen_bot.plugins.messages.unknown import unknown
+from eduzen_bot.plugins.messages.message import parse_msgs
 
-load_dotenv()
+load_dotenv("../.env")
 
 sentry_logging = LoggingIntegration(level=logging.DEBUG, event_level=logging.ERROR)
 
 sentry_sdk.init(
-    dsn=os.getenv("SENTRY_DSN", ""),
-    integrations=[sentry_logging, TornadoIntegration()],
-    release=os.getenv("RELEASE", subprocess.check_output(["git", "describe"]).strip().decode("utf8")),
+    dsn=os.getenv("SENTRY_DSN", ""), integrations=[sentry_logging, TornadoIntegration()], release=os.getenv("TAG"),
 )
 
 
@@ -63,7 +60,7 @@ def main():
         os.execl(sys.executable, sys.executable, *sys.argv)
 
     def restart(update, context):
-        update.message.reply_text('Bot is restarting...')
+        update.message.reply_text("Bot is restarting...")
         Thread(target=stop_and_restart).start()
 
     bot.add_handler(CommandHandler("restart", restart, filters=Filters.user(username="@eduzen")))
@@ -89,7 +86,7 @@ def main():
 
 
 if __name__ == "__main__":
-    arguments = docopt(__doc__, version=os.environ.get("RELEASE", 'eduzen_bot@1.0'))
+    arguments = docopt(__doc__, version=os.environ.get("RELEASE", "eduzen_bot@1.0"))
     stream = arguments.get("--stream")
     level = arguments.get("--log_level")
     config = arguments.get("--config")
