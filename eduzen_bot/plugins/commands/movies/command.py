@@ -4,7 +4,6 @@ movie - get_movie
 pelicula - get_movie
 """
 import structlog
-from telegram.ext import run_async
 
 from eduzen_bot.plugins.commands.movies.api import (
     tmdb_movie_search,
@@ -17,7 +16,6 @@ from eduzen_bot.plugins.commands.movies.constants import IMDB_LINK
 logger = structlog.get_logger(filename=__name__)
 
 
-@run_async
 def get_movie(update, context, **kwargs):
     args = context.args
     chat_data = context.chat_data

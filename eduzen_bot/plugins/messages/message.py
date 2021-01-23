@@ -5,7 +5,7 @@ import codecs
 
 import peewee
 from telegram import ChatAction
-from telegram.ext.dispatcher import run_async
+
 
 from eduzen_bot.models import User, Question
 from .vocabulary import (
@@ -34,7 +34,6 @@ chats = {"-288031841": "t3"}
 logger = structlog.getLogger(filename=__name__)
 
 
-@run_async
 def get_or_create_user(user):
     data = user.to_dict()
     created = None
@@ -56,7 +55,6 @@ def get_or_create_user(user):
         logger.exception("User cannot be updated")
 
 
-@run_async
 def record_msg(user, msg, chat_id):
     logger.info("Recording msg chat_id %s", chat_id)
     filename = f"history_{chat_id}.txt"
@@ -180,7 +178,6 @@ def prepare_text(text):
     return text.replace(" ?", "?")
 
 
-@run_async
 def parse_msgs(update, context):
     message = update.message
     if not message:

@@ -3,7 +3,6 @@ serie - search_serie
 series - search_serie
 """
 import structlog
-from telegram.ext import run_async
 from telegram import ChatAction
 
 from api import get_related_series, get_keyboard, get_serie_detail, get_poster_url, prettify_serie
@@ -11,7 +10,6 @@ from api import get_related_series, get_keyboard, get_serie_detail, get_poster_u
 logger = structlog.get_logger(filename=__name__)
 
 
-@run_async
 def search_serie(update, context, **kwargs):
     context.bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
     if not context.args:

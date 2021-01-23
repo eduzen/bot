@@ -5,7 +5,7 @@ subtenews - subte_novedades
 import structlog
 
 from telegram import ChatAction
-from telegram.ext.dispatcher import run_async
+
 from emoji import emojize
 
 from api import get_subte
@@ -15,7 +15,6 @@ logger = structlog.get_logger(filename=__name__)
 metro = emojize(":metro:", use_aliases=True)
 
 
-@run_async
 def subte_novedades(update, context, *args, **kwargs):
     context.bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
     logger.info(f"Subte_novedades... by {update.message.from_user.name}")
@@ -32,7 +31,6 @@ def subte_novedades(update, context, *args, **kwargs):
     context.bot.send_message(chat_id=update.message.chat_id, text=f"{metro} {text}")
 
 
-@run_async
 def subte(update, context, *args, **kwargs):
     context.bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
     logger.info(f"Subte... by {update.message.from_user.name}")

@@ -22,8 +22,7 @@ def serie_go_back_keyboard():
 def serie_season(seasons):
     COLUMNS = 2
     buttons = [
-        Button(f"Season {season}", callback_data=f"get_season_{season}")
-        for season, episodes in sorted(seasons.items())
+        Button(f"Season {season}", callback_data=f"get_season_{season}") for season, _ in sorted(seasons.items())
     ]
     columned_keyboard = [buttons[i : i + COLUMNS] for i in range(0, len(buttons), COLUMNS)]
     columned_keyboard.append(_go_back_button())
