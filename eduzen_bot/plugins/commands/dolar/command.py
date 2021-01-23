@@ -6,7 +6,7 @@ dolarfuturo - get_dolarfuturo
 """
 import structlog
 from telegram import ChatAction
-from telegram.ext.dispatcher import run_async
+
 from telegram import Update
 from telegram.ext import CallbackContext
 
@@ -15,7 +15,6 @@ from api import parse_bnc, get_dollar, get_dolar_blue, parse_dolarhoy, parse_dol
 logger = structlog.get_logger(filename=__name__)
 
 
-@run_async
 def get_dolarhoy(update, context, *args, **kwargs):
     context.bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
     logger.info(f"Dollar... by {update.message.from_user.name}")
@@ -28,7 +27,6 @@ def get_dolarhoy(update, context, *args, **kwargs):
     context.bot.send_message(chat_id=update.message.chat_id, text=data, parse_mode="markdown")
 
 
-@run_async
 def get_dolarfuturo(update, context, *args, **kwargs):
     context.bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
     logger.info(f"Dolla... by {update.message.from_user.name}")
@@ -41,7 +39,7 @@ def get_dolarfuturo(update, context, *args, **kwargs):
     context.bot.send_message(chat_id=update.message.chat_id, text=data, parse_mode="markdown")
 
 
-# @run_async
+#
 def get_dolar(update: Update, context: CallbackContext) -> None:
     context.bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
     logger.info(f"Dollar... by {update.message.from_user.name}")
@@ -74,7 +72,6 @@ def get_dolar(update: Update, context: CallbackContext) -> None:
     context.bot.send_message(chat_id=update.message.chat_id, text=data)
 
 
-@run_async
 def get_cotizaciones(update, context, *args, **kwargs):
     context.bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
     logger.info(f"cotizaciones... by {update.message.from_user.name}")

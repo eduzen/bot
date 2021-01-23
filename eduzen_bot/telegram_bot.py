@@ -79,11 +79,16 @@ class TelegramBot:
         self.updater.bot.send_message(self.eduzen_id, msg)
 
     def create_command(self, name, func):
-        return CommandHandler(name, func, pass_args=True, pass_chat_data=True)
+        return CommandHandler(name, func, pass_args=True, pass_chat_data=True, run_async=True)
 
     def create_command_args(self, name, func, pass_args=True, pass_job_queue=True, pass_chat_data=True):
         return CommandHandler(
-            name, func, pass_args=pass_args, pass_job_queue=pass_job_queue, pass_chat_data=pass_chat_data,
+            name,
+            func,
+            pass_args=pass_args,
+            pass_job_queue=pass_job_queue,
+            pass_chat_data=pass_chat_data,
+            run_async=True,
         )
 
     def create_inlinequery(self, func):
