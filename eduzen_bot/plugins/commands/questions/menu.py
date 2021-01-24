@@ -48,5 +48,8 @@ def button(update, context):
         )
 
     context.bot.edit_message_text(
-        text=f"{answer}", chat_id=query.message.chat_id, message_id=query.message.message_id, parse_mode="Markdown",
+        text=f"{answer}",
+        chat_id=query.message.chat_id,
+        message_id=query.message.message_id,
+        parse_mode="Markdown",
     )

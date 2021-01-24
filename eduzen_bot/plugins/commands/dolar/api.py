@@ -70,18 +70,18 @@ def normalize(tag):
 def get_cotizaciones(response_soup):
     """Returns a dict of cotizaciones with banco as keys and exchange rate as value.
 
-   {
-       "Banco Nación": {
-           "Compra": "30.00",
-           "Venta": "32.00",
-       },
-       "Banco Galicia": {
-           "Compra": "31.00",
-           "Venta": "33.00",
-       }
-   }
+    {
+        "Banco Nación": {
+            "Compra": "30.00",
+            "Venta": "32.00",
+        },
+        "Banco Galicia": {
+            "Compra": "31.00",
+            "Venta": "33.00",
+        }
+    }
 
-   """
+    """
     cotizaciones = defaultdict(dict)
     table = response_soup[0]
     # Get cotizaciones
@@ -97,12 +97,12 @@ def get_cotizaciones(response_soup):
 
 def pretty_print_dolar(cotizaciones):
     """Returns dolar rates separated by newlines and with code markdown syntax.
-   ```
-   Banco Nacion  | $30.00 | $40.00
-   Banco Galicia | $30.00 | $40.00
-                  ...
-   ```
-   """
+    ```
+    Banco Nacion  | $30.00 | $40.00
+    Banco Galicia | $30.00 | $40.00
+                   ...
+    ```
+    """
     MONOSPACE = "```\n{}\n```"
     return MONOSPACE.format(
         "\n".join(

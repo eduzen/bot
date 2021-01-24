@@ -16,6 +16,8 @@ def create_db_tables():
         db = SqliteDatabase(str(DB_PATH))
         with db:
             db.create_tables([User, Question])
+            User.create_table()
+            Question.create_table()
             logger.info("Tables created!")
 
 

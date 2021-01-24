@@ -4,6 +4,7 @@ feriados - feriadosarg
 import pytz
 import structlog
 from datetime import datetime
+from eduzen_bot.decorators import create_user
 
 from eduzen_bot.plugins.commands.feriados.api import (
     get_feriados,
@@ -14,6 +15,7 @@ from eduzen_bot.plugins.commands.feriados.api import (
 logger = structlog.get_logger(filename=__name__)
 
 
+@create_user
 def feriadosarg(update, context, *args, **kwargs):
     today = datetime.now(pytz.timezone("America/Argentina/Buenos_Aires"))
     feriados = get_feriados(today.year)

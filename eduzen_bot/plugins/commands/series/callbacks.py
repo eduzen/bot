@@ -80,7 +80,10 @@ def go_back(update, context, **kwargs):
     original_text = update.callback_query.message.text
     if response != original_text:
         update.callback_query.edit_message_text(
-            text=response, reply_markup=keyboard, parse_mode="markdown", disable_web_page_preview=True,
+            text=response,
+            reply_markup=keyboard,
+            parse_mode="markdown",
+            disable_web_page_preview=True,
         )
     else:
         logger.info(
@@ -169,7 +172,10 @@ def all_episodes(update, context, **kwargs):
     original_text = update.callback_query.message.text
     if response != original_text:
         update.callback_query.edit_message_text(
-            text=response, reply_markup=keyboard, parse_mode="markdown", disable_web_page_preview=True,
+            text=response,
+            reply_markup=keyboard,
+            parse_mode="markdown",
+            disable_web_page_preview=True,
         )
     else:
         logger.info(
@@ -206,7 +212,10 @@ def get_season(update, context, **kwargs):
     if response != original_text:
 
         update.callback_query.edit_message_text(
-            text=response, reply_markup=keyboard, parse_mode="markdown", disable_web_page_preview=True,
+            text=response,
+            reply_markup=keyboard,
+            parse_mode="markdown",
+            disable_web_page_preview=True,
         )
     else:
         logger.info(f"Selected option '{answer}' would leave text as it is. Ignoring to avoid exception. {response}")
@@ -225,7 +234,10 @@ def get_episode(update, context, **kwargs):
     original_text = update.callback_query.message.text
     if response != original_text:
         update.callback_query.edit_message_text(
-            text=response, reply_markup=keyboard, parse_mode="markdown", disable_web_page_preview=True,
+            text=response,
+            reply_markup=keyboard,
+            parse_mode="markdown",
+            disable_web_page_preview=True,
         )
     else:
         logger.info(f"Selected option '{answer}' would leave text as it is. Ignoring to avoid exception. {response}")
@@ -247,7 +259,10 @@ def load_episodes(update, context, **kwargs):
     original_text = update.callback_query.message.text
     if response != original_text:
         update.callback_query.edit_message_text(
-            text=response, reply_markup=keyboard, parse_mode="markdown", disable_web_page_preview=True,
+            text=response,
+            reply_markup=keyboard,
+            parse_mode="markdown",
+            disable_web_page_preview=True,
         )
     else:
         logger.info(f"Selected option '{answer}' would leave text as it is. Ignoring to avoid exception. {response}")

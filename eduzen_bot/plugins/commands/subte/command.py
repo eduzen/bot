@@ -9,15 +9,16 @@ from telegram import ChatAction
 from emoji import emojize
 
 from api import get_subte
+from eduzen_bot.decorators import create_user
 from subte.crawlers import get_estado_del_subte, get_estado_metrovias_html
 
 logger = structlog.get_logger(filename=__name__)
 metro = emojize(":metro:", use_aliases=True)
 
 
+@create_user
 def subte_novedades(update, context, *args, **kwargs):
     context.bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
-    logger.info(f"Subte_novedades... by {update.message.from_user.name}")
 
     try:
         amount = int(args[0])
@@ -31,9 +32,9 @@ def subte_novedades(update, context, *args, **kwargs):
     context.bot.send_message(chat_id=update.message.chat_id, text=f"{metro} {text}")
 
 
+@create_user
 def subte(update, context, *args, **kwargs):
     context.bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
-    logger.info(f"Subte... by {update.message.from_user.name}")
 
     estadosubte = get_estado_del_subte()
     if estadosubte:

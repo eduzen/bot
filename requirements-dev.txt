@@ -1,9 +1,0 @@
--r requirements.txt
-black
-flake8
-ipython
-monkeytype
-pytest
-pytest-sugar
-pytest-xdist
-wdb

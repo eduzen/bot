@@ -10,13 +10,17 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
-
+  ci:
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: [3.8]
+        poetry-version: [1.1.2]
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v2
-      
+
     - name: Set up Python 3.8
       uses: actions/setup-python@v2
       with:
@@ -29,6 +33,11 @@ jobs:
         key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements_dev.txt') }}
         restore-keys: |
           ${{ runner.os }}-pip-
+
+    - name: Update pip
+      run: |
+        python -m pip install --upgrade pip
+
     - name: Run image
       uses: abatilo/actions-poetry@v2.1.0
       with:
