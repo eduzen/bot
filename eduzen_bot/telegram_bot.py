@@ -39,9 +39,12 @@ class TelegramBot:
         self._load_plugins()
 
     def start(self):
+        print(f"heroku {self.heroku}")
         if self.heroku:
             self.updater.start_polling()
         else:
+            print("test")
+            print(self.port)
             self.updater.start_webhook(listen="0.0.0.0", port=self.port, url_path=self.token)
             self.updater.bot.setWebhook(f"https://eduzenbot.herokuapp.com/{self.token}")
         self.send_msg_to_eduzen("eduzen_bot reiniciado!")

@@ -1,5 +1,0 @@
-build:
-  docker:
-    bot: Dockerfile
-run:
-  bot: python eduzen_bot -v
