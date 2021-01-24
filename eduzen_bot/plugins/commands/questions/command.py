@@ -10,7 +10,7 @@ edit_question - edit_question
 """
 import structlog
 from telegram import ChatAction
-
+from eduzen_bot.decorators import create_user
 from eduzen_bot.models import User, Question
 
 from eduzen_bot.auth.restricted import restricted
@@ -19,9 +19,9 @@ logger = structlog.get_logger(filename=__name__)
 
 
 @restricted
+@create_user
 def get_users(update, context, *args, **kwargs):
     context.bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
-    logger.info(f"Get_users... by {update.message.from_user.name}")
 
     try:
         txt = ", ".join([user.username for user in User.select()])
@@ -32,10 +32,10 @@ def get_users(update, context, *args, **kwargs):
     context.bot.send_message(chat_id=update.message.chat_id, text=txt)
 
 
+@create_user
 def get_questions(update, context, *args, **kwargs):
     context.bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
     try:
-        logger.info(f"Get_questions... by {update.message.from_user.name}")
         qs = "\n".join([f"{q.id}: {q.question} | {q.answer} | by {q.user}" for q in Question.select()])
         context.bot.send_message(chat_id=update.message.chat_id, text=f"{qs}")
     except Exception:
@@ -43,9 +43,9 @@ def get_questions(update, context, *args, **kwargs):
         context.bot.send_message(chat_id=update.message.chat_id, text="Mmm algo malo pasó")
 
 
+@create_user
 def edit_question(update, context, *args, **kwargs):
     context.bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
-    logger.info(f"Edit_question... by {update.message.from_user.name}")
     if not context.args:
         update.message.reply_text("Se usa: /edit_question <:id_pregunta> <:tu_respuesta>")
         return
@@ -101,9 +101,9 @@ def add_answer(update, context, *args, **kwargs):
     )
 
 
+@create_user
 def add_question(update, context, *args, **kwargs):
     context.bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
-    logger.info(f"Add_question... by {update.message.from_user.name}")
     if not context.args:
         update.message.reply_text("Se usa: /add_question <:tu_pregunta>")
         return
@@ -132,9 +132,9 @@ def add_question(update, context, *args, **kwargs):
         context.bot.send_message(chat_id=update.message.chat_id, text="No pudimos agregar tu pregunta")
 
 
+@create_user
 def remove_question(update, context, *args, **kwargs):
     context.bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
-    logger.info(f"Add_question... by {update.message.from_user.name}")
     if not context.args:
         update.message.reply_text("Se usa /remove <:id>")
         return

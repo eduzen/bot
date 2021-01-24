@@ -5,12 +5,14 @@ import subprocess
 
 import structlog
 
+from eduzen_bot.decorators import create_user
 from eduzen_bot.auth.restricted import restricted
 
 logger = structlog.get_logger(filename=__name__)
 
 
 @restricted
+@create_user
 def update_repo(update, context, *args, **kwargs):
     logger.warn("Trying to update bot code")
 

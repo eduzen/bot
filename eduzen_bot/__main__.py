@@ -39,6 +39,8 @@ from eduzen_bot.plugins.messages.inline import code_markdown
 from eduzen_bot.plugins.messages.unknown import unknown
 from eduzen_bot.plugins.messages.message import parse_msgs
 
+from eduzen_bot.scripts.initialize_db import create_db_tables
+
 load_dotenv("../.env")
 
 sentry_logging = LoggingIntegration(level=logging.DEBUG, event_level=logging.ERROR)
@@ -51,6 +53,7 @@ sentry_sdk.init(
 def main():
     token = os.getenv("TOKEN")
     eduzen_id = os.getenv("EDUZEN_ID")
+    create_db_tables()
     bot = TelegramBot(token, eduzen_id)
 
     def stop_and_restart():

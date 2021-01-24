@@ -4,15 +4,15 @@ teatro - get_ranking
 import structlog
 from telegram import ChatAction
 
-
+from eduzen_bot.decorators import create_user
 from api import parse_alternativa
 
 logger = structlog.get_logger(filename=__name__)
 
 
+@create_user
 def get_ranking(update, context, *args, **kwargs):
     context.bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
-    logger.info(f"Teatro... by {update.message.from_user.name}")
 
     data = parse_alternativa()
     if not data:

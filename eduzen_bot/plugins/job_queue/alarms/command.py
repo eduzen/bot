@@ -2,17 +2,26 @@
 set - Setear alarma
 unset - Sacar alarma
 """
+from eduzen_bot.decorators import create_user
+import structlog
+
+logger = structlog.get_logger(filename=__name__)
 
 
+@create_user
 def alarm(context):
     """Send the alarm message."""
     context.bot.send_message(context.job.context, text="Beep!")
     context.bot.send_document(context.job.context, document="https://media.giphy.com/media/d3yxg15kJppJilnW/giphy.gif")
 
 
-def set_timer(update, context, *args, job_queue, chat_data):
+@create_user
+def set_timer(update, context, *args, **kwargs):
     """Add a job to the queue."""
+
     chat_id = update.message.chat_id
+    job_queue = kwargs.get("job_queue")
+    chat_data = kwargs.get("chat_data")
     try:
         # args[0] should contain the time for the timer in seconds
         due = int(args[0])
@@ -30,9 +39,11 @@ def set_timer(update, context, *args, job_queue, chat_data):
         update.message.reply_text("Usage: /set <seconds>")
 
 
-def unset(update, context, chat_data):
+@create_user
+def unset(update, context, *args, **kwargs):
     """Remove the job if the user changed their mind."""
-    if "job" not in chat_data:
+    chat_data = kwargs["chat_data"]
+    if "job" not in kwargs["chat_data"]:
         update.message.reply_text("No hay timers activados!")
         return
 

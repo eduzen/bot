@@ -60,7 +60,6 @@ def start(update, context):
         "algunos de los commandos que podés usar:\n"
         "Por ejemplo: /btc, /cambio, /caps, /dolar, /clima, /subte, /transito, /trenes"
     )
-    user = get_or_create_user(user)
 
 
 def ayuda(update, context):

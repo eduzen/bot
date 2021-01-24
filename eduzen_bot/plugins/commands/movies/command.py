@@ -4,7 +4,7 @@ movie - get_movie
 pelicula - get_movie
 """
 import structlog
-
+from eduzen_bot.decorators import create_user
 from eduzen_bot.plugins.commands.movies.api import (
     tmdb_movie_search,
     prettify_movie,
@@ -16,6 +16,7 @@ from eduzen_bot.plugins.commands.movies.constants import IMDB_LINK
 logger = structlog.get_logger(filename=__name__)
 
 
+@create_user
 def get_movie(update, context, **kwargs):
     args = context.args
     chat_data = context.chat_data
