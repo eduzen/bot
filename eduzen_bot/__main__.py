@@ -50,15 +50,15 @@ sentry_sdk.init(
     integrations=[sentry_logging, TornadoIntegration()],
     release=os.getenv("TAG"),
 )
+TOKEN = os.getenv("TOKEN")
+EDUZEN_ID = os.getenv("EDUZEN_ID")
+PORT = int(os.getenv("PORT", 5000))
+HEROKU = int(os.getenv("HEROKU", 0))
 
 
 def main():
-    token = os.getenv("TOKEN")
-    eduzen_id = os.getenv("EDUZEN_ID")
-    port = int(os.getenv("PORT", 5000))
-    heroku = int(os.getenv("HEROKU", 0))
     create_db_tables()
-    bot = TelegramBot(token, eduzen_id, heroku, port)
+    bot = TelegramBot(TOKEN, EDUZEN_ID, HEROKU, PORT)
 
     def stop_and_restart():
         """Gracefully stop the Updater and replace the current process with a new one"""

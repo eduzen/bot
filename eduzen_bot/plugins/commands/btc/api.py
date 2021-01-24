@@ -36,13 +36,13 @@ def process_coindesk(response):
         text = "Perdón! La api coindesk.com no está disponible!"
         return text
 
-    text = f"💰 1 ₿ btc == USD {data['bpi']['USD']['rate']} 💵\n By coindesk.org"
+    text = f"₿ 1 btc == USD {data['bpi']['USD']['rate']} 💵\n By coindesk.org"
 
     try:
         r = get_coin_value(ETH)
         r.raise_for_status()
         data = r.json()
-        text = f"💰 1 ⧫ eth == USD {data['USD']} 💵\n{text}"
+        text = f"⧫ 1 eth == USD {data['USD']} 💵\n💰\n{text}"
     except Exception:
         logger.exception("No pudimos conseguir eth")
 
