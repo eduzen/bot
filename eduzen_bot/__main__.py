@@ -46,7 +46,9 @@ load_dotenv("../.env")
 sentry_logging = LoggingIntegration(level=logging.DEBUG, event_level=logging.ERROR)
 
 sentry_sdk.init(
-    dsn=os.getenv("SENTRY_DSN", ""), integrations=[sentry_logging, TornadoIntegration()], release=os.getenv("TAG"),
+    dsn=os.getenv("SENTRY_DSN", ""),
+    integrations=[sentry_logging, TornadoIntegration()],
+    release=os.getenv("TAG"),
 )
 
 

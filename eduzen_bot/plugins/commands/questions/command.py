@@ -68,7 +68,9 @@ def edit_question(update, context, *args, **kwargs):
     q.save()
 
     context.bot.send_message(
-        chat_id=update.message.chat_id, parse_mode="Markdown", text=f"``` {q.question} guardada! ```",
+        chat_id=update.message.chat_id,
+        parse_mode="Markdown",
+        text=f"``` {q.question} guardada! ```",
     )
 
 
@@ -97,7 +99,9 @@ def add_answer(update, context, *args, **kwargs):
     q.save()
 
     context.bot.send_message(
-        chat_id=update.message.chat_id, parse_mode="Markdown", text=f"``` {q.question} guardada! ```",
+        chat_id=update.message.chat_id,
+        parse_mode="Markdown",
+        text=f"``` {q.question} guardada! ```",
     )
 
 

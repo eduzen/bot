@@ -23,7 +23,9 @@ def get_movie(update, context, **kwargs):
     chat_id = update.message.chat_id
     if not context.args:
         context.bot.send_message(
-            chat_id=chat_id, text="Necesito que me pases una pelicula. `/pelicula <nombre>`", parse_mode="markdown",
+            chat_id=chat_id,
+            text="Necesito que me pases una pelicula. `/pelicula <nombre>`",
+            parse_mode="markdown",
         )
         return
 

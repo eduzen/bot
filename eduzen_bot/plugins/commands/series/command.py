@@ -16,7 +16,8 @@ def search_serie(update, context, **kwargs):
     context.bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
     if not context.args:
         context.bot.send_message(
-            chat_id=update.message.chat_id, text="Te faltó pasarme el nombre de la serie. /serie <serie>",
+            chat_id=update.message.chat_id,
+            text="Te faltó pasarme el nombre de la serie. /serie <serie>",
         )
         return
 
