@@ -55,8 +55,8 @@ sentry_sdk.init(
 def main():
     token = os.getenv("TOKEN")
     eduzen_id = os.getenv("EDUZEN_ID")
-    port = os.getenv("PORT")
-    heroku = os.getenv("HEROKU")
+    port = int(os.getenv("PORT", 5000))
+    heroku = int(os.getenv("HEROKU", 0))
     create_db_tables()
     bot = TelegramBot(token, eduzen_id, heroku, port)
 
