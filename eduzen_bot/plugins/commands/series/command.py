@@ -20,7 +20,6 @@ def search_serie(update, context, **kwargs):
             text="Te faltó pasarme el nombre de la serie. /serie <serie>",
         )
         return
-
     query = " ".join(context.args)
     chat_id = update.message.chat_id
 
@@ -82,10 +81,10 @@ def search_serie(update, context, **kwargs):
     }
 
     context.bot.edit_message_reply_markup(
-        chat_id=chat_id,
+        chat_id=update.message.chat.id,
         message_id=bot_reply.message_id,
-        text=bot_reply.caption,
+        # text=bot_reply.caption,
         reply_markup=get_keyboard(),
-        parse_mode="markdown",
-        disable_web_page_preview=True,
+        # parse_mode="markdown",
+        # disable_web_page_preview=True,
     )
