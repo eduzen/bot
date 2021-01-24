@@ -42,7 +42,7 @@ def process_coindesk(response):
         r = get_coin_value(ETH)
         r.raise_for_status()
         data = r.json()
-        text = f"⧫ 1 eth == USD {data['USD']} 💵\n💰\n{text}"
+        text = f"💰\n⧫ 1 eth == USD {data['USD']} 💵\n\n{text}"
     except Exception:
         logger.exception("No pudimos conseguir eth")
 
