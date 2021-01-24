@@ -1,42 +1,4 @@
 # Just another telegram-bot
-![Travis (.org) branch](https://img.shields.io/travis/eduzen/bot/master?style=plastic) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/a7d8a79c8e084108ac7469ad1820925a)](https://www.codacy.com/manual/eduzen/bot?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=eduzen/bot&amp;utm_campaign=Badge_Grade)
-
-## Installation
-
-This project runs with `docker` (you can use traditional `virtualenv` but it's prepared out of the box for `docker`).
-Also to manage docker, we are using [docker-compose](https://docs.docker.com/compose/).
-
-## Create a keys file
-
-```bash
-touch keys.py
-```
-
-## Fill it with your twitter tokens
-
-```python
-TOKEN = 'some_token'
-APP_ID = ''
-TWITTER = {}
-TWITTER["CONSUMER_KEY"] = 'consumer_key'
-TWITTER["CONSUMER_SECRET"] = ""
-TWITTER["ACCESS_TOKEN"] = ""
-TWITTER["ACCESS_TOKEN_SECRET"] = "access_token_secret"
-```
-
-## Usage
-
-If you already have `docker` and `docker-compose`, just run:
-
-```bash
-make start
-
-# only test and flake8
-make test
-```
-
-This command will download the images and build them in a container.
-
 ## Algunos commandos para pasarle a botfather
 
 ```json
