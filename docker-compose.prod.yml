@@ -1,9 +1,0 @@
-version: '3'
-services:
-    eduzenbot:
-        command: ["python3", "eduzen_bot", "-v"]
-        build:
-            context: .
-            dockerfile: Dockerfile
-        volumes:
-            - .:/code
