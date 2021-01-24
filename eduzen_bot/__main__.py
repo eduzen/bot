@@ -55,8 +55,10 @@ sentry_sdk.init(
 def main():
     token = os.getenv("TOKEN")
     eduzen_id = os.getenv("EDUZEN_ID")
+    port = os.getenv("PORT")
+    heroku = os.getenv("HEROKU")
     create_db_tables()
-    bot = TelegramBot(token, eduzen_id)
+    bot = TelegramBot(token, eduzen_id, heroku, port)
 
     def stop_and_restart():
         """Gracefully stop the Updater and replace the current process with a new one"""

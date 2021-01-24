@@ -26,6 +26,8 @@ class TelegramBot:
 
     token: str
     eduzen_id: int = 3652654
+    heroku: int = 0
+    port: int = 80
     workers: int = 4
     use_context: bool = True
     updater: Updater = None
@@ -37,7 +39,11 @@ class TelegramBot:
         self._load_plugins()
 
     def start(self):
-        self.updater.start_polling()
+        if self.heroku:
+            self.updater.start_polling()
+        else:
+            self.updater.start_webhook(listen="0.0.0.0", port=self.port, url_path=self.token)
+            self.updater.bot.setWebhook(f"https://eduzenbot.herokuapp.com/{self.token}")
         self.send_msg_to_eduzen("eduzen_bot reiniciado!")
         self.updater.idle()
 
