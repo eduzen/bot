@@ -5,15 +5,15 @@
 
 version: 2
 updates:
-  - package-ecosystem: "pip"
+  - package-ecosystem: "poetry"
     directory: "/"
     schedule:
       interval: "daily"
     # Include a list of updated dependencies
     # with a prefix determined by the dependency group
     commit-message:
-      prefix: "pip prod"
-      prefix-development: "pip dev"
+      prefix: "poetry prod"
+      prefix-development: "poetry dev"
       include: "scope"
 
   - package-ecosystem: "github-actions"
