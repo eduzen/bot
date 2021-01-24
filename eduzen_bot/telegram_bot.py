@@ -40,7 +40,7 @@ class TelegramBot:
 
     def start(self):
         print(f"heroku {self.heroku}")
-        if self.heroku:
+        if not self.heroku:
             self.updater.start_polling()
         else:
             print("test")
