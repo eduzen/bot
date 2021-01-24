@@ -203,14 +203,14 @@ python-versions = "*"
 
 [[package]]
 name = "emoji"
-version = "0.5.1"
+version = "1.1.0"
 description = "Emoji for Python"
 category = "main"
 optional = false
 python-versions = "*"
 
 [package.extras]
-dev = ["nose", "coverage", "coveralls"]
+dev = ["pytest", "coverage", "coveralls"]
 
 [[package]]
 name = "filelock"
@@ -928,7 +928,7 @@ python-versions = "*"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "5a24eb8229d1a38b5ba6b21ded04eb765d0830db3934177fd5104258bb81376f"
+content-hash = "6e00421710f41c95e78ee3b31a02b22d971998410e439b3245bddcb214e4681c"
 
 [metadata.files]
 appdirs = [
@@ -1049,8 +1049,8 @@ docopt = [
     {file = "docopt-0.6.2.tar.gz", hash = "sha256:49b3a825280bd66b3aa83585ef59c4a8c82f2c8a522dbe754a8bc8d08c85c491"},
 ]
 emoji = [
-    {file = "emoji-0.5.1-py3-none-any.whl", hash = "sha256:1e959336dafc7a5ed2c0256ee587bbd38a7187d772141f0b5ba42de9e08599a8"},
-    {file = "emoji-0.5.1.tar.gz", hash = "sha256:a9e9c08be9907c0042212c86dfbea0f61f78e9897d4df41a1d6307017763ad3e"},
+    {file = "emoji-1.1.0-py3-none-any.whl", hash = "sha256:153fbf06eb5a111ca2b0c04f6f14ec3be434946a302f7892bf4c30446e050381"},
+    {file = "emoji-1.1.0.tar.gz", hash = "sha256:87c934907deb25e9621b0c48cac2051ad932636ad5946c4de6ba0f5f45a61fcd"},
 ]
 filelock = [
     {file = "filelock-3.0.12-py3-none-any.whl", hash = "sha256:929b7d63ec5b7d6b71b0fa5ac14e030b3f70b75747cef1b10da9b879fef15836"},
