@@ -10,8 +10,12 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
-
+  ci:
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: [3.8]
+        poetry-version: [1.1.2]
     runs-on: ubuntu-latest
 
     steps:
