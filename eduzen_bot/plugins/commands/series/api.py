@@ -7,7 +7,6 @@ import structlog
 import tmdbsimple as tmdb
 from bs4 import BeautifulSoup
 
-
 from eduzen_bot.plugins.commands.series import keyboards
 from eduzen_bot.plugins.commands.series.constants import (
     BASEURL,

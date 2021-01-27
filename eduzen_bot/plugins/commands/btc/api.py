@@ -1,5 +1,5 @@
-import structlog
 import requests
+import structlog
 
 logger = structlog.get_logger(filename=__name__)
 

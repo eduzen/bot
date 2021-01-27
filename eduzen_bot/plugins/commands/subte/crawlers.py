@@ -6,7 +6,7 @@ warning = emojize(":warning:", use_aliases=True)
 
 
 def get_estado_del_subte(amount=0):
-    r = requests.get("http://enelsubte.com/estado/")
+    r = requests.get("http://enelsubte.com/estado/", verify=False)
     r.encoding = "utf-8"
     msg = "No pudimos conseguir el subte via web"
 
@@ -43,7 +43,7 @@ def get_estado_del_subte(amount=0):
 
 
 def get_estado_metrovias_html(amount=0):
-    r = requests.get("http://www.metrovias.com.ar/")
+    r = requests.get("http://www.metrovias.com.ar/", verify=False)
     r.encoding = "utf-8"
     msg = "No pudimos conseguir el subte via web"
 

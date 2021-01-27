@@ -4,9 +4,8 @@ caps - caps
 help - ayuda
 msg - send_private_msg
 """
-import structlog
 import peewee
-
+import structlog
 
 from eduzen_bot.models import User
 

@@ -1,12 +1,16 @@
-import structlog
-import requests
 from functools import lru_cache
+
+import requests
+import structlog
 from telegram import InputMediaPhoto
 
 from eduzen_bot.plugins.commands.series import keyboards
-from eduzen_bot.plugins.commands.series.constants import EZTV_NO_RESULTS, EZTV_API_ERROR
-from eduzen_bot.plugins.commands.series.api import prettify_serie, get_all_seasons, get_poster_url
-
+from eduzen_bot.plugins.commands.series.api import (
+    get_all_seasons,
+    get_poster_url,
+    prettify_serie,
+)
+from eduzen_bot.plugins.commands.series.constants import EZTV_API_ERROR, EZTV_NO_RESULTS
 
 logger = structlog.getLogger(filename=__name__)
 

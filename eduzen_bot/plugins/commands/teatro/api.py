@@ -1,6 +1,6 @@
 import logging
-import requests
 
+import requests
 from bs4 import BeautifulSoup
 
 logger = logging.getLogger(__name__)

@@ -5,13 +5,11 @@ dolarhoy - get_dolarhoy
 dolarfuturo - get_dolarfuturo
 """
 import structlog
-from telegram import ChatAction
-
-from telegram import Update
+from api import get_dolar_blue, get_dollar, parse_bnc, parse_dolarfuturo, parse_dolarhoy
+from telegram import ChatAction, Update
 from telegram.ext import CallbackContext
-from eduzen_bot.decorators import create_user
 
-from api import parse_bnc, get_dollar, get_dolar_blue, parse_dolarhoy, parse_dolarfuturo
+from eduzen_bot.decorators import create_user
 
 logger = structlog.get_logger(filename=__name__)
 

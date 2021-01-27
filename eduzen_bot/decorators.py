@@ -1,8 +1,8 @@
 import functools
 from functools import wraps
-import structlog
-import peewee
 
+import peewee
+import structlog
 
 from eduzen_bot.models import User
 
@@ -31,7 +31,9 @@ def hash_dict(func):
 def get_or_create_user(user):
     data = user.to_dict()
     try:
-        user, _ = User.get_or_create(**data)
+        user, created = User.get_or_create(**data)
+        if not created:
+            user.save()
         return user
     except peewee.IntegrityError:
         logger.warn("User already created")
@@ -45,7 +47,7 @@ def create_user(func):
     @wraps(func)
     def wrapper(update, context, *args, **kwarg):
         user = get_or_create_user(update.message.from_user)
-        logger.info(f"{func.__name__}... by {user}")
+        logger.info(f"{func.__name__}... by {user} - {user.updated_at}")
         result = func(update, context, *args, **kwarg)
         return result
 

@@ -14,32 +14,27 @@ Options:
     -v, --verbose       More stdout as an additional output for logging. [default: info]
 
 """
+import logging
 import os
 import sys
-import logging
 from threading import Thread
 
-import structlog
 import sentry_sdk
+import structlog
+from docopt import docopt
+from dotenv import load_dotenv
 from sentry_sdk.integrations.logging import LoggingIntegration
 from sentry_sdk.integrations.tornado import TornadoIntegration
-
-from dotenv import load_dotenv
-from docopt import docopt
-from telegram.ext import Filters
-from telegram.ext import CommandHandler
-from telegram.ext import CallbackQueryHandler
+from telegram.ext import CallbackQueryHandler, CommandHandler, Filters
 
 from eduzen_bot import set_handler
-from eduzen_bot.telegram_bot import TelegramBot
 from eduzen_bot.callbacks_handler import callback_query
-
 from eduzen_bot.plugins.job_queue.alarms.command import set_timer, unset
 from eduzen_bot.plugins.messages.inline import code_markdown
-from eduzen_bot.plugins.messages.unknown import unknown
 from eduzen_bot.plugins.messages.message import parse_msgs
-
+from eduzen_bot.plugins.messages.unknown import unknown
 from eduzen_bot.scripts.initialize_db import create_db_tables
+from eduzen_bot.telegram_bot import TelegramBot
 
 load_dotenv("../.env")
 
@@ -96,7 +91,6 @@ if __name__ == "__main__":
     arguments = docopt(__doc__, version=os.environ.get("RELEASE", "eduzen_bot@1.0"))
     stream = arguments.get("--stream")
     level = arguments.get("--log_level")
-    config = arguments.get("--config")
     verbose = set_handler(arguments)
     logging.basicConfig(level=level)
     logger = structlog.get_logger(filename=__name__)

@@ -1,6 +1,5 @@
 import pytest
-
-from handlers.messages.message import check_for_answer, GREETING_KEYWORDS
+from handlers.messages.message import GREETING_KEYWORDS, check_for_answer
 
 
 @pytest.mark.parametrize("value", (["Hi"], ["hi"], ["hola", "como", "va"], ["holas"], ["hola"]))

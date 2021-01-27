@@ -4,13 +4,14 @@ movie - get_movie
 pelicula - get_movie
 """
 import structlog
+
 from eduzen_bot.decorators import create_user
-from eduzen_bot.plugins.commands.movies.api import (
-    tmdb_movie_search,
-    prettify_movie,
-    get_movie_detail,
-)
 from eduzen_bot.plugins.commands.movies import keyboards
+from eduzen_bot.plugins.commands.movies.api import (
+    get_movie_detail,
+    prettify_movie,
+    tmdb_movie_search,
+)
 from eduzen_bot.plugins.commands.movies.constants import IMDB_LINK
 
 logger = structlog.get_logger(filename=__name__)

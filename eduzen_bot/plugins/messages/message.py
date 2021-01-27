@@ -1,29 +1,29 @@
-import os
-import structlog
-import random
 import codecs
+import os
+import random
 
 import peewee
+import structlog
 from telegram import ChatAction
 
+from eduzen_bot.models import Question, User
 
-from eduzen_bot.models import User, Question
 from .vocabulary import (
+    BYE_KEYWORDS,
+    BYE_RESPONSES,
+    FASO_RESPONSE,
     GREETING_KEYWORDS,
     GREETING_RESPONSES,
     INTRO_QUESTIONS,
-    NONE_RESPONSES,
     INTRO_RESPONSES,
-    BYE_KEYWORDS,
-    BYE_RESPONSES,
-    T1000_RESPONSE,
-    FASO_RESPONSE,
-    WINDOWS_RESPONSE,
     JOKE_KEYWORDS,
     JOKE_RESPONSES,
-    SKYNET,
     MACRI,
     MACRI_RESPONSES,
+    NONE_RESPONSES,
+    SKYNET,
+    T1000_RESPONSE,
+    WINDOWS_RESPONSE,
 )
 
 os.environ["NLTK_DATA"] = os.getcwd() + "/nltk_data"

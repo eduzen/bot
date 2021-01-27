@@ -1,4 +1,5 @@
-from telegram import InlineKeyboardMarkup, InlineKeyboardButton as Button
+from telegram import InlineKeyboardButton as Button
+from telegram import InlineKeyboardMarkup
 
 
 def pelis():

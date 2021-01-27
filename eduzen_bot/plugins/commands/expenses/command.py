@@ -1,12 +1,12 @@
 """
 gasto - expense
 """
+import structlog
+from api import send_expense
 from telegram import ChatAction
+
 from eduzen_bot.auth.restricted import restricted
 from eduzen_bot.decorators import create_user
-import structlog
-
-from api import send_expense
 
 logger = structlog.get_logger(filename=__name__)
 

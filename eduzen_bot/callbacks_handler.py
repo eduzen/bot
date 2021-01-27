@@ -1,6 +1,7 @@
 import structlog
-from eduzen_bot.plugins.commands.series import callbacks as series_callbacks
+
 from eduzen_bot.plugins.commands.movies import callbacks as movies_callbacks
+from eduzen_bot.plugins.commands.series import callbacks as series_callbacks
 
 log = structlog.getLogger(filename=__name__)
 
