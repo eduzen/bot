@@ -1,8 +1,8 @@
 """Top-level package for eduzen_bot."""
 
 import os
-from os.path import abspath, dirname
 from logging import config as logging_config
+from os.path import abspath, dirname
 
 import structlog
 import yaml

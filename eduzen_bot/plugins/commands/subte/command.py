@@ -3,14 +3,12 @@ subte - subte
 subtenews - subte_novedades
 """
 import structlog
-
+from api import get_subte
+from emoji import emojize
+from subte.crawlers import get_estado_del_subte, get_estado_metrovias_html
 from telegram import ChatAction
 
-from emoji import emojize
-
-from api import get_subte
 from eduzen_bot.decorators import create_user
-from subte.crawlers import get_estado_del_subte, get_estado_metrovias_html
 
 logger = structlog.get_logger(filename=__name__)
 metro = emojize(":metro:", use_aliases=True)

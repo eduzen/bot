@@ -1,12 +1,11 @@
 """
 transito - transito
 """
-from eduzen_bot.decorators import create_user
 import structlog
+from api import get_transito
 from telegram import ChatAction
 
-
-from api import get_transito
+from eduzen_bot.decorators import create_user
 
 logger = structlog.get_logger(filename=__name__)
 

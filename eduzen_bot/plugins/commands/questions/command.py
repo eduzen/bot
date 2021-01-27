@@ -10,10 +10,10 @@ edit_question - edit_question
 """
 import structlog
 from telegram import ChatAction
-from eduzen_bot.decorators import create_user
-from eduzen_bot.models import User, Question
 
 from eduzen_bot.auth.restricted import restricted
+from eduzen_bot.decorators import create_user
+from eduzen_bot.models import Question, User
 
 logger = structlog.get_logger(filename=__name__)
 

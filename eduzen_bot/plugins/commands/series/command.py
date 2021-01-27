@@ -3,10 +3,16 @@ serie - search_serie
 series - search_serie
 """
 import structlog
+from api import (
+    get_keyboard,
+    get_poster_url,
+    get_related_series,
+    get_serie_detail,
+    prettify_serie,
+)
 from telegram import ChatAction
-from eduzen_bot.decorators import create_user
 
-from api import get_related_series, get_keyboard, get_serie_detail, get_poster_url, prettify_serie
+from eduzen_bot.decorators import create_user
 
 logger = structlog.get_logger(filename=__name__)
 

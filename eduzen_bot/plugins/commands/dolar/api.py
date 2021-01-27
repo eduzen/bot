@@ -1,12 +1,13 @@
-import re
-import structlog
-import os
 import calendar
-import requests
-from collections import defaultdict, namedtuple
+import os
+import re
 import unicodedata
-from emoji import emojize
+from collections import defaultdict, namedtuple
+
+import requests
+import structlog
 from bs4 import BeautifulSoup
+from emoji import emojize
 
 APP_ID = os.getenv("APP_ID")
 

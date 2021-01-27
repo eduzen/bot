@@ -2,8 +2,9 @@
 set - Setear alarma
 unset - Sacar alarma
 """
-from eduzen_bot.decorators import create_user
 import structlog
+
+from eduzen_bot.decorators import create_user
 
 logger = structlog.get_logger(filename=__name__)
 

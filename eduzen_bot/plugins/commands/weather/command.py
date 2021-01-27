@@ -2,12 +2,11 @@
 clima - weather
 klima - klima
 """
-from eduzen_bot.decorators import create_user
 import structlog
+from api import get_klima, get_weather
 from telegram import ChatAction
 
-
-from api import get_weather, get_klima
+from eduzen_bot.decorators import create_user
 
 logger = structlog.get_logger()
 

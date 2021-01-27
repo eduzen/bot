@@ -1,7 +1,7 @@
 import os
-import structlog
-
 from functools import wraps
+
+import structlog
 from telegram import Update
 from telegram.ext import CallbackContext
 

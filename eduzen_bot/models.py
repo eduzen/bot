@@ -1,8 +1,20 @@
+import os
 from datetime import datetime
 
-from peewee import Model, ForeignKeyField, DateTimeField, TextField, CharField, BooleanField
+from dotenv import load_dotenv
+from peewee import (
+    BooleanField,
+    CharField,
+    DateTimeField,
+    ForeignKeyField,
+    Model,
+    TextField,
+)
+from playhouse.db_url import connect
 
-from eduzen_bot.database import db
+load_dotenv(".env")
+
+db = connect(os.getenv("DATABASE_URL", "sqlite:///default.db"))
 
 
 class BaseModel(Model):
@@ -17,15 +29,28 @@ class User(BaseModel):
     is_bot = BooleanField(default=False)
     language_code = CharField(null=True)
 
+    created_at = DateTimeField(default=datetime.now)
+    updated_at = DateTimeField(null=True)
+
+    def save(self, *args, **kwargs):
+        self.updated_at = datetime.now()
+        return super().save(*args, **kwargs)
+
     def __str__(self):
         return f"<{self.username}: {self.first_name} {self.last_name}> "
 
 
 class Question(BaseModel):
     user = ForeignKeyField(User, backref="user")
-    created_date = DateTimeField(default=datetime.now)
     question = TextField()
     answer = TextField(null=True)
+
+    created_at = DateTimeField(default=datetime.now)
+    updated_at = DateTimeField(null=True)
+
+    def save(self, *args, **kwargs):
+        self.updated_at = datetime.now()
+        return super().save(*args, **kwargs)
 
     def __str__(self):
         return f"<{self.question}>"

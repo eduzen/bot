@@ -1,9 +1,10 @@
+import os
+
 import structlog
 import tmdbsimple as tmdb
-import os
-from eduzen_bot.plugins.commands.movies.constants import IMDB_LINK
-from eduzen_bot.plugins.commands.movies.api import get_yts_torrent_info, get_yt_trailer
 
+from eduzen_bot.plugins.commands.movies.api import get_yt_trailer, get_yts_torrent_info
+from eduzen_bot.plugins.commands.movies.constants import IMDB_LINK
 
 logger = structlog.get_logger(filename=__name__)
 

@@ -2,10 +2,10 @@
 teatro - get_ranking
 """
 import structlog
+from api import parse_alternativa
 from telegram import ChatAction
 
 from eduzen_bot.decorators import create_user
-from api import parse_alternativa
 
 logger = structlog.get_logger(filename=__name__)
 

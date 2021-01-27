@@ -5,8 +5,8 @@ import subprocess
 
 import structlog
 
-from eduzen_bot.decorators import create_user
 from eduzen_bot.auth.restricted import restricted
+from eduzen_bot.decorators import create_user
 
 logger = structlog.get_logger(filename=__name__)
 

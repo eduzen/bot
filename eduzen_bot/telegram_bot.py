@@ -1,17 +1,23 @@
 import os
-import attr
-from functools import partial
 import pkgutil
-import structlog
+from functools import partial
 
-from telegram.ext import CommandHandler, MessageHandler, Filters, InlineQueryHandler, Updater
+import attr
+import structlog
 from telegram.error import (
-    TelegramError,
-    Unauthorized,
     BadRequest,
-    TimedOut,
     ChatMigrated,
     NetworkError,
+    TelegramError,
+    TimedOut,
+    Unauthorized,
+)
+from telegram.ext import (
+    CommandHandler,
+    Filters,
+    InlineQueryHandler,
+    MessageHandler,
+    Updater,
 )
 
 logger = structlog.get_logger(filename=__name__)

@@ -2,10 +2,10 @@
 btc - btc
 """
 import structlog
-from telegram import ChatAction
-from eduzen_bot.decorators import create_user
-
 from api import get_btc
+from telegram import ChatAction
+
+from eduzen_bot.decorators import create_user
 
 logger = structlog.get_logger()
 

@@ -1,12 +1,11 @@
 """
 trenes - trenes
 """
-from eduzen_bot.decorators import create_user
 import structlog
+from api import get_trenes
 from telegram import ChatAction
 
-
-from api import get_trenes
+from eduzen_bot.decorators import create_user
 
 logger = structlog.get_logger(filename=__name__)
 
