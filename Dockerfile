@@ -34,6 +34,8 @@ RUN echo 'export PS1="\[\e[36m\]botshell>\[\e[m\] "' >> /root/.ashrc
 
 RUN apk add --update --no-cache --virtual .build-deps \
     gcc \
+    postgresql-dev \
+    musl-dev \
     build-base \
     libffi-dev \
     curl \
