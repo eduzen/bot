@@ -42,7 +42,7 @@ class User(BaseModel):
     def to_str(self):
         return (
             f"{'bot! ' if self.is_bot else ''}{self.username} | "
-            f"{self.first_name} | {self.last_name} | {self.updated_at}"
+            f"{self.first_name} | {self.last_name} | {self.created_at}"
         )
 
 
