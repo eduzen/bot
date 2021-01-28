@@ -31,6 +31,7 @@ nltk = "^3.5"
 textblob = "^0.15.3"
 regex = "^2020.11.13"
 PyYAML = "^5.4.1"
+psycopg2-binary = "^2.8.6"
 ipdb = "^0.13.4"
 
 [tool.poetry.dev-dependencies]
