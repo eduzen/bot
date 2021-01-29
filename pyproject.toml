@@ -48,7 +48,7 @@ wdb = "^3.3.0"
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
 
-# [virtualenvs]
-# create = true
+[virtualenvs]
+create = true
 # local = true
 # in-project = true

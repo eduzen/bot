@@ -18,8 +18,7 @@ def stock(update, context, *args, **kwargs):
         return
     name = context.args[0]
     stock = yf.Ticker(name)
-    info = stock.info()
-    info = f"{name} U$D {info['regularMarketDayHigh']} regular market day high"
+    info = f"{name} U$D {stock.info['regularMarketDayHigh']} regular market day high"
 
     update.message.reply_text(info)
     # context.bot.send_message(chat_id=update.message.chat_id, text=info)
