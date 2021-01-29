@@ -30,8 +30,9 @@ def hash_dict(func):
 
 def get_or_create_user(user):
     data = user.to_dict()
+    logger.warn(data)
     try:
-        user, created = User.get_or_create(**data)
+        user, created = User.get_or_create(username=data.get("username"), defaults=data)
         if not created:
             user.save()
         return user
