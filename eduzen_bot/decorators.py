@@ -47,7 +47,10 @@ def create_user(func):
     @wraps(func)
     def wrapper(update, context, *args, **kwarg):
         user = get_or_create_user(update.message.from_user)
-        logger.info(f"{func.__name__}... by {user} - {user.created_at}")
+        if user:
+            logger.info(f"{func.__name__}... by {user} - {user.created_at}")
+        else:
+            logger.info(f"{func.__name__}... by unknown user")
         result = func(update, context, *args, **kwarg)
         return result
 
