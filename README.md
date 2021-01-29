@@ -7,27 +7,13 @@ clima - Temperatura en baires
 klima - Temperatura en München
 dolar - Cotización del dolar
 btc - Cotización del bitcoin
+stock - Cotizacion de acciones
 users - Lista de usuarios
-add_question - Agrega una pregunta
-edit_question - Editas una pregunta
-add_answer - Agrega respuesta pasando Id
-remove - Borra una pregunta
-questions - Lista preguntas
-question_menu - Menu de preguntas
-caps - convierte a mayusculas
-gasto - agrega un gasto
-start - ayuda
-code - Highlighted code
-msg - Envia un msg privado
 subte -  Estado del subte
 subtenews - Estado del subte, acepta numero de tweets
 transito -  Estado del transito
 trenes -  Estado del trenes
-set - Setear alarma
-unset - Sacar alarma
-qmenu - Menu para preguntas
 restart - Reiniciar el bot
-pull - Actualiza el codigo del bot
 teatro - Lo mas buscado en AlternativaTeatral, acepta nro
 dolarhoy - distintas cotizaciones
 dolarfuturo - dolar futuro rofex

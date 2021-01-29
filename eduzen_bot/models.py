@@ -13,7 +13,6 @@ from peewee import (
 from playhouse.db_url import connect
 
 load_dotenv(".env")
-
 db = connect(os.getenv("DATABASE_URL", "sqlite:///default.db"))
 
 
