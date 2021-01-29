@@ -29,7 +29,6 @@ ENV PYTHONUNBUFFERED=1 \
 
 # prepend poetry and venv to path
 ENV PATH="$POETRY_HOME/bin:$VENV_PATH/bin:$PATH"
-
 RUN echo 'export PS1="\[\e[36m\]botshell>\[\e[m\] "' >> /root/.ashrc
 
 RUN apk add --update --no-cache --virtual .build-deps \
@@ -38,6 +37,8 @@ RUN apk add --update --no-cache --virtual .build-deps \
     musl-dev \
     build-base \
     libffi-dev \
+    libxml2-dev \
+    libxslt-dev \
     curl \
     openssl-dev
 
