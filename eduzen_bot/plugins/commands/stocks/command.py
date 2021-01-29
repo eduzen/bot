@@ -25,7 +25,7 @@ def stock(update, context, *args, **kwargs):
         info = (
             f"{stock.info.get('shortName')} 📈\n"
             f"{dt.datetime.today().strftime('%Y-%m-%d')} \n"
-            f"U$D {stock.info.get('regularMarketPrice')} 💵 for {stock.info.get('market')}\n"
+            f"U$D {stock.info.get('regularMarketPrice')} 💵 for {stock.info.get('quoteSourceName')}\n"
             f"55 days average price {stock.info.get('fiftyDayAverage')}\n"
         )
 
