@@ -1,9 +1,8 @@
-import logging
-
 import requests
+import structlog
 from bs4 import BeautifulSoup
 
-logger = logging.getLogger(__name__)
+logger = structlog.get_logger(filename=__name__)
 
 ALTERNATIVA = "http://www.alternativateatral.com/"
 

@@ -1,4 +1,4 @@
-FROM python:3.8-alpine
+FROM python:3.8-slim-buster
 
     # python
 ENV PYTHONUNBUFFERED=1 \
@@ -31,16 +31,20 @@ ENV PYTHONUNBUFFERED=1 \
 ENV PATH="$POETRY_HOME/bin:$VENV_PATH/bin:$PATH"
 RUN echo 'export PS1="\[\e[36m\]botshell>\[\e[m\] "' >> /root/.ashrc
 
-RUN apk add --update --no-cache --virtual .build-deps \
-    gcc \
-    postgresql-dev \
-    musl-dev \
-    build-base \
-    libffi-dev \
-    libxml2-dev \
-    libxslt-dev \
-    curl \
-    openssl-dev
+RUN apt-get update && \
+    apt-get install --no-install-recommends -y \
+        gettext \
+        curl \
+        libffi-dev \
+        libxml2-dev \
+        libxslt-dev \
+        build-essential \
+        postgresql-client \
+        httpie && \
+    apt-get autoremove -y && \
+    apt-get autoclean -y && \
+    rm -rf /var/lib/apt/lists/*
+
 
 # install poetry - respects $POETRY_VERSION & $POETRY_HOME
 RUN curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
@@ -56,4 +60,4 @@ WORKDIR /code
 COPY . /code
 
 RUN python setup.py develop
-CMD ["python", "eduzen_bot", "-v"]
+CMD ["python", "eduzen_bot"]

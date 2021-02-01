@@ -38,7 +38,11 @@ def get_basic_info(movie):
     title = f"[{movie.get('title') or movie.get('original_title')}]({movie['imdb_link']})"
     rating = movie["vote_average"]
     overview = movie["overview"]
-    year = movie["release_date"].split("-")[0]  # "2016-07-27" -> 2016
+    try:
+        year = movie["release_date"].split("-")[0]  # "2016-07-27" -> 2016
+    except KeyError:
+        logger.exception("pelis could not find a release date")
+        year = "2050"
     image_link = movie.get("backdrop_path") or movie.get("poster_path")
     poster = BASEURL_IMAGE.format(image_link if image_link else None)
     return title, rating, overview, year, poster
