@@ -59,5 +59,4 @@ RUN poetry install
 WORKDIR /code
 COPY . /code
 
-RUN python setup.py develop
-CMD ["python", "eduzen_bot"]
+CMD ["python", "-m", "eduzen_bot"]

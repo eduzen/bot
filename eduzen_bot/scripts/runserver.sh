@@ -2,4 +2,4 @@
 
 sh /code/eduzen_bot/scripts/wait_for_db.sh
 
-exec python3 eduzen_bot
+exec python3 -m eduzen_bot
