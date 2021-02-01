@@ -1,10 +1,10 @@
-import logging
 from uuid import uuid4
 
+import structlog
 from telegram import InlineQueryResultArticle, InputTextMessageContent, ParseMode
 from telegram.utils.helpers import escape_markdown
 
-logger = logging.getLogger()
+logger = structlog.get_logger(filename=__name__)
 
 
 def code_markdown(update, context):
