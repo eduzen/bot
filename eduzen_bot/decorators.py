@@ -30,8 +30,9 @@ def hash_dict(func):
 
 def get_or_create_user(user):
     data = user.to_dict()
+    logger.warn(data)
     try:
-        user, created = User.get_or_create(**data)
+        user, created = User.get_or_create(username=data.get("username"), defaults=data)
         if not created:
             user.save()
         return user
@@ -48,12 +49,15 @@ def create_user(func):
 
     @wraps(func)
     def wrapper(update, context, *args, **kwarg):
+        if not update.message.from_user:
+            logger.warn(f"{func.__name__}... by unknown user")
+            return func(update, context, *args, **kwarg)
+
         user = get_or_create_user(update.message.from_user)
         if user:
             logger.info(f"{func.__name__}... by {user} - {user.created_at}")
         else:
-            logger.info(f"{func.__name__}... by unknown user")
-
+            logger.warn(f"{func.__name__}... by unknown user")
         result = func(update, context, *args, **kwarg)
         return result
 

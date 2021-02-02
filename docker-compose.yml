@@ -1,13 +1,25 @@
 version: '3'
 
+volumes:
+  pgdata:
+  shell_history:
+
 services:
   eduzenbot:
     build: .
-    command: ["python3", "eduzen_bot", "-v", "--log_level=INFO"]
+    command: ["sh", "/code/eduzen_bot/scripts/runserver.sh"]
     volumes:
       - .:/code
+      - shell_history:/root/hist
     env_file:
       - .env
+
+  db:
+    image: postgres:13-alpine
+    volumes:
+      - pgdata:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_PASSWORD=$POSTGRES_PASSWORD
 
   # wdb:
   #   image: kozea/wdb

@@ -1,19 +1,5 @@
-""" eduzen_bot: a python telgram bot
+#!/usr/bin/env python3
 
-Usage:
-    __main__.py [-q | -v] [--log_level=level] [--config=<path>]
-    __main__.py -h | --help
-    __main__.py --version
-
-Options:
-    -h --help           Show this.
-    --version           Show version.
-    --log_level=level   Level of logging ERROR DEBUG INFO WARNING.
-    --config=config     Config file path.
-    -q, --quiet         Less stdout as an additional output for logging. [default: info]
-    -v, --verbose       More stdout as an additional output for logging. [default: info]
-
-"""
 import logging
 import os
 import sys
@@ -21,13 +7,12 @@ from threading import Thread
 
 import sentry_sdk
 import structlog
-from docopt import docopt
 from dotenv import load_dotenv
 from sentry_sdk.integrations.logging import LoggingIntegration
 from sentry_sdk.integrations.tornado import TornadoIntegration
 from telegram.ext import CallbackQueryHandler, CommandHandler, Filters
 
-from eduzen_bot import set_handler
+from eduzen_bot import LEVELS, add_timestamp
 from eduzen_bot.callbacks_handler import callback_query
 from eduzen_bot.plugins.job_queue.alarms.command import set_timer, unset
 from eduzen_bot.plugins.messages.inline import code_markdown
@@ -38,7 +23,9 @@ from eduzen_bot.telegram_bot import TelegramBot
 
 load_dotenv("../.env")
 
-sentry_logging = LoggingIntegration(level=logging.DEBUG, event_level=logging.ERROR)
+LOG_LEVEL = LEVELS[os.environ.get("LOG_LEVEL", "INFO").upper()]
+
+sentry_logging = LoggingIntegration(level=LOG_LEVEL, event_level=logging.ERROR)
 
 sentry_sdk.init(
     dsn=os.getenv("SENTRY_DSN", ""),
@@ -57,7 +44,7 @@ def main():
 
     def stop_and_restart():
         """Gracefully stop the Updater and replace the current process with a new one"""
-        logger.info("Restarting eduzen_bot...\n")
+        logger.info("Restarting eduzen_bot...")
         bot.updater.stop()
         os.execl(sys.executable, sys.executable, *sys.argv)
 
@@ -88,14 +75,23 @@ def main():
 
 
 if __name__ == "__main__":
-    arguments = docopt(__doc__, version=os.environ.get("RELEASE", "eduzen_bot@1.0"))
-    stream = arguments.get("--stream")
-    level = arguments.get("--log_level")
-    verbose = set_handler(arguments)
-    logging.basicConfig(level=level)
+    structlog.configure(
+        processors=[
+            add_timestamp,
+            structlog.processors.add_log_level,
+            structlog.processors.StackInfoRenderer(),
+            structlog.dev.set_exc_info,
+            structlog.processors.format_exc_info,
+            structlog.dev.ConsoleRenderer(),
+        ],
+        wrapper_class=structlog.make_filtering_bound_logger(LOG_LEVEL),
+        context_class=dict,
+        logger_factory=structlog.PrintLoggerFactory(),
+        cache_logger_on_first_use=False,
+    )
     logger = structlog.get_logger(filename=__name__)
     try:
-        logger.info("Starting main...")
+        logger.warn("Starting main...")
         main()
-    except Exception as error:
-        logger.exception(f"{error}\n bye bye")
+    except Exception:
+        logger.exception("bye bye")
