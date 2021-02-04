@@ -16,7 +16,7 @@ on:
   workflow_run:
     workflows: ["Python application"]
     branches: [master, main]
-    types: 
+    types:
       - completed
       - requested
 env:
