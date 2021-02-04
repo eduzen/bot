@@ -1,6 +1,8 @@
 """
 time - time
 """
+import random
+
 import pytz
 import requests
 import structlog
@@ -30,6 +32,11 @@ def time(update, context, *args, **kwargs):
         timezone = find_timezone()
     else:
         timezone = find_timezone(context.args)
+
+    if not timezone:
+        info = f"Mmmm... I couldn't find {timezone} but let's pick..."
+        timezone = find_timezone(random.choice(pytz.all_timezones))
+        update.message.reply_text(f"{info} {timezone}")
 
     response = requests.get(f"{BASE_URL}{timezone}")
 
