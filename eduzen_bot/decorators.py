@@ -30,16 +30,13 @@ def hash_dict(func):
 
 def get_or_create_user(user):
     data = user.to_dict()
-    logger.warn(data)
     try:
-        user, created = User.get_or_create(username=data.get("username"), defaults=data)
-        if not created:
-            user.save()
-        return user
+        User.get_or_create(username=data.get("username"), defaults=data)
     except peewee.IntegrityError:
-        logger.exception("User already created")
+        logger.warn("User already created")
     except Exception:
-        logger.exception("something wron with the user")
+        logger.exception("Something went wrong")
+    return data
 
 
 def create_user(func):
@@ -55,7 +52,7 @@ def create_user(func):
 
         user = get_or_create_user(update.message.from_user)
         if user:
-            logger.info(f"{func.__name__}... by {user} - {user.created_at}")
+            logger.warn(f"{func.__name__}... by {user}")
         else:
             logger.warn(f"{func.__name__}... by unknown user")
         result = func(update, context, *args, **kwarg)

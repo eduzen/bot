@@ -23,4 +23,38 @@ peli - buscar pelis
 movie - buscar pelis
 pelicula - buscar pelis
 feriados - feriados en la argentina
+time - hora en algun lugar
+```
+
+
+for roduction `docker-compose.yaml`
+
+```
+version: "3.8"
+
+volumes:
+  pgdata:
+
+services:
+  bot:
+    image: index.docker.io/eduzen/bot:latest
+    restart: always
+    env_file:
+      - .env
+    volumes:
+      - pgdata:/var/lib/postgresql/data/
+  db:
+    image: index.docker.io/postgres:13-alpine
+    restart: always
+    env_file:
+      - .env
+    volumes:
+      - pgdata:/var/lib/postgresql/data/
+
+  watchtower:
+    image: index.docker.io/containrrr/watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /home/eduzen/.docker/config.json:/config.json:ro
+    command: --interval 30 --cleanup
 ```
