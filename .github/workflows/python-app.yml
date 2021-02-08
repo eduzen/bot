@@ -50,4 +50,4 @@ jobs:
       uses: pre-commit/action@v2.0.0
 
     - name: Test
-      run: pytest
+      run: poetry run pytest
