@@ -4,7 +4,7 @@ from functools import wraps
 import peewee
 import structlog
 
-from eduzen_bot.models import User
+from eduzen_bot.models import EventLog, User
 
 logger = structlog.get_logger(filename=__name__)
 
@@ -31,12 +31,20 @@ def hash_dict(func):
 def get_or_create_user(user):
     data = user.to_dict()
     try:
-        User.get_or_create(username=data.get("username"), defaults=data)
+        user, _ = User.get_or_create(id=data.get("id"), defaults=data)
+        return user
     except peewee.IntegrityError:
-        logger.warn("User already created")
+        logger.exception("Peweeeeeeerror")
     except Exception:
         logger.exception("Something went wrong")
     return data
+
+
+def log_event(user, command):
+    try:
+        EventLog.create(user=user, command=command)
+    except Exception:
+        logger.exception("We couldn't log the event")
 
 
 def create_user(func):
@@ -46,15 +54,20 @@ def create_user(func):
 
     @wraps(func)
     def wrapper(update, context, *args, **kwarg):
+        command = func.__name__
         if not update.message.from_user:
-            logger.warn(f"{func.__name__}... by unknown user")
+            logger.warn(f"{command}... by unknown user")
+            log_event(user=None, command=command)
             return func(update, context, *args, **kwarg)
 
         user = get_or_create_user(update.message.from_user)
         if user:
-            logger.warn(f"{func.__name__}... by {user}")
+            logger.warn(f"{command}... by {user}")
         else:
-            logger.warn(f"{func.__name__}... by unknown user")
+            logger.warn(f"{command}... by unknown user")
+
+        log_event(user, command=command)
+
         result = func(update, context, *args, **kwarg)
         return result
 
