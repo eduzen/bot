@@ -4,7 +4,7 @@ import requests
 import structlog
 from bs4 import BeautifulSoup
 
-openweathermap_token = os.getenv("openweathermap_token")
+ow_token = os.getenv("openweathermap_token")
 
 logger = structlog.get_logger(filename=__name__)
 
@@ -20,11 +20,11 @@ headers = {
     "Upgrade-Insecure-Requests": "1",
 }
 
-openweathermap = "https://api.openweathermap.org/data/2.5/weather?q={city_name}&APPID={token}&units=metric"
+openweathermap = f"https://api.openweathermap.org/data/2.5/weather?APPID={ow_token}&units=metric"
 
 
 def get_klima(city_name="München"):
-    r = requests.get(openweathermap.format(city_name=city_name, token=openweathermap_token))
+    r = requests.get(f"{openweathermap}&q={city_name}")
     msg = "No pudimos conseguir el clima"
 
     if r.status_code != 200:

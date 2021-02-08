@@ -29,7 +29,7 @@ def klima(update, context, *args, **kwargs):
     if not context.args:
         text = get_klima()
     else:
-        city = "".join(args)
+        city = " ".join(context.args)
         text = get_klima(city)
 
     if not text:
