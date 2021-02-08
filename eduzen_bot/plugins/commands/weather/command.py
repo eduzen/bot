@@ -15,7 +15,12 @@ logger = structlog.get_logger()
 def weather(update, context, *args, **kwargs):
     context.bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
 
-    text = get_weather()
+    if not context.args:
+        text = get_weather()
+    else:
+        city = " ".join(context.args)
+        text = get_klima(city)
+
     if not text:
         return
 
