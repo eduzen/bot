@@ -6,14 +6,14 @@ remove - remove_question
 add_question - add_question
 add_answer - add_answer
 edit_question - edit_question
-
+events - get_events
 """
 import structlog
 from telegram import ChatAction
 
 from eduzen_bot.auth.restricted import restricted
 from eduzen_bot.decorators import create_user
-from eduzen_bot.models import Question, User
+from eduzen_bot.models import EventLog, Question, User
 
 logger = structlog.get_logger(filename=__name__)
 
@@ -24,7 +24,23 @@ def get_users(update, context, *args, **kwargs):
     context.bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
 
     try:
-        txt = "\n".join([str(user) for user in User.select()])
+        txt = "\n".join([str(user.todict()) for user in User.select()])
+    except Exception:
+        logger.error("DB problem")
+        txt = "No hay usuarios"
+
+    context.bot.send_message(chat_id=update.message.chat_id, text=txt)
+
+
+@restricted
+@create_user
+def get_events(update, context, *args, **kwargs):
+    context.bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
+
+    try:
+        txt = "\n".join(
+            [f"{event.user.username} - {event.command} - {event.timestamp.isoformat()}" for event in EventLog.select()]
+        )
     except Exception:
         logger.error("DB problem")
         txt = "No hay usuarios"

@@ -76,7 +76,7 @@ def main():
 
 
 if __name__ == "__main__":
-    structlog.configure(
+    structlog.configure_once(
         processors=[
             add_timestamp,
             structlog.processors.add_log_level,

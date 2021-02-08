@@ -3,6 +3,7 @@ from datetime import datetime
 
 from dotenv import load_dotenv
 from peewee import (
+    BigIntegerField,
     BooleanField,
     CharField,
     DateTimeField,
@@ -11,6 +12,7 @@ from peewee import (
     TextField,
 )
 from playhouse.db_url import connect
+from playhouse.shortcuts import model_to_dict
 
 load_dotenv(".env")
 db = connect(os.getenv("DATABASE_URL", "sqlite:///default.db"))
@@ -20,11 +22,15 @@ class BaseModel(Model):
     class Meta:
         database = db
 
+    def todict(self):
+        return model_to_dict(self)
+
 
 class User(BaseModel):
+    id = BigIntegerField(unique=True, primary_key=True)
     first_name = CharField(null=True)
     last_name = CharField(null=True)
-    username = CharField(unique=True)
+    username = CharField(unique=True, null=True)
     is_bot = BooleanField(default=False)
     language_code = CharField(null=True)
 
@@ -46,7 +52,7 @@ class User(BaseModel):
 
 
 class Question(BaseModel):
-    user = ForeignKeyField(User, backref="user")
+    user = ForeignKeyField(User, backref="questions")
     question = TextField()
     answer = TextField(null=True)
 
@@ -59,3 +65,13 @@ class Question(BaseModel):
 
     def __str__(self):
         return f"<{self.question}>"
+
+
+class EventLog(BaseModel):
+    user = ForeignKeyField(User, backref="eventlogs", null=True)
+    command = TextField()
+    data = TextField(null=True)
+    timestamp = DateTimeField(default=datetime.now)
+
+    def __str__(self):
+        return f"<{self.user}>"
