@@ -6,7 +6,9 @@ volumes:
 
 services:
   eduzenbot:
-    build: .
+    build:
+      context: .
+      target: dev
     command: ["sh", "/code/eduzen_bot/scripts/runserver.sh"]
     volumes:
       - .:/code
@@ -25,3 +27,8 @@ services:
   #   image: kozea/wdb
   #   ports:
   #     - "1984:1984"
+  # adminer:
+  #   image: adminer:latest
+  #   restart: always
+  #   ports:
+  #       - 8001:8080

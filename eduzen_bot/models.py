@@ -1,5 +1,6 @@
 import os
 from datetime import datetime
+from functools import cached_property
 
 from dotenv import load_dotenv
 from peewee import (
@@ -9,6 +10,7 @@ from peewee import (
     DateTimeField,
     ForeignKeyField,
     Model,
+    PrimaryKeyField,
     TextField,
 )
 from playhouse.db_url import connect
@@ -68,10 +70,15 @@ class Question(BaseModel):
 
 
 class EventLog(BaseModel):
+    id = PrimaryKeyField()
     user = ForeignKeyField(User, backref="eventlogs", null=True)
     command = TextField()
     data = TextField(null=True)
     timestamp = DateTimeField(default=datetime.now)
 
     def __str__(self):
-        return f"<{self.user}>"
+        return f"<{self.id} {self.user}>"
+
+    @cached_property
+    def telegram(self):
+        return f"{self.user.username} - {self.command} - {self.timestamp.strftime('%Y/%m/%d -%H.%M')}"

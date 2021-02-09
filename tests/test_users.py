@@ -1,15 +1,11 @@
-import unittest
 from dataclasses import asdict, dataclass
-
-from playhouse.sqlite_ext import SqliteExtDatabase
 
 from eduzen_bot.decorators import get_or_create_user
 from eduzen_bot.models import User
 
-MODELS = [User]
+from .conftest import BaseTestCase
 
 # use an in-memory SQLite for tests.
-tmp_db = SqliteExtDatabase(":memory:")
 
 
 @dataclass
@@ -25,36 +21,18 @@ class TelegramUser:
         return asdict(self)
 
 
-class BaseTestCase(unittest.TestCase):
-    def setUp(self):
-        # Bind model classes to test db. Since we have a complete list of
-        # all models, we do not need to recursively bind dependencies.
-        tmp_db.bind(MODELS, bind_refs=False, bind_backrefs=False)
-
-        tmp_db.connect()
-        tmp_db.create_tables(MODELS)
-
-    def tearDown(self):
-        # Not strictly necessary since SQLite in-memory databases only live
-        # for the duration of the connection, and in the next step we close
-        # the connection...but a good practice all the same.
-        tmp_db.drop_tables(MODELS)
-
-        # Close connection to db.
-        tmp_db.close()
-
-        # If we wanted, we could re-bind the models to their original
-        # database here. But for tests this is probably not necessary.
-
-    def test_create_user_all_good(self):
+class UserTesCase(BaseTestCase):
+    def test_create_user_all_good(
+        self,
+    ):
         before = User.select().count()
         telegram_user = TelegramUser(
             **{
-                "id": 3652654,
-                "first_name": "Eduardo",
+                "id": 3,
+                "first_name": self.faker.first_name(),
                 "is_bot": False,
-                "last_name": "Enriquez",
-                "username": "eduzen",
+                "last_name": self.faker.last_name(),
+                "username": self.faker.last_name_nonbinary(),
                 "language_code": "en",
             }
         )
@@ -67,7 +45,7 @@ class BaseTestCase(unittest.TestCase):
         before = User.select().count()
         telegram_user = TelegramUser(
             **{
-                "id": 3652653,
+                "id": 365263,
                 "first_name": "",
                 "is_bot": False,
                 "last_name": "",
@@ -84,7 +62,7 @@ class BaseTestCase(unittest.TestCase):
         before = User.select().count()
         telegram_user = TelegramUser(
             **{
-                "id": 3652653,
+                "id": 652653,
                 "first_name": None,
                 "is_bot": False,
                 "last_name": None,
@@ -97,13 +75,15 @@ class BaseTestCase(unittest.TestCase):
 
         assert before + 1 == after
 
-    def test_create_users(self):
+    def test_create_users(
+        self,
+    ):
         data = {
-            "id": 3652654,
-            "first_name": "Eduardo",
+            "id": 365254,
+            "first_name": self.faker.first_name(),
             "is_bot": False,
-            "last_name": "Enriquez",
-            "username": "eduzen",
+            "last_name": self.faker.last_name(),
+            "username": self.faker.last_name_nonbinary(),
             "language_code": "en",
         }
         before = User.select().count()
