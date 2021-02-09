@@ -19,7 +19,7 @@ def get_users_usage():
             'from "eventlog" as e inner join "user" as u '
             "on e.user_id = u.id "
             "group by e.user_id, e.command, u.username "
-            "order by total, u.username;"
+            "order by total, u.username desc;"
         )
         txt = "\n".join(f"{row[0]} | {row[1]} | {row[2]}" for row in cursor.fetchall())
     except Exception:
