@@ -19,7 +19,7 @@ def get_users_usage():
             'from "eventlog" as e inner join "user" as u '
             "on e.user_id = u.id "
             "group by e.user_id, e.command, u.username "
-            "order by total, u.username desc;"
+            "order by total, u.username asc;"
         )
         txt = "\n".join(f"{row[0]} | {row[1]} | {row[2]}" for row in cursor.fetchall())
     except Exception:
@@ -42,7 +42,6 @@ def get_events(update, context, *args, **kwargs):
     context.bot.send_message(chat_id=update.message.chat_id, text=txt)
 
 
-@restricted
 @create_user
 def get_usage(update, context, *args, **kwargs):
     context.bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
