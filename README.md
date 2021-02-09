@@ -1,4 +1,7 @@
 # Just another telegram-bot
+![python workflow file path](https://github.com/actions/eduzen/bot/workflows/.github/workflows/python-app.yml/badge.svg)
+![docker workflow file path](https://github.com/actions/eduzen/bot/workflows/.github/workflows/docker-publish.yml/badge.svg)
+
 ## Algunos commandos para pasarle a botfather
 
 ```json
