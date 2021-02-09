@@ -26,6 +26,10 @@ jobs:
       with:
         python-version: 3.8
 
+    - name: Setup System
+      run: |
+        sudo apt-get install libsqlite3-dev
+
     - name: Cache dependency # caching dependency will make our build faster.
       uses: actions/cache@v2.1.4 # for more info checkout pip section documentation at https://github.com/actions/cache
       with:
