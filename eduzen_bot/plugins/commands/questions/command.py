@@ -23,7 +23,7 @@ def get_users(update, context, *args, **kwargs):
     context.bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
 
     try:
-        txt = "\n".join([str(user.todict()) for user in User.select()])
+        txt = "\n".join([str(user.to_str()) for user in User.select()])
     except Exception:
         logger.error("DB problem")
         txt = "No hay usuarios"

@@ -21,7 +21,7 @@ def get_users_usage():
             "group by e.user_id, e.command, u.username "
             "order by total desc, u.username asc;"
         )
-        txt = "\n".join(f"{row[0]: <3} | {row[1]: <20} | {row[2]: <10}" for row in cursor.fetchall())
+        txt = "\n".join(f"{row[0]: <4} | {row[1]: <20} | {row[2]: <10}" for row in cursor.fetchall())
     except Exception:
         logger.exception("DB problem")
         txt = "No hay eventos"

@@ -46,10 +46,20 @@ class User(BaseModel):
     def __str__(self):
         return f"<{self.username}: {self.first_name} {self.last_name}>"
 
+    @property
+    def full_name(self):
+        full = ""
+        if self.first_name:
+            full = self.first_name
+        if self.last_name:
+            full += " " + self.last_name
+
+        return full
+
     def to_str(self):
         return (
-            f"{'bot! ' if self.is_bot else ''}{self.username} | "
-            f"{self.first_name} | {self.last_name} | {self.created_at}"
+            f"{self.created_at.strftime('%Y/%m/%d %H:%M')} | {'bot! ' if self.is_bot else '|'}"
+            f"{self.username: <12} | {self.full_name: <10}"
         )
 
 
