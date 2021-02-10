@@ -8,7 +8,7 @@ from eduzen_bot.models import EventLog, User
 MODELS = [User, EventLog]
 
 # use an in-memory SQLite for tests.
-tmp_db = SqliteExtDatabase(":memory:")
+tmp_db = SqliteExtDatabase("sqlite:///test.sql")
 
 
 class BaseTestCase(unittest.TestCase):

@@ -227,5 +227,5 @@ def get_dolar_blue():
         text = "Perdón! La api no devolvió info!"
         return text
 
-    text = f"USD oficial {data['libre']} - Blue {data['blue']}\nby http://ws.geeklab.com.ar"
+    text = f"USD libre {data['libre']} - Blue {data['blue']}\nby http://ws.geeklab.com.ar"
     return text

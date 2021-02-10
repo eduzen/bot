@@ -9,7 +9,8 @@ from eduzen_bot.plugins.commands.events.command import get_users_usage
 MODELS = [User, EventLog]
 
 # use an in-memory SQLite for tests.
-tmp_db = SqliteExtDatabase(":memory:")
+# db = SqliteExtDatabase(":memory:")
+db = SqliteExtDatabase("sqlite:///test.sql")
 
 
 class UserTesCase(unittest.TestCase):
@@ -17,10 +18,10 @@ class UserTesCase(unittest.TestCase):
         self.faker = Faker()
         # Bind model classes to test db. Since we have a complete list of
         # all models, we do not need to recursively bind dependencies.
-        tmp_db.bind(MODELS, bind_refs=False, bind_backrefs=False)
+        db.bind(MODELS, bind_refs=False, bind_backrefs=False)
 
-        tmp_db.connect()
-        tmp_db.create_tables(MODELS)
+        db.connect()
+        db.create_tables(MODELS)
         self.user = User.create(
             **{
                 "id": 3652654,
