@@ -63,10 +63,9 @@ def create_user(func):
         user = get_or_create_user(update.message.from_user)
         if user:
             logger.warn(f"{command}... by {user}")
+            log_event(user, command=command)
         else:
-            logger.warn(f"{command}... by unknown user")
-
-        log_event(user, command=command)
+            logger.warn(f"{command}... by unknown user {update.message.from_user}")
 
         result = func(update, context, *args, **kwarg)
         return result
