@@ -37,7 +37,6 @@ def get_or_create_user(user):
         logger.exception("Peweeeeeeerror")
     except Exception:
         logger.exception("Something went wrong")
-    return data
 
 
 def log_event(user, command):
