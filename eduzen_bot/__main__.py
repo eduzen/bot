@@ -25,13 +25,12 @@ load_dotenv("../.env")
 
 LOG_LEVEL = LEVELS[os.environ.get("LOG_LEVEL", "INFO").upper()]
 
-sentry_logging = LoggingIntegration(level=LOG_LEVEL, event_level=logging.ERROR)
+sentry_logging = LoggingIntegration(level=logging.INFO, event_level=logging.ERROR)
 
 sentry_sdk.init(
     dsn=os.getenv("SENTRY_DSN", ""),
     integrations=[sentry_logging, TornadoIntegration()],
     traces_sample_rate=1,
-    release=os.getenv("TAG"),
 )
 TOKEN = os.getenv("TOKEN")
 EDUZEN_ID = os.getenv("EDUZEN_ID")
