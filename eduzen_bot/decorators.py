@@ -31,6 +31,8 @@ def hash_dict(func):
 def get_or_create_user(user):
     data = user.to_dict()
     try:
+        if not data.get("username"):
+            data["username"] = data.get("id")
         user, _ = User.get_or_create(id=data.get("id"), defaults=data)
         return user
     except peewee.IntegrityError:

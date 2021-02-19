@@ -32,7 +32,7 @@ class User(BaseModel):
     id = BigIntegerField(unique=True, primary_key=True)
     first_name = CharField(null=True)
     last_name = CharField(null=True)
-    username = CharField(unique=True, null=True)
+    username = CharField(null=True)
     is_bot = BooleanField(default=False)
     language_code = CharField(null=True)
 
