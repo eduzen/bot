@@ -44,7 +44,7 @@ jedi = "0.18.0"
 pre-commit = "^2.10.1"
 wdb = "^3.3.0"
 ipdb = "^0.13.4"
-Faker = "^6.3.0"
+Faker = "^6.6.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
