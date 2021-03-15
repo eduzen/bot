@@ -16,7 +16,7 @@ include_trailing_comma = true
 [tool.poetry.dependencies]
 python = "^3.8"
 python-dotenv = "^0.15.0"
-python-telegram-bot = "13.1"
+python-telegram-bot = "13.4.1"
 sentry-sdk = "^0.20.3"
 requests = "^2.25.1"
 beautifulsoup4 = "^4.9.3"
