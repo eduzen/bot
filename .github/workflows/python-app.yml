@@ -43,7 +43,7 @@ jobs:
         python -m pip install --upgrade pip
 
     - name: Run image
-      uses: abatilo/actions-poetry@v2.1.0
+      uses: abatilo/actions-poetry@v2.1.2
       with:
         poetry-version: ${{ matrix.poetry-version }}
 
