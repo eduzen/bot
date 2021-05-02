@@ -51,7 +51,7 @@ jobs:
       run: poetry install
 
     - name: Check Code Style
-      uses: pre-commit/action@v2.0.2
+      uses: pre-commit/action@v2.0.3
 
     - name: Test
       run: poetry run pytest
