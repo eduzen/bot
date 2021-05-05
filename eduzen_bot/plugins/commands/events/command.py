@@ -19,7 +19,7 @@ def get_users_usage():
             'from "eventlog" as e inner join "user" as u '
             "on e.user_id = u.id "
             "group by e.user_id, e.command, u.username "
-            "having total > 2 "
+            "having count(e.user_id) > 2 "
             "order by total desc, u.username asc;"
         )
         txt = "\n".join(f"{row[0]: <4} | {row[1]: <20} | {row[2]: <10}" for row in cursor.fetchall())
@@ -35,7 +35,7 @@ def get_events(update, context, *args, **kwargs):
     context.bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
 
     try:
-        txt = "\n".join([event.telegram for event in EventLog.select().limit(50)])
+        txt = "\n".join([event.telegram for event in EventLog.select().order_by(EventLog.timestamp.desc()).limit(50)])
     except Exception:
         logger.exception("DB problem")
         txt = "No hay eventos"
