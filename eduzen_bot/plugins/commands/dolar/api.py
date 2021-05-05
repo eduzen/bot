@@ -179,10 +179,10 @@ def process_bluelytics(response):
         eur = data["oficial_euro"]
         data = (
             "Bluelytics:\n"
-            f"💵 dolar {oficial['value_sell']} - {oficial['value_buy']}\n"
-            f"🌳 blue {blue['value_sell']} - {blue['value_buy']}\n"
-            f"🇪🇺 euro {eur['value_sell']} - {eur['value_buy']}\n"
-            f"🌳 blue {data['blue_euro']['value_sell']} - {data['blue_euro']['value_buy']}\n"
+            f"💵 dolar {oficial['value_buy']} - {oficial['value_sell']}\n"
+            f"🌳 blue {blue['value_buy']} - {blue['value_sell']}\n"
+            f"🇪🇺 euro {eur['value_buy']} - {eur['value_sell']}\n"
+            f"🌳 blue {data['blue_euro']['value_buy']} - {data['blue_euro']['value_sell']}\n"
         )
         return data
     except Exception:
