@@ -19,6 +19,8 @@ BNC = "http://www.bna.com.ar/"
 DOLAR_HOY = "http://dolarhoy.com/Usd"
 ROFEX = "https://www.rofex.com.ar/"
 AMBITO_FUTURO = "https://mercados.ambito.com//dolarfuturo/datos"
+BLUELYTICS = "https://api.bluelytics.com.ar/v2/latest"
+
 
 dolar = emojize(":dollar:", use_aliases=True)
 euro = "\n🇪🇺"
@@ -167,6 +169,31 @@ def parse_bnc():
 
     else:
         return "Banco nación no responde 🤷‍♀"
+
+
+def process_bluelytics(response):
+    try:
+        data = response.json()
+        oficial = data["oficial"]
+        blue = data["blue"]
+        eur = data["oficial_euro"]
+        data = (
+            "Bluelytics:\n"
+            f"💵 dolar {oficial['value_sell']} - {oficial['value_buy']}\n"
+            f"🌳 blue {blue['value_sell']} - {blue['value_buy']}\n"
+            f"🇪🇺 euro {eur['value_sell']} - {eur['value_buy']}\n"
+            f"🌳 blue {data['blue_euro']['value_sell']} - {data['blue_euro']['value_buy']}\n"
+        )
+        return data
+    except Exception:
+        logger.exception("bluelytics")
+
+
+def get_bluelytics():
+    r = get_response(BLUELYTICS)
+    if r and r.status_code == 200:
+        return process_bluelytics(r)
+    return "Bluelytics no responde 🤷‍♀"
 
 
 def parse_dolarhoy():
