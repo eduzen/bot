@@ -5,7 +5,14 @@ dolarhoy - get_dolarhoy
 dolarfuturo - get_dolarfuturo
 """
 import structlog
-from api import get_dolar_blue, get_dollar, parse_bnc, parse_dolarfuturo, parse_dolarhoy
+from api import (
+    get_bluelytics,
+    get_dolar_blue,
+    get_dollar,
+    parse_bnc,
+    parse_dolarfuturo,
+    parse_dolarhoy,
+)
 from telegram import ChatAction, Update
 from telegram.ext import CallbackContext
 
@@ -46,7 +53,10 @@ def get_dolar(update: Update, context: CallbackContext) -> None:
         data = parse_bnc()
         if data:
             context.bot.send_message(chat_id=update.message.chat_id, text=data)
-            return
+        data = get_bluelytics()
+        if data:
+            context.bot.send_message(chat_id=update.message.chat_id, text=data)
+        return
 
     if "v" not in context.args:
         data = get_dollar()
