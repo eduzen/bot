@@ -1,11 +1,11 @@
+import logging
 import os
 from functools import wraps
 
-import structlog
 from telegram import Update
 from telegram.ext import CallbackContext
 
-logger = structlog.get_logger(filename=__name__)
+logger = logging.getLogger("rich")
 
 
 def restricted(func):

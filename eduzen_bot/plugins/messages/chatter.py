@@ -1,7 +1,8 @@
-import structlog
+import logging
+
 from telegram import InlineQueryResultArticle, InputTextMessageContent
 
-logger = structlog.get_logger(filename=__name__)
+logger = logging.getLogger("rich")
 
 
 def code(update, context):

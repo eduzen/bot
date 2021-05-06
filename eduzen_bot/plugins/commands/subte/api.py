@@ -1,7 +1,7 @@
+import logging
 import os
 from datetime import datetime
 
-import structlog
 import tweepy
 from emoji import emojize
 
@@ -10,7 +10,7 @@ TWITTER_CONSUMER_SECRET = os.getenv("TWITTER_CONSUMER_SECRET")
 TWITTER_ACCESS_TOKEN_SECRET = os.getenv("TWITTER_ACCESS_TOKEN_SECRET")
 TWITTER_ACCESS_TOKEN = os.getenv("TWITTER_ACCESS_TOKEN")
 
-logger = structlog.get_logger(filename=__name__)
+logger = logging.getLogger("rich")
 metro = emojize(":metro:", use_aliases=True)
 
 

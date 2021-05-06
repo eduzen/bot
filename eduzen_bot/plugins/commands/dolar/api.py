@@ -1,17 +1,17 @@
 import calendar
+import logging
 import os
 import re
 import unicodedata
 from collections import defaultdict, namedtuple
 
 import requests
-import structlog
 from bs4 import BeautifulSoup
 from emoji import emojize
 
 APP_ID = os.getenv("APP_ID")
 
-logger = structlog.get_logger(filename=__name__)
+logger = logging.getLogger("rich")
 
 API = "https://openexchangerates.org/api/latest.json"
 OTHER_API = "http://ws.geeklab.com.ar/dolar/get-dolar-json.php"
@@ -21,6 +21,7 @@ ROFEX = "https://www.rofex.com.ar/"
 AMBITO_FUTURO = "https://mercados.ambito.com//dolarfuturo/datos"
 BLUELYTICS = "https://api.bluelytics.com.ar/v2/latest"
 
+client = requests.Session()
 
 dolar = emojize(":dollar:", use_aliases=True)
 euro = "\n🇪🇺"
@@ -37,7 +38,7 @@ def trim(text, limit=11) -> str:
 
 def get_response(url, verify=True):
     try:
-        response = requests.get(url, verify=verify)
+        response = client.get(url, verify=verify)
     except requests.exceptions.ConnectionError:
         return
 
@@ -223,7 +224,7 @@ def parse_dolarfuturo():
 
 
 def get_dollar():
-    r = requests.get(API, params={"app_id": APP_ID})
+    r = client.get(API, params={"app_id": APP_ID})
 
     if r.status_code != 200:
         logger.error("Something went wrong when it gets dollar. Status code: %s", r.status_code)
@@ -241,7 +242,7 @@ def get_dollar():
 
 
 def get_dolar_blue():
-    r = requests.get(OTHER_API)
+    r = client.get(OTHER_API)
 
     if r.status_code != 200:
         logger.error("Something went wrong when it gets dollar. Status code: %s", r.status_code)

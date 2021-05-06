@@ -1,13 +1,14 @@
 """
 code - code
 """
-import structlog
+import logging
+
 from telegram import ChatAction
 
 from eduzen_bot.auth.restricted import restricted
 from eduzen_bot.decorators import create_user
 
-logger = structlog.get_logger(filename=__name__)
+logger = logging.getLogger("rich")
 
 
 @restricted

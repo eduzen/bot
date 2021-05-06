@@ -1,7 +1,7 @@
+import logging
 from functools import lru_cache
 
 import requests
-import structlog
 from telegram import InputMediaPhoto
 
 from eduzen_bot.plugins.commands.series import keyboards
@@ -12,7 +12,7 @@ from eduzen_bot.plugins.commands.series.api import (
 )
 from eduzen_bot.plugins.commands.series.constants import EZTV_API_ERROR, EZTV_NO_RESULTS
 
-logger = structlog.getLogger(filename=__name__)
+logger = logging.getLogger("rich")
 
 
 def monospace(text):

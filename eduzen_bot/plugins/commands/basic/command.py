@@ -4,12 +4,13 @@ caps - caps
 help - ayuda
 msg - send_private_msg
 """
+import logging
+
 import peewee
-import structlog
 
 from eduzen_bot.models import User
 
-logger = structlog.get_logger(filename=__name__)
+logger = logging.getLogger("rich")
 
 
 def send_private_msg(update, context):

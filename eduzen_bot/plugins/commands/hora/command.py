@@ -1,16 +1,17 @@
 """
 time - time
+hora - time
 """
+import logging
 import random
 
 import pytz
 import requests
-import structlog
 from telegram import ChatAction
 
 from eduzen_bot.decorators import create_user
 
-logger = structlog.get_logger()
+logger = logging.getLogger()
 
 BASE_URL = "http://worldtimeapi.org/api/timezone/"
 

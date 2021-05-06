@@ -1,12 +1,12 @@
+import logging
 import os
 
 import requests
-import structlog
 
 usr = os.getenv("API_EDUZEN_USER")
 psw = os.getenv("API_EDUZEN_PASS")
 BASE_URL = os.getenv("BASE_URL")
-logger = structlog.get_logger(filename=__name__)
+logger = logging.getLogger("rich")
 
 
 def send_expense(title, amount, category=None):

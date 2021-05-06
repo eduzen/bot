@@ -1,12 +1,12 @@
+import logging
 import os
 
 import requests
-import structlog
 import tmdbsimple as tmdb
 
 from eduzen_bot.plugins.commands.movies.constants import BASEURL_IMAGE, YT_LINK, YTS_API
 
-logger = structlog.get_logger(filename=__name__)
+logger = logging.getLogger("rich")
 
 tmdb.API_KEY = os.getenv("TMDB_API_KEY")
 

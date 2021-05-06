@@ -7,14 +7,15 @@ add_question - add_question
 add_answer - add_answer
 edit_question - edit_question
 """
-import structlog
+import logging
+
 from telegram import ChatAction
 
 from eduzen_bot.auth.restricted import restricted
 from eduzen_bot.decorators import create_user
 from eduzen_bot.models import Question, User
 
-logger = structlog.get_logger(filename=__name__)
+logger = logging.getLogger("rich")
 
 
 @restricted
