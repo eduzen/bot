@@ -1,11 +1,12 @@
-import structlog
+import logging
+
 from emoji import emojize
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 
 from eduzen_bot.menus.builder import build_menu
 from eduzen_bot.models import Question
 
-logger = structlog.getLogger(filename=__name__)
+logger = logging.getLogger("rich")
 
 
 def q_menu(update, context):

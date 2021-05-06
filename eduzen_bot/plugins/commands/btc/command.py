@@ -1,13 +1,14 @@
 """
 btc - btc
 """
-import structlog
+import logging
+
 from api import get_btc, get_dogecoin, get_eth
 from telegram import ChatAction
 
 from eduzen_bot.decorators import create_user
 
-logger = structlog.get_logger()
+logger = logging.getLogger()
 
 
 @create_user

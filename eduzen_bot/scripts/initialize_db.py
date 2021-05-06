@@ -1,10 +1,9 @@
+import logging
 import sys
-
-import structlog
 
 from eduzen_bot.models import EventLog, Question, User
 
-logger = structlog.get_logger()
+logger = logging.getLogger()
 
 
 def create_db_tables():

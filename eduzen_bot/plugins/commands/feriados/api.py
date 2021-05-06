@@ -1,13 +1,13 @@
+import logging
 from datetime import datetime
 from typing import Dict, List
 
 import pytz
 import requests
-import structlog
 
 from eduzen_bot.plugins.commands.feriados.aconstants import FERIADOS_URL, month_names
 
-logger = structlog.get_logger(filename=__name__)
+logger = logging.getLogger("rich")
 
 
 def get_feriados(year: int):

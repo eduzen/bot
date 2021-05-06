@@ -6,13 +6,11 @@ import sys
 from threading import Thread
 
 import sentry_sdk
-import structlog
-from dotenv import load_dotenv
+from rich.logging import RichHandler
 from sentry_sdk.integrations.logging import LoggingIntegration
 from sentry_sdk.integrations.tornado import TornadoIntegration
 from telegram.ext import CallbackQueryHandler, CommandHandler, Filters
 
-from eduzen_bot import LEVELS, add_timestamp
 from eduzen_bot.callbacks_handler import callback_query
 from eduzen_bot.plugins.job_queue.alarms.command import set_timer, unset
 from eduzen_bot.plugins.messages.inline import code_markdown
@@ -21,21 +19,27 @@ from eduzen_bot.plugins.messages.unknown import unknown
 from eduzen_bot.scripts.initialize_db import create_db_tables
 from eduzen_bot.telegram_bot import TelegramBot
 
-load_dotenv("../.env")
-
-LOG_LEVEL = LEVELS[os.environ.get("LOG_LEVEL", "INFO").upper()]
-
-sentry_logging = LoggingIntegration(level=logging.INFO, event_level=logging.ERROR)
-
-sentry_sdk.init(
-    dsn=os.getenv("SENTRY_DSN", ""),
-    integrations=[sentry_logging, TornadoIntegration()],
-    traces_sample_rate=1,
-)
 TOKEN = os.getenv("TOKEN")
+SENTRY_DSN = os.getenv("SENTRY_DSN", "")
 EDUZEN_ID = os.getenv("EDUZEN_ID")
 PORT = int(os.getenv("PORT", 5000))
 HEROKU = int(os.getenv("HEROKU", 0))
+LOG_LEVEL = os.getenv("LOG_LEVEL", "ERROR")
+
+FORMAT = "%(message)s"
+
+logging.basicConfig(
+    level=LOG_LEVEL, format=FORMAT, datefmt="[%d-%m-%y %X]", handlers=[RichHandler(rich_tracebacks=True)]
+)
+logger = logging.getLogger("rich")
+
+sentry_logging = LoggingIntegration(level=LOG_LEVEL, event_level=logging.ERROR)
+
+sentry_sdk.init(
+    dsn=SENTRY_DSN,
+    integrations=[sentry_logging, TornadoIntegration()],
+    traces_sample_rate=1,
+)
 
 
 def main():
@@ -75,23 +79,4 @@ def main():
 
 
 if __name__ == "__main__":
-    structlog.configure_once(
-        processors=[
-            add_timestamp,
-            structlog.processors.add_log_level,
-            structlog.processors.StackInfoRenderer(),
-            structlog.dev.set_exc_info,
-            structlog.processors.format_exc_info,
-            structlog.dev.ConsoleRenderer(),
-        ],
-        wrapper_class=structlog.make_filtering_bound_logger(LOG_LEVEL),
-        context_class=dict,
-        logger_factory=structlog.PrintLoggerFactory(),
-        cache_logger_on_first_use=False,
-    )
-    logger = structlog.get_logger(filename=__name__)
-    try:
-        logger.warn("Starting main...")
-        main()
-    except Exception:
-        logger.exception("bye bye")
+    main()

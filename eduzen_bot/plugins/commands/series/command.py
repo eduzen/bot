@@ -2,7 +2,8 @@
 serie - search_serie
 series - search_serie
 """
-import structlog
+import logging
+
 from api import (
     get_keyboard,
     get_poster_url,
@@ -14,7 +15,7 @@ from telegram import ChatAction
 
 from eduzen_bot.decorators import create_user
 
-logger = structlog.get_logger(filename=__name__)
+logger = logging.getLogger("rich")
 
 
 @create_user

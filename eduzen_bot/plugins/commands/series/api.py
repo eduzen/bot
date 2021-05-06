@@ -1,9 +1,9 @@
+import logging
 import os
 from collections import defaultdict
 from functools import lru_cache
 
 import requests
-import structlog
 import tmdbsimple as tmdb
 from bs4 import BeautifulSoup
 
@@ -21,7 +21,7 @@ from eduzen_bot.plugins.commands.series.constants import (
     Episode,
 )
 
-logger = structlog.get_logger(filename=__name__)
+logger = logging.getLogger("rich")
 
 tmdb.API_KEY = os.getenv("TMDB_API_KEY")
 

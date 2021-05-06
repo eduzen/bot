@@ -1,5 +1,5 @@
 #!/bin/sh
 
-sh /code/eduzen_bot/scripts/wait_for_db.sh
+poetry run python /code/eduzen_bot/scripts/wait_for_db.py
 
-exec python3 -m eduzen_bot
+exec poetry run python -m eduzen_bot

@@ -5,11 +5,13 @@ volumes:
   shell_history:
 
 services:
+
   eduzenbot:
+    tty: true
     build:
       context: .
       target: dev
-    command: ["sh", "/code/eduzen_bot/scripts/runserver.sh"]
+    entrypoint: ["sh", "/code/eduzen_bot/scripts/runserver.sh"]
     volumes:
       - .:/code
       - shell_history:/root/hist
@@ -23,12 +25,15 @@ services:
     environment:
       - POSTGRES_PASSWORD=$POSTGRES_PASSWORD
 
-  # wdb:
-  #   image: kozea/wdb
-  #   ports:
-  #     - "1984:1984"
-  # adminer:
-  #   image: adminer:latest
-  #   restart: always
-  #   ports:
-  #       - 8001:8080
+  wdb:
+    profiles: ["dev"]
+    image: kozea/wdb
+    ports:
+      - "1984:1984"
+
+  adminer:
+    profiles: ["dev"]
+    image: adminer:latest
+    restart: always
+    ports:
+        - 8001:8080
