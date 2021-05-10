@@ -11,6 +11,9 @@ help:
 	@echo "shell -- run ipython shell"
 	@echo "clean-python -- clean all python cache and stuff"
 
+
+COMPOSE = docker-compose run --rm --entrypoint="" eduzenbot
+
 build:
 	docker-compose build
 
@@ -32,16 +35,14 @@ ps:
 clean: stop
 	docker-compose rm --force -v
 
-only_test: build
-	docker-compose run --rm eduzenbot pytest --cov=. --cov-config setup.cfg
+test:
+	docker-compose run --rm --entrypoint="" eduzenbot pytest --cov=.
 
-pep8:
+flake8:
 	docker-compose run --rm eduzenbot flake8 .
 
-test: build pep8 only_test
-
 dockershell:
-	docker-compose run --rm eduzenbot bash
+	${COMPOSE} bash
 
 shell:
 	docker-compose run --rm eduzenbot ipython3

@@ -1,5 +1,6 @@
 import unittest
 
+import pytest
 from faker import Faker
 from playhouse.sqlite_ext import SqliteExtDatabase
 
@@ -8,7 +9,17 @@ from eduzen_bot.models import EventLog, User
 MODELS = [User, EventLog]
 
 # use an in-memory SQLite for tests.
-tmp_db = SqliteExtDatabase("sqlite:///test.sql")
+tmp_db = SqliteExtDatabase(":memory:")
+
+
+@pytest.fixture(scope="function")
+def db():
+    db = SqliteExtDatabase(":memory:")
+    db.bind(MODELS, bind_refs=False, bind_backrefs=False)
+    db.connect()
+    db.create_tables(MODELS)
+    yield db
+    db.close()
 
 
 class BaseTestCase(unittest.TestCase):
@@ -16,10 +27,11 @@ class BaseTestCase(unittest.TestCase):
         self.faker = Faker()
         # Bind model classes to test db. Since we have a complete list of
         # all models, we do not need to recursively bind dependencies.
-        tmp_db.bind(MODELS, bind_refs=False, bind_backrefs=False)
+        # breakpoint()
+        # tmp_db.bind(MODELS, bind_refs=False, bind_backrefs=False)
 
-        tmp_db.connect()
-        tmp_db.create_tables(MODELS)
+        # tmp_db.connect()
+        # tmp_db.create_tables(MODELS)
         self.user = User.create(
             **{
                 "id": 3652654,

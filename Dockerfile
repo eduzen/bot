@@ -1,28 +1,25 @@
-FROM python:3.8-slim-buster as prod
+FROM python:3.9-slim-buster as python-base
 
-    # python
 ENV PYTHONUNBUFFERED=1 \
-    # prevents python creating .pyc files
     PYTHONDONTWRITEBYTECODE=1 \
     PYTHONWARNINGS="ignore:Unverified HTTPS request" \
-    \
-    # pip
     PIP_NO_CACHE_DIR=off \
     PIP_DISABLE_PIP_VERSION_CHECK=on \
     PIP_DEFAULT_TIMEOUT=100 \
-    \
-    # poetry
-    # https://python-poetry.org/docs/configuration/#using-environment-variables
     POETRY_VERSION=1.1.6 \
     POETRY_NO_INTERACTION=1 \
-    # make poetry install to this location
     POETRY_HOME="/opt/poetry" \
-    PYSETUP_PATH="/opt/pysetup/" \
-    VENV_PATH="/opt/pysetup/.venv" \
-    POETRY_VIRTUALENVS_IN_PROJECT=false
+    POETRY_VIRTUALENVS_IN_PROJECT=true \
+    # this is where our requirements + virtual environment will live
+    PYSETUP_PATH="/opt/pysetup" \
+    VENV_PATH="/opt/pysetup/.venv"
 
 # prepend poetry and venv to path
 ENV PATH="$POETRY_HOME/bin:$VENV_PATH/bin:$PATH"
+
+
+# builder-base is used to build dependencies
+FROM python-base as builder-base
 RUN echo 'export PS1="\[\e[36m\]botshell>\[\e[m\] "' >> /root/.ashrc
 
 RUN apt-get update && \
@@ -33,8 +30,7 @@ RUN apt-get update && \
         libxml2-dev \
         libxslt-dev \
         build-essential \
-        postgresql-client \
-        httpie && \
+        postgresql-client && \
     apt-get autoremove -y && \
     apt-get autoclean -y && \
     rm -rf /var/lib/apt/lists/*
@@ -49,19 +45,43 @@ COPY pyproject.toml poetry.lock ./
 # install runtime deps - uses $POETRY_VIRTUALENVS_IN_PROJECT internally
 RUN poetry install --no-dev
 
+
+# `dev` image is used during development / testing
+FROM python-base as dev
+
+# Copying poetry and venv into image
+COPY --from=builder-base $POETRY_HOME $POETRY_HOME
+COPY --from=builder-base $PYSETUP_PATH $PYSETUP_PATH
+
+# Copying in our entrypoint
+COPY ./eduzen_bot/scripts/docker-entrypoint.sh /docker-entrypoint.sh
+RUN chmod +x /docker-entrypoint.sh
+
+# venv already has runtime deps installed we get a quicker install
+WORKDIR $PYSETUP_PATH
+RUN poetry install
+
 WORKDIR /code
 COPY . /code
 
-ENTRYPOINT ["poetry"]
+ENTRYPOINT /docker-entrypoint.sh $0 $@
 
-CMD ["run", "eduzen_bot"]
+CMD ["python", "eduzen_bot"]
 
-# DEV IMAGE
-FROM prod as dev
 
-# This includes dev dependencies
-RUN poetry install
+# 'lint' stage runs black and isort
+# running in check mode means build will fail if any linting errors occur
+FROM dev AS lint
+RUN pre-commit run --all-files
+# `prod` image used for runtime
+FROM python-base as prod
 
-ENTRYPOINT ["poetry"]
+COPY --from=builder-base $VENV_PATH $VENV_PATH
+COPY ./eduzen_bot/scripts/docker-entrypoint.sh /docker-entrypoint.sh
+RUN chmod +x /docker-entrypoint.sh
 
+WORKDIR /code
+COPY . /code
+
+ENTRYPOINT /docker-entrypoint.sh $0 $@
 CMD ["run", "eduzen_bot"]

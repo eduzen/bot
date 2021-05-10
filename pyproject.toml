@@ -8,6 +8,18 @@ authors = ["Eduardo Enriquez (eduzen) <eduardo.a.enriquez@gmail.com>"]
 line-length = 120
 safe = true
 target-version = ['py38']
+exclude = '''
+(
+  /(
+    \.git
+    | \.mypy_cache
+    | \.pytest_cache
+    | htmlcov
+    | venv
+    | .venv
+  )/
+)
+'''
 
 [tool.isort]
 profile = "black"
@@ -48,6 +60,6 @@ requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
 
 [virtualenvs]
-create = true
+create = false
 # local = true
 # in-project = true
