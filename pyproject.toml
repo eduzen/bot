@@ -48,6 +48,7 @@ yfinance = "^0.1.55"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.1"
+factory-boy = "^3.2.0"
 ipython = "^7.23"
 jedi = "0.18.0"
 pre-commit = "^2.10.1"

@@ -25,6 +25,9 @@ class BaseModel(Model):
     def todict(self):
         return model_to_dict(self)
 
+    def to_dict(self):
+        return model_to_dict(self)
+
 
 class User(BaseModel):
     id = BigIntegerField(unique=True, primary_key=True)
