@@ -1,17 +1,20 @@
-import requests
-import structlog
+import logging
 
-logger = structlog.get_logger(filename=__name__)
+import requests
 
 COIN_BIN = "https://coinbin.org/btc"
 COIN_DESK = "https://api.coindesk.com/v1/bpi/currentprice.json"
 ETH = "https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD,EUR,CNY,JPY,GBP"
 DOGECOIN = "https://sochain.com//api/v2/get_price/DOGE/USD"
 
+logger = logging.getLogger("rich")
+
+client = requests.Session()
+
 
 def get_coin_value(url):
     try:
-        response = requests.get(url)
+        response = client.get(url)
     except requests.exceptions.ConnectionError:
         return
 

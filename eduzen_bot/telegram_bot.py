@@ -1,9 +1,9 @@
+import logging
 import os
 import pkgutil
 from functools import partial
 
 import attr
-import structlog
 from telegram.error import (
     BadRequest,
     ChatMigrated,
@@ -20,7 +20,7 @@ from telegram.ext import (
     Updater,
 )
 
-logger = structlog.get_logger(filename=__name__)
+logger = logging.getLogger("rich")
 
 here = os.path.abspath(os.path.dirname(__file__))
 get_path = partial(os.path.join, here)
@@ -40,7 +40,7 @@ class TelegramBot:
 
     def __attrs_post_init__(self):
         self.updater = Updater(token=self.token, workers=self.workers, use_context=self.use_context)
-        logger.info("Created updater for %s" % (self.updater.bot.name))
+        logger.info("[bold green]Created updater for %s" % (self.updater.bot.name), extra={"markup": True})
         self.updater.dispatcher.add_error_handler(self.error)
         self._load_plugins()
 

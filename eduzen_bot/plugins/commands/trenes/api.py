@@ -1,7 +1,7 @@
+import logging
 import os
 from datetime import datetime
 
-import structlog
 import tweepy
 
 TWITTER_CONSUMER_KEY = os.getenv("TWITTER_CONSUMER_KEY")
@@ -9,7 +9,7 @@ TWITTER_CONSUMER_SECRET = os.getenv("TWITTER_CONSUMER_SECRET")
 TWITTER_ACCESS_TOKEN_SECRET = os.getenv("TWITTER_ACCESS_TOKEN_SECRET")
 TWITTER_ACCESS_TOKEN = os.getenv("TWITTER_ACCESS_TOKEN")
 
-logger = structlog.get_logger(filename=__name__)
+logger = logging.getLogger("rich")
 
 
 def get_tweets(api, username, count, date):

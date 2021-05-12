@@ -2,14 +2,14 @@
 stock - stock
 """
 import datetime as dt
+import logging
 
-import structlog
 import yfinance as yf
 from telegram import ChatAction
 
 from eduzen_bot.decorators import create_user
 
-logger = structlog.get_logger()
+logger = logging.getLogger()
 
 
 @create_user

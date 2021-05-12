@@ -4,7 +4,8 @@ dolar - get_dolar
 dolarhoy - get_dolarhoy
 dolarfuturo - get_dolarfuturo
 """
-import structlog
+import logging
+
 from api import (
     get_bluelytics,
     get_dolar_blue,
@@ -18,7 +19,7 @@ from telegram.ext import CallbackContext
 
 from eduzen_bot.decorators import create_user
 
-logger = structlog.get_logger(filename=__name__)
+logger = logging.getLogger("rich")
 
 
 @create_user

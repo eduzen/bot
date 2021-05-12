@@ -1,12 +1,12 @@
+import logging
 import os
 
 import requests
-import structlog
 from bs4 import BeautifulSoup
 
 ow_token = os.getenv("openweathermap_token")
 
-logger = structlog.get_logger(filename=__name__)
+logger = logging.getLogger("rich")
 
 lanacion = "http://servicios.lanacion.com.ar/pronostico-del-tiempo/capital-federal/capital-federal"
 

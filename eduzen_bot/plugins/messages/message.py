@@ -1,9 +1,9 @@
 import codecs
+import logging
 import os
 import random
 
 import peewee
-import structlog
 from telegram import ChatAction
 
 from eduzen_bot.models import Question, User
@@ -31,7 +31,7 @@ from textblob import TextBlob
 
 chats = {"-288031841": "t3"}
 
-logger = structlog.getLogger(filename=__name__)
+logger = logging.getLogger("rich")
 
 
 def get_or_create_user(user):

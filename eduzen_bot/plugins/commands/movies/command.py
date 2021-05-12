@@ -3,7 +3,7 @@ peli - get_movie
 movie - get_movie
 pelicula - get_movie
 """
-import structlog
+import logging
 
 from eduzen_bot.decorators import create_user
 from eduzen_bot.plugins.commands.movies import keyboards
@@ -14,7 +14,7 @@ from eduzen_bot.plugins.commands.movies.api import (
 )
 from eduzen_bot.plugins.commands.movies.constants import IMDB_LINK
 
-logger = structlog.get_logger(filename=__name__)
+logger = logging.getLogger("rich")
 
 
 @create_user

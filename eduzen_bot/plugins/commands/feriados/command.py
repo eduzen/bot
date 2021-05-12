@@ -1,10 +1,10 @@
 """
 feriados - feriadosarg
 """
+import logging
 from datetime import datetime
 
 import pytz
-import structlog
 
 from eduzen_bot.decorators import create_user
 from eduzen_bot.plugins.commands.feriados.api import (
@@ -13,7 +13,7 @@ from eduzen_bot.plugins.commands.feriados.api import (
     prettify_feriados,
 )
 
-logger = structlog.get_logger(filename=__name__)
+logger = logging.getLogger("rich")
 
 
 @create_user

@@ -8,35 +8,47 @@ authors = ["Eduardo Enriquez (eduzen) <eduardo.a.enriquez@gmail.com>"]
 line-length = 120
 safe = true
 target-version = ['py38']
+exclude = '''
+(
+  /(
+    \.git
+    | \.mypy_cache
+    | \.pytest_cache
+    | htmlcov
+    | venv
+    | .venv
+  )/
+)
+'''
 
 [tool.isort]
 profile = "black"
 include_trailing_comma = true
 
 [tool.poetry.dependencies]
-python = "^3.8"
-python-dotenv = "^0.17.1"
-python-telegram-bot = "13.5"
-sentry-sdk = "^1.0.0"
-requests = "^2.25.1"
-beautifulsoup4 = "^4.9.3"
-structlog = "^21.1.0"
-tweepy = "^3.10.0"
-tmdbsimple = "^2.6.6"
 attrs = "^20.3.0"
+beautifulsoup4 = "^4.9.3"
+colorama = "^0.4.4"
 emoji = "1.2.0"
-peewee = "3.14.4"
+ipdb = "^0.13.4"
 nltk = "^3.5"
 textblob = "^0.15.3"
-regex = "^2021.4.4"
+peewee = "3.14.4"
+python = "^3.8"
+python-telegram-bot = "13.5"
 PyYAML = "^5.4.1"
-ipdb = "^0.13.4"
 psycopg2-binary = "^2.8.6"
+regex = "^2021.4.4"
+requests = "^2.25.1"
+rich = "^10.1.0"
+sentry-sdk = "^1.0.0"
+tweepy = "^3.10.0"
+tmdbsimple = "^2.6.6"
 yfinance = "^0.1.55"
-colorama = "^0.4.4"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.1"
+factory-boy = "^3.2.0"
 ipython = "^7.23"
 jedi = "0.18.0"
 pre-commit = "^2.10.1"
@@ -49,6 +61,6 @@ requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
 
 [virtualenvs]
-create = true
+create = false
 # local = true
 # in-project = true

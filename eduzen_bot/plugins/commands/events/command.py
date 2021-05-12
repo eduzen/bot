@@ -2,14 +2,15 @@
 events - get_events
 usage - get_usage
 """
-import structlog
+import logging
+
 from telegram import ChatAction
 
 from eduzen_bot.auth.restricted import restricted
 from eduzen_bot.decorators import create_user
 from eduzen_bot.models import EventLog, db
 
-logger = structlog.get_logger(filename=__name__)
+logger = logging.getLogger("rich")
 
 
 def get_users_usage():

@@ -2,7 +2,6 @@ import os
 from datetime import datetime
 from functools import cached_property
 
-from dotenv import load_dotenv
 from peewee import (
     BigIntegerField,
     BooleanField,
@@ -16,7 +15,6 @@ from peewee import (
 from playhouse.db_url import connect
 from playhouse.shortcuts import model_to_dict
 
-load_dotenv(".env")
 db = connect(os.getenv("DATABASE_URL", "sqlite:///default.db"))
 
 
@@ -25,6 +23,9 @@ class BaseModel(Model):
         database = db
 
     def todict(self):
+        return model_to_dict(self)
+
+    def to_dict(self):
         return model_to_dict(self)
 
 

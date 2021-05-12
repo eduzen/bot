@@ -1,12 +1,12 @@
 import functools
+import logging
 from functools import wraps
 
 import peewee
-import structlog
 
 from eduzen_bot.models import EventLog, User
 
-logger = structlog.get_logger(filename=__name__)
+logger = logging.getLogger("rich")
 
 
 def hash_dict(func):
