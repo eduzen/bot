@@ -68,11 +68,6 @@ ENTRYPOINT /docker-entrypoint.sh $0 $@
 
 CMD ["python", "eduzen_bot"]
 
-
-# 'lint' stage runs black and isort
-# running in check mode means build will fail if any linting errors occur
-FROM dev AS lint
-RUN pre-commit run --all-files
 # `prod` image used for runtime
 FROM python-base as prod
 
@@ -84,4 +79,5 @@ WORKDIR /code
 COPY . /code
 
 ENTRYPOINT /docker-entrypoint.sh $0 $@
-CMD ["run", "eduzen_bot"]
+
+CMD ["python", "eduzen_bot"]
