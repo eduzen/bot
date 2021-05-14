@@ -36,7 +36,7 @@ clean: stop
 	docker-compose rm --force -v
 
 test:
-	docker-compose run --rm --entrypoint="" eduzenbot pytest --cov=.
+	docker-compose run --rm --entrypoint="" eduzenbot pytest
 
 flake8:
 	docker-compose run --rm eduzenbot flake8 .

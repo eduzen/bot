@@ -40,7 +40,7 @@ PyYAML = "^5.4.1"
 psycopg2-binary = "^2.8.6"
 regex = "^2021.4.4"
 requests = "^2.25.1"
-rich = "^10.1.0"
+rich = "^10.2.0"
 sentry-sdk = "^1.1.0"
 tweepy = "^3.10.0"
 tmdbsimple = "^2.6.6"
@@ -55,6 +55,10 @@ pre-commit = "^2.10.1"
 wdb = "^3.3.0"
 ipdb = "^0.13.4"
 Faker = "^8.1.2"
+
+[tool.pytest.ini_options]
+addopts = "-s"
+testpaths = ["tests"]
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

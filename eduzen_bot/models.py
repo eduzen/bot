@@ -15,7 +15,7 @@ from peewee import (
 from playhouse.db_url import connect
 from playhouse.shortcuts import model_to_dict
 
-db = connect(os.getenv("DATABASE_URL", "sqlite:///default.db"))
+db = connect(os.getenv("DATABASE_URL", "sqlite:///:memory:"))
 
 
 class BaseModel(Model):
