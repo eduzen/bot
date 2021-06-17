@@ -54,7 +54,7 @@ jedi = "0.18.0"
 pre-commit = "^2.10.1"
 wdb = "^3.3.0"
 ipdb = "^0.13.4"
-Faker = "^8.1.2"
+Faker = "^8.8.1"
 
 [tool.pytest.ini_options]
 addopts = "-s"
