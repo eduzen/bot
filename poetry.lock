@@ -479,7 +479,7 @@ dev = ["pre-commit", "tox"]
 
 [[package]]
 name = "pre-commit"
-version = "2.12.1"
+version = "2.13.0"
 description = "A framework for managing and maintaining multi-language pre-commit hooks."
 category = "dev"
 optional = false
@@ -921,7 +921,7 @@ six = ">=1.10.0"
 
 [[package]]
 name = "yfinance"
-version = "0.1.59"
+version = "0.1.60"
 description = "Yahoo! Finance market data downloader"
 category = "main"
 optional = false
@@ -937,7 +937,7 @@ requests = ">=2.20"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "01eaf71ddfad30537820853324d73bccda97c1eb8a4afc8caf5146b7c169309d"
+content-hash = "dcd52e64f96648a183cf2173afc89516be1eb9e2d09a627ce9d9d8274418ac2c"
 
 [metadata.files]
 appdirs = [
@@ -1189,8 +1189,8 @@ pluggy = [
     {file = "pluggy-0.13.1.tar.gz", hash = "sha256:15b2acde666561e1298d71b523007ed7364de07029219b604cf808bfa1c765b0"},
 ]
 pre-commit = [
-    {file = "pre_commit-2.12.1-py2.py3-none-any.whl", hash = "sha256:70c5ec1f30406250b706eda35e868b87e3e4ba099af8787e3e8b4b01e84f4712"},
-    {file = "pre_commit-2.12.1.tar.gz", hash = "sha256:900d3c7e1bf4cf0374bb2893c24c23304952181405b4d88c9c40b72bda1bb8a9"},
+    {file = "pre_commit-2.13.0-py2.py3-none-any.whl", hash = "sha256:b679d0fddd5b9d6d98783ae5f10fd0c4c59954f375b70a58cbe1ce9bcf9809a4"},
+    {file = "pre_commit-2.13.0.tar.gz", hash = "sha256:764972c60693dc668ba8e86eb29654ec3144501310f7198742a767bec385a378"},
 ]
 prompt-toolkit = [
     {file = "prompt_toolkit-3.0.18-py3-none-any.whl", hash = "sha256:bf00f22079f5fadc949f42ae8ff7f05702826a97059ffcc6281036ad40ac6f04"},
@@ -1505,5 +1505,5 @@ xdis = [
     {file = "xdis-5.0.9.tar.gz", hash = "sha256:ba217fbd7bfb24fdca4c124cf941e4ff8878eb45f07ff0d4730deeb01f79561b"},
 ]
 yfinance = [
-    {file = "yfinance-0.1.59.tar.gz", hash = "sha256:fe4dc46807eceadc6604bf51ece7297b752dc5402a38a87385094fbfc7565fa0"},
+    {file = "yfinance-0.1.60.tar.gz", hash = "sha256:f7219b05066e810436addda91811721c3b1d9ecb6757221cbdf1dba75e1c73e3"},
 ]
