@@ -921,7 +921,7 @@ six = ">=1.10.0"
 
 [[package]]
 name = "yfinance"
-version = "0.1.59"
+version = "0.1.61"
 description = "Yahoo! Finance market data downloader"
 category = "main"
 optional = false
@@ -937,7 +937,7 @@ requests = ">=2.20"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "61bce33d2ec342ed2a4eebd617c030fc12671803dc00db6c20ce6b6eba80d151"
+content-hash = "1327b8a32389f0a2532c63377c96ccd5a94b835537732c4c5c40d0e0c2d35ff2"
 
 [metadata.files]
 appdirs = [
@@ -1505,5 +1505,5 @@ xdis = [
     {file = "xdis-5.0.9.tar.gz", hash = "sha256:ba217fbd7bfb24fdca4c124cf941e4ff8878eb45f07ff0d4730deeb01f79561b"},
 ]
 yfinance = [
-    {file = "yfinance-0.1.59.tar.gz", hash = "sha256:fe4dc46807eceadc6604bf51ece7297b752dc5402a38a87385094fbfc7565fa0"},
+    {file = "yfinance-0.1.61.tar.gz", hash = "sha256:fad734af0c1e18568192b97b2c11ddb1f7fdf0fbaea6aa2f2a1e2744fde1449d"},
 ]
