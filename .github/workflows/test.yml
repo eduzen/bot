@@ -21,33 +21,37 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Set up Python 3.9
-      uses: actions/setup-python@v2.2.2
+    - uses: actions/setup-python@v2.2.2
       with:
-        python-version: 3.9
+        python-version: ${{ python-version }}
 
     - name: Setup System
       run: |
         sudo apt-get install libsqlite3-dev
 
-    - name: Load cached venv
-      id: cached-poetry-dependencies
+    - name: Get full python version
+      id: full-python-version
+      run: |
+        echo ::set-output name=version::$(python -c "import sys; print('-'.join(str(v) for v in sys.version_info[:3]))")
+
+    - name: Install and set up Poetry
+      run: |
+        pip install poetry==${{ poetry-version }}
+        source $HOME/.poetry/env
+        poetry config virtualenvs.in-project true
+
+    - name: Set up cache
       uses: actions/cache@v2
       with:
         path: .venv
-        key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
-
-    - name: Update pip
-      run: |
-        python -m pip install --upgrade pip
-
-    - name: Run image
-      uses: abatilo/actions-poetry@v2.1.2
-      with:
-        poetry-version: ${{ matrix.poetry-version }}
+        key: venv-${{ runner.os }}-${{ steps.full-python-version.outputs.version }}-${{ hashFiles('**/poetry.lock') }}
 
     - name: Install dependencies
-      run: poetry install
+      run: |
+        source $HOME/.poetry/env
+        poetry install
 
     - name: Test
-      run: poetry run pytest
+      run: |
+        source $HOME/.poetry/env
+        poetry run pytest
