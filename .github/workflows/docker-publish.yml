@@ -26,7 +26,7 @@ jobs:
       - name: debug
         run: |
           echo "debug"
-          echo ${{ secret.DOCKERHUB_USERNAME }} ${{ secret.DOCKER_USERNAME }}
+          echo ${{ secrets.DOCKERHUB_USERNAME }} ${{ secrets.DOCKER_USERNAME }}
           echo ${{ env.DOCKERHUB_USERNAME }} ${{ env.DOCKER_USERNAME }}
 
       - name: Login to DockerHub
