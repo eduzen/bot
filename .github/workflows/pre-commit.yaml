@@ -1,0 +1,27 @@
+name: pre-commit
+
+on:
+  pull_request:
+  push:
+    branches: [master, main]
+
+jobs:
+  pre-commit:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - uses: actions/setup-python@v2
+      with:
+        python-version: 3.9
+
+    - name: set PY
+      run: echo "PY=$(python -VV | sha256sum | cut -d' ' -f1)" >> $GITHUB_ENV
+
+    - name: Cache dependency # caching dependency will make our build faster.
+      uses: actions/cache@v2.1.6 # for more info checkout pip section documentation at https://github.com/actions/cache
+      with:
+        path: ~/.cache/pre-commit
+        key: pre-commit|${{ env.PY }}|${{ hashFiles('.pre-commit-config.yaml') }}
+
+    - uses: pre-commit/action@v2.0.3
