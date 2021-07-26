@@ -101,7 +101,7 @@ def get_question(question):
 
 
 def parse_chat(blob):
-    for sentence in blob.sentences:
+    for _ in blob.sentences:
         resp = check_for_greeting(blob)
         if not resp:
             resp = check_for_intro_question(blob)
