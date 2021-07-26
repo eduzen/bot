@@ -1,6 +1,7 @@
+from __future__ import annotations
+
 import logging
 from datetime import datetime
-from typing import Dict, List
 
 import pytz
 import requests
@@ -26,12 +27,12 @@ def get_feriados(year: int):
     return feriados
 
 
-def filter_feriados(today: datetime, feriados: List) -> List:
+def filter_feriados(today: datetime, feriados: list) -> list:
     """Returns the future feriados. Filtering past feriados."""
     return [f for f in feriados if (f["mes"] == today.month and f["dia"] >= today.day) or f["mes"] > today.month]
 
 
-def prettify_feriados(today: datetime, feriados: Dict, compact=False) -> str:
+def prettify_feriados(today: datetime, feriados: dict, compact=False) -> str:
     """Receives a feriado dict of following feriados and pretty prints them.
     [{
         "motivo": "Año Nuevo",

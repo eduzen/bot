@@ -25,6 +25,10 @@ exclude = '''
 profile = "black"
 include_trailing_comma = true
 
+[tool.pytest.ini_options]
+addopts = "-s"
+testpaths = ["tests"]
+
 [tool.poetry.dependencies]
 attrs = "^21.2.0"
 beautifulsoup4 = "^4.9.3"
@@ -39,8 +43,8 @@ python-telegram-bot = "13.5"
 PyYAML = "^5.4.1"
 psycopg2-binary = "^2.9.1"
 regex = "^2021.4.4"
-requests = "^2.25.1"
-rich = "^10.4.0"
+requests = "^2.26.0"
+rich = "^10.6.0"
 sentry-sdk = "^1.1.0"
 tweepy = "^3.10.0"
 tmdbsimple = "^2.6.6"
@@ -53,12 +57,10 @@ ipython = "^7.25"
 jedi = "0.18.0"
 pre-commit = "^2.13.0"
 wdb = "^3.3.0"
-ipdb = "^0.13.4"
+ipdb = "^0.13.9"
 Faker = "^8.10.2"
-
-[tool.pytest.ini_options]
-addopts = "-s"
-testpaths = ["tests"]
+mypy = "^0.910"
+types-requests = "^2.25.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
