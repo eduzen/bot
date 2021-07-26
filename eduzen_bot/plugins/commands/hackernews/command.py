@@ -1,7 +1,7 @@
 """
 hn - get_hackernews
 """
-from datetime import datetime as dt
+import datetime as dt
 from enum import Enum
 from types import SimpleNamespace
 
@@ -66,7 +66,7 @@ def hackernews(story_type=STORIES.TOP, limit=10):
     for story_id in get_top_stories(story_type, limit):
         raw_story = get_item(story_id)
         story = SimpleNamespace(**raw_story)
-        date = dt.utcfromtimestamp(story.time).strftime("%Y-%m-%d %H:%M:%S")
+        date = dt.datetime.utcfromtimestamp(story.time).strftime("%Y-%m-%d %H:%M:%S")
         story_text = f"[{story.title}]({story.url})\n Score: {story.score} Time: {date}"
         text_stories.append(story_text)
 
