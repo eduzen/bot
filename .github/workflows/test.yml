@@ -1,0 +1,51 @@
+# This workflow will install Python dependencies, run tests and lint with a single version of Python
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
+
+name: Tests
+
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+  release:
+
+jobs:
+  tests:
+    strategy:
+      matrix:
+        python-version: [3.9]
+        poetry-version: [1.1.7]
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - uses: actions/setup-python@v2.2.2
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Setup libsqlite3
+      run: |
+        sudo apt-get install libsqlite3-dev
+
+    - name: Get full python version
+      id: full-python-version
+      run: |
+        echo ::set-output name=version::$(python -c "import sys; print('-'.join(str(v) for v in sys.version_info[:3]))")
+
+    - name: Install and set up Poetry
+      run: |
+        pip install poetry==${{ matrix.poetry-version }}
+        poetry config virtualenvs.in-project true
+
+    - name: Set up cache
+      uses: actions/cache@v2
+      with:
+        path: .venv
+        key: venv-${{ runner.os }}-${{ steps.full-python-version.outputs.version }}-${{ hashFiles('**/poetry.lock') }}
+
+    - name: Install dependencies
+      run: poetry install -v
+
+    - name: Test
+      run: poetry run pytest
