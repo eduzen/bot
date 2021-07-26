@@ -1,6 +1,6 @@
 name: lint
 
-on: [push, pull_request, tags]
+on: [push, pull_request, release, page_build]
 
 jobs:
   lint:
