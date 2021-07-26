@@ -4,7 +4,7 @@ ignore=E203,E402
 count = True
 show_source = True
 statistics = True
-max_line_length = 119
+max_line_length = 120
 filename = *.py
 extend-ignore =
     # See https://github.com/PyCQA/pycodestyle/issues/373
