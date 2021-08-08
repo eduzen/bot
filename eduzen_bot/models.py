@@ -45,7 +45,7 @@ class User(BaseModel):
         return super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"<{self.username}: {self.first_name} {self.last_name}>"
+        return f"<{self.username or ''}: {self.first_name or ''} {self.last_name or ''}>"
 
     @property
     def full_name(self):
