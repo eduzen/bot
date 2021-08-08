@@ -22,7 +22,7 @@ repos:
         args: [--autofix]
 
   - repo: https://github.com/PyCQA/isort
-    rev: 5.9.2
+    rev: 5.9.3
     hooks:
       - id: isort
         args: [--profile=black]
@@ -40,7 +40,7 @@ repos:
           additional_dependencies: [black==21.7b0]
 
   - repo: https://github.com/asottile/pyupgrade
-    rev: v2.23.0
+    rev: v2.23.1
     hooks:
       - id: pyupgrade
         args: [--py39-plus]
