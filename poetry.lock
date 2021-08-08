@@ -172,7 +172,7 @@ python-versions = "*"
 
 [[package]]
 name = "emoji"
-version = "1.4.1"
+version = "1.4.2"
 description = "Emoji for Python"
 category = "main"
 optional = false
@@ -1015,7 +1015,7 @@ requests = ">=2.20"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "e47842d7a0e1a28303a6133d08e0bbf52f5abc51d5e5aee010c9c1cf44115be5"
+content-hash = "58b85b7da4c4e06c58cfc7aa4cc775535f2b71fc152e4b62c4f5bccce77b40b2"
 
 [metadata.files]
 appnope = [
@@ -1084,7 +1084,7 @@ distlib = [
     {file = "distlib-0.3.2.zip", hash = "sha256:106fef6dc37dd8c0e2c0a60d3fca3e77460a48907f335fa28420463a6f799736"},
 ]
 emoji = [
-    {file = "emoji-1.4.1.tar.gz", hash = "sha256:6b539615c0b31b4274e10db949672c9cd1e6d3d8eb835ef421d11db3f46066d8"},
+    {file = "emoji-1.4.2.tar.gz", hash = "sha256:21257f311e24468031e85685867c00b87249dc7612b82dc763a771ba5fb00c01"},
 ]
 factory-boy = [
     {file = "factory_boy-3.2.0-py2.py3-none-any.whl", hash = "sha256:1d3db4b44b8c8c54cdd8b83ae4bdb9aeb121e464400035f1f03ae0e1eade56a4"},
