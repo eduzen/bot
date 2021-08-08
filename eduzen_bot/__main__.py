@@ -7,7 +7,6 @@ from threading import Thread
 
 import sentry_sdk
 from rich.logging import RichHandler
-from sentry_sdk.integrations.logging import LoggingIntegration
 from sentry_sdk.integrations.tornado import TornadoIntegration
 from telegram.ext import CallbackQueryHandler, CommandHandler, Filters
 
@@ -29,16 +28,17 @@ LOG_LEVEL = os.getenv("LOG_LEVEL", "ERROR")
 FORMAT = "%(message)s"
 
 logging.basicConfig(
-    level=LOG_LEVEL, format=FORMAT, datefmt="[%d-%m-%y %X]", handlers=[RichHandler(rich_tracebacks=True)]
+    level=logging.getLevelName(LOG_LEVEL),
+    format=FORMAT,
+    datefmt="[%d-%m-%y %X]",
+    handlers=[RichHandler(rich_tracebacks=True)],
 )
-logger = logging.getLogger("rich")
 
-sentry_logging = LoggingIntegration(level=LOG_LEVEL, event_level=logging.ERROR)
+logger = logging.getLogger()
 
 sentry_sdk.init(
     dsn=SENTRY_DSN,
-    integrations=[sentry_logging, TornadoIntegration()],
-    traces_sample_rate=1,
+    integrations=[TornadoIntegration()],
 )
 
 
@@ -75,6 +75,7 @@ def main():
     bot.add_handler(unknown_handler)
 
     bot.add_handler(CallbackQueryHandler(callback_query, pass_chat_data=True))
+
     bot.start()
 
 
