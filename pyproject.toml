@@ -58,7 +58,7 @@ jedi = "0.18.0"
 pre-commit = "^2.14.0"
 wdb = "^3.3.0"
 ipdb = "^0.13.9"
-Faker = "^8.10.2"
+Faker = "^8.11.0"
 mypy = "^0.910"
 types-requests = "^2.25.0"
 
