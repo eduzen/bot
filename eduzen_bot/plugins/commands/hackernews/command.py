@@ -1,17 +1,18 @@
 """
 hn - get_hackernews
 """
-import datetime as dt
 import logging
 from enum import Enum
 from types import SimpleNamespace
 
+import pendulum
 import requests
 from telegram import ChatAction
 
 from eduzen_bot.decorators import create_user
 
 session = requests.Session()
+
 logger = logging.getLogger()
 
 
@@ -68,9 +69,9 @@ def hackernews(story_type=STORIES.TOP, limit=5):
     for story_id in get_top_stories(story_type, limit):
         raw_story = get_item(story_id)
         story = SimpleNamespace(**raw_story)
-        now = dt.datetime.now()
-        date = now - dt.datetime.utcfromtimestamp(story.time)
-        story_text = f"[{story.title}]({story.url})\n Score: {story.score} Hace: {date}"
+        now = pendulum.now()
+        date = now - pendulum.from_timestamp(story.time)
+        story_text = f"[{story.title}]({story.url})\n Score: {story.score} Hace: {date.in_words()}"
         text_stories.append(story_text)
 
     title = get_hackernews_help(story_type=story_type)
