@@ -11,7 +11,9 @@ services:
     build:
       context: .
       target: dev
-    entrypoint: ["sh", "/code/eduzen_bot/scripts/runserver.sh"]
+
+    # entrypoint: ["sh", "/code/eduzen_bot/scripts/runserver.sh"]
+    entrypoint: ["python",  "-m", "eduzen_bot"]
     volumes:
       - .:/code
       - shell_history:/root/hist
@@ -20,6 +22,7 @@ services:
 
   db:
     image: postgres:13-alpine
+    command: ["postgres", "-c", "log_statement=none"]
     volumes:
       - pgdata:/var/lib/postgresql/data/
     environment:

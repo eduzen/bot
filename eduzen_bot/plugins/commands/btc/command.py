@@ -3,10 +3,10 @@ btc - btc
 """
 import logging
 
-from api import get_btc, get_dogecoin, get_eth
 from telegram import ChatAction
 
 from eduzen_bot.decorators import create_user
+from eduzen_bot.plugins.commands.btc.api import get_btc, get_dogecoin, get_eth
 
 logger = logging.getLogger()
 

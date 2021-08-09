@@ -8,6 +8,7 @@ from telegram import Update
 from telegram.ext import CallbackContext
 
 from eduzen_bot.decorators import create_user
+from eduzen_bot.plugins.commands.btc.command import get_btc
 
 logger = logging.getLogger("rich")
 
@@ -15,7 +16,7 @@ logger = logging.getLogger("rich")
 def alarm(context: CallbackContext) -> None:
     """Send the alarm message."""
     job = context.job
-    context.bot.send_message(job.context, text="Beep!")
+    context.bot.send_message(job.context, text=get_btc())
 
 
 def remove_job_if_exists(name: str, context: CallbackContext) -> bool:
