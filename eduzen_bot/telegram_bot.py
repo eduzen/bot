@@ -39,7 +39,12 @@ class TelegramBot:
     updater: Updater = None
 
     def __attrs_post_init__(self):
-        self.updater = Updater(token=self.token, workers=self.workers, use_context=self.use_context)
+        try:
+            self.updater = Updater(token=self.token, workers=self.workers, use_context=self.use_context)
+        except TelegramError:
+            logger.exception("Something wrong...")
+            raise SystemExit
+
         logger.info("[bold green]Created updater for %s" % (self.updater.bot.name), extra={"markup": True})
         self.updater.dispatcher.add_error_handler(self.error)
         self._load_plugins()
