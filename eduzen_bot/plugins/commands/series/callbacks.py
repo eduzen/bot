@@ -74,7 +74,12 @@ def go_back(update, context, **kwargs):
 
     # Resend series basic description
     serie = context["data"]
-    response = prettify_serie(serie)
+    try:
+        response = prettify_serie(serie)
+    except KeyError:
+        logger.exception("Error prettifying serie. <%s>", serie)
+        response = "Error prettifying serie. Try again later."
+
     keyboard = keyboards.serie()
     # tothink: Maybe implement relative go back. chat_data context should be more intelligent to support that.
     # temp key on chat_data (active_season) that resets after each episode go back?
