@@ -21,7 +21,7 @@ services:
       - .env
 
   db:
-    image: postgres:13-alpine
+    image: postgres:13.4-alpine3.14
     command: ["postgres", "-c", "log_statement=none"]
     volumes:
       - pgdata:/var/lib/postgresql/data/
@@ -30,13 +30,13 @@ services:
 
   wdb:
     profiles: ["dev"]
-    image: kozea/wdb
+    image: kozea/wdb:3.3.0
     ports:
       - "1984:1984"
 
   adminer:
     profiles: ["dev"]
-    image: adminer:latest
+    image: adminer:4.8.1-standalone
     restart: always
     ports:
         - 8001:8080

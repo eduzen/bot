@@ -5,7 +5,7 @@ repos:
     rev: v4.0.1
     hooks:
       - id: check-ast
-      - id: check-byte-order-marker
+      - id: fix-byte-order-marker
       - id: check-case-conflict
       - id: check-executables-have-shebangs
       - id: check-yaml
@@ -40,7 +40,7 @@ repos:
           additional_dependencies: [black==21.7b0]
 
   - repo: https://github.com/asottile/pyupgrade
-    rev: v2.23.3
+    rev: v2.24.0
     hooks:
       - id: pyupgrade
         args: [--py39-plus]

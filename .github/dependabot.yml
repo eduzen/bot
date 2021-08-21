@@ -9,12 +9,6 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
-    # Include a list of updated dependencies
-    # with a prefix determined by the dependency group
-    commit-message:
-      prefix: "poetry prod"
-      prefix-development: "poetry dev"
-      include: "scope"
 
   - package-ecosystem: "github-actions"
     directory: "/"
