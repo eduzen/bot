@@ -35,10 +35,10 @@ def get_klima(city_name="München"):
         return msg
 
     msg = (
-        f"*Das Klima in {city_name}*\n"
-        f"Temperatur {data['main']['temp']} °C regentage {data['main']['humidity']}%\n"
-        f"Temperaturmaximum {data['main']['temp_max']} °C\n"
-        f"Temperaturminimum {data['main']['temp_min']} °C\n"
+        f"*Clima in {city_name}*\n"
+        f"Temp {data['main']['temp']} °C probabilidades de lluvia {data['main']['humidity']}%\n"
+        f"Max {data['main']['temp_max']} °C\n"
+        f"Min {data['main']['temp_min']} °C\n"
     )
     return f"{msg}\nBy api.openweathermap.org"
 
