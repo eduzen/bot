@@ -2,8 +2,10 @@
 set - Setear alarma
 unset - Sacar alarma
 """
+import datetime
 import logging
 
+import pytz
 from telegram import Update
 from telegram.ext import CallbackContext
 
@@ -47,8 +49,9 @@ def set_timer(update: Update, context: CallbackContext) -> None:
         # Add job to queue
         job_removed = remove_job_if_exists(str(chat_id), context)
 
+        when = datetime.time(hour=due, minute=27, tzinfo=pytz.timezone("Europe/Amsterdam"))
         # context.job_queue.run_once(alarm, due, context=chat_id, name=str(chat_id))
-        context.job_queue.run_daily(alarm, due, days=range(7), context=chat_id, name=str(chat_id))
+        context.job_queue.run_daily(alarm, when, days=range(7), context=chat_id, name=str(chat_id))
         text = "Timer successfully set!"
 
         if job_removed:
