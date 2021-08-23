@@ -1,6 +1,6 @@
 """
 btc - btc
-report - report
+report - daily_report
 """
 import logging
 from datetime import datetime as dt
