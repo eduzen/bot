@@ -58,6 +58,7 @@ def main():
 
     bot.add_handler(CommandHandler("restart", restart, filters=Filters.user(username="@eduzen")))
     bot.add_handler(CommandHandler("set", set_timer))
+    bot.add_handler(CommandHandler("reporte", set_timer))
     bot.add_handler(CommandHandler("unset", unset))
 
     message_handlers = [parse_msgs]

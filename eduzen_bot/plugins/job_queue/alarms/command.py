@@ -1,5 +1,6 @@
 """
 set - Setear alarma
+reporte - Reporte de criptomonedas
 unset - Sacar alarma
 """
 import datetime
@@ -9,6 +10,7 @@ import pytz
 from telegram import Update
 from telegram.ext import CallbackContext
 
+from eduzen_bot.auth.restricted import restricted
 from eduzen_bot.decorators import create_user
 from eduzen_bot.plugins.commands.btc.command import get_crypto_report
 
@@ -33,6 +35,7 @@ def remove_job_if_exists(name: str, context: CallbackContext) -> bool:
 
 
 @create_user
+@restricted
 def set_timer(update: Update, context: CallbackContext) -> None:
     """Add a job to the queue."""
     chat_id = update.message.chat_id
