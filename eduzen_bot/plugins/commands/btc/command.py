@@ -2,8 +2,8 @@
 btc - btc
 report - daily_report
 """
+import datetime
 import logging
-from datetime import datetime as dt
 
 from telegram import ChatAction
 
@@ -28,7 +28,7 @@ def get_crypto_report():
     amsterdam = get_klima("amsterdam").replace("By api.openweathermap.org", "")
 
     text = "\n".join([dog, eth, btc])
-    hoy = dt.today().strftime("%d %B del %Y")
+    hoy = datetime.datetime.today().strftime("%d %B del %Y")
     text = (
         f"Buenas buenas hoy es {hoy}:\n\n"
         f"{clima}"
