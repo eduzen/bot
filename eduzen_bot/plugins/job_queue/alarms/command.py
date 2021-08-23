@@ -19,7 +19,7 @@ def alarm(context: CallbackContext) -> None:
     """Send the alarm message."""
     job = context.job
     text = get_crypto_report()
-    context.bot.send_message(job.context, text=text)
+    context.bot.send_message(job.context, text=text, parse_mode="Markdown")
 
 
 def remove_job_if_exists(name: str, context: CallbackContext) -> bool:

@@ -32,3 +32,13 @@ def stock(update, context, *args, **kwargs):
         context.bot.send_photo(chat_id=update.message.chat_id, photo=stock.info.get("logo_url"), caption=info)
     except KeyError:
         update.message.reply_text(f"No encontramos nada con '{name}'")
+
+
+def get_stock_price(name):
+    stock = yf.Ticker(name)
+    txt = (
+        f"U$D {stock.info.get('regularMarketPrice')} 💵 "
+        f"for {stock.info.get('market')}\n"
+        f"55 days average price {stock.info.get('fiftyDayAverage')}\n"
+    )
+    return txt
