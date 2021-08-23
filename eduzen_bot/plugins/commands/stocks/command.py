@@ -36,9 +36,10 @@ def stock(update, context, *args, **kwargs):
 
 def get_stock_price(name):
     stock = yf.Ticker(name)
+    print(stock.info.get("regularMarketPrice"))
     txt = (
-        f"U$D {stock.info.get('regularMarketPrice')} 💵 "
-        f"for {stock.info.get('market')}\n"
+        f"{stock.info.get('shortName')}\n"
+        f"U$D {stock.info.get('regularMarketPrice')}for {stock.info.get('market')}\n"
         f"55 days average price {stock.info.get('fiftyDayAverage')}\n"
     )
     return txt

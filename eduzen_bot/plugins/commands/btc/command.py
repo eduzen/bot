@@ -9,7 +9,8 @@ from telegram import ChatAction
 from eduzen_bot.decorators import create_user
 from eduzen_bot.plugins.commands.btc.api import get_btc, get_dogecoin, get_eth
 from eduzen_bot.plugins.commands.dolar.api import get_bluelytics, parse_bnc
-from eduzen_bot.plugins.commands.stocks.command import get_stock_price
+
+# from eduzen_bot.plugins.commands.stocks.command import get_stock_price
 from eduzen_bot.plugins.commands.weather.api import get_klima
 
 logger = logging.getLogger()
@@ -21,7 +22,7 @@ def get_crypto_report():
     eth = get_eth() or ""
     blue = get_bluelytics() or ""
     oficial = parse_bnc() or ""
-    meli = get_stock_price("MELI") or ""
+    # meli = get_stock_price("MELI") or ""
 
     clima = get_klima("buenos aires").replace("By api.openweathermap.org", "")
     amsterdam = get_klima("amsterdam").replace("By api.openweathermap.org", "")
@@ -41,7 +42,7 @@ def get_crypto_report():
         "Las crypto:\n\n"
         f"{text}\n\n"
         "Stocks:\n"
-        f"{meli}\n\n"
+        # f"{meli}\n\n"
         "bye!"
     )
     return text
