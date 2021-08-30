@@ -62,7 +62,7 @@ pendulum = "^2.1.2"
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.1"
 factory-boy = "^3.2.0"
-ipython = "^7.26"
+ipython = "^7.27"
 jedi = "0.18.0"
 pre-commit = "^2.14.1"
 wdb = "^3.3.0"
