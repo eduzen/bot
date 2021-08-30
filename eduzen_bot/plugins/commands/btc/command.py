@@ -4,16 +4,31 @@ report - daily_report
 """
 import logging
 
+import yfinance
 from telegram import ChatAction
+from telegram.utils.helpers import escape_markdown
 
 from eduzen_bot.decorators import create_user
 from eduzen_bot.plugins.commands.btc.api import get_btc, get_dogecoin, get_eth
 from eduzen_bot.plugins.commands.dolar.api import get_bluelytics, parse_bnc
-
-# from eduzen_bot.plugins.commands.stocks.command import get_stock_price
 from eduzen_bot.plugins.commands.weather.api import get_klima
 
 logger = logging.getLogger()
+
+
+def melistock(name):
+    try:
+        stock = yfinance.Ticker(name)
+        short_name = stock.info.get("shortName")
+        mkt_price = stock.info.get("regularMarketPrice")
+        market = stock.info.get("market")
+        avg_price = stock.info.get("fiftyDayAverage")
+
+        txt = f"{short_name}\n" f"U$D {mkt_price} for {market}\n" f"55 days average price U$D {avg_price}\n"
+        return txt
+    except Exception:
+        logger.exception(f"Error getting stock price for {name}")
+        return f"No encontramos nada con '{name}'"
 
 
 def get_crypto_report():
@@ -21,8 +36,12 @@ def get_crypto_report():
     dog = get_dogecoin() or ""
     eth = get_eth() or ""
     blue = get_bluelytics() or ""
-    oficial = parse_bnc() or ""
-    # meli = get_stock_price("MELI") or ""
+    oficial = escape_markdown(parse_bnc() or "")
+    try:
+        meli = escape_markdown(melistock("MELI"))
+    except Exception as e:
+        logger.error(e)
+        meli = ""
 
     clima = get_klima("buenos aires").replace("By api.openweathermap.org", "")
     amsterdam = get_klima("amsterdam").replace("By api.openweathermap.org", "")
@@ -35,14 +54,14 @@ def get_crypto_report():
         f"Buenas buenas hoy es {hoy}:\n\n"
         f"{clima}"
         f"{amsterdam}"
-        "el blue:\n\n"
-        f"{blue}\n\n"
-        "el oficial:\n\n"
-        f"{oficial}\n\n"
-        "Las crypto:\n\n"
-        f"{text}\n\n"
-        "Stocks:\n"
-        # f"{meli}\n\n"
+        "\nel blue:\n"
+        f"{blue}\n"
+        "el oficial:\n"
+        f"{oficial}\n"
+        "\nLas crypto:\n"
+        f"{text}\n"
+        "\nStocks:\n"
+        f"{meli}\n"
         "bye!"
     )
     return text

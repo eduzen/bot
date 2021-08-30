@@ -4,6 +4,14 @@ version = "0.1.0"
 description = ""
 authors = ["Eduardo Enriquez (eduzen) <eduardo.a.enriquez@gmail.com>"]
 
+[build-system]
+requires = [
+    "setuptools>=42",
+    "wheel",
+    "poetry-core>=1.0.0",
+]
+build-backend = "setuptools.build_meta"
+
 [tool.black]
 line-length = 120
 safe = true
@@ -63,9 +71,7 @@ Faker = "^8.12.0"
 mypy = "^0.910"
 types-requests = "^2.25.6"
 
-[build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
+
 
 [virtualenvs]
 create = false
