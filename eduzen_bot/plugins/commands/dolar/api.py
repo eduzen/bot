@@ -45,6 +45,32 @@ def get_response(url, verify=True):
     return response
 
 
+def extract(data):
+    if not data:
+        []
+
+    values = []
+    for text in data[0].get_text().strip().split("\n"):
+        try:
+            values.append(str(round(float(text.replace(",", ".")), 2)))
+            continue
+        except (TypeError, ValueError):
+            pass
+
+        if "Dolar" in text:
+            value = f"{dolar} {text.replace('U.S.A', '')}"
+        elif "Euro" in text:
+            value = f"{euro} {text}"
+        elif "Real" in text:
+            value = f"{real} {text}"
+        else:
+            value = text
+
+        values.append(value)
+
+    return values
+
+
 def process_bcn(response):
     data = response.text
     if not data:
@@ -56,10 +82,14 @@ def process_bcn(response):
     if not data:
         return False
 
-    data = data[0].get_text().strip().replace("\n", " ").replace("  ", "\n")
-    data = data.replace("\n ", dolar, 1).replace("\n ", euro, 1).replace("\n ", real, 1)
-    data = data.replace("U.S.A", "")
-    data = f"{data}\n(*) cotización cada 100 unidades.\n{punch} by bna.com.ar"
+    data = extract(data)
+    head = " ".join(data[:3])
+    dolar = " ".join(data[3:6])
+    euro = " ".join(data[6:9])
+    real = " ".join(data[9:])
+    data = (
+        f"{head}\n" f"{dolar}\n" f"{euro}\n" f"{real}\n" f"\n(*) cotización cada 100 unidades.\n{punch} by bna.com.ar"
+    )
 
     return data
 
@@ -104,7 +134,7 @@ def pretty_print_dolar(cotizaciones):
     ```
     Banco Nacion  | $30.00 | $40.00
     Banco Galicia | $30.00 | $40.00
-                   ...
+    ...
     ```
     """
     MONOSPACE = "```\n{}\n```"
