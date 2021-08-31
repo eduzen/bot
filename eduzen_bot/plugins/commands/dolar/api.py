@@ -24,8 +24,8 @@ BLUELYTICS = "https://api.bluelytics.com.ar/v2/latest"
 client = requests.Session()
 
 dolar = emojize(":dollar:", use_aliases=True)
-euro = "\n🇪🇺"
-real = "\n🇧🇷"
+euro = "🇪🇺"
+real = "🇧🇷"
 punch = emojize(":punch:", use_aliases=True)
 DOLAR_REGEX = re.compile(r"DLR(\d{2})(\d{4})")
 Contrato = namedtuple("Contrato", ["mes", "año", "valor"])
@@ -47,15 +47,13 @@ def get_response(url, verify=True):
 
 def extract(data):
     if not data:
-        []
+        return ""
 
     values = []
-    for text in data[0].get_text().strip().split("\n"):
-        try:
-            values.append(str(round(float(text.replace(",", ".")), 2)))
+    for text in data.get_text().strip().split("\n"):
+        text = text.replace("\n", "").strip()
+        if not text:
             continue
-        except (TypeError, ValueError):
-            pass
 
         if "Dolar" in text:
             value = f"{dolar} {text.replace('U.S.A', '')}"
@@ -63,33 +61,33 @@ def extract(data):
             value = f"{euro} {text}"
         elif "Real" in text:
             value = f"{real} {text}"
-        else:
+        elif "/" in text:
             value = text
+        else:
+            try:
+                value = float(text.replace(",", "."))
+                value = f"{value:,.2f}"
+            except (TypeError, ValueError):
+                value = text
 
         values.append(value)
 
     return values
 
 
-def process_bcn(response):
-    data = response.text
-    if not data:
-        return False
-
+def process_bcn(data):
     soup = BeautifulSoup(data, "html.parser")
     data = soup.find_all("table", {"class": "table cotizacion"})
 
     if not data:
-        return False
+        return ""
 
-    data = extract(data)
-    head = " ".join(data[:3])
-    dolar = " ".join(data[3:6])
-    euro = " ".join(data[6:9])
-    real = " ".join(data[9:])
-    data = (
-        f"{head}\n" f"{dolar}\n" f"{euro}\n" f"{real}\n" f"\n(*) cotización cada 100 unidades.\n{punch} by bna.com.ar"
-    )
+    data = extract(data[0])
+    head = " ".join(data[:3]).strip()
+    dolar = " ".join(data[3:6]).strip()
+    euro = " ".join(data[6:9]).strip()
+    real = " ".join(data[9:]).strip()
+    data = f"{head}\n" f"{dolar}\n" f"{euro}\n" f"{real}\n" f"(*) cotización cada 100 unidades.\n{punch} by bna.com.ar"
 
     return data
 
@@ -195,8 +193,8 @@ def process_dolarhoy(response):
 def parse_bnc():
     r = get_response(BNC)
 
-    if r and r.status_code == 200:
-        return process_bcn(r)
+    if r and r.status_code == 200 and r.text:
+        return process_bcn(r.text)
 
     else:
         return "Banco nación no responde 🤷‍♀"

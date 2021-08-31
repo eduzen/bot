@@ -35,7 +35,6 @@ include_trailing_comma = true
 
 [tool.pytest.ini_options]
 addopts = "-s"
-testpaths = ["tests"]
 
 [tool.poetry.dependencies]
 attrs = "^21.2.0"
@@ -70,6 +69,7 @@ ipdb = "^0.13.9"
 Faker = "^8.12.0"
 mypy = "^0.910"
 types-requests = "^2.25.6"
+pytest-vcr = "^1.0.2"
 
 
 

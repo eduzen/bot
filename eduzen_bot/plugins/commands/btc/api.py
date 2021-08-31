@@ -40,10 +40,10 @@ def process_coindesk(response):
         text = "Perdón! La api coindesk.com no está disponible!"
         return text
 
-    usd_price = round(float(data["bpi"]["USD"]["rate"].replace(",", "")))
-    eur_price = round(float(data["bpi"]["EUR"]["rate"].replace(",", "")))
+    usd_price = float(data["bpi"]["USD"]["rate"].replace(",", ""))
+    eur_price = float(data["bpi"]["EUR"]["rate"].replace(",", ""))
 
-    return f"₿ 1 btc == USD {usd_price} 💵 | EUR {eur_price} 🇪🇺 \n By coindesk.org"
+    return f"₿ 1 btc == USD {usd_price:,.2f} 💵 | EUR {eur_price:,.2f} 🇪🇺 \n By coindesk.org"
 
 
 def process_eth(response):
