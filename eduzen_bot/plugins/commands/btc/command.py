@@ -20,9 +20,9 @@ def melistock(name):
     try:
         stock = yfinance.Ticker(name)
         short_name = stock.info.get("shortName")
-        mkt_price = stock.info.get("regularMarketPrice")
+        mkt_price = round(stock.info.get("regularMarketPrice", 0), 2)
         market = stock.info.get("market")
-        avg_price = stock.info.get("fiftyDayAverage")
+        avg_price = round(stock.info.get("fiftyDayAverage", 0), 2)
 
         txt = f"{short_name}\n" f"U$D {mkt_price} for {market}\n" f"55 days average price U$D {avg_price}\n"
         return txt

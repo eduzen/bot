@@ -21,7 +21,6 @@ services:
       - .env
     links:
       - db
-      - wdb
     environment:
       WDB_SOCKET_SERVER: wdb
       WDB_NO_BROWSER_AUTO_OPEN: "True"

@@ -40,17 +40,17 @@ def process_coindesk(response):
         text = "Perdón! La api coindesk.com no está disponible!"
         return text
 
-    usd_price = data["bpi"]["USD"]["rate"]
-    eur_price = data["bpi"]["EUR"]["rate"]
+    usd_price = float(data["bpi"]["USD"]["rate"].replace(",", ""))
+    eur_price = float(data["bpi"]["EUR"]["rate"].replace(",", ""))
 
-    return f"₿ 1 btc == USD {usd_price} 💵 | EUR {eur_price} 🇪🇺 \n By coindesk.org"
+    return f"₿ 1 btc == USD {usd_price:,.2f} 💵 | EUR {eur_price:,.2f} 🇪🇺 \n By coindesk.org"
 
 
 def process_eth(response):
     try:
         response.raise_for_status()
         data = response.json()
-        return f"⧫ 1 eth == USD {data['USD']} 💵 | EUR {data['EUR']} 🇪🇺"
+        return f"⧫ 1 eth == USD {round(data['USD'], 2)} 💵 | EUR {round(data['EUR'], 2)} 🇪🇺"
     except Exception:
         logger.exception("No pudimos conseguir eth")
 
@@ -59,8 +59,8 @@ def process_dogecoin(response):
     try:
         response.raise_for_status()
         data = response.json()
-        print(data)
-        return f"🐶 1 dogecoin == USD {data['data']['prices'][0]['price']} 💵"
+        price = round(float(data["data"]["prices"][0]["price"]), 2)
+        return f"🐶 1 dogecoin == USD {price} 💵"
     except Exception:
         logger.exception("No pudimos conseguir eth")
 
