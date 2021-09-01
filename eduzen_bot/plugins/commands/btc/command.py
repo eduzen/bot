@@ -16,6 +16,11 @@ from eduzen_bot.plugins.commands.weather.api import get_klima
 logger = logging.getLogger()
 
 
+CITY_AMSTERDAM = "amsterdam"
+CITY_BUENOS_AIRES = "buenos aires"
+CITY_HEIDELBERG = "heidelberg,de"
+
+
 def melistock(name):
     try:
         stock = yfinance.Ticker(name)
@@ -43,9 +48,9 @@ def get_crypto_report():
         logger.error(e)
         meli = ""
 
-    clima = get_klima("buenos aires").replace("By api.openweathermap.org", "")
-    amsterdam = get_klima("amsterdam").replace("By api.openweathermap.org", "")
-    heidelberg = get_klima("heidelberg,de").replace("By api.openweathermap.org", "")
+    clima = get_klima(city_name=CITY_BUENOS_AIRES).replace("By api.openweathermap.org", "")
+    amsterdam = get_klima(city_name=CITY_AMSTERDAM).replace("By api.openweathermap.org", "")
+    heidelberg = get_klima(city_name=CITY_HEIDELBERG).replace("By api.openweathermap.org", "")
 
     text = "\n".join([dog, eth, btc])
     import datetime  # noqa
@@ -56,7 +61,6 @@ def get_crypto_report():
         f"{clima}"
         f"{amsterdam}"
         f"{heidelberg}"
-        "\nel blue:\n"
         f"{blue}\n"
         "el oficial:\n"
         f"{oficial}\n"

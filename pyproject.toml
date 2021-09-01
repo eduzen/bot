@@ -57,6 +57,7 @@ tweepy = "^3.10.0"
 tmdbsimple = "^2.6.6"
 yfinance = "^0.1.63"
 pendulum = "^2.1.2"
+astral = "^2.2"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.1"
