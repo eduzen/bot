@@ -43,8 +43,8 @@ def get_sun_times(city_name) -> Tuple[str, str]:
         KeyError: if `city_name` is not present at `CITY_LOCATION`
     """
     city = CITY_LOCATION[city_name]
-    s = sun(city.observer, date=datetime.datetime.today().date())
-    return s["sunrise"], s["sunset"]
+    s = sun(city.observer, date=datetime.today().date())
+    return s["sunrise"].time().strftime("%H:%m"), s["sunset"].time().strftime("%H:%m")
 
 
 def get_klima(city_name="München"):
