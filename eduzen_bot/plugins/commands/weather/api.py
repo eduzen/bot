@@ -28,14 +28,15 @@ openweathermap = f"https://api.openweathermap.org/data/2.5/weather?APPID={ow_tok
 
 
 CITY_LOCATION = {
-    "buenos aires" : LocationInfo("BA", "Argentina", "America/Buenos_Aires", -34.6037, -58.3816),
-    "amsterdam" : LocationInfo("Amsterdam", "England", "Europe/Amsterdam", 52.3676,4.9041),
-    "heidelberg,de" : LocationInfo("Heil", "England", "Europe/Berlin", 49.3988, 8.672)
+    "buenos aires": LocationInfo("BA", "Argentina", "America/Buenos_Aires", -34.6037, -58.3816),
+    "amsterdam": LocationInfo("Amsterdam", "England", "Europe/Amsterdam", 52.3676, 4.9041),
+    "heidelberg,de": LocationInfo("Heil", "England", "Europe/Berlin", 49.3988, 8.672),
 }
 
-def get_sun_times(city_name) -> Tuple[str, str]:
+
+def get_sun_times(city_name) -> tuple[str, str]:
     """Calculates sunset and sunrise at current time at `city_name` city
-    
+
     Args:
         `city_name`: must be a key of `CITY_LOCATION`
 
