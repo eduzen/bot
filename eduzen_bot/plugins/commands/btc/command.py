@@ -18,7 +18,8 @@ logger = logging.getLogger()
 
 CITY_AMSTERDAM = "amsterdam"
 CITY_BUENOS_AIRES = "buenos aires"
-CITY_HEIDELBERG =  "heidelberg,de"
+CITY_HEIDELBERG = "heidelberg,de"
+
 
 def melistock(name):
     try:

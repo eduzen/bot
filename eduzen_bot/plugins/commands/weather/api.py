@@ -4,9 +4,9 @@ from datetime import datetime
 from typing import Tuple
 
 import requests
-from bs4 import BeautifulSoup
 from astral import LocationInfo
 from astral.sun import sun
+from bs4 import BeautifulSoup
 
 ow_token = os.getenv("openweathermap_token")
 
@@ -28,16 +28,18 @@ openweathermap = f"https://api.openweathermap.org/data/2.5/weather?APPID={ow_tok
 
 
 CITY_LOCATION = {
-    "buenos_aires" : LocationInfo("BA", "Argentina", "America/Buenos_Aires", -34.6037, -58.3816),
-    "amsterdam" : LocationInfo("Amsterdam", "England", "Europe/Amsterdam", 52.3676,4.9041),
-    "heidelberg" : LocationInfo("Heil", "England", "Europe/Berlin", 49.3988, 8.672)
+    "buenos_aires": LocationInfo("BA", "Argentina", "America/Buenos_Aires", -34.6037, -58.3816),
+    "amsterdam": LocationInfo("Amsterdam", "England", "Europe/Amsterdam", 52.3676, 4.9041),
+    "heidelberg": LocationInfo("Heil", "England", "Europe/Berlin", 49.3988, 8.672),
 }
 
-def get_astral_data(city_name) -> Tuple[str, str]:
+
+def get_astral_data(city_name) -> tuple[str, str]:
     city = CITY_LOCATION[city_name]
     s = sun(city.observer, date=datetime.datetime.today().date())
 
     return s["sunrise"], s["sunset"]
+
 
 def get_klima(city_name="München"):
     r = requests.get(f"{openweathermap}&q={city_name}")
