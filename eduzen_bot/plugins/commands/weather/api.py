@@ -27,9 +27,9 @@ openweathermap = f"https://api.openweathermap.org/data/2.5/weather?APPID={ow_tok
 
 
 CITY_LOCATION = {
-    "buenos aires" : LocationInfo("BA", "Argentina", "America/Buenos_Aires", -34.6037, -58.3816),
-    "amsterdam" : LocationInfo("Amsterdam", "Netherlands", "Europe/Amsterdam", 52.3676,4.9041),
-    "heidelberg,de" : LocationInfo("Heil", "England", "Europe/Berlin", 49.3988, 8.672)
+    "buenos aires": LocationInfo("BA", "Argentina", "America/Buenos_Aires", -34.6037, -58.3816),
+    "amsterdam": LocationInfo("Amsterdam", "Netherlands", "Europe/Amsterdam", 52.3676, 4.9041),
+    "heidelberg,de": LocationInfo("Heil", "England", "Europe/Berlin", 49.3988, 8.672),
 }
 
 
