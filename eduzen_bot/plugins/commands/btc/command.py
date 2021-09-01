@@ -18,7 +18,7 @@ logger = logging.getLogger()
 
 CITY_AMSTERDAM = "amsterdam"
 CITY_BUENOS_AIRES = "buenos aires"
-CITY_HEIDELBERG =  "heidelberg,de"
+CITY_HEIDELBERG = "heidelberg,de"
 
 def melistock(name):
     try:
@@ -47,9 +47,9 @@ def get_crypto_report():
         logger.error(e)
         meli = ""
 
-    clima = get_klima(CITY_BUENOS_AIRES).replace("By api.openweathermap.org", "")
-    amsterdam = get_klima(CITY_AMSTERDAM).replace("By api.openweathermap.org", "")
-    heidelberg = get_klima(CITY_HEIDELBERG).replace("By api.openweathermap.org", "")
+    clima = get_klima(city_name=CITY_BUENOS_AIRES).replace("By api.openweathermap.org", "")
+    amsterdam = get_klima(city_name=CITY_AMSTERDAM).replace("By api.openweathermap.org", "")
+    heidelberg = get_klima(city_name=CITY_HEIDELBERG).replace("By api.openweathermap.org", "")
 
     text = "\n".join([dog, eth, btc])
     import datetime  # noqa

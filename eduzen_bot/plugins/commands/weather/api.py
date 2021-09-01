@@ -4,9 +4,9 @@ from datetime import datetime
 from typing import Tuple
 
 import requests
-from bs4 import BeautifulSoup
 from astral import LocationInfo
 from astral.sun import sun
+from bs4 import BeautifulSoup
 
 ow_token = os.getenv("openweathermap_token")
 
@@ -46,6 +46,7 @@ def get_sun_times(city_name) -> Tuple[str, str]:
     s = sun(city.observer, date=datetime.datetime.today().date())
     return s["sunrise"], s["sunset"]
 
+
 def get_klima(city_name="München"):
     r = requests.get(f"{openweathermap}&q={city_name}")
     msg = "No pudimos conseguir el clima"
@@ -63,7 +64,7 @@ def get_klima(city_name="München"):
         logger.warning(f"error in astral time calculation: {e}")
         sunrise_time = "?"
         sunset_time = "?"
-        
+
     msg = (
         f"*Clima en {data['name']}*\n"
         f"Temp {data['main']['temp']} °C probabilidades de lluvia {data['main']['humidity']}%\n"
