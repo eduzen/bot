@@ -61,7 +61,6 @@ def get_crypto_report():
         f"{clima}"
         f"{amsterdam}"
         f"{heidelberg}"
-        "\nel blue:\n"
         f"{blue}\n"
         "el oficial:\n"
         f"{oficial}\n"
