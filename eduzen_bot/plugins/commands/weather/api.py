@@ -33,9 +33,10 @@ CITY_LOCATION = {
     "heidelberg,de" : LocationInfo("Heil", "England", "Europe/Berlin", 49.3988, 8.672)
 }
 
-def get_sun_times(city_name) -> Tuple[str, str]:
+
+def get_sun_times(city_name) -> tuple[str, str]:
     """Calculates sunset and sunrise at current time at `city_name` city
-    
+
     Args:
         `city_name`: must be a key of `CITY_LOCATION`
 
