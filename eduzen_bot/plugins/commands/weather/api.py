@@ -35,7 +35,7 @@ def get_klima(city_name="München"):
         return msg
 
     msg = (
-        f"*Clima in {city_name}*\n"
+        f"*Clima en {data['name']}*\n"
         f"Temp {data['main']['temp']} °C probabilidades de lluvia {data['main']['humidity']}%\n"
         f"Max {data['main']['temp_max']} °C\n"
         f"Min {data['main']['temp_min']} °C\n"
