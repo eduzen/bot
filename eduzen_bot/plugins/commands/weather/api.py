@@ -3,13 +3,28 @@ import os
 from datetime import datetime
 
 import requests
-from astral import LocationInfo
-from astral.sun import sun
 from bs4 import BeautifulSoup
 
 ow_token = os.getenv("openweathermap_token")
 
+client = requests.Session()
 logger = logging.getLogger("rich")
+
+
+WEATHER_EMOJIS = {
+    "clear": "🌞",
+    "rain": "🌧",
+    "clouds": "⛅️",
+    "snow": "❄️",
+    "extreme": "⛈",
+    "tornado": "🌪",
+    "thunder": "⚡",
+    "mist": "🌫",
+    "drizzle": "🌧",
+    "haze": "🌫",
+    "fog": "🌫",
+}
+
 
 lanacion = "http://servicios.lanacion.com.ar/pronostico-del-tiempo/capital-federal/capital-federal"
 
@@ -23,32 +38,22 @@ headers = {
     "Upgrade-Insecure-Requests": "1",
 }
 
-openweathermap = f"https://api.openweathermap.org/data/2.5/weather?APPID={ow_token}&units=metric"
+OPENWEATHERMAP_URL = "https://api.openweathermap.org/data/2.5/weather/"
 
 
-CITY_LOCATION = {
-    "buenos aires": LocationInfo("BA", "Argentina", "America/Buenos_Aires", -34.6037, -58.3816),
-    "amsterdam": LocationInfo("Amsterdam", "Netherlands", "Europe/Amsterdam", 52.3676, 4.9041),
-    "heidelberg,de": LocationInfo("Heil", "England", "Europe/Berlin", 49.3988, 8.672),
-}
-
-
-def get_sun_times(city_name) -> tuple[str, str]:
-    """Calculates sunset and sunrise at current time at `city_name` city
-
-    Args:
-        `city_name`: must be a key of `CITY_LOCATION`
-
-    Raises:
-        KeyError: if `city_name` is not present at `CITY_LOCATION`
-    """
-    city = CITY_LOCATION[city_name]
-    s = sun(city.observer, date=datetime.today().date())
-    return s["sunrise"].time().strftime("%H:%m"), s["sunset"].time().strftime("%H:%m")
+def get_sun_times(data):
+    sunrise = datetime.fromtimestamp(data["sunrise"]).strftime("%H:%m")
+    sunset = datetime.fromtimestamp(data["sunset"]).strftime("%H:%m")
+    return sunrise, sunset
 
 
 def get_klima(city_name="München"):
-    r = requests.get(f"{openweathermap}&q={city_name}")
+    params = {
+        "q": city_name,
+        "APPID": ow_token,
+        "units": "metric",
+    }
+    r = client.get(OPENWEATHERMAP_URL, params=params)
     msg = "No pudimos conseguir el clima"
 
     if r.status_code != 200:
@@ -59,19 +64,24 @@ def get_klima(city_name="München"):
         return msg
 
     try:
-        sunrise_time, sunset_time = get_sun_times(city_name=city_name)
+        sunrise_time, sunset_time = get_sun_times(data["sys"])
     except Exception as e:
         logger.warning(f"error in astral time calculation: {e}")
         sunrise_time = "?"
         sunset_time = "?"
 
+    weather = data["weather"][0]["main"].lower()
+    try:
+        weather_emoji = WEATHER_EMOJIS[weather]
+    except KeyError:
+        weather_emoji = weather
+
     msg = (
-        f"*Clima en {data['name']}*\n"
+        f"*Clima en {data['name']}* {weather_emoji} \n"
         f"Temp {data['main']['temp']} °C probabilidades de lluvia {data['main']['humidity']}%\n"
         f"Max {data['main']['temp_max']} °C\n"
         f"Min {data['main']['temp_min']} °C\n"
-        f"Sunrise: {sunrise_time} \n"
-        f"Sunset: {sunset_time}\n"
+        f"Sunrise: {sunrise_time} Sunset: {sunset_time}\n"
     )
     return f"{msg}\nBy api.openweathermap.org"
 

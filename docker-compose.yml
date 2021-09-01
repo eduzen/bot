@@ -8,10 +8,12 @@ services:
 
   eduzenbot:
     tty: true
+    image: eduzen/bot:latest
     build:
       context: .
       target: dev
-
+      cache_from:
+        - eduzen/bot:latest
     # entrypoint: ["sh", "/code/eduzen_bot/scripts/runserver.sh"]
     entrypoint: ["python",  "-m", "eduzen_bot"]
     volumes:
@@ -26,7 +28,7 @@ services:
       WDB_NO_BROWSER_AUTO_OPEN: "True"
 
   db:
-    image: postgres:13-alpine
+    image: postgres:13-alpine3.14
     command: ["postgres", "-c", "log_statement=none"]
     volumes:
       - pgdata:/var/lib/postgresql/data/

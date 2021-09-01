@@ -1,5 +1,27 @@
 # Just another telegram-bot
 
+## Setup
+
+### Secrets
+
+You will need some secrets:
+
+```bash
+  cp .env.sample .env
+```
+
+### pre-commit
+
+```bash
+pre-commit install
+```
+
+### Add new libs
+
+```bash
+docker-compose run --entrypoint="" --rm eduzenbot poetry add astral
+```
+
 ## Algunos commandos para pasarle a botfather
 
 ```json
