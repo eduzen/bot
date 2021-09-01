@@ -1,8 +1,12 @@
 import logging
 import os
+from datetime import datetime
+from typing import Tuple
 
 import requests
 from bs4 import BeautifulSoup
+from astral import LocationInfo
+from astral.sun import sun
 
 ow_token = os.getenv("openweathermap_token")
 
@@ -23,6 +27,18 @@ headers = {
 openweathermap = f"https://api.openweathermap.org/data/2.5/weather?APPID={ow_token}&units=metric"
 
 
+CITY_LOCATION = {
+    "buenos_aires" : LocationInfo("BA", "Argentina", "America/Buenos_Aires", -34.6037, -58.3816),
+    "amsterdam" : LocationInfo("Amsterdam", "England", "Europe/Amsterdam", 52.3676,4.9041),
+    "heidelberg" : LocationInfo("Heil", "England", "Europe/Berlin", 49.3988, 8.672)
+}
+
+def get_astral_data(city_name) -> Tuple[str, str]:
+    city = CITY_LOCATION[city_name]
+    s = sun(city.observer, date=datetime.datetime.today().date())
+
+    return s["sunrise"], s["sunset"]
+
 def get_klima(city_name="München"):
     r = requests.get(f"{openweathermap}&q={city_name}")
     msg = "No pudimos conseguir el clima"
@@ -34,11 +50,14 @@ def get_klima(city_name="München"):
     if not data:
         return msg
 
+    sunrise_time, sunset_time = get_astral_data(city_name=city_name)
     msg = (
         f"*Clima en {data['name']}*\n"
         f"Temp {data['main']['temp']} °C probabilidades de lluvia {data['main']['humidity']}%\n"
         f"Max {data['main']['temp_max']} °C\n"
         f"Min {data['main']['temp_min']} °C\n"
+        f"Sunrise: {sunrise_time} \n"
+        f"Sunset: {sunset_time}\n"
     )
     return f"{msg}\nBy api.openweathermap.org"
 
