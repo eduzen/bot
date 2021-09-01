@@ -1,7 +1,6 @@
 import logging
 import os
 from datetime import datetime
-from typing import Tuple
 
 import requests
 from astral import LocationInfo
