@@ -45,6 +45,7 @@ def get_crypto_report():
 
     clima = get_klima("buenos aires").replace("By api.openweathermap.org", "")
     amsterdam = get_klima("amsterdam").replace("By api.openweathermap.org", "")
+    heidelberg = get_klima("heidelberg,de").replace("By api.openweathermap.org", "")
 
     text = "\n".join([dog, eth, btc])
     import datetime  # noqa
@@ -54,6 +55,7 @@ def get_crypto_report():
         f"Buenas buenas hoy es {hoy}:\n\n"
         f"{clima}"
         f"{amsterdam}"
+        f"{heidelberg}"
         "\nel blue:\n"
         f"{blue}\n"
         "el oficial:\n"
