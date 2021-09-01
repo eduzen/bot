@@ -28,15 +28,22 @@ openweathermap = f"https://api.openweathermap.org/data/2.5/weather?APPID={ow_tok
 
 
 CITY_LOCATION = {
-    "buenos_aires" : LocationInfo("BA", "Argentina", "America/Buenos_Aires", -34.6037, -58.3816),
+    "buenos aires" : LocationInfo("BA", "Argentina", "America/Buenos_Aires", -34.6037, -58.3816),
     "amsterdam" : LocationInfo("Amsterdam", "England", "Europe/Amsterdam", 52.3676,4.9041),
-    "heidelberg" : LocationInfo("Heil", "England", "Europe/Berlin", 49.3988, 8.672)
+    "heidelberg,de" : LocationInfo("Heil", "England", "Europe/Berlin", 49.3988, 8.672)
 }
 
-def get_astral_data(city_name) -> Tuple[str, str]:
+def get_sun_times(city_name) -> Tuple[str, str]:
+    """Calculates sunset and sunrise at current time at `city_name` city
+    
+    Args:
+        `city_name`: must be a key of `CITY_LOCATION`
+
+    Raises:
+        KeyError: if `city_name` is not present at `CITY_LOCATION`
+    """
     city = CITY_LOCATION[city_name]
     s = sun(city.observer, date=datetime.datetime.today().date())
-
     return s["sunrise"], s["sunset"]
 
 def get_klima(city_name="München"):
@@ -50,7 +57,13 @@ def get_klima(city_name="München"):
     if not data:
         return msg
 
-    sunrise_time, sunset_time = get_astral_data(city_name=city_name)
+    try:
+        sunrise_time, sunset_time = get_sun_times(city_name=city_name)
+    except Exception as e:
+        logger.warning(f"error in astral time calculation: {e}")
+        sunrise_time = "?"
+        sunset_time = "?"
+        
     msg = (
         f"*Clima en {data['name']}*\n"
         f"Temp {data['main']['temp']} °C probabilidades de lluvia {data['main']['humidity']}%\n"
