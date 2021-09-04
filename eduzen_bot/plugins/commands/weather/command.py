@@ -41,4 +41,4 @@ def klima(update, context, *args, **kwargs):
     if not text:
         return
 
-    context.bot.send_message(chat_id=update.message.chat_id, text=text)
+    context.bot.send_message(chat_id=update.message.chat_id, text=text, parse_mode="Markdown")

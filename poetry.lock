@@ -1113,7 +1113,7 @@ requests = ">=2.20"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "f5fe7cb05f4201bd397e3c5788f34b7a2e20f2260ee36866e814fe08fec9e1fe"
+content-hash = "fe77a6d1805da13ec8e8077cc3254db772094fa7b197b4227b6b94f845ba0801"
 
 [metadata.files]
 appnope = [

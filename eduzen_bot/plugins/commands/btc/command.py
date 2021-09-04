@@ -2,8 +2,10 @@
 btc - btc
 report - daily_report
 """
+import calendar
 import logging
 
+import pendulum
 import yfinance
 from telegram import ChatAction
 from telegram.utils.helpers import escape_markdown
@@ -38,8 +40,11 @@ def melistock(name):
 
 def get_crypto_report():
     btc = get_btc() or ""
+    logger.debug(btc)
     dog = get_dogecoin() or ""
+    logger.debug(dog)
     eth = get_eth() or ""
+    logger.debug(eth)
     blue = get_bluelytics() or ""
     oficial = escape_markdown(parse_bnc() or "")
     try:
@@ -53,11 +58,12 @@ def get_crypto_report():
     heidelberg = get_klima(city_name=CITY_HEIDELBERG).replace("By api.openweathermap.org", "")
 
     text = "\n".join([dog, eth, btc])
-    import datetime  # noqa
 
-    hoy = datetime.datetime.today().strftime("%d %B del %Y")
+    today = pendulum.today()
+    week_day = calendar.day_name[today.weekday()]
+    today = today.strftime("%d %B del %Y")
     text = (
-        f"Buenas buenas hoy es {hoy}:\n\n"
+        f"*Buenas hoy es {week_day}, {today}:*\n\n"
         f"{clima}"
         f"{amsterdam}"
         f"{heidelberg}"

@@ -26,7 +26,7 @@ def get_movie(update, context, **kwargs):
         context.bot.send_message(
             chat_id=chat_id,
             text="Necesito que me pases una pelicula. `/pelicula <nombre>`",
-            parse_mode="markdown",
+            parse_mode="MarkdownV2",
         )
         return
 
@@ -49,7 +49,7 @@ def get_movie(update, context, **kwargs):
         context.bot.send_message(
             chat_id=chat_id,
             text="👎 No encontré el id de imdb de esta serie, imposible de bajar por acá",
-            parse_mode="markdown",
+            parse_mode="MarkdownV2",
         )
         return
     videos = movie_object.videos()
@@ -72,6 +72,6 @@ def get_movie(update, context, **kwargs):
         chat_id=update.message.chat_id,
         text=movie_details,
         reply_markup=keyboards.pelis(),
-        parse_mode="markdown",
+        parse_mode="MarkdownV2",
         disable_web_page_preview=True,
     )

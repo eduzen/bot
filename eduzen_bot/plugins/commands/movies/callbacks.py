@@ -16,7 +16,7 @@ def get_movie_imdb(update, context, **kwargs):
     answer = f"[IMDB]({IMDB_LINK.format(imdb_id)}"
 
     update.callback_query.bot.send_message(
-        chat_id=update.callback_query.message.chat_id, text=answer, parse_mode="markdown"
+        chat_id=update.callback_query.message.chat_id, text=answer, parse_mode="MarkdownV2"
     )
 
 
@@ -26,7 +26,7 @@ def get_movie_youtube(update, context, **kwargs):
     update.callback_query.bot.send_message(
         chat_id=update.callback_query.message.chat_id,
         text=answer,
-        parse_mode="markdown",
+        parse_mode="MarkdownV2",
         disable_web_page_preview=True,
     )
 
@@ -43,5 +43,5 @@ def get_movie_torrent(update, context, **kwargs):
         answer = "🚧 No torrent available for this movie."
 
     update.callback_query.bot.send_message(
-        chat_id=update.callback_query.message.chat_id, text=answer, parse_mode="markdown"
+        chat_id=update.callback_query.message.chat_id, text=answer, parse_mode="MarkdownV2"
     )

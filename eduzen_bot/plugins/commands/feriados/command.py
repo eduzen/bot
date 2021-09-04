@@ -30,4 +30,4 @@ def feriadosarg(update, context, *args, **kwargs):
     else:
         msg = "No hay más feriados este año"
 
-    update.message.reply_text(msg, parse_mode="markdown")
+    update.message.reply_text(msg, parse_mode="MarkdownV2")

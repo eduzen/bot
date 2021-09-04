@@ -44,15 +44,15 @@ def set_timer(update: Update, context: CallbackContext) -> None:
     # chat_data = kwargs.get("chat_data")
     try:
         # args[0] should contain the time for the timer in seconds
-        due = int(context.args[0])
-        if due < 0 or due > 24:
+        hora = int(context.args[0])
+        if 0 < hora > 24:
             update.message.reply_text("Perdón no podemos volver al futuro!")
             return
 
         # Add job to queue
         job_removed = remove_job_if_exists(str(chat_id), context)
 
-        when = datetime.time(hour=due, minute=27, tzinfo=pytz.timezone("Europe/Amsterdam"))
+        when = datetime.time(hour=hora, minute=0, tzinfo=pytz.timezone("Europe/Amsterdam"))
         # context.job_queue.run_once(alarm, due, context=chat_id, name=str(chat_id))
         context.job_queue.run_daily(alarm, when, days=range(7), context=chat_id, name=str(chat_id))
         text = "Timer successfully set!"

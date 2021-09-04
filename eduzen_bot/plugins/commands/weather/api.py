@@ -1,7 +1,8 @@
 import logging
 import os
-from datetime import datetime
 
+import pendulum
+import pytz
 import requests
 from bs4 import BeautifulSoup
 
@@ -41,9 +42,20 @@ headers = {
 OPENWEATHERMAP_URL = "https://api.openweathermap.org/data/2.5/weather/"
 
 
-def get_sun_times(data):
-    sunrise = datetime.fromtimestamp(data["sunrise"]).strftime("%H:%m")
-    sunset = datetime.fromtimestamp(data["sunset"]).strftime("%H:%m")
+def get_timezone(city):
+    city = city.replace(" ", "_").lower()
+    if "," in city:
+        city = city.split(",")[0]
+
+    for timezone in pytz.all_timezones:
+        if city in timezone.lower():
+            return timezone
+
+
+def get_sun_times(data, city):
+    tz = get_timezone(city)
+    sunrise = pendulum.from_timestamp(data["sunrise"], tz=tz).strftime("%H:%m")
+    sunset = pendulum.from_timestamp(data["sunset"], tz=tz).strftime("%H:%m")
     return sunrise, sunset
 
 
@@ -64,7 +76,7 @@ def get_klima(city_name="München"):
         return msg
 
     try:
-        sunrise_time, sunset_time = get_sun_times(data["sys"])
+        sunrise_time, sunset_time = get_sun_times(data["sys"], data["name"])
     except Exception as e:
         logger.warning(f"error in astral time calculation: {e}")
         sunrise_time = "?"
