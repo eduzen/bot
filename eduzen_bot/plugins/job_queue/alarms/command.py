@@ -1,14 +1,18 @@
 """
 set - Setear alarma
+reporte - Reporte de criptomonedas
 unset - Sacar alarma
 """
+import datetime
 import logging
 
+import pytz
 from telegram import Update
 from telegram.ext import CallbackContext
 
+from eduzen_bot.auth.restricted import restricted
 from eduzen_bot.decorators import create_user
-from eduzen_bot.plugins.commands.btc.command import get_btc
+from eduzen_bot.plugins.commands.btc.command import get_crypto_report
 
 logger = logging.getLogger("rich")
 
@@ -16,7 +20,8 @@ logger = logging.getLogger("rich")
 def alarm(context: CallbackContext) -> None:
     """Send the alarm message."""
     job = context.job
-    context.bot.send_message(job.context, text=get_btc())
+    text = get_crypto_report()
+    context.bot.send_message(job.context, text=text, parse_mode="Markdown")
 
 
 def remove_job_if_exists(name: str, context: CallbackContext) -> bool:
@@ -30,6 +35,7 @@ def remove_job_if_exists(name: str, context: CallbackContext) -> bool:
 
 
 @create_user
+@restricted
 def set_timer(update: Update, context: CallbackContext) -> None:
     """Add a job to the queue."""
     chat_id = update.message.chat_id
@@ -39,14 +45,16 @@ def set_timer(update: Update, context: CallbackContext) -> None:
     try:
         # args[0] should contain the time for the timer in seconds
         due = int(context.args[0])
-        if due < 0:
+        if due < 0 or due > 24:
             update.message.reply_text("Perdón no podemos volver al futuro!")
             return
 
         # Add job to queue
         job_removed = remove_job_if_exists(str(chat_id), context)
-        context.job_queue.run_once(alarm, due, context=chat_id, name=str(chat_id))
 
+        when = datetime.time(hour=due, minute=27, tzinfo=pytz.timezone("Europe/Amsterdam"))
+        # context.job_queue.run_once(alarm, due, context=chat_id, name=str(chat_id))
+        context.job_queue.run_daily(alarm, when, days=range(7), context=chat_id, name=str(chat_id))
         text = "Timer successfully set!"
 
         if job_removed:

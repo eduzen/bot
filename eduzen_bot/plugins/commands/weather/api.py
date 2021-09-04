@@ -1,12 +1,30 @@
 import logging
 import os
+from datetime import datetime
 
 import requests
 from bs4 import BeautifulSoup
 
 ow_token = os.getenv("openweathermap_token")
 
+client = requests.Session()
 logger = logging.getLogger("rich")
+
+
+WEATHER_EMOJIS = {
+    "clear": "🌞",
+    "rain": "🌧",
+    "clouds": "⛅️",
+    "snow": "❄️",
+    "extreme": "⛈",
+    "tornado": "🌪",
+    "thunder": "⚡",
+    "mist": "🌫",
+    "drizzle": "🌧",
+    "haze": "🌫",
+    "fog": "🌫",
+}
+
 
 lanacion = "http://servicios.lanacion.com.ar/pronostico-del-tiempo/capital-federal/capital-federal"
 
@@ -20,11 +38,22 @@ headers = {
     "Upgrade-Insecure-Requests": "1",
 }
 
-openweathermap = f"https://api.openweathermap.org/data/2.5/weather?APPID={ow_token}&units=metric"
+OPENWEATHERMAP_URL = "https://api.openweathermap.org/data/2.5/weather/"
+
+
+def get_sun_times(data):
+    sunrise = datetime.fromtimestamp(data["sunrise"]).strftime("%H:%m")
+    sunset = datetime.fromtimestamp(data["sunset"]).strftime("%H:%m")
+    return sunrise, sunset
 
 
 def get_klima(city_name="München"):
-    r = requests.get(f"{openweathermap}&q={city_name}")
+    params = {
+        "q": city_name,
+        "APPID": ow_token,
+        "units": "metric",
+    }
+    r = client.get(OPENWEATHERMAP_URL, params=params)
     msg = "No pudimos conseguir el clima"
 
     if r.status_code != 200:
@@ -34,11 +63,25 @@ def get_klima(city_name="München"):
     if not data:
         return msg
 
+    try:
+        sunrise_time, sunset_time = get_sun_times(data["sys"])
+    except Exception as e:
+        logger.warning(f"error in astral time calculation: {e}")
+        sunrise_time = "?"
+        sunset_time = "?"
+
+    weather = data["weather"][0]["main"].lower()
+    try:
+        weather_emoji = WEATHER_EMOJIS[weather]
+    except KeyError:
+        weather_emoji = weather
+
     msg = (
-        f"*Das Klima in {city_name}*\n"
-        f"Temperatur {data['main']['temp']} °C regentage {data['main']['humidity']}%\n"
-        f"Temperaturmaximum {data['main']['temp_max']} °C\n"
-        f"Temperaturminimum {data['main']['temp_min']} °C\n"
+        f"*Clima en {data['name']}* {weather_emoji} \n"
+        f"Temp {data['main']['temp']} °C probabilidades de lluvia {data['main']['humidity']}%\n"
+        f"Max {data['main']['temp_max']} °C\n"
+        f"Min {data['main']['temp_min']} °C\n"
+        f"Sunrise: {sunrise_time} Sunset: {sunset_time}\n"
     )
     return f"{msg}\nBy api.openweathermap.org"
 
