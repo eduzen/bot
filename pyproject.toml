@@ -5,7 +5,6 @@ description = ""
 authors = ["Eduardo Enriquez (eduzen) <eduardo.a.enriquez@gmail.com>"]
 packages = [
     { include = "eduzen_bot" },
-    { include = "/code/eduzen_bot/**/*.py" },
 ]
 
 [build-system]
