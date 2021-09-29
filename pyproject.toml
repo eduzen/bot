@@ -61,6 +61,8 @@ yfinance = "^0.1.63"
 pendulum = "^2.1.2"
 astral = "^2.2"
 pytz = "^2021.1"
+setuptools = "^58.1.0"
+wheel = "^0.37.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.1"
