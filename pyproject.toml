@@ -3,9 +3,6 @@ name = "bot"
 version = "0.1.0"
 description = ""
 authors = ["Eduardo Enriquez (eduzen) <eduardo.a.enriquez@gmail.com>"]
-packages = [
-    { include = "eduzen_bot" },
-]
 
 [build-system]
 requires = [
