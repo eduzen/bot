@@ -3,6 +3,10 @@ name = "bot"
 version = "0.1.0"
 description = ""
 authors = ["Eduardo Enriquez (eduzen) <eduardo.a.enriquez@gmail.com>"]
+packages = [
+    { include = "eduzen_bot" },
+    { include = "eduzen_bot/**/*.py" },
+]
 
 [build-system]
 requires = [
@@ -42,8 +46,6 @@ beautifulsoup4 = "^4.10.0"
 colorama = "^0.4.4"
 emoji = "1.5.0"
 ipdb = "^0.13.4"
-nltk = "^3.5"
-textblob = "^0.15.3"
 peewee = "3.14.4"
 python = "^3.8"
 python-telegram-bot = "13.7"
@@ -69,13 +71,10 @@ pre-commit = "^2.14.1"
 wdb = "^3.3.0"
 ipdb = "^0.13.9"
 Faker = "^8.14.0"
-mypy = "^0.910"
 types-requests = "^2.25.6"
 pytest-vcr = "^1.0.2"
 
-
-
 [virtualenvs]
 create = false
-# local = true
-# in-project = true
+local = false
+in-project = true
