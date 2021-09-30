@@ -13,7 +13,6 @@ from telegram.ext import CallbackQueryHandler, CommandHandler, Filters
 from eduzen_bot.callbacks_handler import callback_query
 from eduzen_bot.plugins.job_queue.alarms.command import set_timer, unset
 from eduzen_bot.plugins.messages.inline import code_markdown
-from eduzen_bot.plugins.messages.message import parse_msgs
 from eduzen_bot.plugins.messages.unknown import unknown
 from eduzen_bot.scripts.initialize_db import create_db_tables
 from eduzen_bot.telegram_bot import TelegramBot
@@ -61,7 +60,7 @@ def main():
     bot.add_handler(CommandHandler("config_reporte", set_timer))
     bot.add_handler(CommandHandler("unset", unset))
 
-    message_handlers = [parse_msgs]
+    message_handlers = []  # parse_msgs
 
     bot.register_message_handler(message_handlers)
 
