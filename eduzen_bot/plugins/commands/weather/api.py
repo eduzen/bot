@@ -59,7 +59,7 @@ def get_sun_times(data, city):
     return sunrise, sunset
 
 
-def get_klima(city_name="München"):
+def get_klima(city_name="Amsterdam,nl"):
     params = {
         "q": city_name,
         "APPID": ow_token,
@@ -83,6 +83,7 @@ def get_klima(city_name="München"):
         sunset_time = "?"
 
     weather = data["weather"][0]["main"].lower()
+    description = data["weather"][0]["description"]
     try:
         weather_emoji = WEATHER_EMOJIS[weather]
     except KeyError:
@@ -90,7 +91,7 @@ def get_klima(city_name="München"):
 
     msg = (
         f"*Clima en {data['name']}* {weather_emoji} \n"
-        f"{data['weather']['main']}: {data['weather']['description']}\n"
+        f"{weather.capitalize()}: {description.capitalize()}\n"
         f"Temp {data['main']['temp']} °C humedad {data['main']['humidity']}%\n"
         f"Max {data['main']['temp_max']} °C "
         f"Min {data['main']['temp_min']} °C\n"

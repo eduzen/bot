@@ -44,6 +44,7 @@ def get_events(update, context, *args, **kwargs):
     context.bot.send_message(chat_id=update.message.chat_id, text=txt)
 
 
+@restricted
 @create_user
 def get_usage(update, context, *args, **kwargs):
     context.bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
