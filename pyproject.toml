@@ -67,7 +67,7 @@ ipython = "^7.26"
 jedi = "0.18.0"
 pre-commit = "^2.14.1"
 ipdb = "^0.13.9"
-Faker = "^8.14.0"
+Faker = "^8.14.1"
 types-requests = "^2.25.6"
 pytest-vcr = "^1.0.2"
 
