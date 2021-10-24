@@ -31,7 +31,7 @@ def get_dolarhoy(update, context, *args, **kwargs):
         context.bot.send_message(chat_id=update.message.chat_id, text="No pudimos conseguir la info")
         return
 
-    context.bot.send_message(chat_id=update.message.chat_id, text=data, parse_mode="MarkdownV2")
+    context.bot.send_message(chat_id=update.message.chat_id, text=data, parse_mode="Markdown")
 
 
 @create_user
@@ -43,7 +43,7 @@ def get_dolarfuturo(update, context, *args, **kwargs):
         context.bot.send_message(chat_id=update.message.chat_id, text="No pudimos conseguir la info")
         return
 
-    context.bot.send_message(chat_id=update.message.chat_id, text=data, parse_mode="MarkdownV2")
+    context.bot.send_message(chat_id=update.message.chat_id, text=data, parse_mode="Markdown")
 
 
 @create_user

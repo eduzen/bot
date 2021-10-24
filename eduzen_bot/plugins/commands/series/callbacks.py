@@ -91,7 +91,7 @@ def go_back(update, context, **kwargs):
         update.callback_query.edit_message_text(
             text=response,
             reply_markup=keyboard,
-            parse_mode="MarkdownV2",
+            parse_mode="Markdown",
             disable_web_page_preview=True,
         )
     else:
@@ -128,7 +128,7 @@ def latest_episodes(update, context, **kwargs):
     if not context:
         message = "Lpm, no pude responder a tu pedido.\nProbá invocando de nuevo el comando a ver si me sale 😊"
         logger.info(f"Conflicting update: '{update.to_dict()}'")
-        context.bot.send_message(chat_id=update.callback_query.message.chat_id, text=message, parse_mode="MarkdownV2")
+        context.bot.send_message(chat_id=update.callback_query.message.chat_id, text=message, parse_mode="Markdown")
         # Notify telegram we have answered
         update.callback_query.answer(text="")
         return
@@ -156,7 +156,7 @@ def latest_episodes(update, context, **kwargs):
         update.callback_query.edit_message_text(
             text=response,
             reply_markup=keyboards.serie_go_back_keyboard(),
-            parse_mode="MarkdownV2",
+            parse_mode="Markdown",
             disable_web_page_preview=True,
         )
     else:
@@ -183,7 +183,7 @@ def all_episodes(update, context, **kwargs):
         update.callback_query.edit_message_text(
             text=response,
             reply_markup=keyboard,
-            parse_mode="MarkdownV2",
+            parse_mode="Markdown",
             disable_web_page_preview=True,
         )
     else:
@@ -223,7 +223,7 @@ def get_season(update, context, **kwargs):
         update.callback_query.edit_message_text(
             text=response,
             reply_markup=keyboard,
-            parse_mode="MarkdownV2",
+            parse_mode="Markdown",
             disable_web_page_preview=True,
         )
     else:
@@ -245,7 +245,7 @@ def get_episode(update, context, **kwargs):
         update.callback_query.edit_message_text(
             text=response,
             reply_markup=keyboard,
-            parse_mode="MarkdownV2",
+            parse_mode="Markdown",
             disable_web_page_preview=True,
         )
     else:
@@ -270,7 +270,7 @@ def load_episodes(update, context, **kwargs):
         update.callback_query.edit_message_text(
             text=response,
             reply_markup=keyboard,
-            parse_mode="MarkdownV2",
+            parse_mode="Markdown",
             disable_web_page_preview=True,
         )
     else:

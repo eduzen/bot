@@ -26,11 +26,12 @@ def get_movie(update, context, **kwargs):
         context.bot.send_message(
             chat_id=chat_id,
             text="Necesito que me pases una pelicula. `/pelicula <nombre>`",
-            parse_mode="MarkdownV2",
+            parse_mode="Markdown",
         )
         return
 
     query = " ".join(args)
+    logger.debug(f"Searching for {query}")
     movies = tmdb_movie_search(query)
 
     if not movies:
@@ -39,21 +40,26 @@ def get_movie(update, context, **kwargs):
 
     movie = movies[0]
 
+    logger.debug(f"Found {movie}")
+
     movie_object = get_movie_detail(movie["id"])
     external_data = movie_object.external_ids()
 
     try:
+        logger.debug(f"Found {external_data['imdb_id']}")
         imdb_id = external_data["imdb_id"]  # tt<id> -> <id>
     except (KeyError, AttributeError):
         logger.info("imdb id for the movie not found")
         context.bot.send_message(
             chat_id=chat_id,
             text="👎 No encontré el id de imdb de esta serie, imposible de bajar por acá",
-            parse_mode="MarkdownV2",
+            parse_mode="Markdown",
         )
         return
     videos = movie_object.videos()
     movie.update({"imdb_id": imdb_id, "imdb_link": IMDB_LINK.format(imdb_id), "videos": videos["results"]})
+
+    logger.debug(f"Found {movie}")
 
     movie_details, poster = prettify_movie(movie, movie_object)
 
@@ -68,10 +74,12 @@ def get_movie(update, context, **kwargs):
         "poster_chat": poster_chat,
     }
 
+    logger.debug(f"Found {movie_details}")
+
     context.bot.send_message(
         chat_id=update.message.chat_id,
         text=movie_details,
         reply_markup=keyboards.pelis(),
-        parse_mode="MarkdownV2",
+        parse_mode="Markdown",
         disable_web_page_preview=True,
     )
