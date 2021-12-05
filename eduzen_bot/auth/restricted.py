@@ -15,7 +15,7 @@ def restricted(func):
         if user.id == int(os.getenv("EDUZEN_ID")):
             return func(update, context, *args, **kwargs)
 
-        logger.error(f"{func.__name__} - Unauthorized access denied for {user}.")
+        logger.info(f"{func.__name__} - Unauthorized access denied for {user}.")
         return
 
     return wrapped
