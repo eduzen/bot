@@ -67,7 +67,7 @@ factory-boy = "^3.2.1"
 ipython = "^7.30"
 pre-commit = "^2.14.1"
 ipdb = "^0.13.9"
-Faker = "^9.8.3"
+Faker = "^11.3.0"
 types-requests = "^2.25.6"
 pytest-vcr = "^1.0.2"
 
