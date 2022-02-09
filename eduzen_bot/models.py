@@ -97,8 +97,8 @@ class EventLog(BaseModel):
 
 
 class Report(BaseModel):
-    id = PrimaryKeyField()
-    chat_id = IntegerField()
+    id = PrimaryKeyField(primary_key=True)
+    chat_id = TextField()
     data = TextField(null=True)
     hour = IntegerField(default=10)
     min = IntegerField(default=0)

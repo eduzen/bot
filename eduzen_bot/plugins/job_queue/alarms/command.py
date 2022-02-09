@@ -40,21 +40,31 @@ def remove_job_if_exists(name: str, context: CallbackContext) -> bool:
 def set_timer(update: Update, context: CallbackContext) -> None:
     """Add a job to the queue."""
     chat_id = update.message.chat_id
-    report = Report.get_or_create(chat_id=chat_id)
+    try:
+        report, _ = Report.get_or_create(chat_id=chat_id)
+    except Exception as e:
+        logger.error(e)
 
     try:
         # args[0] should contain the time for the timer in seconds
         hour = int(context.args[0])
-        if 0 < hour > 24:
-            update.message.reply_text("Perdón no podemos volver al futuro!")
-            return
+    except ValueError:
+        update.message.reply_text("Usage: /set <seconds>")
 
-        # Add job to queue
-        job_removed = remove_job_if_exists(str(chat_id), context)
+    if 0 < hour > 24:
+        update.message.reply_text("Perdón no podemos volver al futuro!")
+        return
 
+    try:
         report.hour = hour
         report.min = 0
         report.save()
+    except Exception as e:
+        logger.error(e)
+
+    try:
+        # Add job to queue
+        job_removed = remove_job_if_exists(str(chat_id), context)
 
         when = datetime.time(hour=hour, minute=0, tzinfo=pytz.timezone("Europe/Amsterdam"))
         # context.job_queue.run_once(alarm, due, context=chat_id, name=str(chat_id))
@@ -65,8 +75,8 @@ def set_timer(update: Update, context: CallbackContext) -> None:
             text += " Old one was removed."
         update.message.reply_text(text)
 
-    except (IndexError, ValueError):
-        update.message.reply_text("Usage: /set <seconds>")
+    except Exception:
+        update.message.reply_text("Mmm... something went wrong.")
 
 
 def unset(update: Update, context: CallbackContext) -> None:
