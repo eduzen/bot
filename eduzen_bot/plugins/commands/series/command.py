@@ -37,7 +37,7 @@ def search_serie(update, context, **kwargs):
         bot_reply = context.bot.send_message(
             chat_id=chat_id,
             text=(f"No encontré información en imdb sobre _'{query}'_." " Está bien escrito el nombre?"),
-            parse_mode="MarkdownV2",
+            parse_mode="Markdown",
         )
         return
 
@@ -53,7 +53,7 @@ def search_serie(update, context, **kwargs):
         context.bot.send_message(
             chat_id=chat_id,
             text="👎 No encontré el id de imdb de esta serie, imposible de bajar por acá",
-            parse_mode="MarkdownV2",
+            parse_mode="Markdown",
         )
         return
 
@@ -77,7 +77,7 @@ def search_serie(update, context, **kwargs):
     poster_url = get_poster_url(serie)
     poster_chat = context.bot.send_photo(chat_id, poster_url)
     bot_reply = context.bot.send_message(
-        chat_id=chat_id, text=response, parse_mode="MarkdownV2", disable_web_page_preview=True
+        chat_id=chat_id, text=response, parse_mode="Markdown", disable_web_page_preview=True
     )
 
     context.chat_data["context"] = {
@@ -92,6 +92,6 @@ def search_serie(update, context, **kwargs):
         message_id=bot_reply.message_id,
         # text=bot_reply.caption,
         reply_markup=get_keyboard(),
-        # parse_mode="MarkdownV2",
+        # parse_mode="Markdown",
         # disable_web_page_preview=True,
     )

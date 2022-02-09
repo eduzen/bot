@@ -25,6 +25,8 @@ docker-compose run --entrypoint="" --rm eduzenbot poetry add astral
 ## Algunos commandos para pasarle a botfather
 
 ```json
+config_reporte - config crypto reporte
+usage - uso del bot
 cambio - Cotización de varias divisas
 clima - Temperatura en baires
 klima - Temperatura en München

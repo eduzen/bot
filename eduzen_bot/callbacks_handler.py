@@ -45,7 +45,7 @@ def callback_query(update, context, **kwargs):
             text=txt,
             chat_id=query.message.chat_id,
             message_id=query.message.message_id,
-            parse_mode="MarkdownV2",
+            parse_mode="Markdown",
         )
         return
 
@@ -59,5 +59,5 @@ def callback_query(update, context, **kwargs):
         context.bot.send_message(
             chat_id=update.callback_query.message.chat_id,
             text="En el medio sucedieron cosas... _Errare humanum est._",
-            parse_mode="MarkdownV2",
+            parse_mode="Markdown",
         )

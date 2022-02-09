@@ -14,6 +14,8 @@ logger = logging.getLogger("rich")
 
 
 def get_users_usage():
+    txt = "No hay eventos"
+
     try:
         cursor = db.execute_sql(
             "select count(e.user_id) as total, e.command, u.username "
@@ -26,7 +28,6 @@ def get_users_usage():
         txt = "\n".join(f"{row[0]: <4} | {row[1]: <20} | {row[2]: <10}" for row in cursor.fetchall())
     except Exception:
         logger.exception("DB problem")
-        txt = "No hay eventos"
     return txt
 
 
@@ -44,6 +45,7 @@ def get_events(update, context, *args, **kwargs):
     context.bot.send_message(chat_id=update.message.chat_id, text=txt)
 
 
+@restricted
 @create_user
 def get_usage(update, context, *args, **kwargs):
     context.bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)

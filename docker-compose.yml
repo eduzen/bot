@@ -1,4 +1,4 @@
-version: '3.8'
+version: '3.9'
 
 volumes:
   pgdata:
@@ -23,9 +23,6 @@ services:
       - .env
     links:
       - db
-    environment:
-      WDB_SOCKET_SERVER: wdb
-      WDB_NO_BROWSER_AUTO_OPEN: "True"
 
   db:
     image: postgres:13.4-alpine3.14
