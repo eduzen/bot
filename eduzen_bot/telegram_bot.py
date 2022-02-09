@@ -1,9 +1,11 @@
+import datetime
 import logging
 import os
 import pkgutil
 from functools import partial
 
 import attr
+import pytz
 from telegram.error import (
     BadRequest,
     ChatMigrated,
@@ -19,6 +21,9 @@ from telegram.ext import (
     MessageHandler,
     Updater,
 )
+
+from eduzen_bot.models import Report
+from eduzen_bot.plugins.job_queue.alarms.command import alarm
 
 logger = logging.getLogger("rich")
 
@@ -56,6 +61,7 @@ class TelegramBot:
             self.updater.start_webhook(listen="0.0.0.0", port=self.port, url_path=self.token)
             self.updater.bot.setWebhook(f"https://eduzenbot.herokuapp.com/{self.token}")
         self.send_msg_to_eduzen("eduzen_bot reiniciado!")
+        self.configure_cronjobs()
         self.updater.idle()
 
     def error(self, update, context):
@@ -94,6 +100,15 @@ class TelegramBot:
     def send_msg_to_eduzen(self, msg):
         logger.info("aviso a eduzen")
         self.updater.bot.send_message(self.eduzen_id, msg)
+
+    def configure_cronjobs(self):
+        for report in Report.select():
+            when = datetime.time(hour=report.hour, minute=report.min, tzinfo=pytz.timezone("Europe/Amsterdam"))
+            chat_id = report.chat_id
+            self.updater.job_queue.run_daily(alarm, when, days=range(7), context=chat_id, name=str(chat_id))
+            msg = f"Crypto report runs everyday at {report.hour}. Chat_id {report.chat_id}"
+            self.updater.bot.send_message(chat_id, msg)
+            self.updater.bot.send_message(self.eduzen_id, msg)
 
     def create_command(self, name, func):
         return CommandHandler(name, func, pass_args=True, pass_chat_data=True, run_async=True)
