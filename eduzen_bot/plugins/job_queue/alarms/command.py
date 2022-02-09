@@ -40,7 +40,7 @@ def remove_job_if_exists(name: str, context: CallbackContext) -> bool:
 def set_timer(update: Update, context: CallbackContext) -> None:
     """Add a job to the queue."""
     chat_id = update.message.chat_id
-    report = Report.get_or_create(chat_id=chat_id)
+    report, _ = Report.get_or_create(chat_id=chat_id)
 
     try:
         # args[0] should contain the time for the timer in seconds
