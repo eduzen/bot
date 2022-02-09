@@ -91,8 +91,7 @@ def get_klima(city_name="München"):
     msg = (
         f"*Clima en {data['name']}* {weather_emoji} \n"
         f"Temp {data['main']['temp']} °C probabilidades de lluvia {data['main']['humidity']}%\n"
-        f"Max {data['main']['temp_max']} °C\n"
-        f"Min {data['main']['temp_min']} °C\n"
+        f"Max {data['main']['temp_max']} °C - Min {data['main']['temp_min']} °C\n"
         f"Sunrise: {sunrise_time} Sunset: {sunset_time}\n"
     )
     return f"{msg}\nBy api.openweathermap.org"
