@@ -8,11 +8,10 @@ import logging
 import pendulum
 import yfinance
 from telegram import ChatAction
-from telegram.utils.helpers import escape_markdown
 
 from eduzen_bot.decorators import create_user
-from eduzen_bot.plugins.commands.btc.api import get_btc, get_dogecoin, get_eth
-from eduzen_bot.plugins.commands.dolar.api import get_bluelytics, parse_bnc
+from eduzen_bot.plugins.commands.btc.api import get_all, get_btc, get_dogecoin, get_eth
+from eduzen_bot.plugins.commands.dolar.api import get_bluelytics
 from eduzen_bot.plugins.commands.weather.api import get_klima
 
 logger = logging.getLogger()
@@ -39,25 +38,13 @@ def melistock(name):
 
 
 def get_crypto_report():
-    btc = get_btc() or ""
-    logger.debug(btc)
-    dog = get_dogecoin() or ""
-    logger.debug(dog)
-    eth = get_eth() or ""
-    logger.debug(eth)
+    crypto = get_all()
     blue = get_bluelytics() or ""
-    oficial = escape_markdown(parse_bnc() or "")
-    try:
-        meli = escape_markdown(melistock("MELI"))
-    except Exception as e:
-        logger.error(e)
-        meli = ""
+    # oficial = escape_markdown(parse_bnc() or "")
 
     clima = get_klima(city_name=CITY_BUENOS_AIRES).replace("By api.openweathermap.org", "")
     amsterdam = get_klima(city_name=CITY_AMSTERDAM).replace("By api.openweathermap.org", "")
     heidelberg = get_klima(city_name=CITY_HEIDELBERG).replace("By api.openweathermap.org", "")
-
-    text = "\n".join([dog, eth, btc])
 
     today = pendulum.today()
     week_day = calendar.day_name[today.weekday()]
@@ -68,13 +55,8 @@ def get_crypto_report():
         f"{amsterdam}"
         f"{heidelberg}"
         f"{blue}\n"
-        "el oficial:\n"
-        f"{oficial}\n"
-        "\nLas crypto:\n"
-        f"{text}\n"
-        "\nStocks:\n"
-        f"{meli}\n"
-        "bye!"
+        "\n*Las crypto:*\n"
+        f"{crypto}\n"
     )
     return text
 

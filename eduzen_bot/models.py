@@ -8,6 +8,7 @@ from peewee import (
     CharField,
     DateTimeField,
     ForeignKeyField,
+    IntegerField,
     Model,
     PrimaryKeyField,
     TextField,
@@ -93,3 +94,15 @@ class EventLog(BaseModel):
     @cached_property
     def telegram(self):
         return f"{self.user.username} - {self.command} - {self.timestamp.strftime('%Y/%m/%d -%H.%M')}"
+
+
+class Report(BaseModel):
+    id = PrimaryKeyField(primary_key=True)
+    chat_id = TextField()
+    data = TextField(null=True)
+    hour = IntegerField(default=10)
+    min = IntegerField(default=0)
+    timestamp = DateTimeField(default=datetime.now)
+
+    def __str__(self):
+        return f"<{self.chat_id} {self.hour} {self.min}>"
