@@ -38,7 +38,7 @@ include_trailing_comma = true
 addopts = "-s"
 
 [tool.poetry.dependencies]
-attrs = "^21.2.0"
+attrs = "^21.4.0"
 beautifulsoup4 = "^4.10.0"
 colorama = "^0.4.4"
 emoji = "1.6.1"
@@ -68,8 +68,8 @@ jedi = "0.18.0"
 ipython = "^7.30"
 pre-commit = "^2.14.1"
 ipdb = "^0.13.9"
-Faker = "^9.8.3"
-types-requests = "^2.25.6"
+Faker = "^9.9.1"
+types-requests = "^2.27.5"
 pytest-vcr = "^1.0.2"
 
 [virtualenvs]
