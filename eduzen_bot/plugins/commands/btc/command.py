@@ -12,6 +12,7 @@ from telegram import ChatAction
 from eduzen_bot.decorators import create_user
 from eduzen_bot.plugins.commands.btc.api import get_all, get_btc, get_dogecoin, get_eth
 from eduzen_bot.plugins.commands.dolar.api import get_bluelytics
+from eduzen_bot.plugins.commands.hackernews.command import hackernews
 from eduzen_bot.plugins.commands.weather.api import get_klima
 
 logger = logging.getLogger()
@@ -48,6 +49,11 @@ def get_crypto_report():
 
     today = pendulum.today()
     week_day = calendar.day_name[today.weekday()]
+    try:
+        hn = hackernews()
+    except Exception:
+        hn = ""
+
     today = today.strftime("%d %B del %Y")
     text = (
         f"*Buenas hoy es {week_day}, {today}:*\n\n"
@@ -55,6 +61,7 @@ def get_crypto_report():
         f"{amsterdam}"
         f"{heidelberg}"
         f"{blue}\n"
+        f"{hn}\n"
         "\n*Las crypto:*\n"
         f"{crypto}\n"
     )
