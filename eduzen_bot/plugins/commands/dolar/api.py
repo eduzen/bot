@@ -208,7 +208,7 @@ def process_bluelytics(response):
         eur = data["oficial_euro"]
         oficial_venta = oficial["value_sell"]
         blue_venta = blue["value_sell"]
-        brecha = int(oficial_venta / blue_venta * 100)
+        brecha = round(((blue_venta / oficial_venta) - 1) * 100, 2)
         data = (
             "🏦 Oficial:\n"
             f"💵 Dólar {oficial['value_buy']} - {oficial_venta}\n"
@@ -234,7 +234,7 @@ def parse_dolarhoy():
     r = get_response(DOLAR_HOY)
     if r and r.status_code == 200:
         return process_dolarhoy(r)
-    return "Dolarhoy hoy no responde 🤷‍♀"
+    return "Dolarhoy hoy no responde 🤷‍♀ "
 
 
 def process_ambito_dolarfuturo(response):

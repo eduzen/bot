@@ -60,9 +60,9 @@ def get_crypto_report():
         f"{clima}"
         f"{amsterdam}"
         f"{heidelberg}"
-        "*Dólar 💸*"
-        f"{blue}\n"
         f"{hn}\n"
+        "\n*Dólar 💸*\n"
+        f"{blue}\n"
         "\n*Las crypto:*\n"
         f"{crypto}\n"
     )
@@ -88,4 +88,6 @@ def daily_report(update, context, *args, **kwargs):
 
     report = get_crypto_report()
 
-    context.bot.send_message(chat_id=update.message.chat_id, text=report, parse_mode="Markdown")
+    context.bot.send_message(
+        chat_id=update.message.chat_id, text=report, parse_mode="Markdown", disable_web_page_preview=True
+    )
