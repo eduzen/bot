@@ -108,7 +108,7 @@ class TelegramBot:
             when = datetime.time(hour=report.hour, minute=report.min, tzinfo=pytz.timezone("Europe/Amsterdam"))
             chat_id = report.chat_id
             self.updater.job_queue.run_daily(alarm, when, days=range(7), context=chat_id, name=str(chat_id))
-            msg = f"Crypto report runs everyday at {report.hour}. Chat_id {report.chat_id}"
+            msg = f"hey, you have a crypto report everyday at {report.hour}. Chat_id {report.chat_id}"
             self.updater.bot.send_message(chat_id, msg)
             self.updater.bot.send_message(self.eduzen_id, msg)
 

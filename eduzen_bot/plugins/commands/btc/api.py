@@ -117,7 +117,7 @@ def process_all(response):
         dog = f"🐶 1 dog == USD {dog} 💵"
         logger.debug(f"dog: {dog}")
 
-        shi = data["shiba-inu"]["usd"]
+        shi = round(float(data["shiba-inu"]["usd"]), 12)
         shi = f"🐕 1 shiba == USD {shi} 💵"
         logger.debug(f"shi: {shi}")
 
