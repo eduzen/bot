@@ -39,7 +39,7 @@ def melistock(name):
 
 def get_crypto_report():
     crypto = get_all()
-    blue = get_bluelytics() or ""
+    blue = get_bluelytics() or "-"
     # oficial = escape_markdown(parse_bnc() or "")
 
     clima = get_klima(city_name=CITY_BUENOS_AIRES).replace("By api.openweathermap.org", "")
@@ -54,6 +54,7 @@ def get_crypto_report():
         f"{clima}"
         f"{amsterdam}"
         f"{heidelberg}"
+        "*Dólar 💸*"
         f"{blue}\n"
         "\n*Las crypto:*\n"
         f"{crypto}\n"
