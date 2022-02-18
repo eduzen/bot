@@ -206,13 +206,17 @@ def process_bluelytics(response):
         oficial = data["oficial"]
         blue = data["blue"]
         eur = data["oficial_euro"]
+        oficial_venta = oficial["value_sell"]
+        blue_venta = blue["value_sell"]
+        brecha = int(oficial_venta / blue_venta * 100)
         data = (
             "🏦 Oficial:\n"
-            f"💵 dolar {oficial['value_buy']} - {oficial['value_sell']}\n"
-            f"🇪🇺 euro {eur['value_buy']} - {eur['value_sell']}\n"
+            f"💵 Dólar {oficial['value_buy']} - {oficial_venta}\n"
+            f"🇪🇺 Euro {eur['value_buy']} - {eur['value_sell']}\n"
             "\n🌳 Blue:\n"
-            f"💵 dolar {blue['value_buy']} - {blue['value_sell']}\n"
-            f"🇪🇺 euro {data['blue_euro']['value_buy']} - {data['blue_euro']['value_sell']}"
+            f"💵 Dólar {blue['value_buy']} - {blue_venta}\n"
+            f"🇪🇺 Euro {data['blue_euro']['value_buy']} - {data['blue_euro']['value_sell']}\n"
+            f"📊 *Brecha Dolar*: {brecha}%"
         )
         return data
     except Exception:
@@ -223,7 +227,7 @@ def get_bluelytics():
     r = get_response(BLUELYTICS)
     if r and r.status_code == 200:
         return process_bluelytics(r)
-    return "Bluelytics no responde 🤷‍♀"
+    return "Bluelytics no responde 🤷‍♀️ "
 
 
 def parse_dolarhoy():
