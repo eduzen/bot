@@ -206,11 +206,9 @@ def process_bluelytics(response):
         oficial = data["oficial"]
         blue = data["blue"]
         eur = data["oficial_euro"]
-        oficial_venta = oficial['value_sell']
-        blue_venta = blue['value_sell']
-        brecha = (
-            int(oficial_venta/blue_venta * 100)
-        )
+        oficial_venta = oficial["value_sell"]
+        blue_venta = blue["value_sell"]
+        brecha = int(oficial_venta / blue_venta * 100)
         data = (
             "🏦 Oficial:\n"
             f"💵 Dólar {oficial['value_buy']} - {oficial_venta}\n"
