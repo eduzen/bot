@@ -11,6 +11,7 @@ from sentry_sdk.integrations.tornado import TornadoIntegration
 from telegram.ext import CallbackQueryHandler, CommandHandler, Filters
 
 from eduzen_bot.callbacks_handler import callback_query
+from eduzen_bot.models import db
 from eduzen_bot.plugins.job_queue.alarms.command import set_timer, unset
 from eduzen_bot.plugins.messages.inline import code_markdown
 from eduzen_bot.plugins.messages.unknown import unknown
@@ -37,6 +38,7 @@ logger = logging.getLogger()
 
 sentry_sdk.init(
     dsn=SENTRY_DSN,
+    traces_sample_rate=0.8,
     integrations=[TornadoIntegration()],
 )
 
@@ -44,6 +46,7 @@ sentry_sdk.init(
 def main():
     create_db_tables()
     bot = TelegramBot(TOKEN, EDUZEN_ID, HEROKU, PORT)
+    db.connect(reuse_if_open=True)
 
     def stop_and_restart():
         """Gracefully stop the Updater and replace the current process with a new one"""
@@ -53,6 +56,7 @@ def main():
 
     def restart(update, context):
         update.message.reply_text("Bot is restarting...")
+        db.connect(reuse_if_open=True)
         Thread(target=stop_and_restart).start()
 
     bot.add_handler(CommandHandler("restart", restart, filters=Filters.user(username="@eduzen")))

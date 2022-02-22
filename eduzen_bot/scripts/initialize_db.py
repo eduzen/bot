@@ -1,11 +1,12 @@
 import logging
 import sys
 
-from eduzen_bot.models import EventLog, Question, Report, User
+from eduzen_bot.models import EventLog, Question, Report, User, db
 
 logger = logging.getLogger()
 
 
+@db.connection_context()
 def create_db_tables():
     User.create_table()
     Question.create_table()
