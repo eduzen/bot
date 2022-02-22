@@ -3,6 +3,7 @@ import os
 from datetime import datetime
 
 import tweepy
+from cachetools import TTLCache, cached
 
 TWITTER_CONSUMER_KEY = os.getenv("TWITTER_CONSUMER_KEY")
 TWITTER_CONSUMER_SECRET = os.getenv("TWITTER_CONSUMER_SECRET")
@@ -21,6 +22,7 @@ def get_tweets(api, username, count, date):
     return "\n".join(tweets)
 
 
+@cached(cache=TTLCache(maxsize=2048, ttl=360))
 def get_transito(count=20):
     logger.info("get_transito from twitter...")
     if count > 20:

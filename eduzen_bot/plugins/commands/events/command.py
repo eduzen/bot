@@ -4,30 +4,31 @@ usage - get_usage
 """
 import logging
 
+from peewee import fn
 from telegram import ChatAction
 
 from eduzen_bot.auth.restricted import restricted
 from eduzen_bot.decorators import create_user
-from eduzen_bot.models import EventLog, db
+from eduzen_bot.models import EventLog
 
 logger = logging.getLogger("rich")
 
 
 def get_users_usage():
     txt = "No hay eventos"
-
     try:
-        cursor = db.execute_sql(
-            "select count(e.user_id) as total, e.command, u.username "
-            'from "eventlog" as e inner join "user" as u '
-            "on e.user_id = u.id "
-            "group by e.user_id, e.command, u.username "
-            "having count(e.user_id) > 2 "
-            "order by total desc, u.username asc;"
+        queryset = (
+            EventLog.select(EventLog.command, EventLog.user_id, fn.Count(EventLog.user_id))
+            .group_by(EventLog.user_id, EventLog.command)
+            .having(fn.Count(EventLog.user_id) > 2)
+            .order_by(fn.Count(EventLog.user_id).desc())
         )
-        txt = "\n".join(f"{row[0]: <4} | {row[1]: <20} | {row[2]: <10}" for row in cursor.fetchall())
+        txt = "\n".join(
+            f"{event.count: <4} | {event.command: <20} | " f"{event.user.username or event.user_id: <10}"
+            for event in queryset
+        )
     except Exception:
-        logger.exception("DB problem")
+        logger.exception("DB problem with get_users_usage")
     return txt
 
 

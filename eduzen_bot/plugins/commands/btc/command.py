@@ -7,6 +7,7 @@ import logging
 
 import pendulum
 import yfinance
+from cachetools import TTLCache, cached
 from telegram import ChatAction
 
 from eduzen_bot.decorators import create_user
@@ -38,6 +39,7 @@ def melistock(name):
         return f"No encontramos nada con '{name}'"
 
 
+@cached(cache=TTLCache(maxsize=2048, ttl=600))
 def get_crypto_report():
     crypto = get_all()
     blue = get_bluelytics() or "-"

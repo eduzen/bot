@@ -13,15 +13,18 @@ from peewee import (
     PrimaryKeyField,
     TextField,
 )
-from playhouse.db_url import connect
-from playhouse.shortcuts import model_to_dict
+from playhouse.pool import PooledPostgresqlExtDatabase
+from playhouse.shortcuts import ThreadSafeDatabaseMetadata, model_to_dict
 
-db = connect(os.getenv("DATABASE_URL", "sqlite:///:memory:"))
+database_url = os.getenv("DATABASE_URL")
+db = PooledPostgresqlExtDatabase(database_url, max_connections=10, stale_timeout=3000)
 
 
 class BaseModel(Model):
     class Meta:
         database = db
+        # Instruct peewee to use our thread-safe metadata implementation.
+        model_metadata_class = ThreadSafeDatabaseMetadata
 
     def todict(self):
         return model_to_dict(self)

@@ -61,12 +61,15 @@ def create_user(func):
             log_event(user=None, command=command)
             return func(update, context, *args, **kwarg)
 
-        user = get_or_create_user(update.message.from_user)
-        if user:
-            logger.warn(f"{command}... by {user}")
-            log_event(user, command=command)
-        else:
-            logger.warn(f"{command}... by unknown user {update.message.from_user}")
+        try:
+            user = get_or_create_user(update.message.from_user)
+            if user:
+                logger.warn(f"{command}... by {user}")
+                log_event(user, command=command)
+            else:
+                logger.warn(f"{command}... by unknown user {update.message.from_user}")
+        except Exception:
+            logger.exception("Something went wrong with create_user decorator")
 
         result = func(update, context, *args, **kwarg)
         return result

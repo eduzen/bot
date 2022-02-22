@@ -2,6 +2,7 @@ import logging
 
 import requests
 from bs4 import BeautifulSoup
+from cachetools import TTLCache, cached
 
 logger = logging.getLogger("rich")
 
@@ -17,6 +18,7 @@ def get_response(url, verify=False):
     return response
 
 
+@cached(cache=TTLCache(maxsize=1048, ttl=360))
 def process_alternativa(response):
     data = response.text
     if not data:

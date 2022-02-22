@@ -7,6 +7,7 @@ from collections import defaultdict, namedtuple
 
 import requests
 from bs4 import BeautifulSoup
+from cachetools import TTLCache, cached
 from emoji import emojize
 
 APP_ID = os.getenv("APP_ID")
@@ -190,6 +191,7 @@ def process_dolarhoy(response):
     return data
 
 
+@cached(cache=TTLCache(maxsize=2048, ttl=60))
 def parse_bnc():
     r = get_response(BNC)
 
@@ -223,6 +225,7 @@ def process_bluelytics(response):
         logger.exception("bluelytics")
 
 
+@cached(cache=TTLCache(maxsize=2048, ttl=60))
 def get_bluelytics():
     r = get_response(BLUELYTICS)
     if r and r.status_code == 200:
@@ -230,6 +233,7 @@ def get_bluelytics():
     return "Bluelytics no responde 🤷‍♀️ "
 
 
+@cached(cache=TTLCache(maxsize=2048, ttl=60))
 def parse_dolarhoy():
     r = get_response(DOLAR_HOY)
     if r and r.status_code == 200:
@@ -256,6 +260,7 @@ def parse_dolarfuturo():
     return "Rofex no responde 🤷‍♀"
 
 
+@cached(cache=TTLCache(maxsize=2048, ttl=60))
 def get_dollar():
     r = client.get(API, params={"app_id": APP_ID})
 
@@ -274,6 +279,7 @@ def get_dollar():
     return text
 
 
+@cached(cache=TTLCache(maxsize=2048, ttl=60))
 def get_dolar_blue():
     r = client.get(OTHER_API)
 

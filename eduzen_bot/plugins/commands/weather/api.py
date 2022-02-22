@@ -5,6 +5,7 @@ import pendulum
 import pytz
 import requests
 from bs4 import BeautifulSoup
+from cachetools import TTLCache, cached
 
 ow_token = os.getenv("openweathermap_token")
 
@@ -59,6 +60,7 @@ def get_sun_times(data, city):
     return sunrise, sunset
 
 
+@cached(cache=TTLCache(maxsize=2048, ttl=360))
 def get_klima(city_name="Amsterdam,nl"):
     params = {
         "q": city_name,
@@ -100,6 +102,7 @@ def get_klima(city_name="Amsterdam,nl"):
     return f"{msg}\nBy api.openweathermap.org"
 
 
+@cached(cache=TTLCache(maxsize=2048, ttl=360))
 def get_weather():
     r = requests.get(lanacion, headers=headers)
     r.encoding = "utf-8"
