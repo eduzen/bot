@@ -13,11 +13,11 @@ from peewee import (
     PrimaryKeyField,
     TextField,
 )
-from playhouse.pool import PooledPostgresqlExtDatabase
+from playhouse.db_url import connect
 from playhouse.shortcuts import ThreadSafeDatabaseMetadata, model_to_dict
 
 database_url = os.getenv("DATABASE_URL")
-db = PooledPostgresqlExtDatabase(database_url, max_connections=10, stale_timeout=3000)
+db = connect(database_url)
 
 
 class BaseModel(Model):
