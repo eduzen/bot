@@ -16,7 +16,7 @@ from peewee import (
 from playhouse.db_url import connect
 from playhouse.shortcuts import ThreadSafeDatabaseMetadata, model_to_dict
 
-database_url = os.getenv("DATABASE_URL", "sqlite:///default.db")
+database_url = os.getenv("DATABASE_URL", "sqlite:///:memory:")
 db = connect(database_url)
 
 
