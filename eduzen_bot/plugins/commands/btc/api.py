@@ -1,6 +1,7 @@
 import logging
 
 import requests
+from cachetools import TTLCache, cached
 
 COIN_BIN = "https://coinbin.org/btc"
 COIN_DESK = "https://api.coindesk.com/v1/bpi/currentprice.json"
@@ -70,6 +71,7 @@ def process_dogecoin(response):
         logger.exception("No pudimos conseguir eth")
 
 
+@cached(cache=TTLCache(maxsize=2048, ttl=60))
 def get_btc():
     r = get_coin_value(COIN_DESK)
 
@@ -81,6 +83,7 @@ def get_btc():
     return "Perdón! No hay ninguna api disponible!"
 
 
+@cached(cache=TTLCache(maxsize=2048, ttl=60))
 def get_eth():
     r = get_coin_value(ETH)
 
@@ -130,6 +133,7 @@ def process_all(response):
         logger.exception("No pudimos conseguir eth")
 
 
+@cached(cache=TTLCache(maxsize=2048, ttl=60))
 def get_dogecoin():
     r = get_coin_value(DOGECOIN)
 

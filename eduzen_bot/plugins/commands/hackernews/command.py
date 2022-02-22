@@ -7,6 +7,7 @@ from types import SimpleNamespace
 
 import pendulum
 import requests
+from cachetools import TTLCache, cached
 from telegram import ChatAction
 
 from eduzen_bot.decorators import create_user
@@ -64,6 +65,7 @@ def get_hackernews_help(story_type):
     return f"*{str(story_type).capitalize()} stories from* [HackerNews](https://news.ycombinator.com)\n\n"
 
 
+@cached(cache=TTLCache(maxsize=1024, ttl=10800))
 def hackernews(story_type=STORIES.TOP, limit=5):
     text_stories = []
     for story_id in get_top_stories(story_type, limit):

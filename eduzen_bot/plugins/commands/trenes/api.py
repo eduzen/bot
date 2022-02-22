@@ -3,6 +3,7 @@ import os
 from datetime import datetime
 
 import tweepy
+from cachetools import TTLCache, cached
 
 TWITTER_CONSUMER_KEY = os.getenv("TWITTER_CONSUMER_KEY")
 TWITTER_CONSUMER_SECRET = os.getenv("TWITTER_CONSUMER_SECRET")
@@ -20,6 +21,7 @@ def get_tweets(api, username, count, date):
     return "\n".join(tweets)
 
 
+@cached(cache=TTLCache(maxsize=2048, ttl=360))
 def get_trenes(count=20):
     if count > 20:
         count = 20
