@@ -9,7 +9,7 @@ interactions:
       Connection:
       - keep-alive
       User-Agent:
-      - python-requests/2.26.0
+      - python-requests/2.27.1
     method: GET
     uri: http://www.bna.com.ar/
   response:
@@ -35,7 +35,7 @@ interactions:
       Connection:
       - keep-alive
       User-Agent:
-      - python-requests/2.26.0
+      - python-requests/2.27.1
     method: GET
     uri: https://www.bna.com.ar/
   response:
@@ -61,7 +61,7 @@ interactions:
       Connection:
       - keep-alive
       User-Agent:
-      - python-requests/2.26.0
+      - python-requests/2.27.1
     method: GET
     uri: https://www.bna.com.ar/Personas
   response:
@@ -93,31 +93,28 @@ interactions:
         clear()\r\n            {\r\n                $(\"body\").removeAttr('position');\r\n
         \               $(\".cargando\").remove();\r\n\r\n            }\r\n      </script>\r\n\r\n
         \   \r\n\r\n    <script type=\"text/javascript\" src=\"/Scripts/jquery.bxslider.min.js\"></script>\r\n
-        \   <script type=\"text/javascript\" src=\"/Scripts/DevelopScripts/site.js\"></script>\r\n\r\n
+        \   <script type=\"text/javascript\" src=\"/Scripts/DevelopScripts/site.js\"></script>\r\n
+        \   <script type=\"text/javascript\" src=\"/Scripts/DevelopScripts/chatbot/iframe.js\"></script>\r\n\r\n\r\n
         \   <script type=\"text/javascript\">\r\n        $(document).ready(function
-        () {\r\n            seleccionarHome();\r\n        });\r\n    </script>\r\n\r\n
-        \   \r\n        <script>\r\n            $(document).ready(function () {\r\n\r\n
-        \               $('.bxslider').bxSlider({\r\n                    pagerCustom:
-        '#bx-pager',\r\n                    auto: true,\r\n                    autoControls:
-        true,\r\n                    mode: 'fade',\r\n                    captions:
-        true,\r\n                    touchEnabled: true,\r\n                    speed:
-        800,\r\n                    pause: 10000\r\n                });\r\n\r\n\r\n\r\n\r\n
-        \               $('.slider01').bxSlider({\r\n                    mode: 'fade',\r\n
-        \                   auto: false,\r\n                    autoControls: true,\r\n
-        \               });\r\n\r\n\r\n                $('.slider02').bxSlider({\r\n
-        \                   mode: 'fade',\r\n                    auto: false,\r\n
-        \                   autoControls: true,\r\n                });\r\n\r\n\r\n
-        \               $('.slider03').bxSlider({\r\n                    mode: 'fade',\r\n
-        \                   auto: false,\r\n                    autoControls: true,\r\n
-        \               });\r\n\r\n\r\n                $('.slider04').bxSlider({\r\n
-        \                   mode: 'fade',\r\n                    auto: false,\r\n
-        \                   autoControls: true,\r\n                });\r\n\r\n\r\n
-        \               $('.slider05').bxSlider({\r\n                    mode: 'fade',\r\n
-        \                   auto: false,\r\n                    autoControls: true,\r\n
-        \               });\r\n\r\n            });\r\n\r\n\r\n    </script><!-- end
-        slider -->\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n      \r\n\r\n\r\n    \r\n    <link
-        rel=\"apple-touch-icon-precomposed\" sizes=\"144x144\" href=\"/Images/ico/apple-touch-icon-144.png\">\r\n
-        \   <link rel=\"shortcut icon\" href=\"/Images/ico/favicon.ico\" type=\"/Images/x-icon\">\r\n\t<link
+        () {\r\n            seleccionarHome();\r\n        });\r\n    </script>\r\n\r\n\r\n
+        \   <script>\r\n        $(document).ready(function () {\r\n\r\n            $('.bxslider').bxSlider({\r\n
+        \               pagerCustom: '#bx-pager',\r\n                auto: true,\r\n
+        \               autoControls: true,\r\n                mode: 'fade',\r\n                captions:
+        true,\r\n                touchEnabled: true,\r\n                speed: 800,\r\n
+        \               pause: 10000\r\n            });\r\n\r\n\r\n\r\n\r\n            $('.slider01').bxSlider({\r\n
+        \               mode: 'fade',\r\n                auto: false,\r\n                autoControls:
+        true,\r\n            });\r\n\r\n\r\n            $('.slider02').bxSlider({\r\n
+        \               mode: 'fade',\r\n                auto: false,\r\n                autoControls:
+        true,\r\n            });\r\n\r\n\r\n            $('.slider03').bxSlider({\r\n
+        \               mode: 'fade',\r\n                auto: false,\r\n                autoControls:
+        true,\r\n            });\r\n\r\n\r\n            $('.slider04').bxSlider({\r\n
+        \               mode: 'fade',\r\n                auto: false,\r\n                autoControls:
+        true,\r\n            });\r\n\r\n\r\n            $('.slider05').bxSlider({\r\n
+        \               mode: 'fade',\r\n                auto: false,\r\n                autoControls:
+        true,\r\n            });\r\n\r\n        });\r\n\r\n\r\n    </script>\r\n    \r\n\r\n\r\n\r\n\r\n\r\n
+        \     \r\n\r\n\r\n    \r\n    <link rel=\"apple-touch-icon-precomposed\" sizes=\"144x144\"
+        href=\"/Images/ico/apple-touch-icon-144.png\">\r\n    <link rel=\"shortcut
+        icon\" href=\"/Images/ico/favicon.ico\" type=\"/Images/x-icon\">\r\n\t<link
         rel=\"icon\" href=\"/Images/ico/favicon.ico\" type=\"image/x-icon\">\r\n\r\n\r\n
         \ </head>\r\n\r\n  <body>\r\n\r\n      \r\n      <noscript>\r\n          <iframe
         src=\"//www.googletagmanager.com/ns.html?id=GTM-5JX6QM\"\r\n                  height=\"0\"
@@ -137,7 +134,7 @@ interactions:
         class=\"containerMenu\">\r\n    \t<div class=\"container-fluid\">\r\n          \r\n
         \         \r\n          <div class=\"navbar-header\">\r\n          <h1><a
         class=\"navbar-brand\" alt=\"Logo Banco Naci\xF3n\" href=\"/\" title=\"Banco
-        Naci\xF3n\"><img src=\"/Images/logo_bna.png\"/></a></h1>\r\n          </div>\r\n
+        Naci\xF3n\"><img src=\"/Images/logo__bna.svg\" /></a></h1>\r\n          </div>\r\n
         \    \r\n\r\n\r\n<div class=\"collapse navbar-collapse\" id=\"bs-example-navbar-collapse-1\">\r\n\t<ul
         class=\"nav navbar-nav\">\r\n          <li class=\"dropdown\" id=\"personasLI\">\r\n
         \               <a href=\"#\" id=\"m01\" class=\"dropdown-toggle m01 pTablet\">Personas</a>\r\n
@@ -172,17 +169,16 @@ interactions:
         Efectivo</a></li>\r\n                                  <li><a href=\"/Personas/ParaDestinosEspecificos\">Para
         Destinos Espec\xEDficos</a></li>\r\n                                  <li><a
         href=\"/Personas/ParaJubiladosYPensionados\">Para Jubilados y Pensionados</a></li>\r\n
-        \                                 \r\n                                  <li><a
-        href=\"/Personas/CreditosUVA\">Hipotecarios UVA</a></li>\r\n                                  \r\n
-        \                             </ul>\r\n                          </li>\r\n
-        \                            \r\n\r\n                          <li>\r\n                              <ul
-        class=\"menu-box\">\r\n                                  <li class=\"title\">INVERSIONES</li>\r\n
-        \                                 <li><a href=\"/Personas/PlazoFijo\">Plazo
-        Fijo</a></li>\r\n                                  <li><a href=\"/Personas/FondosComunesDeInversion\">Fondos
-        Comunes de Inversi\xF3n</a></li>\r\n                                  <li><a
-        href=\"/Personas/BonosYAcciones\">Bonos y Acciones</a></li>\r\n                                  <!--<li><a
-        href=\"/Empresas/Grandes/NacionBursatil\">Naci\xF3n Burs\xE1til</a></li>-->\r\n
-        \                                 <li><a href=\"/Personas/TestDelInversor\">Test
+        \                                 \r\n                                  \r\n
+        \                                 \r\n                              </ul>\r\n
+        \                         </li>\r\n                             \r\n\r\n                          <li>\r\n
+        \                             <ul class=\"menu-box\">\r\n                                  <li
+        class=\"title\">INVERSIONES</li>\r\n                                  <li><a
+        href=\"/Personas/PlazoFijo\">Plazo Fijo</a></li>\r\n                                  <li><a
+        href=\"/Personas/FondosComunesDeInversion\">Fondos Comunes de Inversi\xF3n</a></li>\r\n
+        \                                 <li><a href=\"/Personas/BonosYAcciones\">Bonos
+        y Acciones</a></li>\r\n                                  <!--<li><a href=\"/Empresas/Grandes/NacionBursatil\">Naci\xF3n
+        Burs\xE1til</a></li>-->\r\n                                  <li><a href=\"/Personas/TestDelInversor\">Test
         del Inversor</a></li>\r\n                              </ul>\r\n                          </li>\r\n
         \                         <li>\r\n                              <ul class=\"menu-box\">\r\n
         \                                 <li class=\"title\">BENEFICIOS</li>\r\n
@@ -227,10 +223,11 @@ interactions:
         m02 pPc\">Empresas</a>\r\n            \r\n            <ul class=\"dropdown-menu
         m02 \">\r\n                <li class=\"title pTablet\"><a href=\"/Empresas\">Ir
         a Inicio Empresas</a></li>\r\n             <div class=\"sub-menu-col\">\r\n
-        \             \r\n             <li>\r\n                     <ul class=\"menu-box\">\r\n
-        \                   <li class=\"title\">MICROEMPRESAS</li>\r\n                      <li><a
-        href=\"/Empresas/NacionEmprende/NacionMicroempresas\">Naci\xF3n Microempresas</a></li>\r\n
-        \                     \r\n\r\n                  </ul>\r\n              </li>\r\n
+        \             \r\n             <li>\r\n                 <ul class=\"menu-box\">\r\n
+        \                    <li class=\"title\">Microempresas y <br>Negocios</li>\r\n
+        \                    <li><a href=\"/Empresas/NacionEmprende/Microempresa\">Microempresa</a></li>\r\n
+        \                    <li><a href=\"/Empresas/Novedades/CuentaComercio\">Cuenta
+        comercio</a></li>\r\n\r\n                 </ul>\r\n              </li>\r\n
         \                <li>\r\n              <ul class=\"menu-box\">\r\n                  <li
         class=\"title\">Peque\xF1as y <br>Medianas Empresas</li>\r\n                  <li><a
         href=\"/Empresas/Pymes/Cuentas\">Cuentas</a></li>\r\n                  <li><a
@@ -288,7 +285,7 @@ interactions:
         \             <div class=\"sub-menu-col\">\r\n                  <li>\r\n                      <ul
         class=\"menu-box\">\r\n                              <li class=\"title\">Nuestro
         Banco</li>\r\n                              <li><a href=\"/Institucional/NuestraHistoria\">Nuestra
-        Historia</a></li>\r\n                              <li><a href=\"/Downloads/Directorio2021.pdf\"
+        Historia</a></li>\r\n                              <li><a href=\"/Downloads/Directorio_Actual_2021.pdf\"
         target=\"_blank\">Autoridades</a></li>\r\n                              <li><a
         href=\"/Institucional/PerfilDeLaEntidad\">Perfil de la Entidad</a></li>\r\n
         \                             <li><a href=\"/Institucional/TrayectoriaInternacional\">Trayectoria
@@ -305,8 +302,8 @@ interactions:
         \                             <li><a href=\"/Institucional/Prensa/1\">Prensa</a></li>\r\n
         \                             <li><a href=\"/Institucional/MemoriaYBalances\">Memoria
         y Balances</a></li>\r\n                              <li><a href=\"/Institucional/GobiernoCorporativo\">C\xF3digo
-        Gobierno Corporativo</a></li>\r\n                              <li><a href=\"/Institucional/ComprasYLicitaciones\">Compras
-        y Licitaciones</a></li>\r\n                              <li><a href=\"/Institucional/InmueblesALaVenta\">Inmuebles
+        Gobierno Corporativo</a></li>\r\n                              <li><a href=\"/Institucional/ComprasYContrataciones\">Compras
+        y Contrataciones</a></li>\r\n                              <li><a href=\"/Institucional/InmueblesALaVenta\">Inmuebles
         a la Venta</a></li>\r\n                              <li><a href=\"/Institucional/PrevencionDeLavadoDeDinero\">Prevenci\xF3n
         de Lavado de Dinero</a></li>\r\n                              <li><a href=\"/Institucional/DisciplinaDeMercado\">Disciplina
         de Mercado</a></li>\r\n                              <li><a href=\"/Institucional/ResponsabilidadSocial\">Responsabilidad
@@ -348,40 +345,53 @@ interactions:
         {\r\n                    if (field.name == 'q' && !field.value) {\r\n                        ret
         = false;\r\n                    }\r\n                });\r\n                return
         ret;\r\n            });\r\n    });\r\n</script>\r\n\r\n\r\n        \r\n        </div>\r\n
-        \   </div> \r\n</nav>\r\n\r\n</header>\r\n\r\n\r\n      \r\n      \r\n        \r\n<div
+        \   </div> \r\n</nav>\r\n\r\n</header>\r\n\r\n\r\n      \r\n      \r\n    \r\n<div
         class=\"sliderHome\">\r\n<ul class=\"bxslider\">\r\n\r\n            <li class=\"slider-01\">\r\n
-        \                       <a href=\"http://www.mayoresactivos.com.ar\" target=\"_blank\"><img
-        src=\"/Images/slider/SlideMayoresActivos082021.jpg\" /></a>\r\n                <div
+        \                       <a href=\"/Personas/Promociones/verano2022\"><img
+        src=\"/Images/slider/Slide_DisfrutaElVerano_2022.jpg\" /></a>\r\n                <div
         class=\"content-slider\">\r\n                </div>\r\n            </li>  \r\n
         \           <li class=\"slider-02\">\r\n                        <a href=\"/Personas/bnamas\"><img
-        src=\"/Images/slider/slideBNAmigracion.jpg\" /></a>\r\n                <div
+        src=\"/Images/slider/slideBNAmigracionB.jpg\" /></a>\r\n                <div
         class=\"content-slider\">\r\n                </div>\r\n            </li>  \r\n
-        \           <li class=\"slider-03\">\r\n                        <a href=\"/AB/AltaProducto/Tcwebfast\"><img
-        src=\"/Images/slider/SlideAltaWebTCNUEVO01.jpg\" /></a>\r\n                <div
+        \           <li class=\"slider-03\">\r\n                        <a href=\"/Personas/PrestamosVivienda\"><img
+        src=\"/Images/slider/slide_nuevos_prestamos.jpg\" /></a>\r\n                <div
         class=\"content-slider\">\r\n                </div>\r\n            </li>  \r\n
         \           <li class=\"slider-04\">\r\n                        <a href=\"http://www.tiendabna.com.ar\"
-        target=\"_blank\"><img src=\"/Images/slider/SlideTiendaBNA01.jpg\" /></a>\r\n
+        target=\"_blank\"><img src=\"/Images/slider/Slide_TiendaBNA_Ene21.jpg\" /></a>\r\n
         \               <div class=\"content-slider\">\r\n                </div>\r\n
         \           </li>  \r\n            <li class=\"slider-05\">\r\n                        <a
-        href=\"/Personas/Promociones/BNAALIMENTAR\"><img src=\"/Images/slider/Slide_WEB_002.jpg\"
+        href=\"http://www.mayoresactivos.com.ar\" target=\"_blank\"><img src=\"/Images/slider/SlideHome_MayoresActivos.jpg\"
         /></a>\r\n                <div class=\"content-slider\">\r\n                </div>\r\n
         \           </li>  \r\n\r\n\r\n</ul>\r\n\r\n    <div id=\"bx-pager\">\r\n
         \           <a data-slide-index=\"0\" class=\"pager-01\" href=\"\"><div class=\"arrow_box\"></div>
-        Mayores activos</a>\r\n            <a data-slide-index=\"1\" class=\"pager-01\"
+        Disfruta el verano 2022</a>\r\n            <a data-slide-index=\"1\" class=\"pager-01\"
         href=\"\"><div class=\"arrow_box\"></div> BNA migracion</a>\r\n            <a
         data-slide-index=\"2\" class=\"pager-01\" href=\"\"><div class=\"arrow_box\"></div>
-        Tarjeta Nativa</a>\r\n            <a data-slide-index=\"3\" class=\"pager-01\"
+        Prestamos Vivienda</a>\r\n            <a data-slide-index=\"3\" class=\"pager-01\"
         href=\"\"><div class=\"arrow_box\"></div> Tienda BNA</a>\r\n            <a
         data-slide-index=\"4\" class=\"pager-01\" href=\"\"><div class=\"arrow_box\"></div>
-        Alimentar</a>\r\n\r\n\r\n    \r\n    </div>\r\n\r\n</div>\r\n    \r\n\r\n\r\n
+        Mayores activos</a>\r\n\r\n\r\n    \r\n    </div>\r\n\r\n</div>\r\n\r\n\r\n\r\n
         \     \r\n      <main class=\"contenido\">\r\n\r\n          \r\n          \r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n
         \         <div class=\"containerContent\">\r\n\r\n              \r\n              \r\n\r\n
         \             <div class=\"row\">\r\n\r\n                  \r\n                  \r\n\r\n
         \                 <div class=\"col-md-9\" id=\"contenidoInternaLayout\">\r\n
         \                     \r\n                  </div>\r\n\r\n                  \r\n
-        \                 \r\n\r\n\r\n\r\n\r\n\r\n<!-- Slider home -->\r\n\r\n\r\n\r\n\r\n
-        \   <div id=\"leftHome\">\r\n        \r\n\r\n    <script>\r\n        $(document).ready(function
-        () {\r\n            \n\r\n        });\r\n\r\n        function MovimientoVerticalAutomaticoBanner(x)
+        \                 \r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n<!-- ****************************
+        \ CHATBOT **************************** -->\r\n<section id=\"chatbot\" style=\"visibility:
+        hidden;\">\r\n    <div class=\"container\">\r\n        <div class=\"columns
+        is-centered\">\r\n            <div class=\"column is-one-quarter\">\r\n                <button
+        id=\"btnOpenChat\" class=\"IconoChatbot\"></button>\r\n            </div>\r\n
+        \       </div>\r\n    </div>\r\n</section>\r\n\r\n<div class=\"columns is-centered
+        contenedorChatbot\" style=\"visibility: hidden;\">\r\n    <div class=\"column
+        is-half\">\r\n        <div id=\"sectionChat\">\r\n            <button id=\"btnCloseFrame\"
+        class=\"delete is-pulled-right\" aria-label=\"delete\"></button>\r\n            <iframe
+        id=\"frameChat\" class=\"chatIframe\" scrolling=\"no\" width=\"400px\" height=\"510px\"
+        frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media;
+        gyroscope; picture-in-picture\" allowfullscreen=\"\"></iframe>\r\n        </div>\r\n
+        \   </div>\r\n</div>\r\n\r\n<!-- ****************************  FIN CHATBOT
+        **************************** -->\r\n\r\n\r\n\r\n<div id=\"leftHome\">\r\n
+        \   \r\n\r\n    <script>\r\n        $(document).ready(function () {\r\n            \n\r\n
+        \       });\r\n\r\n        function MovimientoVerticalAutomaticoBanner(x)
         {\r\n            $('.bx-next').trigger('click');\r\n            for (i = 1;
         i < $('li.tabs-li').length + 1 ; i++) {\r\n                $('#tab0' + i).removeClass('active');\r\n
         \               $('#tab0' + i + 'c').removeClass('active in');\r\n            }\r\n
@@ -392,25 +402,30 @@ interactions:
         \       <div class=\"tabDouble tabSlider\">\r\n            <div class=\"tab-content\">\r\n\r\n
         \                       <div id=\"tab01c\" class=\"tab-pane fade active in\">\r\n
         \                           <ul class=\"slider01 slider\">\r\n                                        <li
-        class=\"primero\"><a href=\"http://www.bna.com.ar/home/condicionescreditosUva\"><img
-        src=\"/Backoffice/images/bannerHome/BannerCreditosUVA-01.jpg\" /></a></li>\r\n
-        \                                       <li><a href=\"https://www.bna.com.ar/Personas/PagoImpuestosYServicios\"><img
-        src=\"/Backoffice/images/bannerHome/Banner-Rotativo-Stop-Debit.jpeg\" /></a></li>\r\n
-        \                                       <li><a href=\"https://bna.com.ar/home/estafasvirtuales\"><img
-        src=\"/Backoffice/images/bannerHome/Banner estafas.jpg\" /></a></li>\r\n                            </ul>\r\n
-        \                       </div>\r\n\r\n        </div>       \r\n\r\n             \r\n
-        \   </div>\r\n\r\n\r\n\r\n\r\n            <div class=\"tabDouble tabSlider\"
-        style=\"margin-left: 10px;\">\r\n            <div class=\"tab-content\">\r\n\r\n
-        \                           <div id=\"tab01c\" class=\"tab-pane fade active
-        in\">\r\n                                <ul class=\"slider01 slider\">\r\n
-        \                                           <li class=\"primero\"><a href=\"https://www.tiendabna.com.ar/reventon-de-precios\"><img
-        src=\"/Backoffice/images/bannerHome/Banner Web_banner.jpg\" /></a></li>\r\n
-        \                                           <li><a href=\"https://bna.com.ar/Personas/DescuentosYPromociones/Categoria/121/semana-nacion\"><img
-        src=\"/Backoffice/images/bannerHome/Banner rotativo Semana Nacion.jpg\" /></a></li>\r\n
+        class=\"primero\"><a href=\"https://lasclavesnosecomparten.com.ar/\"><img
+        src=\"/Backoffice/images/bannerHome/ABAPPRA-Ciberseguridad_Banner-Rotativo.jpg\"
+        /></a></li>\r\n                                        <li><a href=\"https://www.bna.com.ar/home/casasparticulares\"><img
+        src=\"/Backoffice/images/bannerHome/BannerRotativo-Casasparticulares.png\"
+        /></a></li>\r\n                                        <li><a href=\"https://bna.com.ar/Home/ReaperturaCanjeDeTitulosPublicos\"><img
+        src=\"/Backoffice/images/bannerHome/BannerRotativo-CanjedeTitulosPublicos.jpg\"
+        /></a></li>\r\n                                        <li><a href=\"http://www.bna.com.ar/home/condicionescreditosUva\"><img
+        src=\"/Backoffice/images/bannerHome/BannerRotativos-CreditosUVA.jpg\" /></a></li>\r\n
+        \                           </ul>\r\n                        </div>\r\n\r\n
+        \       </div>       \r\n\r\n             \r\n    </div>\r\n\r\n\r\n\r\n\r\n
+        \           <div class=\"tabDouble tabSlider\" style=\"margin-left: 10px;\">\r\n
+        \           <div class=\"tab-content\">\r\n\r\n                            <div
+        id=\"tab01c\" class=\"tab-pane fade active in\">\r\n                                <ul
+        class=\"slider01 slider\">\r\n                                            <li
+        class=\"primero\"><a href=\"http://www.bna.com.ar/AB/AltaProducto/TD\"><img
+        src=\"/Backoffice/images/bannerHome/BannerRotativo-TarjetaDebito.png\" /></a></li>\r\n
+        \                                           <li><a href=\"https://www.bna.com.ar/Personas/Promociones/SEMANA\"><img
+        src=\"/Backoffice/images/bannerHome/Bannerrotativo-SemanaNacion.jpg\" /></a></li>\r\n
+        \                                           <li><a href=\"http://www.bna.com.ar/AB/AltaProducto/Tcwebfast\"><img
+        src=\"/Backoffice/images/bannerHome/BannerRotativo321.jpg\" /></a></li>\r\n
         \                                           <li><a href=\"https://www.argentina.gob.ar/generos/linea-144\"><img
-        src=\"/Backoffice/images/bannerHome/og.jpg\" /></a></li>\r\n                                </ul>\r\n
-        \                           </div>\r\n\r\n            </div>       \r\n    </div>\r\n\r\n\r\n\r\n\r\n\r\n</div>
-        \  \r\n    </div>\r\n\r\n            \r\n\r\n                \r\n    <div
+        src=\"/Backoffice/images/bannerHome/BannerRotativo-linea144.jpg\" /></a></li>\r\n
+        \                               </ul>\r\n                            </div>\r\n\r\n
+        \           </div>       \r\n    </div>\r\n\r\n\r\n\r\n\r\n\r\n</div>   \r\n</div>\r\n\r\n\r\n\r\n\r\n<div
         id=\"rightHome\">\r\n<script src=\"/Scripts/datepicker.min.js\"></script>\r\n<script
         src=\"/Scripts/DevelopScripts/Imprimir.js\" type=\"text/javascript\"></script>\r\n<script
         type=\"text/javascript\">\r\n\r\n    $(document).ready(function () {\r\n       \n\n
@@ -449,50 +464,50 @@ interactions:
         \       <div class=\"tab-content\">\r\n            \r\n                <div
         class=\"tab-pane fade in active\" id=\"billetes\">\r\n            \r\n                <table
         class=\"table cotizacion\">\r\n                    <thead>\r\n                        <tr>\r\n
-        \                       <th class=\"fechaCot\">31/8/2021</th>\r\n                        <th>Compra</th>\r\n
+        \                       <th class=\"fechaCot\">25/2/2022</th>\r\n                        <th>Compra</th>\r\n
         \                       <th>Venta</th>\r\n                        </tr>\r\n
         \                   </thead>\r\n                    <tbody>\r\n\r\n                            <tr>\r\n
-        \                           <td class=\"tit\">Dolar U.S.A</td>\r\n                            <td>96,7500</td>\r\n
-        \                           <td>102,7500</td>\r\n                            </tr>\r\n
+        \                           <td class=\"tit\">Dolar U.S.A</td>\r\n                            <td>106,5000</td>\r\n
+        \                           <td>112,5000</td>\r\n                            </tr>\r\n
         \                           <tr>\r\n                            <td class=\"tit\">Euro</td>\r\n
-        \                           <td>113,0000</td>\r\n                            <td>119,0000</td>\r\n
+        \                           <td>117,5000</td>\r\n                            <td>124,5000</td>\r\n
         \                           </tr>\r\n                            <tr>\r\n
-        \                           <td class=\"tit\">Real *</td>\r\n                            <td>1800,0000</td>\r\n
-        \                           <td>2000,0000</td>\r\n                            </tr>\r\n\r\n
+        \                           <td class=\"tit\">Real *</td>\r\n                            <td>1970,0000</td>\r\n
+        \                           <td>2270,0000</td>\r\n                            </tr>\r\n\r\n
         \                   </tbody>\r\n                    </table>       \r\n                    <a
         href=\"#\" class=\"link-cotizacion\" data-toggle=\"modal\" data-target=\"#modalHistorico\"
         id=\"buttonHistoricoBilletes\" >Ver hist\xF3rico</a>\r\n                    <div
-        class=\"legal\">Hora Actualizaci\xF3n: 15:08</div>\r\n                    <div
+        class=\"legal\">Hora Actualizaci\xF3n: 15:09</div>\r\n                    <div
         class=\"legal\">(*) cotizaci\xF3n cada 100 unidades.</div>    \r\n                               \r\n
         \     \t\t</div>\r\n            \r\n                <div class=\"tab-pane
         fade\" id=\"divisas\">\r\n                <table class=\"table cotizacion\">\r\n
         \                   <thead>\r\n                        <tr>\r\n                        <th
-        class=\"fechaCot\">31/8/2021</th>\r\n                        <th>Compra</th>\r\n
+        class=\"fechaCot\">25/2/2022</th>\r\n                        <th>Compra</th>\r\n
         \                       <th>Venta</th>\r\n                        </tr>\r\n
         \                   </thead>\r\n                    <tbody>\r\n                  \r\n
         \                           <tr>\r\n                            <td class=\"tit\">Dolar
-        U.S.A</td>\r\n                            <td>97.5400</td>\r\n                            <td>97.7400</td>\r\n
+        U.S.A</td>\r\n                            <td>107.2500</td>\r\n                            <td>107.4500</td>\r\n
         \                           </tr>\r\n                            <tr>\r\n
-        \                           <td class=\"tit\">Libra Esterlina</td>\r\n                            <td>134.1077</td>\r\n
-        \                           <td>134.6759</td>\r\n                            </tr>\r\n
+        \                           <td class=\"tit\">Libra Esterlina</td>\r\n                            <td>143.5220</td>\r\n
+        \                           <td>144.1119</td>\r\n                            </tr>\r\n
         \                           <tr>\r\n                            <td class=\"tit\">Euro</td>\r\n
-        \                           <td>115.0777</td>\r\n                            <td>115.5580</td>\r\n
+        \                           <td>120.4632</td>\r\n                            <td>120.9565</td>\r\n
         \                           </tr>\r\n                            <tr>\r\n
-        \                           <td class=\"tit\">Franco Suizos *</td>\r\n                            <td>10651.1728</td>\r\n
-        \                           <td>10687.6417</td>\r\n                            </tr>\r\n
+        \                           <td class=\"tit\">Franco Suizos *</td>\r\n                            <td>11553.7218</td>\r\n
+        \                           <td>11591.1782</td>\r\n                            </tr>\r\n
         \                           <tr>\r\n                            <td class=\"tit\">YENES
-        *</td>\r\n                            <td>88.6290</td>\r\n                            <td>88.9391</td>\r\n
+        *</td>\r\n                            <td>92.6111</td>\r\n                            <td>92.9206</td>\r\n
         \                           </tr>\r\n                            <tr>\r\n
         \                           <td class=\"tit\">Dolares Canadienses *</td>\r\n
-        \                           <td>7730.1142</td>\r\n                            <td>7756.6039</td>\r\n
+        \                           <td>8408.9600</td>\r\n                            <td>8436.2946</td>\r\n
         \                           </tr>\r\n                            <tr>\r\n
-        \                           <td class=\"tit\">Coronas Danesas *</td>\r\n                            <td>1546.1312</td>\r\n
-        \                           <td>1559.0835</td>\r\n                            </tr>\r\n
+        \                           <td class=\"tit\">Coronas Danesas *</td>\r\n                            <td>1617.5052</td>\r\n
+        \                           <td>1631.1729</td>\r\n                            </tr>\r\n
         \                           <tr>\r\n                            <td class=\"tit\">Coronas
-        Noruegas *</td>\r\n                            <td>1119.6498</td>\r\n                            <td>1131.6476</td>\r\n
+        Noruegas *</td>\r\n                            <td>1206.7961</td>\r\n                            <td>1219.6735</td>\r\n
         \                           </tr>\r\n                            <tr>\r\n
-        \                           <td class=\"tit\">Coronas Suecas *</td>\r\n                            <td>1127.6250</td>\r\n
-        \                           <td>1140.0461</td>\r\n                            </tr>\r\n\r\n
+        \                           <td class=\"tit\">Coronas Suecas *</td>\r\n                            <td>1133.4125</td>\r\n
+        \                           <td>1146.4024</td>\r\n                            </tr>\r\n\r\n
         \                   </tbody>\r\n                    </table>\r\n                    <a
         href=\"#\" class=\"link-cotizacion\" data-toggle=\"modal\" data-target=\"#modalHistorico\"
         id=\"buttonHistoricoMonedas\" >Ver hist\xF3rico</a>\r\n                    <div
@@ -513,18 +528,18 @@ interactions:
         type=\"button\" class=\"btn btn-primary\" id=\"historicoPrincipalMonedas\">Ver
         hist\xF3rico principal</button>\r\n            <a href=\"#\" onclick=\"imprimir('cotizacionesCercanas','modalTitulosImpresion')\"
         class=\"printModal\">Imprimir</a>\r\n        </div>\r\n\r\n    </div>\r\n
-        \   </div>\r\n</div>\r\n\r\n\r\n    </div>\r\n\r\n    <!--MODAL COMISIONES-->\r\n
-        \   \r\n\r\n\r\n<div class=\"modal fade\" id=\"myModalComisiones\" tabindex=\"-1\"
-        role=\"dialog\" aria-labelledby=\"myLargeModalLabel\" aria-hidden=\"true\">\r\n
-        \ <div class=\"modal-dialog modal-lg\">\r\n    <div class=\"modal-content\">\r\n
-        \     <div class=\"modal-header\">\r\n        <button type=\"button\" class=\"close\"
-        data-dismiss=\"modal\"><span aria-hidden=\"true\">&times;</span><span class=\"sr-only\">Close</span></button>\r\n
-        \       <h4 class=\"modal-title\" id=\"myModalLabel\">Comisiones y cargos</h4>\r\n
-        \     </div>\r\n      <div class=\"modal-body\">\r\n\t\t<div class=\"content-table-home\">\r\n
-        \           <h2>Comisi\xF3n de atenci\xF3n caja de ahorro en pesos / d\xF3lares</h2>\r\n
-        \           <p>Por los servicios que se indican a continuaci\xF3n se percibir\xE1
-        la siguiente tarifa, en la moneda en que fue abierta la cuenta:</p>\r\n    \r\n
-        \           <div class=\"table-responsive\">\r\n                <table class=\"table\">\r\n
+        \   </div>\r\n</div>\r\n\r\n\r\n</div>\r\n\r\n\r\n\r\n\r\n\r\n<div class=\"modal
+        fade\" id=\"myModalComisiones\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myLargeModalLabel\"
+        aria-hidden=\"true\">\r\n  <div class=\"modal-dialog modal-lg\">\r\n    <div
+        class=\"modal-content\">\r\n      <div class=\"modal-header\">\r\n        <button
+        type=\"button\" class=\"close\" data-dismiss=\"modal\"><span aria-hidden=\"true\">&times;</span><span
+        class=\"sr-only\">Close</span></button>\r\n        <h4 class=\"modal-title\"
+        id=\"myModalLabel\">Comisiones y cargos</h4>\r\n      </div>\r\n      <div
+        class=\"modal-body\">\r\n\t\t<div class=\"content-table-home\">\r\n            <h2>Comisi\xF3n
+        de atenci\xF3n caja de ahorro en pesos / d\xF3lares</h2>\r\n            <p>Por
+        los servicios que se indican a continuaci\xF3n se percibir\xE1 la siguiente
+        tarifa, en la moneda en que fue abierta la cuenta:</p>\r\n    \r\n            <div
+        class=\"table-responsive\">\r\n                <table class=\"table\">\r\n
         \               <thead>\r\n                    <tr>\r\n                        <th
         rowspan=\"2\" width=\"20%\">Concepto</th>\r\n                        <th colspan=\"2\">Tarifa</th>\r\n
         \                       <th rowspan=\"2\" >Minimo</th>\r\n                        <th
@@ -919,55 +934,61 @@ interactions:
         src=\"/Images/pdf.gif\"/>Conozca las Comisiones y Cargos de otros servicios
         y productos.</a>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\n\r\n\r\n\r\n\r\n\r\n
         \             </div>\r\n\r\n          </div>\r\n\r\n      </main>\r\n      \r\n\r\n<script
-        type=\"text/javascript\">\r\n    $(document).ready(function () {\r\n    });\r\n</script>\r\n\r\n\r\n<!--
-        CONTACTO ICONOS\r\n================================================== -->\r\n<aside
-        class=\"containerIconosHome\">\r\n    <div class=\"IconosHome containerContent\">
-        \r\n        <ul class=\"nav nav-pills nav-justified\">\r\n            \r\n
-        \            \r\n           <li class=\"imgIconos1\"><a href=\"/Home/Contactenos\">Cont\xE1ctenos</a></li>\r\n
+        type=\"text/javascript\">\r\n    $(document).ready(function () {\r\n    });\r\n</script>\r\n\r\n\r\n\r\n<aside
+        class=\"containerIconosHome\" id=\"containerIconosHomeMobileID\">\r\n    <div
+        class=\"IconosHome containerContent\"> \r\n        <ul class=\"nav nav-pills
+        nav-justified\">\r\n\r\n            <!-- <li class=\"imgIconos0\"><a href=\"Personas/SolicitudProductosOnline\">Solicitudes
+        online</a></li>-->\r\n            <li class=\"imgIconos1\"><a href=\"/Home/Contactenos\">Cont\xE1ctenos</a></li>\r\n
         \           <li class=\"imgIconos2\"><a href=\"/Home/TelefonosUtiles\">Tel\xE9fonos
-        \xFAtiles</a></li>  \r\n            <li class=\"imgIconos3\"><a href=\"/Institucional/Sucursales\">Sucursales
-        y Cajeros</a></li>\r\n\t\t\t<li class=\"imgIconos5\">\r\n              \r\n
-        \               <a href=\"https://www.instagram.com/banconacion\" target=\"_blank\"
-        title=\"Instagram\" class=\"face\" ></a><a href=\"http://www.facebook.com/banconacion/\"
-        target=\"_blank\" title=\"Facebook\" class=\"you\" ></a><a href=\"https://www.youtube.com/banconacion\"
-        target=\"_blank\" title=\"Youtube\" class=\"inst\" ></a><a href=\"https://www.linkedin.com/company/banconacion\"
-        target=\"_blank\" title=\"Linkedin\" class=\"linke\" ></a>\r\n\r\n\t\t\t</li>\r\n\r\n
-        \                       \r\n                <li class=\"imgIconos4\"><div
-        class=\"title\">Centro de Atenci\xF3n al Cliente</div><div class=\"tel\">0810-666-4444</div></li>\r\n
-        \       </ul>\r\n    </div>\r\n</aside>\r\n\r\n\r\n\r\n      \r\n      \r\n<!--\r\n<section>\r\n
-        \ <div class=\"ADDUChome\">\r\n    JUZGADO NACIONAL EN LO CIVIL Y COMERCIAL
-        FEDERAL NRO. 4 -SECRETAR\xCDA NRO. 8. El Juzgado Nacional de Primera Instancia
-        en lo Civil y Comercial Federal Nro. 4, a cargo del Dr.Jos\xE9 Luis Cassinerio,\r\n
-        \   Secretar\xEDa Nro. 8, a cargo de la Dra. Mariana Roger, sito en la calle
-        Libertad 731, piso 5, CABA, en los autos caratulados \u201CADDUC c/ Banco
-        de la Naci\xF3n Argentina s/ Proceso de Conocimiento\u201D,\r\n    Expte.
-        3616/2013, hace saber a todas las personas f\xEDsicas que hayan participado
-        de transferencias interbancarias vinculadas con dep\xF3sitos judiciales a
-        partir del 1/12/2010,\r\n    que la Asociaci\xF3n de Defensa de Derechos de
-        Usuarios y Consumidores ADDUC inici\xF3 una acci\xF3n colectiva a fin de que
-        se condene al Banco de la Naci\xF3n Argentina a cesar en el cobro a los consumidores\r\n
-        \   (personas f\xEDsicas) del cargo por transferencias interbancarias cuando
-        \xE9ste es aplicado a transferencias que se originan en cuentas a la vista
-        para uso judicial y se cobra la comisi\xF3n al destinatario\r\n    de la transferencia;
-        que se ordene la restituci\xF3n a los consumidores comprendidos en la demanda,
-        en el per\xEDodo considerado, de los montos debitados y/o percibidos por el
-        cargo individualizado,\r\n    m\xE1s el IVA devengado o percibido; ello, m\xE1s
-        intereses desde cada percepci\xF3n hasta la restituci\xF3n; m\xE1s el pago
-        de la multa prevista en el art. 52 bis de la ley 24.240 y las costas del proceso.\r\n
-        \   Se hace saber que todo aquel que pudiere considerarse afectado por lo
-        que eventualmente se resuelva contar\xE1 con la posibilidad de presentarse
-        en este expediente dentro del plazo de 90 d\xEDas corridos,\r\n    contados
-        a partir de la publicaci\xF3n en el Bolet\xEDn Oficial, a fin de constituir
-        domicilio y manifestar lo que por derecho corresponda, bajo apercibimiento
-        de continuar el juicio seg\xFAn su estado.\r\n    Fdo.: Jos\xE9 Luis Cassinerio
-        - Juez Dr. Jos\xE9 Luis Cassinerio Juez - Jos\xE9 Luis Cassinerio Juez.\r\n
-        \ </div>\r\n</section>\r\n    -->\r\n\r\n<footer>\r\n    <div class=\"containerContent\">\r\n\r\n
-        \       <!--<a href=\"/Downloads/ADDUC.pdf\" class=\"linkJudicial\" target=\"_blank\">INFORMACI\xD3N
-        A CONSUMIDORES TOMADORES DE CR\xC9DITOS BAJO LAS L\xCDNEAS \"PRESTAMOS NACI\xD3N
-        DESTINO LIBRE\", \"PRESTAMOS NACI\xD3N SUELDO\" <br />Y \"PRESTAMOS NACI\xD3N
-        ADMINISTRACI\xD3N P\xDABLICA\" Y DEM\xC1S CONVENIOS DECRETO 691/2000\"</a>-->\r\n
-        \       <!--le saque el arroba de adelante de url<a href=\"Url.Action(\"InternasSinArbol\",
-        \"Home\", new { id=\"RegimenDeSinceramientoFiscal\"})\" class=\"regimen\">R\xE9gimen
+        \xFAtiles</a></li>\r\n            <li class=\"imgIconos3\"><a href=\"/Institucional/Sucursales\">Sucursales
+        y Cajeros</a></li>\r\n            <li class=\"imgIconos5\">\r\n                <a
+        href=\"https://www.instagram.com/banconacion\" target=\"_blank\" title=\"Instagram\"
+        class=\"face\" style=\"width:26px;\"></a>\r\n                <a href=\"http://www.facebook.com/banconacion/\"
+        target=\"_blank\" title=\"Facebook\" class=\"you\" style=\"width:26px;\"></a>\r\n
+        \               <a href=\"https://twitter.com/BancoNacion\" target=\"_blank\"
+        title=\"Twitter\" class=\"twit\"\r\n                   style=\"width:26px;
+        background-size: initial; background-image: url(../../Images/iconosHomeTwit1.png);
+        display: inline-block; background-position: center -287px; padding: 0;\"></a>\r\n
+        \               <a href=\"https://www.youtube.com/banconacion\" target=\"_blank\"
+        title=\"Youtube\" class=\"inst\" style=\"width:26px;\"></a>\r\n                <a
+        href=\"https://www.linkedin.com/company/banconacion\" target=\"_blank\" title=\"Linkedin\"
+        class=\"linke\" style=\"width:26px;\"></a>\r\n            </li>\r\n                    <li
+        class=\"imgIconos4\"><div class=\"title\">Centro de Atenci\xF3n al Cliente</div><div
+        class=\"tel\">0810-666-4444</div></li>\r\n\r\n        </ul>\r\n    </div>\r\n</aside>\r\n\r\n\r\n\r\n
+        \     \r\n      \r\n<!--\r\n<section>\r\n  <div class=\"ADDUChome\">\r\n    JUZGADO
+        NACIONAL EN LO CIVIL Y COMERCIAL FEDERAL NRO. 4 -SECRETAR\xCDA NRO. 8. El
+        Juzgado Nacional de Primera Instancia en lo Civil y Comercial Federal Nro.
+        4, a cargo del Dr.Jos\xE9 Luis Cassinerio,\r\n    Secretar\xEDa Nro. 8, a
+        cargo de la Dra. Mariana Roger, sito en la calle Libertad 731, piso 5, CABA,
+        en los autos caratulados \u201CADDUC c/ Banco de la Naci\xF3n Argentina s/
+        Proceso de Conocimiento\u201D,\r\n    Expte. 3616/2013, hace saber a todas
+        las personas f\xEDsicas que hayan participado de transferencias interbancarias
+        vinculadas con dep\xF3sitos judiciales a partir del 1/12/2010,\r\n    que
+        la Asociaci\xF3n de Defensa de Derechos de Usuarios y Consumidores ADDUC inici\xF3
+        una acci\xF3n colectiva a fin de que se condene al Banco de la Naci\xF3n Argentina
+        a cesar en el cobro a los consumidores\r\n    (personas f\xEDsicas) del cargo
+        por transferencias interbancarias cuando \xE9ste es aplicado a transferencias
+        que se originan en cuentas a la vista para uso judicial y se cobra la comisi\xF3n
+        al destinatario\r\n    de la transferencia; que se ordene la restituci\xF3n
+        a los consumidores comprendidos en la demanda, en el per\xEDodo considerado,
+        de los montos debitados y/o percibidos por el cargo individualizado,\r\n    m\xE1s
+        el IVA devengado o percibido; ello, m\xE1s intereses desde cada percepci\xF3n
+        hasta la restituci\xF3n; m\xE1s el pago de la multa prevista en el art. 52
+        bis de la ley 24.240 y las costas del proceso.\r\n    Se hace saber que todo
+        aquel que pudiere considerarse afectado por lo que eventualmente se resuelva
+        contar\xE1 con la posibilidad de presentarse en este expediente dentro del
+        plazo de 90 d\xEDas corridos,\r\n    contados a partir de la publicaci\xF3n
+        en el Bolet\xEDn Oficial, a fin de constituir domicilio y manifestar lo que
+        por derecho corresponda, bajo apercibimiento de continuar el juicio seg\xFAn
+        su estado.\r\n    Fdo.: Jos\xE9 Luis Cassinerio - Juez Dr. Jos\xE9 Luis Cassinerio
+        Juez - Jos\xE9 Luis Cassinerio Juez.\r\n  </div>\r\n</section>\r\n    -->\r\n\r\n<footer>\r\n
+        \   <div class=\"containerContent\">\r\n\r\n        <!--<a href=\"/Downloads/ADDUC.pdf\"
+        class=\"linkJudicial\" target=\"_blank\">INFORMACI\xD3N A CONSUMIDORES TOMADORES
+        DE CR\xC9DITOS BAJO LAS L\xCDNEAS \"PRESTAMOS NACI\xD3N DESTINO LIBRE\", \"PRESTAMOS
+        NACI\xD3N SUELDO\" <br />Y \"PRESTAMOS NACI\xD3N ADMINISTRACI\xD3N P\xDABLICA\"
+        Y DEM\xC1S CONVENIOS DECRETO 691/2000\"</a>-->\r\n        <!--le saque el
+        arroba de adelante de url<a href=\"Url.Action(\"InternasSinArbol\", \"Home\",
+        new { id=\"RegimenDeSinceramientoFiscal\"})\" class=\"regimen\">R\xE9gimen
         de sinceramiento fiscal - Ley 27.260</a>-->\r\n\r\n\r\n\r\n        <div class=\"row\">\r\n\r\n
         \           <div class=\"col-md-9\">\r\n\r\n\r\n                <div class=\"MenuHomeHor\">\r\n
         \                   <ul class=\"nav nav-pills nav-justified\">\r\n                        <li><a
@@ -1357,7 +1378,7 @@ interactions:
         \"2\", u, o, i) } catch (t) { } }(\"r9wn9\", \"Ym5hLmNvbS5ibw==,Ym5hLmNvbS5hcg==,bmFjaW9uc2VydmljaW9zLmNvbS5hcg==,ZnVuZGFjaW9uYm5hLm9yZy5hcg==,Ym5hLmNvbS5weQ==,dHJhbnNsYXRlLmdvb2c=,Ym5hLmNvbS51eQ==,Ym5hbm1pYW1pLmNvbQ==,d2ViY2FjaGUuZ29vZ2xldXNlcmNvbnRlbnQuY29t,cGVkaXJkaW5lcm90ZXN0LmJuYS5jb20uYXI=,Ym5hbnkuY29t,dGllbmRhYm5hLmNvbS5hcg==,Ym5hYnIuY29tLmJy,dGVzdGJuYS5ibmEuY29tLmFy,cGVkaXJkaW5lcm8uYm5hLmNvbS5hcg==,bmF0aXZhbmFjaW9uLmNvbS5hcg==,cHltZW5hY2lvbi5jb20uYXI=,Ym5hbmV0LmJuYS5jb20uYXI=,c2FmZWZyYW1lLmdvb2dsZXN5bmRpY2F0aW9uLmNvbQ==,cmVkbGluay5jb20uYXI=,YWdyb25hY2lvbi5jb20uYXI=\",
         \"Z29vZ2xlLmNvbS5zdg==,Z29vZ2xlLmNvbS50dw==,bXNuLmNvbQ==,Z29vZ2xlLm13,Z29vZ2xlLmFz,Z29vZ2xlLmhu,Z29vZ2xlLmNvbS5waw==,Z29vZ2xlLmNvbS51eQ==,bXl3YXkuY29t,Z29vZ2xlLmJh,Z29vZ2xlLnZ1,Z29vZ2xlLm1z,Z29vZ2xlLmNvbS5wcg==,Z29vZ2xlLmNh,cXdhbnQuY29t,Z29vZ2xlLmNvLmpw,Z29vZ2xlLmRt,Z29vZ2xlLnV6,Z29vZ2xlLm5y,Z29vZ2xlLmNvbS5rdw==,Z29vZ2xlLnJ3,Z29vZ2xlLmNvbS5teQ==,Z29vZ2xlLnBs,Z29vZ2xlLmNvLmty,YXNrLmNvbQ==,Z29vZ2xlLmNvLmNy,Z29vZ2xlLnB0,YW9sLmNvbQ==,eWFob28ubmV0,Z29vZ2xlLnNo,ZmFjZWJvb2suY29t,Z29vZ2xlLmNvLnZp,Z29vZ2xlLmNvbS50ag==,Z2l2ZXdhdGVyLmNvbQ==,Z29vZ2xlLmNvbS5ucA==,Z29vZ2xlLmNvbS5seQ==,Z29vZ2xlLmNvbS5zZw==,Z29vZ2xlLmNvLmlt,Z29vZ2xlLmNvbS5weQ==,Z29vZ2xlLm1u,Z29vZ2xlLnNl,Z29vZ2xlLmNvbS5wZQ==,Z29vZ2xlLmlz,c3RhcnRwYWdpbmEubmw=,Z29vZ2xlLmNvbS5hZw==,Z29vZ2xlLm5v,eW91dHViZS5jb20=,Z29vZ2xlLnR2,Z29vZ2xlLmx1,c3RhcnQubWU=,Z29vZ2xlLmNvbS5wYQ==,Z29vZ2xlLm9mZi5haQ==,Z29vZ2xlLmNvbS5jbw==,Z29vZ2xlLmNvLnph,Z29vZ2xlLnNp,eWVscC5jb20=,Z29vZ2xlLmNvLnVr,Z29vZ2xlLmNvbS5oaw==,bGFzdHBhc3MuY29t,Z29vZ2xlLmNvLmtl,Z29vZ2xlLmNvLm1h,Z29vZ2xlLnR0,Z29vZ2xlLmNvbS5hZg==,Z29vZ2xlLmNvbS5ndA==,Z29vZ2xlLmF6,Z29vZ2xlLmNk,Z29vZ2xlLnNt,Z29vZ2xlLmNvLmpl,Z29vZ2xlLmh1,Z29vZ2xlLmVl,Z29vZ2xlLmNvLm56,Z29vZ2xlLmNvbS5ieg==,Z29vZ2xlLmNvbS5kbw==,Z29vZ2xlLmNvbS5ldA==,Z29vZ2xlLmNvbS5icg==,Z29vZ2xlLmNvbS50cg==,Z29vZ2xlLmZt,Z29vZ2xlLmdy,Z29vZ2xlLmNvLnZl,Z29vZ2xlLmNvLmls,Z29vZ2xlLmNvLnVn,Z29vZ2xlLmdn,Z29vZ2xlLmll,Z29vZ2xlLmNvbS5waA==,Z29vZ2xlLmxp,Z29vZ2xlLmNvbS5lYw==,Zm9yY2UuY29t,Z29vZ2xlLnRw,em9vbWluZm8uY29t,bWFrby5jby5pbA==,Z29vZ2xlLmNn,Z29vZ2xlLmtn,Z29vZ2xlLmNvLmh1,dGhlbWFya2VyLmNvbQ==,Z29vZ2xlLnNj,Z29vZ2xlLmNo,Z29vZ2xlLmNvbS5naQ==,Z29vZ2xlLmNvbS5uZg==,Z29vZ2xlLmNvbS5zYQ==,Z29vZ2xlLmNs,Z29vZ2xlLm11,Z29vZ2xlLnRt,Z29vZ2xlLmx0,Z29vZ2xlLmNvbS5xYQ==,Z29vZ2xlLnRv,Z29vZ2xlLnNu,Z29vZ2xlLnZn,Z29vZ2xlLmxr,Z29vZ2xlLm1k,Z29vZ2xlLmZp,Z29vZ2xlLmNvbS5hcg==,Z29vZ2xlLmFt,Z29vZ2xlLmJn,Z29vZ2xlLmNvLmxz,Z29vZ2xlLm5ldA==,Z29vZ2xlLnJv,Z29vZ2xlLmF0,eWFob28uY29t,Z29vZ2xlLmNvbS5tdA==,ZHVja2R1Y2tnby5jb20=,Z29vZ2xlLmNvLmNr,Z29vZ2xlLmVz,Z29vZ2xlLmNvbS5uaQ==,Z29vZ2xlLmNvbS5uYQ==,Z29vZ2xlLmNvbS52bg==,bWljcm9zb2Z0LmNvbQ==,Z29vZ2xlLmNvbS5qbQ==,Z29vZ2xlLmNvLnV6,Z29vZ2xlLmNvbS5lZw==,Z29vZ2xlLmNvbS5teA==,Z29vZ2xlLmhy,YmluZy5jb20=,Z29vZ2xlLm5s,Z29vZ2xlLmds,Z29vZ2xlLmJl,Y29tLmdvb2dsZS5hbmRyb2lkLmdt,Z29vZ2xlLnBu,Z29vZ2xlLmNvbQ==,Z29vZ2xlLmt6,Z29vZ2xlLmNvbS52Yw==,Z29vZ2xlLmNvbS5jdQ==,Z29vZ2xlLmNvbS51YQ==,Z29vZ2xlLmNp,ZXNldC5jb20=,Z29vZ2xlLmx2,Z29vZ2xlLmJp,Z29vZ2xlLmNvLmlu,Z29vZ2xlLmNvLnRo,Z29vZ2xlLmRq,Z29vZ2xlLmh0,Z29vZ2xlLmdt,Z29vZ2xlLm9yZw==,Z29vZ2xlLmNvLnpt,Z29vZ2xlLmNvbS5vbQ==,Z29vZ2xlLmNvbS5mag==,Z29vZ2xlLmRl,Z29vZ2xlLmZy,Z29vZ2xlLnNr,YXBwbGUuY29t,Z29vZ2xlLndz,Z29vZ2xlLmNvbS51eg==,Z29vZ2xlLmNvLmJ3,Z29vZ2xlLmRr,Z29vZ2xlLmJz,Z29vZ2xlLmpv,Z29vZ2xlLml0,Z29vZ2xlLnJ1,Z29vZ2xlLmNvbS5iZA==,Z29vZ2xlLmNvLmlk,Z29vZ2xlLm51,Z29vZ2xlLmNvbS5ibw==,YWRwLmNvbQ==,Z29vZ2xlLmFl,Z29vZ2xlLmNvbS5zYg==,dGFib29sYS5jb20=,Y29tLmdvb2dsZS5hbmRyb2lkLmdvb2dsZXF1aWNrc2VhcmNoYm94,Z29vZ2xlLmNvbS5hdQ==,Z29vZ2xlLmN6\",
         \"YS5hZHMtMDguY29t\") }]);\r\n  </script>\r\n  </body>\r\n\r\n</html>\r\n<script
-        id=\"f5_cspm\">(function(){var f5_cspm={f5_p:'KNIGDJPDLEAHKKHGFMCCOKMCNMHAJIFBCODNHFPDEJJDGIIJMBBJAMFIALCEOMEOBAEBKMMJAAECGNJGIHHABNLPAAGPEJABHKAJJFOLLINBAFPOGEOLBKGFMFKLCPLP',setCharAt:function(str,index,chr){if(index>str.length-1)return
+        id=\"f5_cspm\">(function(){var f5_cspm={f5_p:'MLOLMKKIGLCGKKNIPJPBBOCMDKOIMNHNBPPLDCEJILHBNIICPMLJMBIIJCIDEDCPHHABBFHDAAKCEAMNMCAABDNEAAGOMGLJGACIFFGCIPCFHKPNGNLLGIIIOAKDEMIF',setCharAt:function(str,index,chr){if(index>str.length-1)return
         str;return str.substr(0,index)+chr+str.substr(index+1);},get_byte:function(str,i){var
         s=(i/16)|0;i=(i&15);s=s*32;return((str.charCodeAt(i+16+s)-65)<<4)|(str.charCodeAt(i+s)-65);},set_byte:function(str,i,b){var
         s=(i/16)|0;i=(i&15);s=s*32;str=f5_cspm.setCharAt(str,(i+16+s),String.fromCharCode((b>>4)+65));str=f5_cspm.setCharAt(str,(i+s),String.fromCharCode((b&15)+65));return
@@ -1371,23 +1392,27 @@ interactions:
       Cache-Control:
       - private
       Content-Length:
-      - '110012'
+      - '111747'
       Content-Type:
       - text/html; charset=utf-8
       Date:
-      - Tue, 31 Aug 2021 19:45:52 GMT
+      - Sun, 27 Feb 2022 21:31:14 GMT
       Expires:
-      - Tue, 31 Aug 2021 19:46:33 GMT
+      - Sun, 27 Feb 2022 21:32:14 GMT
       Last-Modified:
-      - Tue, 31 Aug 2021 19:45:33 GMT
+      - Sun, 27 Feb 2022 21:31:14 GMT
       Set-Cookie:
-      - BNA_Cookie=1227360778.47873.0000; expires=Wed, 01-Sep-2021 05:45:53 GMT; path=/;
+      - _AnonId_=28a1708e-16e1-637815834744886533; expires=Mon, 27-Feb-2023 21:31:14
+        GMT; path=/; HttpOnly
+      - BNA_Cookie=1109920266.47873.0000; expires=Mon, 28-Feb-2022 07:31:17 GMT; path=/;
         Httponly
-      - f5avraaaaaaaaaaaaaaaa_session_=ODAGDDPAPEALCKJHGMLBAGMCNMEGFEDBACLNNAODFJJDGIIJNIAJIEFIALCFOMEOBAEDKMMJGGKDLFHHIHHABNLPKIEJFBCHPEEMECPKLINBAFBABBLKFBCFMFKLCPDN;
+      - f5avraaaaaaaaaaaaaaaa_session_=JBLPKDKLCLCHCKGJJMALBDCMDKNCABPNJHJLHBFJJLHBNIICNLJJOJIIJCICEDCPHHADBFHDKNBAFOHPMCAABDNEFOHIBIKPHFIPHNIAIPCFHKBNBFDPOLIIOAKDEMEL;
         HttpOnly; secure
       - 'f5_cspm=1234; HTTPonly; '
-      - TS0100f380=013be86af4455622f6232ee863dad5020636f99eaf92a82dcdc3218dddd8af283101b5d69f223f6afa39c068e70f10935fc0b0a31bc760b186d1a75b7be240b29f0a12481a;
+      - TS0100f380=013be86af47ce1db436c5587f9f2aab6983b934d196656d5e73c48e0a5b0816e3fe44fb96f05065217d7f6f5a975cd5c99b8a20e708245f6e7cac43d1e20ea8c5af78530c1;
         Path=/; Domain=.bna.com.ar; Secure; HTTPOnly
+      Strict-Transport-Security:
+      - max-age=16070400; preload
       Vary:
       - User-Agent
       x-frame-options:

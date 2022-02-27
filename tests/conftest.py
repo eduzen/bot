@@ -10,8 +10,16 @@ MODELS = [User, EventLog, Report]
 db = SqliteExtDatabase(":memory:")
 
 
+def vcr_config() -> dict[str, str]:
+    return {
+        "filter_headers": ["authorization"],
+        "ignore_localhost": True,
+        "record_mode": "once",
+    }
+
+
 @pytest.fixture(scope="session", autouse=True)
-def setup_db():
+def setup_db() -> SqliteExtDatabase:
     db.bind(MODELS, bind_refs=False, bind_backrefs=False)
     db.connect()
     db.create_tables(MODELS)

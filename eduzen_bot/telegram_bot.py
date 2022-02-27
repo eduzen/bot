@@ -36,7 +36,7 @@ class TelegramBot:
     """Just a class for python-telegram-bot"""
 
     token: str
-    eduzen_id: int = 3652654
+    eduzen_id: str = "3652654"
     heroku: int = 0
     port: int = 80
     workers: int = 4
@@ -46,11 +46,11 @@ class TelegramBot:
     def __attrs_post_init__(self):
         try:
             self.updater = Updater(token=self.token, workers=self.workers, use_context=self.use_context)
-        except TelegramError:
-            logger.exception("Something wrong...")
-            raise SystemExit
+        except TelegramError as exc:
+            logger.exception("Something went wrong...")
+            raise SystemExit(exc.message)
 
-        logger.info("[bold green]Created updater for %s" % (self.updater.bot.name), extra={"markup": True})
+        logger.info("[bold green]Created updater for %s" % self.updater.bot.name, extra={"markup": True})
         self.updater.dispatcher.add_error_handler(self.error)
         self._load_plugins()
 
@@ -64,13 +64,14 @@ class TelegramBot:
         self.configure_cronjobs()
         self.updater.idle()
 
-    def error(self, update, context):
+    @staticmethod
+    def error(update, context):
         """Log Errors caused by Updates."""
         try:
             raise context.error
         except Unauthorized:
             # remove update.message.chat_id from conversation list
-            logger.error("Update caused Unauthorized error")
+            logger.error("Unauthorized error")
         except BadRequest:
             # handle malformed requests - read more below!
             logger.error(f"Update caused error {context.error}")
@@ -85,9 +86,9 @@ class TelegramBot:
             logger.error(f"Update caused ChatMigrated {context.error}")
         except TelegramError:
             # handle all other telegram related errors
-            logger.error(f"Update caused TelegramError {context.error}")
+            logger.exception(f"Update caused TelegramError {context.error}")
         except Exception:
-            logger.error(f"Update caused Unhandled error {context.error}")
+            logger.exception(f"Unhandled issue {context.error}")
 
     def add_handler(self, handler):
         self.updater.dispatcher.add_handler(handler)
@@ -125,13 +126,15 @@ class TelegramBot:
             run_async=True,
         )
 
-    def create_inlinequery(self, func):
+    @staticmethod
+    def create_inlinequery(func):
         return InlineQueryHandler(func)
 
     def create_list_of_commands(self, kwargs):
         return [self.create_command(key, value) for key, value in kwargs.items()]
 
-    def create_msg(self, func, filters=Filters.text):
+    @staticmethod
+    def create_msg(func, filters=Filters.text):
         return MessageHandler(filters, func)
 
     def create_list_of_msg_handlers(self, args):
