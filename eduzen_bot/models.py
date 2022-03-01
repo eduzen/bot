@@ -46,6 +46,7 @@ class User(BaseModel):
 
     def save(self, *args, **kwargs):
         self.updated_at = datetime.now()
+        kwargs["force_insert"] = True  # Non incremental id
         return super().save(*args, **kwargs)
 
     def __str__(self):

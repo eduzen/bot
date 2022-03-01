@@ -36,16 +36,16 @@ clean: stop
 	docker-compose rm --force -v
 
 test:
-	docker-compose run --rm --entrypoint="" eduzenbot pytest
+	${COMPOSE} pytest
 
 flake8:
-	docker-compose run --rm eduzenbot flake8 .
+	${COMPOSE} flake8 .
 
 dockershell:
 	${COMPOSE} bash
 
 shell:
-	docker-compose run --rm eduzenbot ipython3
+	${COMPOSE} ipython3
 
 clean-python:
 	rm -fr build
