@@ -14,7 +14,7 @@ from eduzen_bot.decorators import create_user
 
 session = requests.Session()
 
-logger = logging.getLogger()
+logger = logging.getLogger("rich")
 
 
 class STORIES(Enum):
@@ -65,16 +65,29 @@ def get_hackernews_help(story_type):
     return f"*{str(story_type).capitalize()} stories from* [HackerNews](https://news.ycombinator.com)\n\n"
 
 
+def parse_hackernews(story_id: int):
+    raw_story = get_item(story_id)
+    story = SimpleNamespace(**raw_story)
+    now = pendulum.now()
+    date = now - pendulum.from_timestamp(story.time)
+    try:
+        url = story.url
+    except AttributeError:
+        url = ""
+    story_text = f"[{story.title}]({url})\n Score: {story.score} Hace: {date.in_words()}"
+    return story_text
+
+
 @cached(cache=TTLCache(maxsize=1024, ttl=10800))
 def hackernews(story_type=STORIES.TOP, limit=5):
     text_stories = []
     for story_id in get_top_stories(story_type, limit):
-        raw_story = get_item(story_id)
-        story = SimpleNamespace(**raw_story)
-        now = pendulum.now()
-        date = now - pendulum.from_timestamp(story.time)
-        story_text = f"[{story.title}]({story.url})\n Score: {story.score} Hace: {date.in_words()}"
-        text_stories.append(story_text)
+        try:
+            story = parse_hackernews(story_id)
+            text_stories.append(story)
+        except Exception as e:
+            logger.exception(e)
+            continue
 
     title = get_hackernews_help(story_type=story_type)
     return title + "\n".join(text_stories)
