@@ -11,7 +11,7 @@ from cachetools import TTLCache, cached
 from telegram import ChatAction
 
 from eduzen_bot.decorators import create_user
-from eduzen_bot.plugins.commands.btc.api import get_all, get_btc, get_dogecoin, get_eth
+from eduzen_bot.plugins.commands.btc.api import get_all
 from eduzen_bot.plugins.commands.dolar.api import get_bluelytics
 from eduzen_bot.plugins.commands.hackernews.command import hackernews
 from eduzen_bot.plugins.commands.weather.api import get_klima
@@ -75,11 +75,7 @@ def get_crypto_report():
 def btc(update, context, *args, **kwargs):
     context.bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
 
-    btc = get_btc() or ""
-    dog = get_dogecoin() or ""
-    eth = get_eth() or ""
-
-    text = "\n".join([dog, eth, btc])
+    text = get_all()
 
     context.bot.send_message(chat_id=update.message.chat_id, text=text)
 
