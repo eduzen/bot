@@ -74,21 +74,21 @@ class TelegramBot:
             logger.error("Unauthorized error")
         except BadRequest:
             # handle malformed requests - read more below!
-            logger.error(f"Update caused error {context.error}")
+            logger.warning(f"Update caused a BadRequest {context.error}")
         except TimedOut:
             # handle slow connection problems
-            logger.warning(f"Update caused TimedOut {context.error}")
+            logger.warning(f"Update caused a TimedOut: {context.error}")
         except NetworkError:
             # handle other connection problems
-            logger.error(f"Update caused NetworkError {context.error}")
+            logger.warning(f"Update caused a NetworkError: {context.error}")
         except ChatMigrated:
             # the chat_id of a group has changed, use e.new_chat_id instead
-            logger.error(f"Update caused ChatMigrated {context.error}")
+            logger.warning(f"Update caused a ChatMigrated {context.error}")
         except TelegramError:
             # handle all other telegram related errors
-            logger.exception(f"Update caused TelegramError {context.error}")
+            logger.exception(f"Update caused a TelegramError: {context.error}")
         except Exception:
-            logger.exception(f"Unhandled issue {context.error}")
+            logger.exception(f"Unhandled issue: {context.error}")
 
     def add_handler(self, handler):
         self.updater.dispatcher.add_handler(handler)
@@ -109,9 +109,9 @@ class TelegramBot:
             when = datetime.time(hour=report.hour, minute=report.min, tzinfo=pytz.timezone("Europe/Amsterdam"))
             chat_id = report.chat_id
             self.updater.job_queue.run_daily(alarm, when, days=range(7), context=chat_id, name=str(chat_id))
-            msg = f"hey, you have a crypto report everyday at {report.hour}. Chat_id {report.chat_id}"
+            msg = "hey, I'm just restarted. Remember that you have a crypto report" f" everyday at {report.hour}."
             self.updater.bot.send_message(chat_id, msg)
-            self.updater.bot.send_message(self.eduzen_id, msg)
+            self.updater.bot.send_message(self.eduzen_id, f"Crypto report in Chat_id {report.chat_id}")
 
     def create_command(self, name, func):
         return CommandHandler(name, func, pass_args=True, pass_chat_data=True, run_async=True)

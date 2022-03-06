@@ -10,7 +10,7 @@ DOGECOIN = "https://sochain.com//api/v2/get_price/DOGE/USD"
 
 ALL = (
     "https://api.coingecko.com/api/v3/simple/price"
-    "?ids=bitcoin,ethereum,dogecoin,solana,cardano,shiba-inu,decentraland&vs_currencies=usd"
+    "?ids=bitcoin,ethereum,dogecoin,solana,cardano,shiba-inu,decentraland,kava,terra-luna,kusama&vs_currencies=usd"
 )
 
 logger = logging.getLogger("rich")
@@ -117,7 +117,7 @@ def process_all(response):
         logger.debug(f"ada: {ada}")
 
         dog = round(float(data["dogecoin"]["usd"]), 2)
-        dog = f"🐶 1 dog == USD {dog} 💵"
+        dog = f"🐶 1 doge == USD {dog} 💵"
         logger.debug(f"dog: {dog}")
 
         shi = round(float(data["shiba-inu"]["usd"]), 12)
@@ -128,7 +128,15 @@ def process_all(response):
         dcl = f"💥 1 mana == USD {dcl} 💵"
         logger.debug(f"dcl: {dcl}")
 
-        return f"{btc}\n{eth}\n{dog}\n{sol}\n{ada}\n{shi}\n{dcl}"
+        luna = round(float(data["terra-luna"]["usd"]), 2)
+        luna = f"🌘 1 luna == USD {luna} 💵"
+        logger.debug(f"dcl: {dcl}")
+
+        kava = round(float(data["kava"]["usd"]), 2)
+        kava = f"♦️ 1 kava == USD {kava} 💵"
+        logger.debug(f"dcl: {dcl}")
+
+        return f"{btc}\n{eth}\n{dog}\n{sol}\n{ada}\n{luna}\n{kava}\n{shi}\n{dcl}"
     except Exception:
         logger.exception("No pudimos conseguir eth")
 
