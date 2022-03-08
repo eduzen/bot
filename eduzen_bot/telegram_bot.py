@@ -36,7 +36,7 @@ class TelegramBot:
     """Just a class for python-telegram-bot"""
 
     token: str
-    eduzen_id: int = 3652654
+    eduzen_id: str = "3652654"
     heroku: int = 0
     port: int = 80
     workers: int = 4
@@ -46,11 +46,11 @@ class TelegramBot:
     def __attrs_post_init__(self):
         try:
             self.updater = Updater(token=self.token, workers=self.workers, use_context=self.use_context)
-        except TelegramError:
-            logger.exception("Something wrong...")
-            raise SystemExit
+        except TelegramError as exc:
+            logger.exception("Something went wrong...")
+            raise SystemExit(exc.message)
 
-        logger.info("[bold green]Created updater for %s" % (self.updater.bot.name), extra={"markup": True})
+        logger.info("[bold green]Created updater for %s" % self.updater.bot.name, extra={"markup": True})
         self.updater.dispatcher.add_error_handler(self.error)
         self._load_plugins()
 
@@ -64,30 +64,31 @@ class TelegramBot:
         self.configure_cronjobs()
         self.updater.idle()
 
-    def error(self, update, context):
+    @staticmethod
+    def error(update, context):
         """Log Errors caused by Updates."""
         try:
             raise context.error
         except Unauthorized:
             # remove update.message.chat_id from conversation list
-            logger.error("Update caused Unauthorized error")
+            logger.error("Unauthorized error")
         except BadRequest:
             # handle malformed requests - read more below!
-            logger.error(f"Update caused error {context.error}")
+            logger.warning(f"Update caused a BadRequest {context.error}")
         except TimedOut:
             # handle slow connection problems
-            logger.warning(f"Update caused TimedOut {context.error}")
+            logger.warning(f"Update caused a TimedOut: {context.error}")
         except NetworkError:
             # handle other connection problems
-            logger.error(f"Update caused NetworkError {context.error}")
+            logger.warning(f"Update caused a NetworkError: {context.error}")
         except ChatMigrated:
             # the chat_id of a group has changed, use e.new_chat_id instead
-            logger.error(f"Update caused ChatMigrated {context.error}")
+            logger.warning(f"Update caused a ChatMigrated {context.error}")
         except TelegramError:
             # handle all other telegram related errors
-            logger.error(f"Update caused TelegramError {context.error}")
+            logger.exception(f"Update caused a TelegramError: {context.error}")
         except Exception:
-            logger.error(f"Update caused Unhandled error {context.error}")
+            logger.exception(f"Unhandled issue: {context.error}")
 
     def add_handler(self, handler):
         self.updater.dispatcher.add_handler(handler)
@@ -108,9 +109,9 @@ class TelegramBot:
             when = datetime.time(hour=report.hour, minute=report.min, tzinfo=pytz.timezone("Europe/Amsterdam"))
             chat_id = report.chat_id
             self.updater.job_queue.run_daily(alarm, when, days=range(7), context=chat_id, name=str(chat_id))
-            msg = f"hey, you have a crypto report everyday at {report.hour}. Chat_id {report.chat_id}"
+            msg = "hey, I'm just restarted. Remember that you have a crypto report" f" everyday at {report.hour}."
             self.updater.bot.send_message(chat_id, msg)
-            self.updater.bot.send_message(self.eduzen_id, msg)
+            self.updater.bot.send_message(self.eduzen_id, f"Crypto report in Chat_id {report.chat_id}")
 
     def create_command(self, name, func):
         return CommandHandler(name, func, pass_args=True, pass_chat_data=True, run_async=True)
@@ -125,13 +126,15 @@ class TelegramBot:
             run_async=True,
         )
 
-    def create_inlinequery(self, func):
+    @staticmethod
+    def create_inlinequery(func):
         return InlineQueryHandler(func)
 
     def create_list_of_commands(self, kwargs):
         return [self.create_command(key, value) for key, value in kwargs.items()]
 
-    def create_msg(self, func, filters=Filters.text):
+    @staticmethod
+    def create_msg(func, filters=Filters.text):
         return MessageHandler(filters, func)
 
     def create_list_of_msg_handlers(self, args):

@@ -1,6 +1,7 @@
 """
 serie - search_serie
 series - search_serie
+show - search_serie
 """
 import logging
 
