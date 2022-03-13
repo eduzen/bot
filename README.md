@@ -1,13 +1,16 @@
 # Just another telegram-bot
 
-## Setup
+![test](https://github.com/eduzen/bot/actions/workflows/test.yml/badge.svg)
+![docker](https://github.com/eduzen/bot/actions/workflows/docker-publish.yml/badge.svg)
 
-### Secrets
+We use (just)[https://github.com/casey/just] to run our project-specific commands. Under the hood, it uses docker to run our bot.
+So you will need docker too. Secrets are handle by `.env` file. So you will need to copy `.env.example` to `.env` and fill it with your secrets.
 
-You will need some secrets:
 
 ```bash
+  cargo install just
   cp .env.sample .env
+  just start
 ```
 
 ### pre-commit
