@@ -15,6 +15,9 @@ test:
 logs:
   {{dco}} logs -f eduzenbot
 
+shell:
+  {{run}} ipython
+
 start:
   {{dco}} up -d
   logs
