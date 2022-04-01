@@ -15,13 +15,18 @@ So you will need docker too. Secrets are handle by `.env` file. So you will need
   just start
 ```
 
-### pre-commit
+### Code style
+
+For linting, code style and etcetera, we use [pre-commit](https://pre-commit.com/)
 
 ```bash
 pre-commit install
+pre-commit run --all-files
 ```
 
-### Add new libs
+### Dependencies
+
+We are using poetry. So in case you need a new library just run:
 
 ```bash
 docker-compose run --entrypoint="" --rm eduzenbot poetry add astral
@@ -57,7 +62,7 @@ time - hora en algun lugar
 ```
 
 
-for roduction `docker-compose.yaml`
+for production `docker-compose.yaml`
 
 ```
 version: "3.8"
