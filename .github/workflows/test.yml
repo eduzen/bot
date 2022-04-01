@@ -17,7 +17,7 @@ jobs:
     strategy:
       matrix:
         python-version: [3.9.9]
-        poetry-version: [1.1.11]
+        poetry-version: [1.1.13]
 
     runs-on: ubuntu-latest
 
@@ -43,7 +43,7 @@ jobs:
         poetry config virtualenvs.in-project true
 
     - name: Set up cache
-      uses: actions/cache@v2
+      uses: actions/cache@v3.0.1
       with:
         path: $HOME/virtualenvs/
         key: venv-${{ runner.os }}-${{ steps.full-python-version.outputs.version }}-${{ hashFiles('**/poetry.lock') }}
@@ -52,4 +52,4 @@ jobs:
       run: poetry install -v
 
     - name: Test
-      run: poetry run pytest
+      run: poetry run pytest --cov=eduzen_bot --cov-report=term-missing

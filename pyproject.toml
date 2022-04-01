@@ -73,3 +73,14 @@ pytest-cov = "^3.0.0"
 [virtualenvs]
 cache-dir = "/root/.cache"
 in-project = false
+
+[tool.coverage.run]
+branch = true
+omit = ["*/tests/*", "*/__init__.py"]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
+
+[tool.coverage.json]
+pretty_print=true

@@ -29,16 +29,17 @@ def hash_dict(func):
 
 
 def get_or_create_user(user):
-    data = user.to_dict()
     try:
+        data = user.to_dict()
         if not data.get("username"):
             data["username"] = data.get("id")
+
         user, _ = User.get_or_create(id=data.get("id"), defaults=data)
         return user
     except peewee.IntegrityError:
         logger.exception("Peweeeeeeerror")
     except Exception:
-        logger.exception("Something went wrong")
+        logger.exception("'get_or_create_user' is not working")
 
 
 def log_event(user, command):

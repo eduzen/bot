@@ -1,22 +1,32 @@
 # Just another telegram-bot
 
-## Setup
+![test](https://github.com/eduzen/bot/actions/workflows/test.yml/badge.svg)
+![docker](https://github.com/eduzen/bot/actions/workflows/docker-publish.yml/badge.svg)
+![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)
 
-### Secrets
 
-You will need some secrets:
+We use [just](https://github.com/casey/just) to run our project-specific commands. Under the hood, it uses docker to run our bot.
+So you will need docker too. Secrets are handle by `.env` file. So you will need to copy `.env.example` to `.env` and fill it with your secrets.
+
 
 ```bash
+  cargo install just
   cp .env.sample .env
+  just start
 ```
 
-### pre-commit
+### Code style
+
+For linting, code style and etcetera, we use [pre-commit](https://pre-commit.com/)
 
 ```bash
 pre-commit install
+pre-commit run --all-files
 ```
 
-### Add new libs
+### Dependencies
+
+We are using poetry. So in case you need a new library just run:
 
 ```bash
 docker-compose run --entrypoint="" --rm eduzenbot poetry add astral
@@ -52,7 +62,7 @@ time - hora en algun lugar
 ```
 
 
-for roduction `docker-compose.yaml`
+for production `docker-compose.yaml`
 
 ```
 version: "3.8"

@@ -2,8 +2,6 @@
 
 import logging
 import os
-import sys
-from threading import Thread
 
 import sentry_sdk
 from rich.logging import RichHandler
@@ -25,11 +23,10 @@ PORT = int(os.getenv("PORT", 5000))
 HEROKU = int(os.getenv("HEROKU", 0))
 LOG_LEVEL = os.getenv("LOG_LEVEL", "ERROR")
 
-FORMAT = "%(message)s"
 
 logging.basicConfig(
     level=logging.getLevelName(LOG_LEVEL),
-    format=FORMAT,
+    format="%(message)s",
     datefmt="[%d-%m-%y %X]",
     handlers=[RichHandler(rich_tracebacks=True)],
 )
@@ -48,18 +45,6 @@ def main():
     bot = TelegramBot(TOKEN, EDUZEN_ID, HEROKU, PORT)
     db.connect(reuse_if_open=True)
 
-    def stop_and_restart():
-        """Gracefully stop the Updater and replace the current process with a new one"""
-        logger.info("Restarting eduzen_bot...")
-        bot.updater.stop()
-        os.execl(sys.executable, sys.executable, *sys.argv)
-
-    def restart(update, context):
-        update.message.reply_text("Bot is restarting...")
-        db.connect(reuse_if_open=True)
-        Thread(target=stop_and_restart).start()
-
-    bot.add_handler(CommandHandler("restart", restart, filters=Filters.user(username="@eduzen")))
     bot.add_handler(CommandHandler("set", set_timer))
     bot.add_handler(CommandHandler("config_reporte", set_timer))
     bot.add_handler(CommandHandler("unset", unset))

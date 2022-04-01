@@ -17,7 +17,7 @@ from playhouse.db_url import connect
 from playhouse.shortcuts import ThreadSafeDatabaseMetadata, model_to_dict
 
 database_url = os.getenv("DATABASE_URL", "sqlite:///:memory:")
-db = connect(database_url)
+db = connect(database_url, reuse_if_open=True)
 
 
 class BaseModel(Model):
@@ -31,6 +31,9 @@ class BaseModel(Model):
 
     def to_dict(self):
         return model_to_dict(self)
+
+    def __str__(self):
+        return str(self.todict())
 
 
 class User(BaseModel):

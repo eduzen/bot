@@ -3,11 +3,18 @@ start - start
 caps - caps
 help - ayuda
 msg - send_private_msg
+restart - restart
 """
 import logging
+import os
+import sys
+from threading import Thread
 
 import peewee
+from telegram import Update
+from telegram.ext import CallbackContext
 
+from eduzen_bot.auth.restricted import restricted
 from eduzen_bot.models import User
 
 logger = logging.getLogger("rich")
@@ -88,3 +95,17 @@ def caps(update, context):
 
     text_caps = " ".join(context.args).upper()
     context.bot.send_message(chat_id=update.message.chat_id, text=text_caps)
+
+
+def stop_and_restart(bot):
+    """Gracefully stop the Updater and replace the current process with a new one"""
+    logger.info("Restarting eduzen_bot...")
+    bot.updater.stop()
+    logger.info("Updater stop...")
+    os.execl(sys.executable, sys.executable, *sys.argv)
+
+
+@restricted
+def restart(update: Update, context: CallbackContext):
+    update.message.reply_text("hey, I'm going to restart myself...")
+    Thread(target=stop_and_restart).start()
