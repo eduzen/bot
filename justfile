@@ -3,6 +3,10 @@ set dotenv-load := true
 dco := "docker-compose"
 run := "{{dco}} run --rm --entrypoint='' eduzenbot"
 
+os:
+  #!/usr/bin/env bash
+  echo $OSTYPE
+
 dco-version:
   {{dco}} --version
 
