@@ -11,7 +11,7 @@ build-backend = "poetry.core.masonry.api"
 [tool.black]
 line-length = 120
 safe = true
-target-version = ['py38']
+target-version = ['py39']
 exclude = '''
 (
   /(
@@ -45,7 +45,7 @@ psycopg2-binary = "^2.9.3"
 regex = "^=2022.1.18"
 requests = "^2.26.0"
 rich = "^11.2.0"
-sentry-sdk = "^1.5.5"
+sentry-sdk = "^1.9.3"
 tmdbsimple = "^2.9.1"
 yfinance = "^0.1.70"
 PyYAML = "^6.0"
