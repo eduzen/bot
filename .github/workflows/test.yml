@@ -17,7 +17,7 @@ jobs:
     strategy:
       matrix:
         python-version: [3.9.9]
-        poetry-version: [1.1.13]
+        poetry-version: [1.1.14]
 
     runs-on: ubuntu-latest
 
