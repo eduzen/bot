@@ -24,7 +24,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - uses: actions/setup-python@v4.3.1
+    - uses: actions/setup-python@v4.4.0
       with:
         python-version: ${{ matrix.python-version }}
 
@@ -43,7 +43,7 @@ jobs:
         poetry config virtualenvs.in-project true
 
     - name: Set up cache
-      uses: actions/cache@v3.0.11
+      uses: actions/cache@v3.2.0
       with:
         path: $HOME/virtualenvs/
         key: venv-${{ runner.os }}-${{ steps.full-python-version.outputs.version }}-${{ hashFiles('**/poetry.lock') }}
