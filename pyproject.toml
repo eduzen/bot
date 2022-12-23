@@ -1,83 +1,94 @@
-[tool.poetry]
-name = "bot"
-version = "0.3.0"
-description = ""
-authors = ["Eduardo Enriquez (eduzen) <eduardo.a.enriquez@gmail.com>"]
-
 [build-system]
-requires = ["wheel", "poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
+requires = ["hatchling", "pip-tools", "wheel"]
+build-backend = "hatchling.build"
 
-[tool.black]
-line-length = 120
-safe = true
-target-version = ['py39']
-exclude = '''
-(
-  /(
-    \.git
-    | \.mypy_cache
-    | \.pytest_cache
-    | htmlcov
-    | venv
-    | .venv
-    | virtualenvs
-  )/
-)
-'''
+[project]
+name = "eduzenbot"
+description = "A bot for telegram"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+keywords = []
+authors = [
+  { name = "Eduardo Enriquez (eduzen)", email = "eduardo.a.enriquez@gmail.com" },
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Programming Language :: Python :: Implementation :: PyPy",
+]
+dependencies = [
+  "attrs",
+  "beautifulsoup4",
+  "cachetools",
+  "emoji",
+  "peewee",
+  "pendulum",
+  "psycopg2-binary",
+  "python-telegram-bot",
+  "requests",
+  "rich",
+  "sentry-sdk",
+  "tmdbsimple",
+  "tweepy",
+  "yfinance",
+]
+dynamic = ["version"]
 
-[tool.isort]
-profile = "black"
-include_trailing_comma = true
+[project.optional-dependencies]
+dev = [
+  "ipython",
+  "ipdb",
+  "factory-boy",
+  "mypy",
+  "pytest",
+  "pytest-cov",
+  "pytest-mock",
+  "pytest-xdist",
+  "pytest-recording",
+  "pytest-randomly",
+  "types-requests",
+  "types-Pygments",
+  "types-colorama",
+  "types-docutils",
+  "types-setuptools",
+]
 
-[tool.pytest.ini_options]
-addopts = "-s"
+[project.urls]
+Documentation = "https://github.com/eduzen/bot#readme"
+Issues = "https://github.com/eduzen/bot/issues"
+Source = "https://github.com/eduzen/bot"
 
-[tool.poetry.dependencies]
-attrs = "^21.4.0"
-beautifulsoup4 = "^4.11.1"
-emoji = "1.6.3"
-peewee = "^3.14.4"
-python = "^3.9"
-python-telegram-bot = "13.11"
-psycopg2-binary = "^2.9.3"
-regex = "^=2022.1.18"
-requests = "^2.28.1"
-rich = "^12.5.1"
-sentry-sdk = "^1.9.3"
-tmdbsimple = "^2.9.1"
-yfinance = "^0.1.70"
-PyYAML = "^6.0"
-tweepy = "^4.4.0"
-pendulum = "^2.1.2"
-astral = "^2.2"
-pytz = "^2022.1"
-cachetools = "^=4.2.2"
+[tool.hatch.version]
+path = "eduzenbot/__about__.py"
 
-[tool.poetry.dev-dependencies]
-pytest = "^=7.1.2"
-factory-boy = "^3.2.1"
-jedi = "0.18.0"
-ipython = "^=8.0.1"
-pre-commit = "^2.14.1"
-ipdb = "^0.13.9"
-Faker = "^=13.0.0"
-types-requests = "^2.27.5"
-pytest-recording = "^0.12.0"
-pytest-randomly = "^3.11.0"
-pytest-cov = "^3.0.0"
-
-[virtualenvs]
-cache-dir = "/root/.cache"
-in-project = false
+[tool.hatch.envs.default]
+dependencies = [
+  "pytest",
+  "pytest-cov",
+]
+[tool.hatch.envs.default.scripts]
+cov = "pytest --cov-report=term-missing --cov-config=pyproject.toml --cov=eduzenbot --cov=tests {args}"
+no-cov = "cov --no-cov {args}"
 
 [tool.coverage.run]
 branch = true
-omit = ["*/tests/*", "*/__init__.py"]
+parallel = true
+omit = [
+  "eduzenbot/__about__.py",
+]
 
 [tool.coverage.report]
 show_missing = true
 skip_covered = true
+exclude_lines = [
+  "no cov",
+  "if __name__ == .__main__.:",
+  "if TYPE_CHECKING:",
+]
 
-[tool.coverage.json]
-pretty_print=true
+[tool.isort]
+profile = "black"

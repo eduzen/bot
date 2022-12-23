@@ -1,13 +1,13 @@
 import pytest
 
-from eduzen_bot.telegram_bot import TelegramBot
+from eduzenbot.telegram_bot import TelegramBot
 
 
 def test_init_telegram_bot_missing_token():
     with pytest.raises(TypeError) as exc:
         TelegramBot()
 
-    assert str(exc.value) == "__init__() missing 1 required positional argument: 'token'"
+    assert str(exc.value) == "TelegramBot.__init__() missing 1 required positional argument: 'token'"
 
 
 def test_init_telegram_bot_wrong_token():

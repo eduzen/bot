@@ -1,7 +1,7 @@
 import pytest
 from playhouse.sqlite_ext import SqliteExtDatabase
 
-from eduzen_bot.models import EventLog, Report, User
+from eduzenbot.models import EventLog, Report, User
 
 from .factories import EventFactory, UserFactory
 

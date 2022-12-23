@@ -14,7 +14,7 @@ dockershell:
   {{run}}  eduzenbot bash
 
 test:
-  {{run}} pytest --cov=eduzen_bot
+  {{run}} pytest --cov=eduzenbot
 
 logs:
   {{dco}} logs -f eduzenbot
@@ -32,6 +32,18 @@ restart:
 
 start-debug:
   {{dco}} run --rm --service-ports eduzenbot
+
+install:
+  python -m pip install -r requirements.txt
+
+install-dev:
+  python -m pip install -r requirements-dev.txt
+
+compile:
+  pip-compile pyproject.toml -o requirements.txt
+
+compile-dev:
+  pip-compile --extra=dev pyproject.toml -o requirements-dev.txt
 
 clean:
   #!/usr/bin/env python3

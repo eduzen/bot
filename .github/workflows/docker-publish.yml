@@ -7,7 +7,7 @@ on:
       - v*
 
 env:
-  IMAGE_NAME: eduzen_bot
+  IMAGE_NAME: eduzenbot
 
 jobs:
   # See also https://docs.docker.com/docker-hub/builds/
