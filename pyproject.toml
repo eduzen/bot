@@ -92,3 +92,6 @@ exclude_lines = [
 
 [tool.isort]
 profile = "black"
+
+[tool.coverage.json]
+pretty_print=true
