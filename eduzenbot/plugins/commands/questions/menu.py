@@ -1,10 +1,10 @@
 import logging
 
-from eduzenbotmodels import Question
 from emoji import emojize
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 
 from eduzenbot.menus.builder import build_menu
+from eduzenbot.models import Question
 
 logger = logging.getLogger("rich")
 
