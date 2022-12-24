@@ -201,6 +201,10 @@ traitlets==5.8.0
     #   matplotlib-inline
 tweepy==4.12.1
     # via eduzenbot (pyproject.toml)
+types-beautifulsoup4==4.11.6.1
+    # via eduzenbot (pyproject.toml)
+types-cachetools==5.2.1
+    # via eduzenbot (pyproject.toml)
 types-colorama==0.4.15.4
     # via eduzenbot (pyproject.toml)
 types-docutils==0.19.1.1

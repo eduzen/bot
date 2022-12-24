@@ -36,7 +36,7 @@ jobs:
           push: true
           tags: eduzen/bot:latest
           file: ./Dockerfile
-          target: prod
+          target: production
 
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}

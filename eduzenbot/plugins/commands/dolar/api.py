@@ -1,4 +1,3 @@
-import calendar
 import logging
 import os
 import re
@@ -16,10 +15,7 @@ logger = logging.getLogger("rich")
 
 API = "https://openexchangerates.org/api/latest.json"
 OTHER_API = "http://ws.geeklab.com.ar/dolar/get-dolar-json.php"
-BNC = "http://www.bna.com.ar/"
-DOLAR_HOY = "http://dolarhoy.com/Usd"
-ROFEX = "https://www.rofex.com.ar/"
-AMBITO_FUTURO = "https://mercados.ambito.com//dolarfuturo/datos"
+BNC = "https://www.bna.com.ar/"
 BLUELYTICS = "https://api.bluelytics.com.ar/v2/latest"
 
 client = requests.Session()
@@ -35,15 +31,6 @@ Contrato = namedtuple("Contrato", ["mes", "año", "valor"])
 def trim(text, limit=11) -> str:
     """Trim and append . if text is too long. Else return it unmodified"""
     return f"{text[:limit]}." if len(text) > limit else text
-
-
-def get_response(url, verify=True):
-    try:
-        response = client.get(url, verify=verify)
-    except requests.exceptions.ConnectionError:
-        return
-
-    return response
 
 
 def extract(data):
@@ -76,12 +63,12 @@ def extract(data):
     return values
 
 
-def process_bcn(data):
+def process_bcn(data: str) -> str:
     soup = BeautifulSoup(data, "html.parser")
     data = soup.find_all("table", {"class": "table cotizacion"})
 
     if not data:
-        return ""
+        return "Banco nacion changed his html."
 
     data = extract(data[0])
     head = " ".join(data[:3]).strip()
@@ -145,123 +132,59 @@ def pretty_print_dolar(cotizaciones):
     )
 
 
-def prettify_rofex(contratos):
-    values = "\n".join(f"{year} {month:<12} | {value[:5]}" for month, year, value in contratos)
-    header = "  Dólar  | Valor\n"
-    return f"```{header}{values}```" if contratos is not None else "EMPTY_MESSAGE"
+@cached(cache=TTLCache(maxsize=2048, ttl=60))
+def parse_bnc() -> str:
+    try:
+        response = client.get(BNC, verify=True)
+        response.raise_for_status()
+
+        if response.status_code != 200:
+            raise Exception("Banco nación no responde 🤷‍♀")
+
+        data = response.text
+        return process_bcn(data)
+    except Exception:
+        logger.exception("Error getting BNC")
+
+    return "Banco nación no responde 🤷‍♀"
 
 
-def process_dolarfuturo(response):
-    response.encoding = "utf-8"
-    data = response.text
-    if not data:
-        return False
-    soup = BeautifulSoup(data, "html.parser")
-    data = soup.find("table", class_="table-rofex")
-    cotizaciones = data.find_all("tr")[1:]  # Exclude header
-
-    if not data:
-        return False
-
-    contratos = []
-    for cotizacion in cotizaciones:
-        contrato, valor, _, _, _ = cotizacion.find_all("td")
-        month, year = DOLAR_REGEX.match(contrato.text).groups()
-        month = calendar.month_name[int(month)]
-        contratos.append(Contrato(month, year, valor.text))
-
-    return prettify_rofex(contratos)
-
-
-def process_dolarhoy(response):
-    data = response.text
-    if not data:
-        return False
-
-    soup = BeautifulSoup(data, "html.parser")
-    data = soup.find_all("table")
-
-    if not data:
-        return False
-
-    cotizaciones = get_cotizaciones(data)
-
-    data = pretty_print_dolar(cotizaciones)
-
+def process_bluelytics(data: dict) -> str:
+    oficial = data["oficial"]
+    blue = data["blue"]
+    eur = data["oficial_euro"]
+    oficial_venta = oficial["value_sell"]
+    blue_venta = blue["value_sell"]
+    brecha = round(((blue_venta / oficial_venta) - 1) * 100, 2)
+    data = (
+        "🏦 Oficial:\n"
+        f"💵 Dólar {oficial['value_buy']} - {oficial_venta}\n"
+        f"🇪🇺 Euro {eur['value_buy']} - {eur['value_sell']}\n"
+        "\n🌳 Blue:\n"
+        f"💵 Dólar {blue['value_buy']} - {blue_venta}\n"
+        f"🇪🇺 Euro {data['blue_euro']['value_buy']} - {data['blue_euro']['value_sell']}\n"
+        f"📊 *Brecha Dolar*: {brecha}%"
+    )
     return data
 
 
 @cached(cache=TTLCache(maxsize=2048, ttl=60))
-def parse_bnc():
-    r = get_response(BNC)
-
-    if r and r.status_code == 200 and r.text:
-        return process_bcn(r.text)
-
-    else:
-        return "Banco nación no responde 🤷‍♀"
-
-
-def process_bluelytics(response):
+def get_bluelytics() -> str:
     try:
+        response = client.get(BLUELYTICS, verify=True)
+        response.raise_for_status()
+        if response.status_code != 200:
+            raise Exception("Bluelytics no responde 🤷‍♀️ ")
+
         data = response.json()
-        oficial = data["oficial"]
-        blue = data["blue"]
-        eur = data["oficial_euro"]
-        oficial_venta = oficial["value_sell"]
-        blue_venta = blue["value_sell"]
-        brecha = round(((blue_venta / oficial_venta) - 1) * 100, 2)
-        data = (
-            "🏦 Oficial:\n"
-            f"💵 Dólar {oficial['value_buy']} - {oficial_venta}\n"
-            f"🇪🇺 Euro {eur['value_buy']} - {eur['value_sell']}\n"
-            "\n🌳 Blue:\n"
-            f"💵 Dólar {blue['value_buy']} - {blue_venta}\n"
-            f"🇪🇺 Euro {data['blue_euro']['value_buy']} - {data['blue_euro']['value_sell']}\n"
-            f"📊 *Brecha Dolar*: {brecha}%"
-        )
-        return data
+        return process_bluelytics(data)
     except Exception:
         logger.exception("bluelytics")
+    return "Bluelytics no responde 🤷‍♀️"
 
 
 @cached(cache=TTLCache(maxsize=2048, ttl=60))
-def get_bluelytics():
-    r = get_response(BLUELYTICS)
-    if r and r.status_code == 200:
-        return process_bluelytics(r)
-    return "Bluelytics no responde 🤷‍♀️ "
-
-
-@cached(cache=TTLCache(maxsize=2048, ttl=60))
-def parse_dolarhoy():
-    r = get_response(DOLAR_HOY)
-    if r and r.status_code == 200:
-        return process_dolarhoy(r)
-    return "Dolarhoy hoy no responde 🤷‍♀ "
-
-
-def process_ambito_dolarfuturo(response):
-    data = response.json()
-    datos = []
-    for i in data:
-        mes = i["contrato"].replace("Dólar ", "")
-        venta = i["venta"]
-        compra = i["compra"]
-        datos.append(f"{mes:<15} {venta:<7} {compra:<5}")
-    valores = "\n".join(datos)
-    return f"```       Mes {dolar}   Compra | Venta \n{valores}```"
-
-
-def parse_dolarfuturo():
-    r = get_response(AMBITO_FUTURO)
-    if r and r.status_code == 200:
-        return process_ambito_dolarfuturo(r)
-    return "Rofex no responde 🤷‍♀"
-
-
-@cached(cache=TTLCache(maxsize=2048, ttl=60))
-def get_dollar():
+def get_dollar() -> str:
     r = client.get(API, params={"app_id": APP_ID})
 
     if r.status_code != 200:
@@ -280,7 +203,7 @@ def get_dollar():
 
 
 @cached(cache=TTLCache(maxsize=2048, ttl=60))
-def get_dolar_blue():
+def get_dolar_blue() -> str:
     r = client.get(OTHER_API)
 
     if r.status_code != 200:

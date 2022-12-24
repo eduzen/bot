@@ -50,12 +50,16 @@ dev = [
   "pytest-xdist",
   "pytest-recording",
   "pytest-randomly",
+  "mypy",
+  "types-beautifulsoup4",
+  "types-cachetools",
   "types-requests",
   "types-Pygments",
   "types-colorama",
   "types-docutils",
   "types-setuptools",
 ]
+
 
 [project.urls]
 Documentation = "https://github.com/eduzen/bot#readme"

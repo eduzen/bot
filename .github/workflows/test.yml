@@ -37,4 +37,4 @@ jobs:
       run: pip install -r requirements-dev.txt
 
     - name: Test
-      run: pytest --cov=eduzenbot --cov-report=term-missing
+      run: pytest --cov=eduzenbot --cov-report=term-missing --vcr-record=none

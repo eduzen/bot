@@ -14,7 +14,6 @@ services:
       target: dev
       cache_from:
         - eduzen/bot:latest
-    # entrypoint: ["python",  "-m", "eduzenbot"]
     volumes:
       - .:/code
       - shell_history:/root/hist
@@ -24,7 +23,7 @@ services:
       - db
 
   db:
-    image: postgres:13.4-alpine3.14
+    image: postgres:15-alpine3.17
     command: ["postgres", "-c", "log_statement=none"]
     ports:
       - "5432:5432"
