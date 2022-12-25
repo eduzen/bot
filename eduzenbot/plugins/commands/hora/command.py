@@ -7,7 +7,7 @@ import random
 
 import pytz
 import requests
-from telegram import ChatAction
+from telegram import ChatAction, Update
 
 from eduzenbot.decorators import create_user
 
@@ -16,7 +16,7 @@ logger = logging.getLogger()
 BASE_URL = "http://worldtimeapi.org/api/timezone/"
 
 
-def find_timezone(city="buenos_aires"):
+def find_timezone(city: str = "buenos_aires") -> str:
     if isinstance(city, list):
         city = "_".join(city)
 
@@ -26,7 +26,7 @@ def find_timezone(city="buenos_aires"):
 
 
 @create_user
-def time(update, context, *args, **kwargs):
+def time(update: Update, context: object, *args: int, **kwargs: str) -> None:
     context.bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
 
     if not context.args:

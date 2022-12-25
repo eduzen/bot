@@ -16,7 +16,7 @@ class UserFactory(factory.Factory):
     is_bot = False
 
     @classmethod
-    def _create(cls, target_class, *args, **kwargs) -> models.User:
+    def _create(cls, target_class, *args: int, **kwargs: str) -> models.User:
         """Create an instance of the model, and save it to the database."""
         obj = target_class.create(**kwargs)
         return obj
@@ -30,7 +30,7 @@ class EventFactory(factory.Factory):
     command = factory.Faker("sentence")
 
     @classmethod
-    def _create(cls, target_class: models.EventLog, *args: Any, **kwargs: Any) -> models.EventLog:
+    def _create(cls, target_class: models.EventLog, *args: Any, **kwargs: dict[Any, Any]) -> models.EventLog:
         """Create an instance of the model, and save it to the database."""
         obj = target_class.create(**kwargs)
         return obj

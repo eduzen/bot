@@ -1,6 +1,13 @@
 import pytest
 
-from eduzenbot.plugins.commands.dolar.api import get_bluelytics
+from eduzenbot.plugins.commands.dolar.api import _sessions_cache, get_bluelytics
+
+
+@pytest.fixture(autouse=True, scope="function")
+def clear_cache():
+    _sessions_cache.clear()
+    yield
+    _sessions_cache.clear()
 
 
 @pytest.mark.vcr

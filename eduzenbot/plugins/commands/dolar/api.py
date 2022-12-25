@@ -11,6 +11,8 @@ from emoji import emojize
 
 APP_ID = os.getenv("APP_ID")
 
+_sessions_cache = TTLCache(maxsize=2048, ttl=60)
+
 logger = logging.getLogger("rich")
 
 API = "https://openexchangerates.org/api/latest.json"
@@ -132,7 +134,7 @@ def pretty_print_dolar(cotizaciones):
     )
 
 
-@cached(cache=TTLCache(maxsize=2048, ttl=60))
+@cached(cache=_sessions_cache)
 def parse_bnc() -> str:
     try:
         response = client.get(BNC, verify=True)
@@ -168,7 +170,7 @@ def process_bluelytics(data: dict) -> str:
     return data
 
 
-@cached(cache=TTLCache(maxsize=2048, ttl=60))
+@cached(cache=_sessions_cache)
 def get_bluelytics() -> str:
     try:
         response = client.get(BLUELYTICS, verify=True)
@@ -183,7 +185,7 @@ def get_bluelytics() -> str:
     return "Bluelytics no responde 🤷‍♀️"
 
 
-@cached(cache=TTLCache(maxsize=2048, ttl=60))
+@cached(cache=_sessions_cache)
 def get_dollar() -> str:
     r = client.get(API, params={"app_id": APP_ID})
 
@@ -202,7 +204,7 @@ def get_dollar() -> str:
     return text
 
 
-@cached(cache=TTLCache(maxsize=2048, ttl=60))
+@cached(cache=_sessions_cache)
 def get_dolar_blue() -> str:
     r = client.get(OTHER_API)
 

@@ -1,7 +1,7 @@
 import logging
 
 from emoji import emojize
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
 
 from eduzenbot.menus.builder import build_menu
 from eduzenbot.models import Question
@@ -9,7 +9,7 @@ from eduzenbot.models import Question
 logger = logging.getLogger("rich")
 
 
-def q_menu(update, context):
+def q_menu(update: Update, context: object):
     keyboard = [
         InlineKeyboardButton("Only questions", callback_data="questions"),
         InlineKeyboardButton("Questions & answers", callback_data="answer"),
@@ -31,7 +31,7 @@ def get_questions(answer=None):
     return f"{qs}\n{punch}"
 
 
-def button(update, context):
+def button(update: Update, context: object):
     query = update.callback_query
 
     selected = query.data

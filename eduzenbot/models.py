@@ -47,16 +47,16 @@ class User(BaseModel):
     created_at = DateTimeField(default=datetime.now)
     updated_at = DateTimeField(null=True)
 
-    def save(self, *args, **kwargs):
+    def save(self, *args: int, **kwargs: str) -> None:
         self.updated_at = datetime.now()
         kwargs["force_insert"] = True  # Non incremental id
         return super().save(*args, **kwargs)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"<{self.username or ''}: {self.first_name or ''} {self.last_name or ''}>"
 
     @property
-    def full_name(self):
+    def full_name(self) -> str:
         full = ""
         if self.first_name:
             full = self.first_name
@@ -65,7 +65,7 @@ class User(BaseModel):
 
         return full
 
-    def to_str(self):
+    def to_str(self) -> str:
         return (
             f"{self.created_at.strftime('%Y/%m/%d %H:%M')} | {'bot! ' if self.is_bot else '|'}"
             f"{self.username: <12} | {self.full_name: <10}"
@@ -80,7 +80,7 @@ class Question(BaseModel):
     created_at = DateTimeField(default=datetime.now)
     updated_at = DateTimeField(null=True)
 
-    def save(self, *args, **kwargs):
+    def save(self, *args: int, **kwargs: str):
         self.updated_at = datetime.now()
         return super().save(*args, **kwargs)
 

@@ -8,7 +8,7 @@ import logging
 import pendulum
 import yfinance
 from cachetools import TTLCache, cached
-from telegram import ChatAction
+from telegram import ChatAction, Update
 
 from eduzenbot.decorators import create_user
 from eduzenbot.plugins.commands.btc.api import get_all
@@ -72,7 +72,7 @@ def get_crypto_report():
 
 
 @create_user
-def btc(update, context, *args, **kwargs):
+def btc(update: Update, context: object, *args: int, **kwargs: str):
     context.bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
 
     text = get_all()
@@ -81,7 +81,7 @@ def btc(update, context, *args, **kwargs):
 
 
 @create_user
-def daily_report(update, context, *args, **kwargs):
+def daily_report(update: Update, context: object, *args: int, **kwargs: str):
     context.bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
 
     report = get_crypto_report()

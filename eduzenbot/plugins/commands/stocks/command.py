@@ -5,7 +5,7 @@ import datetime as dt
 import logging
 
 import yfinance as yf
-from telegram import ChatAction
+from telegram import ChatAction, Update
 
 from eduzenbot.decorators import create_user
 
@@ -13,7 +13,7 @@ logger = logging.getLogger()
 
 
 @create_user
-def stock(update, context, *args, **kwargs):
+def stock(update: Update, context: object, *args: int, **kwargs: str):
     context.bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
     if not context.args:
         update.message.reply_text("Se usa: /stock meli")

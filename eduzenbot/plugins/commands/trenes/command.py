@@ -4,7 +4,7 @@ trenes - trenes
 import logging
 
 from api import get_trenes
-from telegram import ChatAction
+from telegram import ChatAction, Update
 
 from eduzenbot.decorators import create_user
 
@@ -12,7 +12,7 @@ logger = logging.getLogger("rich")
 
 
 @create_user
-def trenes(update, context, *args, **kwargs):
+def trenes(update: Update, context: object, *args: int, **kwargs: str):
     context.bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
     logger.info(f"Trenes... by {update.message.from_user.name}")
 

@@ -4,7 +4,7 @@ gasto - expense
 import logging
 
 from api import send_expense
-from telegram import ChatAction
+from telegram import ChatAction, Update
 
 from eduzenbot.auth.restricted import restricted
 from eduzenbot.decorators import create_user
@@ -14,7 +14,7 @@ logger = logging.getLogger("rich")
 
 @restricted
 @create_user
-def expense(update, context, *args, **kwargs):
+def expense(update: Update, context: object, *args: int, **kwargs: str):
     context.bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
     if not update.message.from_user.name == "@eduzen":
         update.message.reply_text(

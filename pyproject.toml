@@ -53,11 +53,12 @@ dev = [
   "mypy",
   "types-beautifulsoup4",
   "types-cachetools",
-  "types-requests",
-  "types-Pygments",
   "types-colorama",
   "types-docutils",
-  "types-setuptools",
+  "types-Pygments",
+  "types-pytz",
+  "types-requests",
+  "types-setuptools"
 ]
 
 

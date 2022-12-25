@@ -1,26 +1,28 @@
 import functools
 import logging
 from functools import wraps
+from typing import Callable
 
 import peewee
+from telegram import Update
 
 from eduzenbot.models import EventLog, User
 
 logger = logging.getLogger("rich")
 
 
-def hash_dict(func):
+def hash_dict(func: Callable) -> Callable:
     """Transform mutable dictionnary
     Into immutable
     Useful to be compatible with cache
     """
 
     class HDict(dict):
-        def __hash__(self):
+        def __hash__(self) -> str:
             return hash(frozenset(self.items()))
 
     @functools.wraps(func)
-    def wrapped(*args, **kwargs):
+    def wrapped(*args: int, **kwargs: str) -> Callable:
         args = tuple(HDict(arg) if isinstance(arg, dict) else arg for arg in args)
         kwargs = {k: HDict(v) if isinstance(v, dict) else v for k, v in kwargs.items()}
         return func(*args, **kwargs)
@@ -55,7 +57,7 @@ def create_user(func):
     """
 
     @wraps(func)
-    def wrapper(update, context, *args, **kwarg):
+    def wrapper(update: Update, context: object, *args: int, **kwarg) -> Callable:
         command = func.__name__
         if not update.message.from_user:
             logger.warn(f"{command}... by unknown user")

@@ -5,6 +5,8 @@ pelicula - get_movie
 """
 import logging
 
+from telegram import Update
+
 from eduzenbot.decorators import create_user
 from eduzenbot.plugins.commands.movies import keyboards
 from eduzenbot.plugins.commands.movies.api import (
@@ -18,7 +20,7 @@ logger = logging.getLogger("rich")
 
 
 @create_user
-def get_movie(update, context, **kwargs):
+def get_movie(update: Update, context: object, **kwargs: str):
     args = context.args
     chat_data = context.chat_data
     chat_id = update.message.chat_id

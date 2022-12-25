@@ -4,7 +4,7 @@
 # import random
 
 # import peewee
-# from telegram import ChatAction
+# from telegram import ChatAction, Update
 
 # from eduzenbot.models import Question, User
 
@@ -178,7 +178,7 @@
 #     return text.replace(" ?", "?")
 
 
-# def parse_msgs(update, context):
+# def parse_msgs(update: Update, context: object):
 #     message = update.message
 #     if not message:
 #         return

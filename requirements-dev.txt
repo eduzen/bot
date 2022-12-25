@@ -213,6 +213,8 @@ types-docutils==0.19.1.1
     #   types-pygments
 types-pygments==2.13.1.1
     # via eduzenbot (pyproject.toml)
+types-pytz==2022.7.0.0
+    # via eduzenbot (pyproject.toml)
 types-requests==2.28.11.7
     # via eduzenbot (pyproject.toml)
 types-setuptools==65.6.0.2

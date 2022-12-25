@@ -7,7 +7,7 @@ import logging
 from api import get_subte
 from emoji import emojize
 from subte.crawlers import get_estado_del_subte, get_estado_metrovias_html
-from telegram import ChatAction
+from telegram import ChatAction, Update
 
 from eduzenbot.decorators import create_user
 
@@ -16,7 +16,7 @@ metro = emojize(":metro:")
 
 
 @create_user
-def subte_novedades(update, context, *args, **kwargs):
+def subte_novedades(update: Update, context: object, *args: int, **kwargs: str) -> None:
     context.bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
 
     try:
@@ -32,7 +32,7 @@ def subte_novedades(update, context, *args, **kwargs):
 
 
 @create_user
-def subte(update, context, *args, **kwargs):
+def subte(update: Update, context: object, *args: int, **kwargs: str):
     context.bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
 
     estadosubte = get_estado_del_subte()

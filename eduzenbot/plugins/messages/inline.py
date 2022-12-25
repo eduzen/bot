@@ -1,13 +1,18 @@
 import logging
 from uuid import uuid4
 
-from telegram import InlineQueryResultArticle, InputTextMessageContent, ParseMode
+from telegram import (
+    InlineQueryResultArticle,
+    InputTextMessageContent,
+    ParseMode,
+    Update,
+)
 from telegram.utils.helpers import escape_markdown
 
 logger = logging.getLogger("rich")
 
 
-def code_markdown(update, context):
+def code_markdown(update: Update, context: object) -> None:
     query = update.inline_query.query
 
     if not query:

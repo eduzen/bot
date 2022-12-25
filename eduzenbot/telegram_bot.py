@@ -3,9 +3,11 @@ import logging
 import os
 import pkgutil
 from functools import partial
+from typing import Any, Callable
 
 import attr
 import pytz
+from telegram import Update
 from telegram.error import (
     BadRequest,
     ChatMigrated,
@@ -17,6 +19,7 @@ from telegram.error import (
 from telegram.ext import (
     CommandHandler,
     Filters,
+    Handler,
     InlineQueryHandler,
     MessageHandler,
     Updater,
@@ -43,7 +46,7 @@ class TelegramBot:
     use_context: bool = True
     updater: Updater = None
 
-    def __attrs_post_init__(self):
+    def __attrs_post_init__(self) -> None:
         try:
             self.updater = Updater(token=self.token, workers=self.workers, use_context=self.use_context)
         except TelegramError as exc:
@@ -54,7 +57,7 @@ class TelegramBot:
         self.updater.dispatcher.add_error_handler(self.error)
         self._load_plugins()
 
-    def start(self):
+    def start(self) -> None:
         if not self.heroku:
             self.updater.start_polling()
         else:
@@ -65,7 +68,7 @@ class TelegramBot:
         self.updater.idle()
 
     @staticmethod
-    def error(update, context):
+    def error(update: Update, context: object) -> None:
         """Log Errors caused by Updates."""
         try:
             raise context.error
@@ -95,21 +98,21 @@ class TelegramBot:
         except Exception:
             logger.exception(f"Unhandled issue: {context.error}")
 
-    def add_handler(self, handler):
+    def add_handler(self, handler: Handler) -> None:
         self.updater.dispatcher.add_handler(handler)
 
-    def add_list_of_handlers(self, handlers):
+    def add_list_of_handlers(self, handlers: Handler) -> None:
         for handler in handlers:
             self.add_handler(handler)
 
-    def send_msg(self, msg):
+    def send_msg(self, msg: str) -> None:
         self.updater.bot.send_message(msg)
 
-    def send_msg_to_eduzen(self, msg):
+    def send_msg_to_eduzen(self, msg: str) -> None:
         logger.info("aviso a eduzen")
         self.updater.bot.send_message(self.eduzen_id, msg)
 
-    def configure_cronjobs(self):
+    def configure_cronjobs(self) -> None:
         for report in Report.select():
             when = datetime.time(hour=report.hour, minute=report.min, tzinfo=pytz.timezone("Europe/Amsterdam"))
             chat_id = report.chat_id
@@ -118,10 +121,12 @@ class TelegramBot:
             self.updater.bot.send_message(chat_id, msg)
             self.updater.bot.send_message(self.eduzen_id, f"Crypto report in Chat_id {report.chat_id}")
 
-    def create_command(self, name, func):
+    def create_command(self, name: str, func: Callable) -> CommandHandler:
         return CommandHandler(name, func, pass_args=True, pass_chat_data=True, run_async=True)
 
-    def create_command_args(self, name, func, pass_args=True, pass_job_queue=True, pass_chat_data=True):
+    def create_command_args(
+        self, name: str, func: Callable, pass_args=True, pass_job_queue=True, pass_chat_data=True
+    ) -> CommandHandler:
         return CommandHandler(
             name,
             func,
@@ -132,35 +137,35 @@ class TelegramBot:
         )
 
     @staticmethod
-    def create_inlinequery(func):
+    def create_inlinequery(func: Callable) -> InlineQueryHandler:
         return InlineQueryHandler(func)
 
-    def create_list_of_commands(self, kwargs):
+    def create_list_of_commands(self, kwargs: dict[Any, Any]) -> list[CommandHandler]:
         return [self.create_command(key, value) for key, value in kwargs.items()]
 
     @staticmethod
-    def create_msg(func, filters=Filters.text):
+    def create_msg(func: Callable, filters=Filters.text) -> MessageHandler:
         return MessageHandler(filters, func)
 
-    def create_list_of_msg_handlers(self, args):
+    def create_list_of_msg_handlers(self, args: int) -> list[MessageHandler]:
         return [self.create_msg(value) for value in args]
 
-    def register_commands(self, kwargs):
+    def register_commands(self, kwargs: dict[Any, Any]) -> None:
         commands = self.create_list_of_commands(kwargs)
         self.add_list_of_handlers(commands)
 
-    def register_message_handler(self, args):
+    def register_message_handler(self, args: int) -> None:
         msgs = self.create_list_of_msg_handlers(args)
         self.add_list_of_handlers(msgs)
 
-    def _get_commands(self, plugin):
+    def _get_commands(self, plugin: dict[Any, Any]) -> dict[Any, Any]:
         plugins = {}
         for line in plugin.__doc__.strip().splitlines():
             command = [substring.strip() for substring in line.strip().split("-")]
             plugins[command[0]] = getattr(plugin, command[1])
         return plugins
 
-    def _get_plugins(self):
+    def _get_plugins(self) -> dict[Any, Any]:
         plugins = {}
         plugins_path = get_path("plugins/commands")
         for importer, package_name, _ in pkgutil.iter_modules([plugins_path]):
@@ -176,7 +181,7 @@ class TelegramBot:
 
         return plugins
 
-    def _load_plugins(self):
+    def _load_plugins(self) -> None:
         logger.info("Loading plugins...")
         plugins = self._get_plugins()
         logger.info("Registering commands!")

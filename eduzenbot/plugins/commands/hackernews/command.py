@@ -8,7 +8,7 @@ from types import SimpleNamespace
 import pendulum
 import requests
 from cachetools import TTLCache, cached
-from telegram import ChatAction
+from telegram import ChatAction, Update
 
 from eduzenbot.decorators import create_user
 
@@ -94,7 +94,7 @@ def hackernews(story_type=STORIES.TOP, limit=5):
 
 
 @create_user
-def get_hackernews(update, context, *args, **kwargs):
+def get_hackernews(update: Update, context: object, *args: int, **kwargs: str):
     """
     Get the top stories from hackernews.
 

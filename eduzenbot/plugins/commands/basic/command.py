@@ -11,7 +11,7 @@ import sys
 from threading import Thread
 
 import peewee
-from telegram import Update
+from telegram import Bot, Update
 from telegram.ext import CallbackContext
 
 from eduzenbot.auth.restricted import restricted
@@ -20,7 +20,7 @@ from eduzenbot.models import User
 logger = logging.getLogger("rich")
 
 
-def send_private_msg(update, context):
+def send_private_msg(update: Update, context: object) -> None:
     args = context.args
     if not args:
         update.message.reply_text("Se usa: /msg <:user_id> <:msg>")
@@ -33,7 +33,7 @@ def send_private_msg(update, context):
     context.bot.send_message(args[0], args[1])
 
 
-def get_or_create_user(user):
+def get_or_create_user(user: User) -> User | None:
     data = user.to_dict()
     created = None
     user = None
@@ -56,7 +56,7 @@ def get_or_create_user(user):
         logger.exception("User cannot be updated")
 
 
-def start(update, context):
+def start(update: Update, context: object) -> None:
     logger.info(f"Starting comand... by {update.message.from_user.name}")
     user = update.message.from_user
 
@@ -69,7 +69,7 @@ def start(update, context):
     )
 
 
-def ayuda(update, context):
+def ayuda(update: Update, context: object) -> None:
     logger.info(f"Help comand... by {update.message.from_user.name}")
     context.bot.send_message(
         chat_id=update.message.chat_id,
@@ -87,7 +87,7 @@ def ayuda(update, context):
     )
 
 
-def caps(update, context):
+def caps(update: Update, context: object) -> None:
     logger.info(f"caps... by {update.message.from_user.name}")
     if not context.args:
         update.message.reply_text("No enviaste nada!")
@@ -97,7 +97,7 @@ def caps(update, context):
     context.bot.send_message(chat_id=update.message.chat_id, text=text_caps)
 
 
-def stop_and_restart(bot):
+def stop_and_restart(bot: Bot) -> None:
     """Gracefully stop the Updater and replace the current process with a new one"""
     logger.info("Restarting eduzenbot...")
     bot.updater.stop()
@@ -106,6 +106,6 @@ def stop_and_restart(bot):
 
 
 @restricted
-def restart(update: Update, context: CallbackContext):
+def restart(update: Update, context: CallbackContext) -> None:
     update.message.reply_text("hey, I'm going to restart myself...")
     Thread(target=stop_and_restart).start()

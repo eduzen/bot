@@ -4,6 +4,8 @@ pull - update_repo
 import logging
 import subprocess
 
+from telegram import Update
+
 from eduzenbot.auth.restricted import restricted
 from eduzenbot.decorators import create_user
 
@@ -12,7 +14,7 @@ logger = logging.getLogger("rich")
 
 @restricted
 @create_user
-def update_repo(update, context, *args, **kwargs):
+def update_repo(update: Update, context: object, *args: int, **kwargs: str):
     logger.warn("Trying to update bot code")
 
     result = subprocess.run(["git", "pull", "origin", "master"], capture_output=True)

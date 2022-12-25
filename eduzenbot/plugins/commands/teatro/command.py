@@ -4,7 +4,7 @@ teatro - get_ranking
 import logging
 
 from api import parse_alternativa
-from telegram import ChatAction
+from telegram import ChatAction, Update
 
 from eduzenbot.decorators import create_user
 
@@ -12,7 +12,7 @@ logger = logging.getLogger("rich")
 
 
 @create_user
-def get_ranking(update, context, *args, **kwargs):
+def get_ranking(update: Update, context: object, *args: int, **kwargs: str):
     context.bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
 
     data = parse_alternativa()

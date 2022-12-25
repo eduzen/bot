@@ -12,7 +12,7 @@ from api import (
     get_serie_detail,
     prettify_serie,
 )
-from telegram import ChatAction
+from telegram import ChatAction, Update
 
 from eduzenbot.decorators import create_user
 
@@ -20,7 +20,7 @@ logger = logging.getLogger("rich")
 
 
 @create_user
-def search_serie(update, context, **kwargs):
+def search_serie(update: Update, context: object, **kwargs: str):
     context.bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
     if not context.args:
         context.bot.send_message(

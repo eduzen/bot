@@ -33,4 +33,38 @@ interactions:
     status:
       code: 200
       message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.28.1
+    method: GET
+    uri: https://api.bluelytics.com.ar/v2/latest
+  response:
+    body:
+      string: '{"oficial":{"value_avg":177.50,"value_sell":182.00,"value_buy":173.00},"blue":{"value_avg":338.00,"value_sell":340.00,"value_buy":336.00},"oficial_euro":{"value_avg":190.50,"value_sell":195.00,"value_buy":186.00},"blue_euro":{"value_avg":363.50,"value_sell":366.00,"value_buy":361.00},"last_update":"2022-12-23T19:55:40.506942-03:00"}
+
+        '
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '335'
+      Content-Type:
+      - application/json; charset=UTF-8
+      Date:
+      - Sun, 25 Dec 2022 22:00:07 GMT
+      Vary:
+      - Origin
+    status:
+      code: 200
+      message: OK
 version: 1

@@ -2,7 +2,7 @@ import logging
 from functools import lru_cache
 
 import requests
-from telegram import InputMediaPhoto
+from telegram import InputMediaPhoto, Update
 
 from eduzenbot.plugins.commands.series import keyboards
 from eduzenbot.plugins.commands.series.api import (
@@ -67,7 +67,7 @@ def _minify_torrents(torrents):
     return tuple(minified_torrents)
 
 
-def go_back(update, context, **kwargs):
+def go_back(update: Update, context: object, **kwargs: str):
     # Remove season and episode context so we can start the search again if the user wants to download another episode.
     context.pop("selected_season_episodes", None)
     answer = update.callback_query.data
@@ -122,7 +122,7 @@ def get_torrents_by_id(imdb_id, limit=None):
     return _minify_torrents(torrents)
 
 
-def latest_episodes(update, context, **kwargs):
+def latest_episodes(update: Update, context: object, **kwargs: str):
     logger.info("Called latest episodes")
 
     if not context:
@@ -165,7 +165,7 @@ def latest_episodes(update, context, **kwargs):
         )
 
 
-def all_episodes(update, context, **kwargs):
+def all_episodes(update: Update, context: object, **kwargs: str):
     serie = context["data"]
     answer = update.callback_query.data
 
@@ -194,7 +194,7 @@ def all_episodes(update, context, **kwargs):
         )
 
 
-def get_season(update, context, **kwargs):
+def get_season(update: Update, context: object, **kwargs: str):
     serie = context["data"]
     poster_chat = context["poster_chat"]
     answer = update.callback_query.data
@@ -230,7 +230,7 @@ def get_season(update, context, **kwargs):
         logger.info(f"Selected option '{answer}' would leave text as it is. Ignoring to avoid exception. {response}")
 
 
-def get_episode(update, context, **kwargs):
+def get_episode(update: Update, context: object, **kwargs: str):
     serie = context["data"]
     answer = update.callback_query.data
     episode = answer.split("_")[-1]
@@ -252,7 +252,7 @@ def get_episode(update, context, **kwargs):
         logger.info(f"Selected option '{answer}' would leave text as it is. Ignoring to avoid exception. {response}")
 
 
-def load_episodes(update, context, **kwargs):
+def load_episodes(update: Update, context: object, **kwargs: str):
     serie = context["data"]
     seasons = serie.get("seasons")
     answer = update.callback_query.data

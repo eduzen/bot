@@ -5,7 +5,7 @@ usage - get_usage
 import logging
 
 from peewee import fn
-from telegram import ChatAction
+from telegram import ChatAction, Update
 
 from eduzenbot.auth.restricted import restricted
 from eduzenbot.decorators import create_user
@@ -34,7 +34,7 @@ def get_users_usage():
 
 @restricted
 @create_user
-def get_events(update, context, *args, **kwargs):
+def get_events(update: Update, context: object, *args: int, **kwargs: str):
     context.bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
 
     try:
@@ -48,7 +48,7 @@ def get_events(update, context, *args, **kwargs):
 
 @restricted
 @create_user
-def get_usage(update, context, *args, **kwargs):
+def get_usage(update: Update, context: object, *args: int, **kwargs: str):
     context.bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
     txt = get_users_usage()
     context.bot.send_message(chat_id=update.message.chat_id, text=txt)
