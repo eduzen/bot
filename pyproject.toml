@@ -27,7 +27,7 @@ dependencies = [
   "emoji",
   "peewee",
   "pendulum",
-  "psycopg2",
+  "psycopg2-binary",
   "python-telegram-bot",
   "requests",
   "rich",

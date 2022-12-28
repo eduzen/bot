@@ -11,6 +11,7 @@ RUN apt-get update && \
         gettext \
         curl \
         iputils-ping \
+        libpq-dev \
         libffi-dev \
         libxml2-dev \
         libxslt-dev \
