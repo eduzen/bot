@@ -37,4 +37,50 @@ jobs:
       run: pip install -r requirements-dev.txt
 
     - name: Test
-      run: pytest --cov=eduzenbot --cov-report=term-missing --record-mode=none
+      run: pytest --cov=eduzenbot --cov-report=term-missing --record-mode=none -cov-report=term -cov-report=json
+
+    - name: "Upload coverage data"
+      uses: actions/upload-artifact@v3
+      with:
+        name: covdata
+        path: .coverage.*
+
+  coverage:
+    name: Coverage
+    needs: tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Check out the repo"
+        uses: actions/checkout@v3
+
+      - uses: actions/setup-python@v4.4.0
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        run: pip install -r requirements-dev.txt
+
+      - name: "Download coverage data"
+        uses: actions/download-artifact@v3
+        with:
+          name: covdata
+
+      - name: "Combine"
+        run: |
+          python -m pytest -e coverage
+          export TOTAL=$(python -c "import json;print(json.load(open('coverage.json'))['totals']['percent_covered_display'])")
+          echo "total=$TOTAL" >> $GITHUB_ENV
+          echo "### Total coverage: ${TOTAL}%" >> $GITHUB_STEP_SUMMARY
+
+      - name: "Make badge"
+        uses: schneegans/dynamic-badges-action@v1.4.0
+        with:
+          # GIST_TOKEN is a GitHub personal access token with scope "gist".
+          auth: ${{ secrets.GIST_TOKEN }}
+          gistID: 5e721384275f7d873c5adbe2b27de069
+          filename: covbadge.json
+          label: Coverage
+          message: ${{ env.total }}%
+          minColorRange: 50
+          maxColorRange: 90
+          valColorRange: ${{ env.total }}

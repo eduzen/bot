@@ -1,20 +1,26 @@
 set dotenv-load := true
 
 dco := "docker-compose"
-run := "{{dco}} run --rm --entrypoint='' eduzenbot"
+run := "{{dco}} run --rm eduzenbot"
 
 os:
   #!/usr/bin/env bash
   echo $OSTYPE
 
+build:
+  #!/usr/bin/env bash
+  {{dco}} build
+
 dco-version:
   {{dco}} --version
 
 dockershell:
-  {{run}}  eduzenbot bash
+  #!/usr/bin/env bash
+  {{run}} eduzenbot bash
 
 test:
-  {{run}} pytest --cov=eduzenbot
+  #!/usr/bin/env bash
+  {{run}} pytest --cov=eduzenbot --cov-report=term-missing
 
 logs:
   {{dco}} logs -f eduzenbot
@@ -48,7 +54,7 @@ compile-dev:
 clean:
   #!/usr/bin/env python3
   import pathlib, shutil
-  current_path = pathlib.Path(".").parent
+  current_path = pathlib.Path('.').parent
   [p.unlink() for p in current_path.rglob('*.py[co]')]
   [shutil.rmtree(p) for p in current_path.rglob('__pycache__')]
   [shutil.rmtree(p) for p in current_path.rglob('.pytest_cache')]

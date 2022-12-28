@@ -2,7 +2,7 @@ FROM python:3.10-slim-bullseye as production
 
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
-    PYTHONWARNINGS="ignore:Unverified HTTPS request"
+    PYTHONWARNINGS='ignore:Unverified HTTPS request'
 
 RUN echo 'export PS1="\[\e[36m\]botshell>\[\e[m\] "' >> /root/.ashrc
 
@@ -10,6 +10,7 @@ RUN apt-get update && \
     apt-get install --no-install-recommends -y \
         gettext \
         curl \
+        iputils-ping \
         libffi-dev \
         libxml2-dev \
         libxslt-dev \
@@ -34,6 +35,6 @@ CMD ["python", "eduzenbot"]
 FROM production as dev
 
 RUN pip install wheel && \
-    pip install --no-cache-dir -r requirements-dev.txt .
+    pip install --no-cache-dir -r requirements-dev.txt -e .
 
 CMD ["python", "eduzenbot"]

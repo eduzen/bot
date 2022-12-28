@@ -57,7 +57,7 @@ peewee==3.15.4
     # via eduzenbot (pyproject.toml)
 pendulum==2.1.2
     # via eduzenbot (pyproject.toml)
-psycopg2-binary==2.9.5
+psycopg2==2.9.5
     # via eduzenbot (pyproject.toml)
 pycparser==2.21
     # via cffi
