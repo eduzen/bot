@@ -5,6 +5,7 @@ from typing import Callable
 
 import peewee
 from telegram import Update
+from telegram.ext import CallbackContext
 
 from eduzenbot.models import EventLog, User
 
@@ -57,7 +58,7 @@ def create_user(func):
     """
 
     @wraps(func)
-    def wrapper(update: Update, context: object, *args: int, **kwarg) -> Callable:
+    def wrapper(update: Update, context: CallbackContext, *args: int, **kwarg) -> Callable:
         command = func.__name__
         if not update.message.from_user:
             logger.warn(f"{command}... by unknown user")

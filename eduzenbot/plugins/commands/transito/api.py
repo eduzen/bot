@@ -14,7 +14,7 @@ TWITTER_ACCESS_TOKEN = os.getenv("TWITTER_ACCESS_TOKEN")
 logger = logging.getLogger("rich")
 
 
-def get_tweets(api, username, count, date):
+def get_tweets(api: str, username: str, count: int, date: datetime) -> str:
     tweets = [tweet.text for tweet in api.user_timeline(username, count=count) if (date - tweet.created_at).days < 1]
     if not tweets:
         return "No hay novedades de subtes para hoy"
@@ -23,7 +23,7 @@ def get_tweets(api, username, count, date):
 
 
 @cached(cache=TTLCache(maxsize=2048, ttl=360))
-def get_transito(count=20):
+def get_transito(count: int = 20) -> str:
     logger.info("get_transito from twitter...")
     if count > 20:
         count = 20

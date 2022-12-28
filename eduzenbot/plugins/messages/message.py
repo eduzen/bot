@@ -5,7 +5,7 @@
 
 # import peewee
 # from telegram import ChatAction, Update
-
+# from telegram.ext import CallbackContext
 # from eduzenbot.models import Question, User
 
 # from .vocabulary import (
@@ -178,7 +178,7 @@
 #     return text.replace(" ?", "?")
 
 
-# def parse_msgs(update: Update, context: object):
+# def parse_msgs(update: Update, context: CallbackContext):
 #     message = update.message
 #     if not message:
 #         return

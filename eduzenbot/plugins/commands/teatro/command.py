@@ -5,6 +5,7 @@ import logging
 
 from api import parse_alternativa
 from telegram import ChatAction, Update
+from telegram.ext import CallbackContext
 
 from eduzenbot.decorators import create_user
 
@@ -12,7 +13,7 @@ logger = logging.getLogger("rich")
 
 
 @create_user
-def get_ranking(update: Update, context: object, *args: int, **kwargs: str):
+def get_ranking(update: Update, context: CallbackContext, *args: int, **kwargs: str) -> None:
     context.bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
 
     data = parse_alternativa()

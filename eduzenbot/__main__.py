@@ -16,11 +16,10 @@ from eduzenbot.plugins.messages.unknown import unknown
 from eduzenbot.scripts.initialize_db import create_db_tables
 from eduzenbot.telegram_bot import TelegramBot
 
-TOKEN = os.getenv("TOKEN")
+TOKEN = os.environ["TOKEN"]
 SENTRY_DSN = os.getenv("SENTRY_DSN", "")
-EDUZEN_ID = os.getenv("EDUZEN_ID")
+EDUZEN_ID = os.environ["EDUZEN_ID"]
 PORT = int(os.getenv("PORT", 5000))
-HEROKU = int(os.getenv("HEROKU", 0))
 LOG_LEVEL = os.getenv("LOG_LEVEL", "ERROR")
 
 
@@ -40,16 +39,16 @@ sentry_sdk.init(
 )
 
 
-def main():
+def main() -> None:
     create_db_tables()
-    bot = TelegramBot(TOKEN, EDUZEN_ID, HEROKU, PORT)
+    bot = TelegramBot(token=TOKEN, eduzen_id=EDUZEN_ID, polling=False, port=PORT)
     db.connect(reuse_if_open=True)
 
     bot.add_handler(CommandHandler("set", set_timer))
     bot.add_handler(CommandHandler("config_reporte", set_timer))
     bot.add_handler(CommandHandler("unset", unset))
 
-    message_handlers = []  # parse_msgs
+    message_handlers: list[str] = []  # parse_msgs
 
     bot.register_message_handler(message_handlers)
 

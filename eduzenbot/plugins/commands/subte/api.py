@@ -14,7 +14,7 @@ logger = logging.getLogger("rich")
 metro = emojize(":metro:")
 
 
-def get_tweets(api, username, count, date):
+def get_tweets(api: str, username: str, count: int, date: datetime) -> str:
     tweets = [tweet.text for tweet in api.user_timeline(username, count=count) if (date - tweet.created_at).days < 1]
     if not tweets:
         return f"No hay novedades de subtes {metro} para hoy"
@@ -22,7 +22,7 @@ def get_tweets(api, username, count, date):
     return "\n".join(tweets)
 
 
-def get_subte(count=20):
+def get_subte(count: int = 20) -> str:
     if count > 20:
         count = 20
     auth = tweepy.OAuthHandler(TWITTER_CONSUMER_KEY, TWITTER_CONSUMER_SECRET)

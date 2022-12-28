@@ -9,6 +9,7 @@ import pendulum
 import yfinance
 from cachetools import TTLCache, cached
 from telegram import ChatAction, Update
+from telegram.ext import CallbackContext
 
 from eduzenbot.decorators import create_user
 from eduzenbot.plugins.commands.btc.api import get_all
@@ -24,7 +25,7 @@ CITY_BUENOS_AIRES = "buenos aires"
 CITY_HEIDELBERG = "heidelberg,de"
 
 
-def melistock(name):
+def melistock(name: str) -> str:
     try:
         stock = yfinance.Ticker(name)
         short_name = stock.info.get("shortName")
@@ -40,7 +41,7 @@ def melistock(name):
 
 
 @cached(cache=TTLCache(maxsize=2048, ttl=600))
-def get_crypto_report():
+def get_crypto_report() -> str:
     crypto = get_all()
     blue = get_bluelytics() or "-"
     # oficial = escape_markdown(parse_bnc() or "")
@@ -72,7 +73,7 @@ def get_crypto_report():
 
 
 @create_user
-def btc(update: Update, context: object, *args: int, **kwargs: str):
+def btc(update: Update, context: CallbackContext, *args: int, **kwargs: str) -> None:
     context.bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
 
     text = get_all()
@@ -81,7 +82,7 @@ def btc(update: Update, context: object, *args: int, **kwargs: str):
 
 
 @create_user
-def daily_report(update: Update, context: object, *args: int, **kwargs: str):
+def daily_report(update: Update, context: CallbackContext, *args: int, **kwargs: str) -> None:
     context.bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
 
     report = get_crypto_report()

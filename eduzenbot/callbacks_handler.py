@@ -2,6 +2,7 @@ import logging
 from typing import Callable
 
 from telegram import Update
+from telegram.ext import CallbackContext
 
 from eduzenbot.plugins.commands.movies import callbacks as movies_callbacks
 from eduzenbot.plugins.commands.series import callbacks as series_callbacks
@@ -30,7 +31,7 @@ def _select_handler(key: str) -> Callable:
     return handlers.get(key)
 
 
-def callback_query(update: Update, context: object, **kwargs: str) -> Callable | None:
+def callback_query(update: Update, context: CallbackContext, **kwargs: str) -> Callable | None:
     query = update.callback_query
 
     func = _select_handler(query.data)

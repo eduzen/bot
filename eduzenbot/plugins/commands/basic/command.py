@@ -20,7 +20,7 @@ from eduzenbot.models import User
 logger = logging.getLogger("rich")
 
 
-def send_private_msg(update: Update, context: object) -> None:
+def send_private_msg(update: Update, context: CallbackContext) -> None:
     args = context.args
     if not args:
         update.message.reply_text("Se usa: /msg <:user_id> <:msg>")
@@ -56,7 +56,7 @@ def get_or_create_user(user: User) -> User | None:
         logger.exception("User cannot be updated")
 
 
-def start(update: Update, context: object) -> None:
+def start(update: Update, context: CallbackContext) -> None:
     logger.info(f"Starting comand... by {update.message.from_user.name}")
     user = update.message.from_user
 
@@ -69,7 +69,7 @@ def start(update: Update, context: object) -> None:
     )
 
 
-def ayuda(update: Update, context: object) -> None:
+def ayuda(update: Update, context: CallbackContext) -> None:
     logger.info(f"Help comand... by {update.message.from_user.name}")
     context.bot.send_message(
         chat_id=update.message.chat_id,
@@ -87,7 +87,7 @@ def ayuda(update: Update, context: object) -> None:
     )
 
 
-def caps(update: Update, context: object) -> None:
+def caps(update: Update, context: CallbackContext) -> None:
     logger.info(f"caps... by {update.message.from_user.name}")
     if not context.args:
         update.message.reply_text("No enviaste nada!")

@@ -4,11 +4,13 @@ hn - get_hackernews
 import logging
 from enum import Enum
 from types import SimpleNamespace
+from typing import Any
 
 import pendulum
 import requests
 from cachetools import TTLCache, cached
 from telegram import ChatAction, Update
+from telegram.ext import CallbackContext
 
 from eduzenbot.decorators import create_user
 
@@ -28,11 +30,11 @@ class STORIES(Enum):
     ASK = "askstories"
     JOBS = "jobstories"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.value
 
 
-def get_top_stories(story_type=STORIES.TOP, limit=10):
+def get_top_stories(story_type: STORIES = STORIES.TOP, limit: int | None = 10) -> list[Any]:
     """
     Get the top stories from hackernews.
 
@@ -48,7 +50,7 @@ def get_top_stories(story_type=STORIES.TOP, limit=10):
     return response.json()[:limit]
 
 
-def get_item(id):
+def get_item(id: int) -> dict[Any, Any]:
     """
     Get the story with the given id.
 
@@ -61,11 +63,11 @@ def get_item(id):
     return response.json()
 
 
-def get_hackernews_help(story_type):
+def get_hackernews_help(story_type: STORIES = STORIES.TOP) -> str:
     return f"*{str(story_type).capitalize()} stories from* [HackerNews](https://news.ycombinator.com)\n\n"
 
 
-def parse_hackernews(story_id: int):
+def parse_hackernews(story_id: int) -> str:
     raw_story = get_item(story_id)
     story = SimpleNamespace(**raw_story)
     now = pendulum.now()
@@ -79,7 +81,7 @@ def parse_hackernews(story_id: int):
 
 
 @cached(cache=TTLCache(maxsize=1024, ttl=10800))
-def hackernews(story_type=STORIES.TOP, limit=5):
+def hackernews(story_type: STORIES = STORIES.TOP, limit: int = 5) -> str:
     text_stories = []
     for story_id in get_top_stories(story_type, limit):
         try:
@@ -94,7 +96,7 @@ def hackernews(story_type=STORIES.TOP, limit=5):
 
 
 @create_user
-def get_hackernews(update: Update, context: object, *args: int, **kwargs: str):
+def get_hackernews(update: Update, context: CallbackContext, *args: int, **kwargs: str) -> None:
     """
     Get the top stories from hackernews.
 
