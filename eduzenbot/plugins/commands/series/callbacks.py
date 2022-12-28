@@ -1,8 +1,10 @@
 import logging
 from functools import lru_cache
+from typing import Any
 
 import requests
 from telegram import InputMediaPhoto, Update
+from telegram.ext import CallbackContext
 
 from eduzenbot.plugins.commands.series import keyboards
 from eduzenbot.plugins.commands.series.api import (
@@ -15,11 +17,11 @@ from eduzenbot.plugins.commands.series.constants import EZTV_API_ERROR, EZTV_NO_
 logger = logging.getLogger("rich")
 
 
-def monospace(text):
+def monospace(text: str) -> str:
     return f"```\n{text}\n```"
 
 
-def prettify_episode(ep):
+def prettify_episode(ep) -> str:
     """Episodes have name, season, episode, torrent, magnet, size, seeds and released attributes"""
     # Some episodes do not have a torrent download. But they do have a magnet link.
     # Since magnet links are not clickable on telegram, we leave them as a fallback.
@@ -33,7 +35,7 @@ def prettify_episode(ep):
     return f"{header}" f"🌱 Seeds: {ep.seeds} | 🗳 Size: {ep.size or '-'}"
 
 
-def prettify_episodes(episodes, header=None):
+def prettify_episodes(episodes, header=None) -> str:
     episodes = "\n\n".join(prettify_episode(ep) for ep in episodes)
     if header:
         episodes = "\n".join((header, episodes))
@@ -42,16 +44,16 @@ def prettify_episodes(episodes, header=None):
 
 
 @lru_cache(5)
-def prettify_torrents(torrents):
+def prettify_torrents(torrents) -> str:
     return "\n".join(prettify_torrent(*torrent) for torrent in torrents if prettify_torrent(*torrent))
 
 
-def prettify_torrent(name, torrent_url, seeds, size):
+def prettify_torrent(name: str, torrent_url: str, seeds: str, size: str) -> str:
     name = name.replace("[", "").replace("]", "")
     return f"🏴‍☠️ [{name}]({torrent_url})\n" f"🌱 Seeds: {seeds} | 🗳 Size: {size}MB\n"
 
 
-def _minify_torrents(torrents):
+def _minify_torrents(torrents: list[dict[str, Any]]) -> tuple[str, str, str, str]:
     """Returns a torrent name, url, seeds and size from json response"""
     minified_torrents = []
     for torrent in torrents:
@@ -67,7 +69,7 @@ def _minify_torrents(torrents):
     return tuple(minified_torrents)
 
 
-def go_back(update: Update, context: object, **kwargs: str):
+def go_back(update: Update, context: CallbackContext, **kwargs: str) -> None:
     # Remove season and episode context so we can start the search again if the user wants to download another episode.
     context.pop("selected_season_episodes", None)
     answer = update.callback_query.data
@@ -100,7 +102,7 @@ def go_back(update: Update, context: object, **kwargs: str):
         )
 
 
-def get_torrents_by_id(imdb_id, limit=None):
+def get_torrents_by_id(imdb_id: int, limit: int | None = None) -> tuple[str, str, str, str]:
     """Request torrents from api and return a minified torrent representation."""
     try:
         r = requests.get("https://eztv.ag/api/get-torrents", params={"imdb_id": imdb_id, "limit": limit})
@@ -122,7 +124,7 @@ def get_torrents_by_id(imdb_id, limit=None):
     return _minify_torrents(torrents)
 
 
-def latest_episodes(update: Update, context: object, **kwargs: str):
+def latest_episodes(update: Update, context: CallbackContext, **kwargs: str) -> None:
     logger.info("Called latest episodes")
 
     if not context:
@@ -165,7 +167,7 @@ def latest_episodes(update: Update, context: object, **kwargs: str):
         )
 
 
-def all_episodes(update: Update, context: object, **kwargs: str):
+def all_episodes(update: Update, context: CallbackContext, **kwargs: str) -> None:
     serie = context["data"]
     answer = update.callback_query.data
 
@@ -194,7 +196,7 @@ def all_episodes(update: Update, context: object, **kwargs: str):
         )
 
 
-def get_season(update: Update, context: object, **kwargs: str):
+def get_season(update: Update, context: CallbackContext, **kwargs: str) -> None:
     serie = context["data"]
     poster_chat = context["poster_chat"]
     answer = update.callback_query.data
@@ -230,7 +232,7 @@ def get_season(update: Update, context: object, **kwargs: str):
         logger.info(f"Selected option '{answer}' would leave text as it is. Ignoring to avoid exception. {response}")
 
 
-def get_episode(update: Update, context: object, **kwargs: str):
+def get_episode(update: Update, context: CallbackContext, **kwargs: str) -> None:
     serie = context["data"]
     answer = update.callback_query.data
     episode = answer.split("_")[-1]
@@ -252,7 +254,7 @@ def get_episode(update: Update, context: object, **kwargs: str):
         logger.info(f"Selected option '{answer}' would leave text as it is. Ignoring to avoid exception. {response}")
 
 
-def load_episodes(update: Update, context: object, **kwargs: str):
+def load_episodes(update: Update, context: CallbackContext, **kwargs: str) -> None:
     serie = context["data"]
     seasons = serie.get("seasons")
     answer = update.callback_query.data

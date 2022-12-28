@@ -17,6 +17,7 @@ from telegram.error import (
     Unauthorized,
 )
 from telegram.ext import (
+    CallbackContext,
     CommandHandler,
     Filters,
     Handler,
@@ -40,11 +41,11 @@ class TelegramBot:
 
     token: str
     eduzen_id: str = "3652654"
-    heroku: int = 0
+    polling: bool = False
     port: int = 80
     workers: int = 4
     use_context: bool = True
-    updater: Updater = None
+    updater: Updater | None = None
 
     def __attrs_post_init__(self) -> None:
         try:
@@ -58,7 +59,7 @@ class TelegramBot:
         self._load_plugins()
 
     def start(self) -> None:
-        if not self.heroku:
+        if not self.polling:
             self.updater.start_polling()
         else:
             self.updater.start_webhook(listen="0.0.0.0", port=self.port, url_path=self.token)
@@ -68,7 +69,7 @@ class TelegramBot:
         self.updater.idle()
 
     @staticmethod
-    def error(update: Update, context: object) -> None:
+    def error(update: Update, context: CallbackContext) -> None:
         """Log Errors caused by Updates."""
         try:
             raise context.error
@@ -144,17 +145,17 @@ class TelegramBot:
         return [self.create_command(key, value) for key, value in kwargs.items()]
 
     @staticmethod
-    def create_msg(func: Callable, filters=Filters.text) -> MessageHandler:
+    def create_msg(func: Callable, filters: Filters.text = Filters.text) -> MessageHandler:
         return MessageHandler(filters, func)
 
-    def create_list_of_msg_handlers(self, args: int) -> list[MessageHandler]:
+    def create_list_of_msg_handlers(self, args: list[str]) -> list[MessageHandler]:
         return [self.create_msg(value) for value in args]
 
     def register_commands(self, kwargs: dict[Any, Any]) -> None:
         commands = self.create_list_of_commands(kwargs)
         self.add_list_of_handlers(commands)
 
-    def register_message_handler(self, args: int) -> None:
+    def register_message_handler(self, args: list[str]) -> None:
         msgs = self.create_list_of_msg_handlers(args)
         self.add_list_of_handlers(msgs)
 

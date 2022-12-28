@@ -7,12 +7,13 @@ from telegram import (
     ParseMode,
     Update,
 )
+from telegram.ext import CallbackContext
 from telegram.utils.helpers import escape_markdown
 
 logger = logging.getLogger("rich")
 
 
-def code_markdown(update: Update, context: object) -> None:
+def code_markdown(update: Update, context: CallbackContext) -> None:
     query = update.inline_query.query
 
     if not query:

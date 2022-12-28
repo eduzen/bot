@@ -3,6 +3,7 @@ import os
 
 import tmdbsimple as tmdb
 from telegram import Update
+from telegram.ext import CallbackContext
 
 from eduzenbot.plugins.commands.movies.api import get_yt_trailer, get_yts_torrent_info
 from eduzenbot.plugins.commands.movies.constants import IMDB_LINK
@@ -12,7 +13,7 @@ logger = logging.getLogger("rich")
 tmdb.API_KEY = os.getenv("TMDB_API_KEY")
 
 
-def get_movie_imdb(update: Update, context: object, **kwargs: str):
+def get_movie_imdb(update: Update, context: CallbackContext, **kwargs: str) -> None:
     imdb_id = context["data"]["imdb_id"]
     answer = f"[IMDB]({IMDB_LINK.format(imdb_id)}"
 
@@ -22,7 +23,7 @@ def get_movie_imdb(update: Update, context: object, **kwargs: str):
     )
 
 
-def get_movie_youtube(update: Update, context: object, **kwargs: str):
+def get_movie_youtube(update: Update, context: CallbackContext, **kwargs: str) -> None:
     movie = context["data"]
     answer = "\n".join(get_yt_trailer(movie["videos"]))
     update.callback_query.bot.send_message(
@@ -33,7 +34,7 @@ def get_movie_youtube(update: Update, context: object, **kwargs: str):
     )
 
 
-def get_movie_torrent(update: Update, context: object, **kwargs: str):
+def get_movie_torrent(update: Update, context: CallbackContext, **kwargs: str) -> None:
     movie = context["data"]
     torrent = get_yts_torrent_info(movie["imdb_id"])
     if torrent:

@@ -213,6 +213,8 @@ types-docutils==0.19.1.1
     # via
     #   eduzenbot (pyproject.toml)
     #   types-pygments
+types-psycopg2==2.9.21.2
+    # via eduzenbot (pyproject.toml)
 types-pygments==2.13.1.1
     # via eduzenbot (pyproject.toml)
 types-pytz==2022.7.0.0

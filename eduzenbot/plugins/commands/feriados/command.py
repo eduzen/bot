@@ -6,6 +6,7 @@ from datetime import datetime
 
 import pytz
 from telegram import Update
+from telegram.ext import CallbackContext
 
 from eduzenbot.decorators import create_user
 from eduzenbot.plugins.commands.feriados.api import (
@@ -18,7 +19,7 @@ logger = logging.getLogger("rich")
 
 
 @create_user
-def feriadosarg(update: Update, context: object, *args: int, **kwargs: str) -> None:
+def feriadosarg(update: Update, context: CallbackContext, *args: int, **kwargs: str) -> None:
     today = datetime.now(pytz.timezone("America/Argentina/Buenos_Aires"))
     feriados = get_feriados(today.year)
     if not feriados:

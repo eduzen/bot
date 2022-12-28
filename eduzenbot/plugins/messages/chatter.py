@@ -1,11 +1,12 @@
 import logging
 
 from telegram import InlineQueryResultArticle, InputTextMessageContent, Update
+from telegram.ext import CallbackContext
 
 logger = logging.getLogger("rich")
 
 
-def code(update: Update, context: object):
+def code(update: Update, context: CallbackContext) -> None:
     query = update.inline_query.query
 
     if not query:

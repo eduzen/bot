@@ -10,6 +10,7 @@ edit_question - edit_question
 import logging
 
 from telegram import ChatAction, Update
+from telegram.ext import CallbackContext
 
 from eduzenbot.auth.restricted import restricted
 from eduzenbot.decorators import create_user
@@ -20,7 +21,7 @@ logger = logging.getLogger("rich")
 
 @restricted
 @create_user
-def get_users(update: Update, context: object, *args: int, **kwargs: str):
+def get_users(update: Update, context: CallbackContext, *args: int, **kwargs: str) -> None:
     context.bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
 
     try:
@@ -33,7 +34,7 @@ def get_users(update: Update, context: object, *args: int, **kwargs: str):
 
 
 @create_user
-def get_questions(update: Update, context: object, *args: int, **kwargs: str):
+def get_questions(update: Update, context: CallbackContext, *args: int, **kwargs: str) -> None:
     context.bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
     try:
         qs = "\n".join([f"{q.id}: {q.question} | {q.answer} | by {q.user}" for q in Question.select()])
@@ -44,7 +45,7 @@ def get_questions(update: Update, context: object, *args: int, **kwargs: str):
 
 
 @create_user
-def edit_question(update: Update, context: object, *args: int, **kwargs: str):
+def edit_question(update: Update, context: CallbackContext, *args: int, **kwargs: str) -> None:
     context.bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
     if not context.args:
         update.message.reply_text("Se usa: /edit_question <:id_pregunta> <:tu_respuesta>")
@@ -74,7 +75,7 @@ def edit_question(update: Update, context: object, *args: int, **kwargs: str):
     )
 
 
-def add_answer(update: Update, context: object, *args: int, **kwargs: str):
+def add_answer(update: Update, context: CallbackContext, *args: int, **kwargs: str) -> None:
     context.bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
     logger.info(f"Add_question... by {update.message.from_user.name}")
     if not context.args:
@@ -106,7 +107,7 @@ def add_answer(update: Update, context: object, *args: int, **kwargs: str):
 
 
 @create_user
-def add_question(update: Update, context: object, *args: int, **kwargs: str):
+def add_question(update: Update, context: CallbackContext, *args: int, **kwargs: str) -> None:
     context.bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
     if not context.args:
         update.message.reply_text("Se usa: /add_question <:tu_pregunta>")
@@ -137,7 +138,7 @@ def add_question(update: Update, context: object, *args: int, **kwargs: str):
 
 
 @create_user
-def remove_question(update: Update, context: object, *args: int, **kwargs: str):
+def remove_question(update: Update, context: CallbackContext, *args: int, **kwargs: str) -> None:
     context.bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
     if not context.args:
         update.message.reply_text("Se usa /remove <:id>")

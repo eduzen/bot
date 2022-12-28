@@ -6,6 +6,7 @@ pelicula - get_movie
 import logging
 
 from telegram import Update
+from telegram.ext import CallbackContext
 
 from eduzenbot.decorators import create_user
 from eduzenbot.plugins.commands.movies import keyboards
@@ -20,7 +21,7 @@ logger = logging.getLogger("rich")
 
 
 @create_user
-def get_movie(update: Update, context: object, **kwargs: str):
+def get_movie(update: Update, context: CallbackContext, **kwargs: str) -> None:
     args = context.args
     chat_data = context.chat_data
     chat_id = update.message.chat_id

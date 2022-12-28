@@ -5,6 +5,7 @@ import logging
 
 from api import get_transito
 from telegram import ChatAction, Update
+from telegram.ext import CallbackContext
 
 from eduzenbot.decorators import create_user
 
@@ -12,7 +13,7 @@ logger = logging.getLogger("rich")
 
 
 @create_user
-def transito(update: Update, context: object, *args: int, **kwargs: str):
+def transito(update: Update, context: CallbackContext, *args: int, **kwargs: str) -> None:
     context.bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
 
     text = get_transito()

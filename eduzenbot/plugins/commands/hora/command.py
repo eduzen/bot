@@ -8,6 +8,7 @@ import random
 import pytz
 import requests
 from telegram import ChatAction, Update
+from telegram.ext import CallbackContext
 
 from eduzenbot.decorators import create_user
 
@@ -26,7 +27,7 @@ def find_timezone(city: str = "buenos_aires") -> str:
 
 
 @create_user
-def time(update: Update, context: object, *args: int, **kwargs: str) -> None:
+def time(update: Update, context: CallbackContext, *args: int, **kwargs: str) -> None:
     context.bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
 
     if not context.args:
