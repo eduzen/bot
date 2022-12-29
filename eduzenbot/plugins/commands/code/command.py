@@ -14,7 +14,7 @@ logger = logging.getLogger("rich")
 
 @restricted
 @create_user
-def code(update: Update, context: CallbackContext, *args: int, **kwargs: str):
+def code(update: Update, context: CallbackContext) -> None:
     context.bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
 
     if not context.args:

@@ -42,7 +42,7 @@
 #     try:
 #         user, created = User.get_or_create(**data)
 #     except peewee.IntegrityError:
-#         logger.warn("User already created")
+#         logger.warning("User already created")
 
 #     if user and created:
 #         logger.debug("User created. Id %s", user.id)

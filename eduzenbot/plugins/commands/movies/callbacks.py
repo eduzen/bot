@@ -13,8 +13,8 @@ logger = logging.getLogger("rich")
 tmdb.API_KEY = os.getenv("TMDB_API_KEY")
 
 
-def get_movie_imdb(update: Update, context: CallbackContext, **kwargs: str) -> None:
-    imdb_id = context["data"]["imdb_id"]
+def get_movie_imdb(update: Update, context: CallbackContext) -> None:
+    imdb_id = context["data"]["imdb_id"]  # type: ignore
     answer = f"[IMDB]({IMDB_LINK.format(imdb_id)}"
 
     logger.info(f"Sending IMDB link for {imdb_id} {answer}")
@@ -23,8 +23,8 @@ def get_movie_imdb(update: Update, context: CallbackContext, **kwargs: str) -> N
     )
 
 
-def get_movie_youtube(update: Update, context: CallbackContext, **kwargs: str) -> None:
-    movie = context["data"]
+def get_movie_youtube(update: Update, context: CallbackContext) -> None:
+    movie = context["data"]  # type: ignore
     answer = "\n".join(get_yt_trailer(movie["videos"]))
     update.callback_query.bot.send_message(
         chat_id=update.callback_query.message.chat_id,

@@ -69,13 +69,13 @@ def _minify_torrents(torrents: list[dict[str, Any]]) -> tuple[str, str, str, str
     return tuple(minified_torrents)
 
 
-def go_back(update: Update, context: CallbackContext, **kwargs: str) -> None:
+def go_back(update: Update, context: CallbackContext) -> None:
     # Remove season and episode context so we can start the search again if the user wants to download another episode.
-    context.pop("selected_season_episodes", None)
+    context.pop("selected_season_episodes", None)  # type: ignore
     answer = update.callback_query.data
 
     # Resend series basic description
-    serie = context["data"]
+    serie = context["data"]  # type: ignore
     try:
         response = prettify_serie(serie)
     except KeyError:
@@ -102,7 +102,7 @@ def go_back(update: Update, context: CallbackContext, **kwargs: str) -> None:
         )
 
 
-def get_torrents_by_id(imdb_id: int, limit: int | None = None) -> tuple[str, str, str, str]:
+def get_torrents_by_id(imdb_id: int, limit: int | None = None) -> tuple[str, str, str, str] | None:
     """Request torrents from api and return a minified torrent representation."""
     try:
         r = requests.get("https://eztv.ag/api/get-torrents", params={"imdb_id": imdb_id, "limit": limit})
@@ -141,8 +141,8 @@ def latest_episodes(update: Update, context: CallbackContext, **kwargs: str) -> 
     # Get latest episodes from eztv api
     # update.callback_query.answer(text='Getting latest episodes..')
 
-    data = context["data"]
-    imdb_id = data["imdb_id"]
+    data = context["data"]  # type: ignore
+    imdb_id = data["imdb_id"]  # type: ignore
     torrents = get_torrents_by_id(imdb_id)
 
     if not torrents:
@@ -198,7 +198,7 @@ def all_episodes(update: Update, context: CallbackContext, **kwargs: str) -> Non
 
 def get_season(update: Update, context: CallbackContext, **kwargs: str) -> None:
     serie = context["data"]
-    poster_chat = context["poster_chat"]
+    poster_chat = context["poster_chat"]  # type: ignore
     answer = update.callback_query.data
     season_choice = int(answer.split("_")[-1])
 

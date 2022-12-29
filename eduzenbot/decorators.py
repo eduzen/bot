@@ -1,7 +1,7 @@
 import functools
 import logging
 from functools import wraps
-from typing import Callable
+from typing import Any, Callable
 
 import peewee
 from telegram import Update
@@ -31,7 +31,7 @@ def hash_dict(func: Callable) -> Callable:
     return wrapped
 
 
-def get_or_create_user(user):
+def get_or_create_user(user: User) -> User | None:
     try:
         data = user.to_dict()
         if not data.get("username"):
@@ -45,33 +45,33 @@ def get_or_create_user(user):
         logger.exception("'get_or_create_user' is not working")
 
 
-def log_event(user, command):
+def log_event(user: User, command: str) -> None:
     try:
         EventLog.create(user=user, command=command)
     except Exception:
         logger.exception("We couldn't log the event")
 
 
-def create_user(func):
+def create_user(func: Callable) -> Callable:
     """
     Decorator that creates and logs user.
     """
 
     @wraps(func)
-    def wrapper(update: Update, context: CallbackContext, *args: int, **kwarg) -> Callable:
+    def wrapper(update: Update, context: CallbackContext, *args: int, **kwarg: dict[Any, Any]) -> Callable:
         command = func.__name__
         if not update.message.from_user:
-            logger.warn(f"{command}... by unknown user")
+            logger.warning(f"{command}... by unknown user")
             log_event(user=None, command=command)
             return func(update, context, *args, **kwarg)
 
         try:
             user = get_or_create_user(update.message.from_user)
             if user:
-                logger.warn(f"{command}... by {user}")
+                logger.warning(f"{command}... by {user}")
                 log_event(user, command=command)
             else:
-                logger.warn(f"{command}... by unknown user {update.message.from_user}")
+                logger.warning(f"{command}... by unknown user {update.message.from_user}")
         except Exception:
             logger.exception("Something went wrong with create_user decorator")
 

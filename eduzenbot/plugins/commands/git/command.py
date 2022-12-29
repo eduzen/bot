@@ -16,13 +16,13 @@ logger = logging.getLogger("rich")
 @restricted
 @create_user
 def update_repo(update: Update, context: CallbackContext, *args: int, **kwargs: str):
-    logger.warn("Trying to update bot code")
+    logger.warning("Trying to update bot code")
 
     result = subprocess.run(["git", "pull", "origin", "master"], capture_output=True)
     msg = "No paso naranja!"
 
     if result.returncode == 0:
-        logger.warn("Code updated!")
+        logger.warning("Code updated!")
         msg = result.stdout.decode("utf-8")
     elif result.returncode == 1:
         msg = result.stderr.decode("utf-8")

@@ -18,7 +18,7 @@ logger = logging.getLogger("rich")
 client = requests.Session()
 
 
-def get_coin_value(url):
+def get_coin_value(url: str) -> requests.Response | None:
     try:
         response = client.get(url)
     except requests.exceptions.ConnectionError:
@@ -27,7 +27,7 @@ def get_coin_value(url):
     return response
 
 
-def process_coinbin(response):
+def process_coinbin(response: requests.Response) -> str:
     data = response.json()
     if not data:
         logger.error("Something went wrong when it gets dollar. No data!")
@@ -39,7 +39,7 @@ def process_coinbin(response):
     return text
 
 
-def process_coindesk(response):
+def process_coindesk(response: requests.Response) -> str:
     data = response.json()
     if not data:
         logger.error("Something went wrong when it gets dollar. No data!")
@@ -52,7 +52,7 @@ def process_coindesk(response):
     return f"₿ 1 btc == USD {usd_price:,.2f} 💵 | EUR {eur_price:,.2f} 🇪🇺 \n By coindesk.org"
 
 
-def process_eth(response):
+def process_eth(response: requests.Response) -> str:
     try:
         response.raise_for_status()
         data = response.json()
@@ -61,7 +61,7 @@ def process_eth(response):
         logger.exception("No pudimos conseguir eth")
 
 
-def process_dogecoin(response):
+def process_dogecoin(response: requests.Response) -> str:
     try:
         response.raise_for_status()
         data = response.json()
@@ -72,7 +72,7 @@ def process_dogecoin(response):
 
 
 @cached(cache=TTLCache(maxsize=2048, ttl=60))
-def get_btc():
+def get_btc() -> str:
     r = get_coin_value(COIN_DESK)
 
     if r and r.status_code == 200:
@@ -84,7 +84,7 @@ def get_btc():
 
 
 @cached(cache=TTLCache(maxsize=2048, ttl=60))
-def get_eth():
+def get_eth() -> str:
     r = get_coin_value(ETH)
 
     if r and r.status_code == 200:
@@ -95,24 +95,24 @@ def get_eth():
     return "Perdón! No hay ninguna api disponible!"
 
 
-def process_all(response):
+def process_all(response: requests.Response) -> str:
     try:
         response.raise_for_status()
         data = response.json()
 
-        btc = round(float(data["bitcoin"]["usd"]), 2)
+        btc = str(round(float(data["bitcoin"]["usd"]), 2))
         btc = f"₿ 1 btc == USD {btc} 💵"
         logger.debug(f"btc: {btc}")
 
-        eth = round(float(data["ethereum"]["usd"]), 2)
+        eth = str(round(float(data["ethereum"]["usd"]), 2))
         eth = f"⧫ 1 eth == USD {eth} 💵"
         logger.debug(f"eth: {eth}")
 
-        sol = round(float(data["solana"]["usd"]), 2)
+        sol = str(round(float(data["solana"]["usd"]), 2))
         sol = f"☀️ 1 sol == USD {sol} 💵"
         logger.debug(f"sol: {sol}")
 
-        ada = round(float(data["cardano"]["usd"]), 2)
+        ada = str(round(float(data["cardano"]["usd"]), 2))
         ada = f"🧚‍♀️ 1 ada == USD {ada} 💵"
         logger.debug(f"ada: {ada}")
 
@@ -128,21 +128,17 @@ def process_all(response):
         dcl = f"💥 1 mana == USD {dcl} 💵"
         logger.debug(f"dcl: {dcl}")
 
-        luna = round(float(data["terra-luna"]["usd"]), 2)
-        luna = f"🌘 1 luna == USD {luna} 💵"
-        logger.debug(f"dcl: {dcl}")
-
         kava = round(float(data["kava"]["usd"]), 2)
         kava = f"♦️ 1 kava == USD {kava} 💵"
         logger.debug(f"dcl: {dcl}")
 
-        return f"{btc}\n{eth}\n{dog}\n{sol}\n{ada}\n{luna}\n{kava}\n{shi}\n{dcl}"
+        return f"{btc}\n{eth}\n{dog}\n{sol}\n{ada}\n{kava}\n{shi}\n{dcl}"
     except Exception:
         logger.exception("No pudimos conseguir eth")
 
 
 @cached(cache=TTLCache(maxsize=2048, ttl=60))
-def get_dogecoin():
+def get_dogecoin() -> str:
     r = get_coin_value(DOGECOIN)
 
     if r and r.status_code == 200:
@@ -153,7 +149,7 @@ def get_dogecoin():
     return "Perdón! No hay ninguna api disponible!"
 
 
-def get_all():
+def get_all() -> str:
     r = get_coin_value(ALL)
 
     if r and r.status_code == 200:

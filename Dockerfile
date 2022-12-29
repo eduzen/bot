@@ -4,28 +4,28 @@ ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
     PYTHONWARNINGS='ignore:Unverified HTTPS request'
 
-RUN echo 'export PS1="\[\e[36m\]botshell>\[\e[m\] "' >> /root/.ashrc
+WORKDIR /code
+
+RUN echo 'export PS1="\[\e[36m\]botshell>\[\e[m\] "' >> /root/.bashrc
 
 RUN apt-get update && \
     apt-get install --no-install-recommends -y \
-        gettext \
         curl \
         iputils-ping \
         libpq-dev \
         libffi-dev \
         libxml2-dev \
         libxslt-dev \
-        build-essential \
-        postgresql-client && \
+        && \
     apt-get autoremove -y && \
     apt-get autoclean -y && \
     rm -rf /var/lib/apt/lists/*
 
-WORKDIR /code
+RUN pip install -U wheel pip
+
 COPY pyproject.toml requirements.txt ./
 
-RUN pip install wheel && \
-    pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
@@ -35,7 +35,6 @@ CMD ["python", "eduzenbot"]
 
 FROM production as dev
 
-RUN pip install wheel && \
-    pip install --no-cache-dir -r requirements-dev.txt -e .
+RUN pip install --no-cache-dir -r requirements-dev.txt -e .
 
 CMD ["python", "eduzenbot"]

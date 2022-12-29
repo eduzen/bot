@@ -96,14 +96,15 @@ def hackernews(story_type: STORIES = STORIES.TOP, limit: int = 5) -> str:
 
 
 @create_user
-def get_hackernews(update: Update, context: CallbackContext, *args: int, **kwargs: str) -> None:
+def get_hackernews(update: Update, context: CallbackContext) -> None:
     """
     Get the top stories from hackernews.
 
     :param limit: The number of stories to get.
     :return: A list of stories.
     """
-    context.bot.send_chat_action(chat_id=update.effective_chat.id, action=ChatAction.TYPING)
+    chat_id = update.effective_chat.id  # type: ignore
+    context.bot.send_chat_action(chat_id=chat_id, action=ChatAction.TYPING)  # type: ignore
 
     type_story = context.args
     if type_story:
@@ -112,7 +113,7 @@ def get_hackernews(update: Update, context: CallbackContext, *args: int, **kwarg
         text = hackernews()
 
     context.bot.send_message(
-        chat_id=update.effective_chat.id,
+        chat_id=chat_id,
         text=text,
         parse_mode="Markdown",
         disable_web_page_preview=True,

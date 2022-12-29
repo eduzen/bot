@@ -1,5 +1,6 @@
 import logging
 import os
+from typing import Any
 
 import pendulum
 import pytz
@@ -43,7 +44,7 @@ headers = {
 OPENWEATHERMAP_URL = "https://api.openweathermap.org/data/2.5/weather/"
 
 
-def get_timezone(city):
+def get_timezone(city: str) -> str:
     city = city.replace(" ", "_").lower()
     if "," in city:
         city = city.split(",")[0]
@@ -53,7 +54,7 @@ def get_timezone(city):
             return timezone
 
 
-def get_sun_times(data, city):
+def get_sun_times(data: dict[str, Any], city: str) -> tuple:
     tz = get_timezone(city)
     sunrise = pendulum.from_timestamp(data["sunrise"], tz=tz).strftime("%H:%m")
     sunset = pendulum.from_timestamp(data["sunset"], tz=tz).strftime("%H:%m")
@@ -61,7 +62,7 @@ def get_sun_times(data, city):
 
 
 @cached(cache=TTLCache(maxsize=2048, ttl=360))
-def get_klima(city_name="Amsterdam,nl"):
+def get_klima(city_name: str = "Amsterdam,nl") -> str:
     params = {
         "q": city_name,
         "APPID": ow_token,
@@ -103,7 +104,7 @@ def get_klima(city_name="Amsterdam,nl"):
 
 
 @cached(cache=TTLCache(maxsize=2048, ttl=360))
-def get_weather():
+def get_weather() -> str:
     r = requests.get(lanacion, headers=headers)
     r.encoding = "utf-8"
     msg = "No pudimos conseguir el clima"

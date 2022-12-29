@@ -42,8 +42,9 @@ jobs:
     - name: "Upload coverage data"
       uses: actions/upload-artifact@v3
       with:
-        name: covdata
+        name: code-coverage-report
         path: .coverage.*
+
 
   coverage:
     name: Coverage
@@ -63,7 +64,7 @@ jobs:
       - name: "Download coverage data"
         uses: actions/download-artifact@v3
         with:
-          name: covdata
+          name: code-coverage-report
 
       - name: "Combine"
         run: |

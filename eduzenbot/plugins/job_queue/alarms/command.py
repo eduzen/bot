@@ -22,7 +22,7 @@ def alarm(context: CallbackContext) -> None:
     """Send the alarm message."""
     job = context.job
     text = get_crypto_report()
-    context.bot.send_message(job.context, text=text, parse_mode="Markdown")
+    context.bot.send_message(job.context, text=text, parse_mode="Markdown")  # type: ignore
 
 
 def remove_job_if_exists(name: str, context: CallbackContext) -> bool:
@@ -47,7 +47,7 @@ def set_timer(update: Update, context: CallbackContext) -> None:
 
     try:
         # args[0] should contain the time for the timer in seconds
-        hour = int(context.args[0])
+        hour = int(context.args[0])  # type: ignore
     except ValueError:
         update.message.reply_text("Usage: /set <seconds>")
 
@@ -68,7 +68,7 @@ def set_timer(update: Update, context: CallbackContext) -> None:
 
         when = datetime.time(hour=hour, minute=0, tzinfo=pytz.timezone("Europe/Amsterdam"))
         # context.job_queue.run_once(alarm, due, context=chat_id, name=str(chat_id))
-        context.job_queue.run_daily(alarm, when, days=range(7), context=chat_id, name=str(chat_id))
+        context.job_queue.run_daily(alarm, when, days=range(7), context=chat_id, name=str(chat_id))  # type: ignore
         text = "Timer successfully set!"
 
         if job_removed:
