@@ -9,22 +9,18 @@ on:
   pull_request:
   release:
 
-env:
-  POETRY_VIRTUALENVS_PATH: $HOME/virtualenvs/
-
 jobs:
   tests:
     strategy:
       matrix:
-        python-version: [3.9.9]
-        poetry-version: [1.1.14]
+        python-version: ['3.10']
 
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v3
 
-    - uses: actions/setup-python@v4.3.1
+    - uses: actions/setup-python@v4.4.0
       with:
         python-version: ${{ matrix.python-version }}
 
@@ -37,19 +33,75 @@ jobs:
       run: |
         echo ::set-output name=version::$(python -c "import sys; print('-'.join(str(v) for v in sys.version_info[:3]))")
 
-    - name: Install and set up Poetry
-      run: |
-        pip install poetry==${{ matrix.poetry-version }}
-        poetry config virtualenvs.in-project true
-
-    - name: Set up cache
-      uses: actions/cache@v3.0.11
-      with:
-        path: $HOME/virtualenvs/
-        key: venv-${{ runner.os }}-${{ steps.full-python-version.outputs.version }}-${{ hashFiles('**/poetry.lock') }}
-
     - name: Install dependencies
-      run: poetry install -v
+      run: pip install -r requirements-dev.txt
+
+    - uses: actions/cache@v3.2.2
+      id: cache
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements-dev.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
 
     - name: Test
-      run: poetry run pytest --cov=eduzen_bot --cov-report=term-missing
+      run: |
+        export EDUZEN_ID=1234 TOKEN=blah
+        coverage run -m pytest --record-mode=none
+        python -m coverage combine
+        python -m coverage report -m --skip-covered
+        python -m coverage json
+
+    - name: "Upload coverage data"
+      uses: actions/upload-artifact@v3
+      with:
+        name: coverage.json
+        path: coverage.json
+
+
+  coverage:
+    name: Coverage
+    needs: tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Check out the repo"
+        uses: actions/checkout@v3
+
+      - uses: actions/setup-python@v4.4.0
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - uses: actions/cache@v3.2.2
+        id: cache
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements-dev.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Install dependencies
+        run: pip install -r requirements-dev.txt
+
+      - name: "Download coverage data"
+        uses: actions/download-artifact@v3
+        with:
+          name: coverage.json
+
+      - name: "Combine"
+        run: |
+          export TOTAL=$(python -c "import json;print(json.load(open('coverage.json'))['totals']['percent_covered_display'])")
+          echo "total=$TOTAL" >> $GITHUB_ENV
+          echo "### Total coverage: ${TOTAL}%" >> $GITHUB_STEP_SUMMARY
+
+      - name: Create Awesome Badge
+        uses: schneegans/dynamic-badges-action@v1.6.0
+        with:
+          auth: ${{ secrets.GIST_SECRET }}
+          gistID: 939569bc7abab34a443758333f60764d
+          filename: covbadge.json
+          label: Coverage
+          color: orange
+          message: ${{ env.total }}%
+          minColorRange: 50
+          maxColorRange: 90
+          valColorRange: ${{ env.total }}

@@ -1,0 +1,1369 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.28.1
+    method: GET
+    uri: https://www.bna.com.ar/
+  response:
+    body:
+      string: ''
+    headers:
+      Connection:
+      - Keep-Alive
+      Content-Length:
+      - '0'
+      Location:
+      - /Personas
+    status:
+      code: 302
+      message: Moved Temporarily
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.28.1
+    method: GET
+    uri: https://www.bna.com.ar/Personas
+  response:
+    body:
+      string: "<!DOCTYPE html>\r\n<html lang=\"es\" class=\"pc\">\r\n\r\n  <head>\r\n\r\n
+        \   \r\n    <meta charset=\"utf-8\">\r\n    <meta http-equiv=\"X-UA-Compatible\"
+        content=\"IE=edge\">\r\n    <meta name=\"viewport\" content=\"width=device-width,
+        initial-scale=1\">\r\n    <meta name=\"description\" content=\"Productos,
+        servicios y promociones dise\xF1ados para atender las necesidades de personas
+        y empresas de los distintos sectores productivos del pa\xEDs.\">\r\n    <meta
+        name=\"keywords\" content=\"banco, banco naci\xF3n argentina, banca, banca
+        nacional\">\r\n    <meta name=\"author\" content=\"Banco de la Naci\xF3n Argentina\">\r\n
+        \ \r\n    <title>Banco de la Naci\xF3n Argentina</title>\r\n\r\n         \r\n\r\n
+        \   \r\n    <link href=\"/Content/bootstrap.min.css\" rel=\"stylesheet\">\r\n
+        \   <link href=\"/Content/bootstrap-theme.min.css\" rel=\"stylesheet\">\r\n\r\n
+        \   \r\n\r\n        \r\n\r\n     \r\n\r\n    \r\n    \r\n    <link href=\"/Content/css/jquery.bxslider.css\"
+        rel=\"stylesheet\" type=\"text/css\" />\r\n    <link href=\"/Content/css/datepicker.css\"
+        rel=\"stylesheet\" type=\"text/css\" />\r\n\r\n\r\n    \r\n    <link href=\"/Content/css/style.css\"
+        rel=\"stylesheet\">\r\n\r\n\r\n\r\n    \r\n\r\n    <script src=\"/bundles/jquery?v=KVwTEjS-NVeUtl4hOvP7lNlsGD7rWshJQoQzaFpIgLQ1\"></script>\r\n\r\n\r\n
+        \   \r\n    <script src=\"/Scripts/bootstrap.min.js\"></script>\r\n    \r\n
+        \   \r\n    \r\n\r\n    \r\n    \r\n    \r\n\r\n    <script>\r\n       \r\n\r\n
+        \           $(document).on('submit', 'form', function () {\r\n               \r\n
+        \               $(\"body\").css('position', 'relative');\r\n                $(\"body\").append(\"<div
+        class='cargando'><img src='/Images/cargando02.gif' /></div>\");\r\n                if
+        ($(this).attr('id') == 'requestFormReclamosUnique') {\r\n                    \r\n
+        \                   $('#btn_request_submit').remove();\r\n                }
+        else {\r\n                    setTimeout(clear, 5000);\r\n                }\r\n\r\n
+        \               \r\n                \r\n\r\n            });\r\n\r\n            function
+        clear()\r\n            {\r\n                $(\"body\").removeAttr('position');\r\n
+        \               $(\".cargando\").remove();\r\n\r\n            }\r\n      </script>\r\n\r\n
+        \   \r\n\r\n    <script type=\"text/javascript\" src=\"/Scripts/jquery.bxslider.min.js\"></script>\r\n
+        \   <script type=\"text/javascript\" src=\"/Scripts/DevelopScripts/site.js\"></script>\r\n
+        \   <script type=\"text/javascript\" src=\"/Scripts/DevelopScripts/chatbot/iframe.js\"></script>\r\n\r\n\r\n
+        \   <script type=\"text/javascript\">\r\n        $(document).ready(function
+        () {\r\n            seleccionarHome();\r\n        });\r\n    </script>\r\n\r\n\r\n
+        \   <script>\r\n        $(document).ready(function () {\r\n\r\n            $('.bxslider').bxSlider({\r\n
+        \               pagerCustom: '#bx-pager',\r\n                auto: true,\r\n
+        \               autoControls: true,\r\n                mode: 'fade',\r\n                captions:
+        true,\r\n                touchEnabled: true,\r\n                speed: 800,\r\n
+        \               pause: 10000\r\n            });\r\n\r\n\r\n\r\n\r\n            $('.slider01').bxSlider({\r\n
+        \               mode: 'fade',\r\n                auto: false,\r\n                autoControls:
+        true,\r\n            });\r\n\r\n\r\n            $('.slider02').bxSlider({\r\n
+        \               mode: 'fade',\r\n                auto: false,\r\n                autoControls:
+        true,\r\n            });\r\n\r\n\r\n            $('.slider03').bxSlider({\r\n
+        \               mode: 'fade',\r\n                auto: false,\r\n                autoControls:
+        true,\r\n            });\r\n\r\n\r\n            $('.slider04').bxSlider({\r\n
+        \               mode: 'fade',\r\n                auto: false,\r\n                autoControls:
+        true,\r\n            });\r\n\r\n\r\n            $('.slider05').bxSlider({\r\n
+        \               mode: 'fade',\r\n                auto: false,\r\n                autoControls:
+        true,\r\n            });\r\n\r\n        });\r\n\r\n\r\n    </script>\r\n    \r\n\r\n\r\n\r\n\r\n\r\n
+        \     \r\n\r\n\r\n    \r\n    <link rel=\"apple-touch-icon-precomposed\" sizes=\"144x144\"
+        href=\"/Images/ico/apple-touch-icon-144.png\">\r\n    <link rel=\"shortcut
+        icon\" href=\"/Images/ico/favicon.ico\" type=\"/Images/x-icon\">\r\n\t<link
+        rel=\"icon\" href=\"/Images/ico/favicon.ico\" type=\"image/x-icon\">\r\n\r\n\r\n
+        \ </head>\r\n\r\n  <body>\r\n\r\n      \r\n      <noscript>\r\n          <iframe
+        src=\"//www.googletagmanager.com/ns.html?id=GTM-5JX6QM\"\r\n                  height=\"0\"
+        width=\"0\" style=\"display:none;visibility:hidden\"></iframe>\r\n      </noscript>\r\n
+        \     <script>\r\n    (function (w, d, s, l, i) {\r\n              w[l] =
+        w[l] || []; w[l].push({\r\n                  'gtm.start':\r\n                      new
+        Date().getTime(), event: 'gtm.js'\r\n              }); var f = d.getElementsByTagName(s)[0],\r\n
+        \                 j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' +
+        l : ''; j.async = true; j.src =\r\n                      '//www.googletagmanager.com/gtm.js?id='
+        + i + dl; f.parentNode.insertBefore(j, f);\r\n          })(window, document,
+        'script', 'dataLayer', 'GTM-5JX6QM');</script>\r\n      \r\n\r\n      \r\n\r\n\r\n<header>\r\n\r\n\r\n<a
+        style=\"text-indent:-1010em; position:absolute; left:-10010px; top:-1010px;\"
+        href=\"https://hb.accesible.redlink.com.ar/bna\">Home Banking para no videntes</a>\r\n<a
+        style=\"text-indent:-1000em; position:absolute; left:-10000px; top:-1000px;\"
+        href=\"/Institucional/Sucursales\">Buscador de Sucursales y cajeros (con opci\xF3n
+        no videntes)</a>\r\n\r\n<nav class=\"navbar navbar-default\" role=\"navigation\">\r\n\t<div
+        class=\"containerMenu\">\r\n    \t<div class=\"container-fluid\">\r\n          \r\n
+        \         \r\n            <div class=\"navbar-header\">\r\n                \r\n\r\n
+        \               <a class=\"navbar-brand\" href=\"/\"><img src=\"/Images/Logo__BNA.svg\"
+        alt=\"Logo del Banco Naci\xF3n\" title=\"Banco Naci\xF3n\"/></a>\r\n            </div>\r\n
+        \    \r\n\r\n\r\n<div class=\"collapse navbar-collapse\" id=\"bs-example-navbar-collapse-1\">\r\n\t<ul
+        class=\"nav navbar-nav\">\r\n          <li class=\"dropdown\" id=\"personasLI\">\r\n
+        \               <a href=\"#\" id=\"m01\" class=\"dropdown-toggle m01 pTablet\">Personas</a>\r\n
+        \               <a href=\"/Personas\" class=\"dropdown-toggle m01 pPc\">Personas</a>\r\n
+        \             \r\n              <ul class=\"dropdown-menu m01\">\r\n                    <li
+        class=\"title pTablet\"><a href=\"/Personas\">Ir a Inicio Personas</a></li>\r\n
+        \                     <div class=\"sub-menu-col\">\r\n                          <li>\r\n
+        \                             <ul class=\"menu-box\">\r\n                                  <li
+        class=\"title\">Cuentas</li>\r\n\r\n\r\n                                  \r\n\r\n
+        \                                 \r\n                                  <li><a
+        href=\"/Personas/Paquetes\">Paquetes</a></li>\r\n\r\n                                  <li><a
+        href=\"/Personas/CajasDeAhorros\">Cajas de Ahorros</a></li>\r\n                                  <li><a
+        href=\"/Personas/CuentaCorriente\">Cuenta Corriente</a></li>\r\n                                  <li><a
+        href=\"/Personas/CuentaSueldo\">Cuenta Sueldo</a></li>\r\n                                  <li><a
+        href=\"/Personas/CasasParticulares\">Casas Particulares</a></li>\r\n                       \r\n\r\n
+        \                             </ul>\r\n                          </li>\r\n
+        \                         \r\n                          <li>\r\n                            <ul
+        class=\"menu-box\">\r\n                                <li class=\"title\">Tarjetas</li>\r\n
+        \                               <li><a href=\"/Personas/TarjetasDeCredito\">Cr\xE9dito</a></li>\r\n
+        \                               <li><a href=\"/Personas/TarjetaDebito\">D\xE9bito</a></li>\r\n
+        \                               <li><a href=\"/Personas/TarjetasPrepagas\">Prepagas</a></li>\r\n
+        \                               <li><a href=\"/Personas/TarjetaBancat\">Bancat</a></li>\r\n
+        \                               <li><a href=\"/Personas/TarjetasSociales\">Sociales</a></li>\r\n
+        \                           </ul>\r\n                          </li>\r\n                          <li>\r\n
+        \                             <ul class=\"menu-box\">\r\n                                  <li
+        class=\"title\">SEGUROS</li>\r\n                                  <li><a href=\"/Personas/SegurosParaPersonas\">Personas</a></li>\r\n
+        \                                 <li><a href=\"/Personas/SegurosPatrimoniales\">Patrimoniales</a></li>
+        \r\n                              </ul>\r\n                          </li>\r\n\r\n
+        \                     </div>\r\n      \r\n                      <div class=\"sub-menu-col\">\r\n
+        \                         <li>\r\n                              <ul class=\"menu-box\">\r\n
+        \                                 <li class=\"title\">Pr\xE9stamos</li>\r\n
+        \                                 <li><a href=\"/Personas/EnEfectivo\">En
+        Efectivo</a></li>\r\n                                  <li><a href=\"/Personas/ParaDestinosEspecificos\">Para
+        Destinos Espec\xEDficos</a></li>\r\n                                  <li><a
+        href=\"/Personas/ParaJubiladosYPensionados\">Para Jubilados y Pensionados</a></li>\r\n
+        \                                 \r\n                                  \r\n
+        \                                 \r\n                              </ul>\r\n
+        \                         </li>\r\n                             \r\n\r\n                          <li>\r\n
+        \                             <ul class=\"menu-box\">\r\n                                  <li
+        class=\"title\">INVERSIONES</li>\r\n                                  <li><a
+        href=\"/Personas/PlazoFijo\">Plazo Fijo</a></li>\r\n                                  <li><a
+        href=\"/Personas/FondosComunesDeInversion\">Fondos Comunes de Inversi\xF3n</a></li>\r\n
+        \                                 <li><a href=\"/Personas/BonosYAcciones\">Bonos
+        y Acciones</a></li>\r\n                                  <!--<li><a href=\"/Empresas/Grandes/NacionBursatil\">Naci\xF3n
+        Burs\xE1til</a></li>-->\r\n                                  <li><a href=\"/Personas/TestDelInversor\">Test
+        del Inversor</a></li>\r\n                              </ul>\r\n                          </li>\r\n
+        \                         <li>\r\n                              <ul class=\"menu-box\">\r\n
+        \                                 <li class=\"title\">BENEFICIOS</li>\r\n
+        \                                 <li><a href=\"/Personas/DescuentosYPromociones\">Descuentos
+        y Promociones</a></li>\r\n                                  <li><a href=\"/Personas/ProgramaDeBeneficios\">Programa
+        de Beneficios</a></li>\r\n                                  <li><a href=\"/Personas/ProgramaAerolineasPlus\">Programa
+        de Aerol\xEDneas Plus</a></li>\r\n                                  \r\n                                  <li><a
+        href=\"/Personas/Imaginativa\">Imaginativa</a></li>  \r\n     \r\n                              </ul>\r\n
+        \                         </li>\r\n\r\n                      </div>\r\n      \r\n
+        \                     <div class=\"sub-menu-col\">\r\n                            <li>\r\n
+        \                               <ul class=\"menu-box\">\r\n                                    <li
+        class=\"title\">CANALES ELECTR\xD3NICOS</li>\r\n                                    <li><a
+        href=\"/Personas/Cajeros\">Cajeros</a></li>\r\n                                    \r\n
+        \                                   \r\n                                    <li><a
+        href=\"/Personas/TAS\">Terminales de Autoservicio - TAS</a></li>\r\n                                    \r\n
+        \                                   <li><a href=\"/Personas/HomeBanking\">Home
+        Banking</a></li>\r\n                                    <li><a href=\"/Personas/BancaTelefonica\">Banca
+        Telef\xF3nica</a></li>\r\n                                    <li><a href=\"/Personas/BilleteraMovil\">Billetera
+        M\xF3vil</a></li>\r\n                                    \r\n                                    <li><a
+        href=\"/Personas/OperacionesDisponibles\">Operaciones Disponibles</a></li>\r\n
+        \                                    \r\n                                   \r\n\r\n\r\n
+        \                               </ul>\r\n                            </li>\r\n
+        \                           <li>\r\n                                <ul class=\"menu-box\">\r\n
+        \                                   <li class=\"title\">OTROS SERVICIOS</li>\r\n
+        \                                   <li><a href=\"/Personas/CajasDeSeguridad\">Cajas
+        de Seguridad</a></li>\r\n                                    <li><a href=\"/Personas/PagoImpuestosYServicios\">Pago
+        Impuestos y Servicios</a></li>\r\n                                    <li><a
+        href=\"/Personas/OperacionesIntersucursales\">Operaciones Intersucursales</a></li>\r\n
+        \                                   <li><a href=\"/Personas/OperacionesConElExterior\">Operaciones
+        con el Exterior</a></li>\r\n                                </ul>\r\n                            </li>\r\n\r\n
+        \                           <li>\r\n                                <ul class=\"menu-box\">\r\n
+        \                                   <li class=\"title\">ENLACES ESPECIALES</li>\r\n
+        \                                   <li><a href=\"/Personas/JubiladosYPensionadosAnses\">Mayores
+        Activos</a></li>\r\n\r\n                                    <li><a href=\"https://www.youtube.com/playlist?list=PLIinff-hDEz049rTr-vfF92UlhiImgCck\"
+        target=\"_blank\">Tutoriales</a></li>\r\n                                    <li><a
+        href=\"/Personas/ImpuestoPais\">Impuesto PAIS</a></li>\r\n                                </ul>\r\n
+        \                           </li>\r\n\r\n                      </div>\r\n
+        \             </ul>\r\n          </li>\r\n\r\n          <li class=\"dropdown\"
+        \ id=\"empresasLI\">\r\n            <a href=\"#\" id=\"m02\" class=\"dropdown-toggle
+        m02 pTablet\">Empresas</a>\r\n            <a href=\"/Empresas\" class=\"dropdown-toggle
+        m02 pPc\">Empresas</a>\r\n            \r\n            <ul class=\"dropdown-menu
+        m02 \">\r\n                <li class=\"title pTablet\"><a href=\"/Empresas\">Ir
+        a Inicio Empresas</a></li>\r\n             <div class=\"sub-menu-col\">\r\n
+        \             \r\n             <li>\r\n                 <ul class=\"menu-box\">\r\n
+        \                    <li class=\"title\">Microempresas</li>\r\n                     <li><a
+        href=\"/Empresas/NacionEmprende/Microempresa\">Cr\xE9ditos para Microempresas</a></li>\r\n
+        \                    <li><a href=\"/Empresas/Novedades/CuentaComercio\">Cuenta
+        comercio</a></li>\r\n\r\n                 </ul>\r\n              </li>\r\n
+        \                <li>\r\n              <ul class=\"menu-box\">\r\n                  <li
+        class=\"title\">Peque\xF1as y <br>Medianas Empresas</li>\r\n                  <li><a
+        href=\"/Empresas/Pymes/Cuentas\">Cuentas</a></li>\r\n                  <li><a
+        href=\"/Empresas/Pymes/Paquetes\">Paquetes</a></li>\r\n                  <li><a
+        href=\"/Empresas/Pymes/Tarjetas\">Tarjetas</a></li>\r\n                  <li><a
+        href=\"/Empresas/Pymes/Creditos\">Cr\xE9ditos</a></li>\r\n\r\n                  \r\n\r\n
+        \                 <li><a href=\"/Empresas/Pymes/Inversiones\">Inversiones</a></li>\r\n
+        \                 <li><a href=\"/Empresas/Pymes/Seguros\">Seguros</a></li>\r\n
+        \                 <li><a href=\"/Empresas/Pymes/CanalesElectronicos\">Canales
+        Electr\xF3nicos</a></li>\r\n                  <li><a href=\"/Empresas/Pymes/ComercioExterior\">Comercio
+        Exterior</a></li>\r\n                  <li><a href=\"/Empresas/Pymes/GestionDeCobranzas\">Gesti\xF3n
+        de Cobranzas</a></li>\r\n                  <li><a href=\"/Empresas/Pymes/GestionDePagos\">Gesti\xF3n
+        de Pagos</a></li>\r\n                  <li><a href=\"/Empresas/Pymes/CajasDeSeguridad\">Cajas
+        de Seguridad</a></li>\r\n                 \r\n                   \r\n              </ul>\r\n
+        \             </li>\r\n\r\n\r\n            </div>\r\n              \r\n             <div
+        class=\"sub-menu-col\">\r\n\t          <li>    \r\n                  <ul class=\"menu-box\">\r\n
+        \                     <li class=\"title\">Grandes Empresas</li>\r\n                      <li><a
+        href=\"/Empresas/Grandes/Cuentas\">Cuentas</a></li>\r\n                      <li><a
+        href=\"/Empresas/Grandes/Paquetes\">Paquetes</a></li>\r\n                      <li><a
+        href=\"/Empresas/Grandes/Tarjetas\">Tarjetas</a></li>\r\n                      <li><a
+        href=\"/Empresas/Grandes/Creditos\">Cr\xE9ditos</a></li>\r\n\r\n                     \r\n\r\n
+        \                     <li><a href=\"/Empresas/Grandes/Inversiones\">Inversiones</a></li>\r\n
+        \                     <li><a href=\"/Empresas/Grandes/Seguros\">Seguros</a></li>\r\n
+        \                     <li><a href=\"/Empresas/Grandes/CanalesElectronicos\">Canales
+        Electr\xF3nicos</a></li>\r\n                      <li><a href=\"/Empresas/Grandes/ComercioExterior\">Comercio
+        Exterior</a></li>\r\n                      <li><a href=\"/Empresas/Grandes/GestionDeCobranzas\">Gesti\xF3n
+        de Cobranzas</a></li>\r\n                      <li><a href=\"/Empresas/Grandes/GestionDePagos\">Gesti\xF3n
+        de Pagos</a></li>\r\n                      <li><a href=\"/Empresas/Grandes/CajasDeSeguridad\">Cajas
+        de Seguridad</a></li>\r\n                  </ul>\r\n              </li>\r\n
+        \             \r\n             </div>\r\n\r\n\r\n          <div class=\"sub-menu-col\">\r\n\r\n
+        \             \t <li>    \r\n                  <ul class=\"menu-box\">\r\n
+        \                   <li class=\"title\">AgroNegocios</li>\r\n                      <li><a
+        href=\"/Empresas/AgroNegocios/Cuentas\">Cuentas</a></li>\r\n                      <li><a
+        href=\"/Empresas/AgroNegocios/Tarjetas\">Tarjetas</a></li>\r\n                      <li><a
+        href=\"/Empresas/AgroNegocios/Creditos\">Cr\xE9ditos</a></li>\r\n                      <li><a
+        href=\"/Empresas/AgroNegocios/Inversiones\">Inversiones</a></li>\r\n                      <li><a
+        href=\"/Empresas/AgroNegocios/Seguros\">Seguros</a></li>\r\n                      <li><a
+        href=\"/Empresas/AgroNegocios/CanalesElectronicos\">Canales Electr\xF3nicos</a></li>\r\n
+        \                     <li><a href=\"/Empresas/Pymes/ComercioExterior\">Comercio
+        Exterior</a></li>\r\n                      <li><a href=\"/Empresas/AgroNegocios/CajasDeSeguridad\">Cajas
+        de Seguridad</a></li>                  \r\n                        </ul>\r\n
+        \                    </li>\r\n\r\n                  \r\n\r\n                <li>
+        \   \r\n                    <ul class=\"menu-box\">\r\n                        <li
+        class=\"title\">Novedades</li>\r\n                        <li><a href=\"/Empresas/Novedades/Newsletter\">Todo
+        Pyme</a></li>\r\n                        <li><a href=\"/Empresas/EventosYCapacitaciones\">Eventos
+        y capacitaciones</a></li>\r\n                        <li><a href=\"/Empresas/Novedades/CentrosPyMENacion\">Centros
+        PyME Naci\xF3n</a></li>\r\n                    </ul>\r\n                </li>\r\n
+        </div>\r\n\r\n           \r\n          </ul>\r\n          </li>\r\n\r\n\r\n
+        \         \r\n          <li class=\"dropdown\" id=\"institucionalLI\">\r\n\r\n
+        \           <a href=\"#\" id=\"m03\" class=\"dropdown-toggle m03 pTablet\">Institucional</a>\r\n
+        \           <a href=\"/Institucional\" class=\"dropdown-toggle m03 pPc\">Institucional</a>\r\n
+        \           \r\n            <ul class=\"dropdown-menu m03\">\r\n                <li
+        class=\"title pTablet\"><a href=\"/Institucional\">Ir a Inicio Institucional</a></li>\r\n
+        \             <div class=\"sub-menu-col\">\r\n                  <li>\r\n                      <ul
+        class=\"menu-box\">\r\n                          <li class=\"title\">Nuestro
+        Banco</li>\r\n                          <li><a href=\"/Institucional/NuestraHistoria\">Nuestra
+        Historia</a></li>\r\n                          <li><a href=\"/Downloads/DIRECTORIO2022.pdf\"
+        target=\"_blank\">Autoridades</a></li>\r\n                          <li><a
+        href=\"/Institucional/PerfilDeLaEntidad\">Perfil de la Entidad</a></li>\r\n
+        \                         <li><a href=\"/Institucional/CartaOrganica\">Carta
+        Org\xE1nica</a></li>\r\n                          <li><a href=\"/Institucional/TrayectoriaInternacional\">Trayectoria
+        Internacional</a></li>\r\n                          \r\n                          <li><a
+        href=\"/Institucional/GrupoBancoNacion\">Grupo Banco Naci\xF3n</a></li>\r\n
+        \                         <li><a href=\"/Institucional/Sucursales\">Sucursales
+        y Cajeros</a></li>\r\n                          <li><a href=\"/Institucional/ElBancoEnCifras\">El
+        Banco en Cifras</a></li>\r\n                          <li><a href=\"/Institucional/FundacionBNA\">Fundaci\xF3n
+        BNA</a></li>\r\n                      </ul>\r\n                  </li>\r\n
+        \             </div>\r\n              \r\n              \r\n              <div
+        class=\"sub-menu-col\">\r\n                  <li>\r\n                      <ul
+        class=\"menu-box\">\r\n                          <li class=\"title\">Informaci\xF3n
+        P\xFAblica</li>\r\n                          <li><a href=\"/Institucional/Prensa/1\">Prensa</a></li>\r\n
+        \                         <li><a href=\"/Institucional/MemoriaYBalances\">Memoria
+        y Balances</a></li>\r\n                          <li><a href=\"/Institucional/GobiernoCorporativo\">C\xF3digo
+        Gobierno Corporativo</a></li>\r\n                          <li><a href=\"/Institucional/CodigoDeEticaYConducta\">C\xF3digo
+        de \xC9tica y Conducta</a></li>\r\n                          <li><a href=\"/Institucional/ComprasYContrataciones\">Compras
+        y Contrataciones</a></li>\r\n                          <li><a href=\"/Institucional/InmueblesALaVenta\">Inmuebles
+        a la Venta</a></li>\r\n                          <li><a href=\"/Institucional/PrevencionDeLavadoDeDinero\">Prevenci\xF3n
+        de Lavado de Dinero</a></li>\r\n                          <li><a href=\"/Institucional/DisciplinaDeMercado\">Disciplina
+        de Mercado</a></li>\r\n                          <li><a href=\"/Institucional/ResponsabilidadSocial\">Responsabilidad
+        Social</a></li>\r\n                      </ul>\r\n                  </li>\r\n
+        \             </div>\r\n              \r\n                  <div class=\"sub-menu-col\">\r\n
+        \                     <li>\r\n                          <ul class=\"menu-box\">\r\n
+        \                             <li class=\"title\">Acciones Institucionales</li>\r\n
+        \                             <li><a href=\"/Institucional/BienesCulturales\">Bienes
+        Culturales</a></li>\r\n\r\n                              <li><a href=\"/Institucional/BNADeporte\">BNA
+        y el Deporte</a></li>\r\n                              \r\n                          </ul>\r\n
+        \                     </li>\r\n                      <li>\r\n                          <ul
+        class=\"menu-box\">\r\n                              <li class=\"title\">Trabaj\xE1
+        con nosotros</li>\r\n                              <li><a href=\"/Institucional/IngresaTuCurriculum\">Ingres\xE1
+        tu Curr\xEDculum</a></li>\r\n\r\n                          </ul>\r\n                      </li>\r\n
+        \                 </div>\r\n</ul>\r\n          </li>\r\n\t</ul> \r\n              \r\n\t<br
+        clear=\"all\" />\r\n</div>\r\n\r\n\r\n\r\n\r\n\r\n\r\n            <div class=\"content-Homebanking-Header\">\r\n
+        \               <a class=\"btn-Homebanking-Header Turnos\" href=\"https://www.bna.com.ar/Home/AtencionEnSucursales\">Solicitud
+        de Turnos</a>\r\n                <a class=\"btn-Homebanking-Header\" href=\"https://hb.redlink.com.ar/bna/login.htm\">Home
+        Banking</a>\r\n            </div>\r\n\r\n    \r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n<form
+        id=\"searchForm\" class=\"navbar-form navbar-left search\" style=\"visibility:
+        hidden\" role=\"search\" action=\"/Buscador\" method=\"get\" >\r\n    <div
+        class=\"form-group\">\r\n      <input name=\"q\" type=\"text\" class=\"form-control\"
+        placeholder=\"Buscar\" >\r\n    </div>\r\n    <button type=\"submit\" class=\"btn
+        btn-default iconSearch\">Submit</button>\r\n</form>\r\n\r\n<script>\r\n    $(document).ready(function
+        () {\r\n\r\n\r\n\r\n        if ('True' == 'True') {\r\n            $(\"#personasLI\").removeClass(\"active\");\r\n
+        \           $(\"#personasLI\").addClass(\"active\");\r\n        } else {\r\n
+        \           if ('False' == 'True' || 'False' == 'True') {\r\n                $(\"#empresasLI\").removeClass(\"active\");\r\n
+        \               $(\"#empresasLI\").addClass(\"active\");\r\n            }
+        else {\r\n                if ('False' == 'True') {\r\n                    $(\"#institucionalLI\").removeClass(\"active\");\r\n
+        \                   $(\"#institucionalLI\").addClass(\"active\");\r\n                }
+        else {\r\n                    $(\"#personasLI\").removeClass(\"active\");\r\n
+        \                   $(\"#personasLI\").addClass(\"active\");\r\n                }\r\n
+        \           }\r\n        }\r\n\r\n\r\n\r\n        $('#searchForm').submit(\r\n
+        \           function (e) {\r\n\r\n\r\n                var ret = true;\r\n
+        \               $.each($('#searchForm').serializeArray(), function (i, field)
+        {\r\n                    if (field.name == 'q' && !field.value) {\r\n                        ret
+        = false;\r\n                    }\r\n                });\r\n                return
+        ret;\r\n            });\r\n    });\r\n</script>\r\n\r\n\r\n        \r\n        </div>\r\n
+        \   </div> \r\n</nav>\r\n\r\n</header>\r\n\r\n\r\n      \r\n      \r\n    \r\n<div
+        class=\"sliderHome\">\r\n<ul class=\"bxslider\">\r\n\r\n            <li class=\"slider-01\">\r\n
+        \                       <a href=\"/Personas/bnamas\"><img src=\"/Images/slider/Slide_BNAmas_2.jpg\"
+        /></a>\r\n                <div class=\"content-slider\">\r\n                </div>\r\n
+        \           </li>  \r\n            <li class=\"slider-02\">\r\n                        <a
+        href=\"https://solicitudes.bna.com.ar/formulario/datospersonales/TC\" target=\"_blank\"><img
+        src=\"/Images/slider/Slide_SolicitaTuTarjeta_2022b.jpg\" /></a>\r\n                <div
+        class=\"content-slider\">\r\n                </div>\r\n            </li>  \r\n
+        \           <li class=\"slider-03\">\r\n                        <a href=\"/Personas/PrestamosVivienda\"><img
+        src=\"/Images/slider/Slide_PrestamosVivienda_2.jpg\" /></a>\r\n                <div
+        class=\"content-slider\">\r\n                </div>\r\n            </li>  \r\n
+        \           <li class=\"slider-04\">\r\n                        <a href=\"http://www.mayoresactivos.com.ar\"
+        target=\"_blank\"><img src=\"/Images/slider/Slide_MayoresActivosV4.jpg\" /></a>\r\n
+        \               <div class=\"content-slider\">\r\n                </div>\r\n
+        \           </li>  \r\n\r\n\r\n</ul>\r\n\r\n    <div id=\"bx-pager\">\r\n
+        \           <a data-slide-index=\"0\" class=\"pager-01\" href=\"\"><div class=\"arrow_box\"></div>
+        BNA migracion</a>\r\n            <a data-slide-index=\"1\" class=\"pager-01\"
+        href=\"\"><div class=\"arrow_box\"></div> Tarjeta 321</a>\r\n            <a
+        data-slide-index=\"2\" class=\"pager-01\" href=\"\"><div class=\"arrow_box\"></div>
+        Prestamos Vivienda</a>\r\n            <a data-slide-index=\"3\" class=\"pager-01\"
+        href=\"\"><div class=\"arrow_box\"></div> Mayores activos</a>\r\n\r\n\r\n
+        \   \r\n    </div>\r\n\r\n</div>\r\n\r\n\r\n\r\n      \r\n      <main class=\"contenido\">\r\n\r\n
+        \         \r\n          \r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n          <div class=\"containerContent\">\r\n\r\n
+        \             \r\n              \r\n\r\n              <div class=\"row\">\r\n\r\n
+        \                 \r\n                  \r\n\r\n                  <div class=\"col-md-9\"
+        id=\"contenidoInternaLayout\">\r\n                      \r\n                  </div>\r\n\r\n
+        \                 \r\n                  \r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n<!--
+        ****************************  CHATBOT **************************** -->\r\n<section
+        id=\"chatbot\" style=\"visibility: hidden;\">\r\n    <div class=\"container\">\r\n
+        \       <div class=\"columns is-centered\">\r\n            <div class=\"column
+        is-one-quarter\">\r\n                <button id=\"btnOpenChat\" class=\"IconoChatbot\"></button>\r\n
+        \           </div>\r\n        </div>\r\n    </div>\r\n</section>\r\n\r\n<div
+        class=\"columns is-centered contenedorChatbot\" style=\"visibility: hidden;\">\r\n
+        \   <div class=\"column is-half\">\r\n        <div id=\"sectionChat\">\r\n
+        \           <button id=\"btnCloseFrame\" class=\"delete is-pulled-right\"
+        aria-label=\"delete\"></button>\r\n            <iframe id=\"frameChat\" class=\"chatIframe\"
+        scrolling=\"no\" width=\"400px\" height=\"510px\" frameborder=\"0\" allow=\"accelerometer;
+        autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\"
+        allowfullscreen=\"\"></iframe>\r\n        </div>\r\n    </div>\r\n</div>\r\n\r\n<!--
+        ****************************  FIN CHATBOT **************************** -->\r\n\r\n\r\n\r\n<div
+        id=\"leftHome\">\r\n    \r\n\r\n    <script>\r\n        $(document).ready(function
+        () {\r\n            \n\r\n        });\r\n\r\n        function MovimientoVerticalAutomaticoBanner(x)
+        {\r\n            $('.bx-next').trigger('click');\r\n            for (i = 1;
+        i < $('li.tabs-li').length + 1 ; i++) {\r\n                $('#tab0' + i).removeClass('active');\r\n
+        \               $('#tab0' + i + 'c').removeClass('active in');\r\n            }\r\n
+        \           if (x.valor++ > $('li.tabs-li').length - 1) {\r\n                x.valor
+        = 1;\r\n            }\r\n            $('#tab0' + x.valor + 'c').addClass('active
+        in');\r\n            $('#tab0' + x.valor).addClass('active');\r\n        }\r\n\r\n
+        \   </script>\r\n\r\n\r\n\r\n    \r\n<div class=\"col-md-9\">\r\n\r\n\r\n\r\n\r\n
+        \       <div class=\"tabDouble tabSlider\">\r\n            <div class=\"tab-content\">\r\n\r\n
+        \                       <div id=\"tab01c\" class=\"tab-pane fade active in\">\r\n
+        \                           <ul class=\"slider01 slider\">\r\n                                        <li
+        class=\"primero\"><a href=\"http://www.bna.com.ar/AB/AltaProducto/TD\"><img
+        src=\"/Backoffice/images/bannerHome/BannerRotativo_TarjetaDeDebito.png\" /></a></li>\r\n
+        \                                       <li><a href=\"https://bna.com.ar/home/estafasvirtuales\"><img
+        src=\"/Backoffice/images/bannerHome/BannerRotativo-estafas.jpg\" /></a></li>\r\n
+        \                           </ul>\r\n                        </div>\r\n\r\n
+        \       </div>       \r\n\r\n             \r\n    </div>\r\n\r\n\r\n\r\n\r\n
+        \           <div class=\"tabDouble tabSlider\" style=\"margin-left: 10px;\">\r\n
+        \           <div class=\"tab-content\">\r\n\r\n                            <div
+        id=\"tab01c\" class=\"tab-pane fade active in\">\r\n                                <ul
+        class=\"slider01 slider\">\r\n                                            <li
+        class=\"primero\"><a href=\"https://www.tiendabna.com.ar\"><img src=\"/Backoffice/images/bannerHome/BannerRotativo_TiendaBNA.png\"
+        /></a></li>\r\n                                            <li><a href=\"http://www.bna.com.ar/home/condicionescreditosUva\"><img
+        src=\"/Backoffice/images/bannerHome/Rotativo_Hipotecarios_UVA.png\" /></a></li>\r\n
+        \                               </ul>\r\n                            </div>\r\n\r\n
+        \           </div>       \r\n    </div>\r\n\r\n\r\n\r\n\r\n\r\n</div>   \r\n</div>\r\n\r\n\r\n\r\n\r\n<div
+        id=\"rightHome\">\r\n<script src=\"/Scripts/datepicker.min.js\"></script>\r\n<script
+        src=\"/Scripts/DevelopScripts/Imprimir.js\" type=\"text/javascript\"></script>\r\n<script
+        type=\"text/javascript\">\r\n\r\n    $(document).ready(function () {\r\n       \n\n
+        \       $('#buttonHistoricoMonedas').on('click', function (e) {\r\n            $('#modalHistorico
+        .modal-title').text('Cotizaciones de las principales divisas');\r\n            $('#historicoPrincipalMonedas').show();\r\n
+        \           e.preventDefault();\r\n            $.ajax({\r\n                url:
+        '/Cotizador/MonedasHistorico',\r\n                        type: \"GET\",\r\n
+        \                       async: false,\r\n                        success:
+        function (result) {\r\n                            $('#modalHistorico .modal-body').html(result);
+        \ \n\n                        }\r\n            });\r\n        });\r\n\r\n
+        \      \n\n        $('#historicoPrincipalMonedas').on('click', function (e)
+        {\r\n            $('#modalHistorico .modal-title').text('Cotizaciones hist\xF3ricas
+        de las principales divisas');\r\n            $('#historicoPrincipalMonedas').hide();\r\n
+        \           e.preventDefault();\r\n            $.ajax({\r\n                url:
+        '/Cotizador/HistoricoPrincipales',\r\n                type: \"GET\",\r\n                async:
+        false,\r\n                data: {\r\n                        id: 'monedas',\r\n
+        \                      \n\n                        filtroEuro: 0,\r\n                        filtroDolar:
+        0\r\n                        },\r\n                success: function (result)
+        {\r\n                    $('#modalHistorico .modal-body').html(result);  \n\n
+        \               }\r\n            });\r\n                });\r\n\r\n       \n\n
+        \       $('#buttonHistoricoBilletes').on('click', function (e) {\r\n            \r\n
+        \           $('#modalHistorico .modal-title').text('Cotizaciones hist\xF3ricas
+        de las principales monedas');\r\n            $('#historicoPrincipalMonedas').hide();\r\n
+        \           e.preventDefault();\r\n            $.ajax({\r\n                url:
+        '/Cotizador/HistoricoPrincipales',\r\n                type: \"GET\",\r\n                async:
+        false,\r\n                data: {\r\n                    id: 'billetes',\r\n
+        \                  \n\n                    filtroEuro: 0,\r\n                    filtroDolar:
+        0\r\n                },\r\n                success: function (result) {\r\n
+        \                   $('#modalHistorico .modal-body').html(result);  \n\n                }\r\n
+        \           });\r\n        });\r\n\r\n    }); \r\n</script>\r\n\r\n\r\n<div
+        class=\"col-md-3\">\r\n    <div class=\"tabSmall\">\r\n        <ul class=\"nav
+        nav-tabs\">\r\n            \r\n                <li class=\"active\"><a href=\"#billetes\"
+        data-toggle=\"tab\">Cotizaci\xF3n Billetes</a><div class=\"arrow\"></div></li>\r\n
+        \               <li><a href=\"#divisas\" data-toggle=\"tab\">Cotizaci\xF3n
+        Divisas</a><div class=\"arrow\"></div></li>\r\n\r\n\r\n        </ul>\r\n                        \r\n
+        \       <div class=\"tab-content\">\r\n            \r\n                <div
+        class=\"tab-pane fade in active\" id=\"billetes\">\r\n            \r\n                <table
+        class=\"table cotizacion\">\r\n                    <thead>\r\n                        <tr>\r\n
+        \                       <th class=\"fechaCot\">30/12/2022</th>\r\n                        <th>Compra</th>\r\n
+        \                       <th>Venta</th>\r\n                        </tr>\r\n
+        \                   </thead>\r\n                    <tbody>\r\n\r\n                            <tr>\r\n
+        \                           <td class=\"tit\">Dolar U.S.A</td>\r\n                            <td>175,2500</td>\r\n
+        \                           <td>183,2500</td>\r\n                            </tr>\r\n
+        \                           <tr>\r\n                            <td class=\"tit\">Euro</td>\r\n
+        \                           <td>184,2500</td>\r\n                            <td>193,2500</td>\r\n
+        \                           </tr>\r\n                            <tr>\r\n
+        \                           <td class=\"tit\">Real *</td>\r\n                            <td>3120,0000</td>\r\n
+        \                           <td>3520,0000</td>\r\n                            </tr>\r\n\r\n
+        \                   </tbody>\r\n                    </table>       \r\n                    <a
+        href=\"#\" class=\"link-cotizacion\" data-toggle=\"modal\" data-target=\"#modalHistorico\"
+        id=\"buttonHistoricoBilletes\" >Ver hist\xF3rico</a>\r\n                    <div
+        class=\"legal\">Hora Actualizaci\xF3n: 15:04</div>\r\n                    <div
+        class=\"legal\">(*) cotizaci\xF3n cada 100 unidades.</div>    \r\n                               \r\n
+        \     \t\t</div>\r\n            \r\n                <div class=\"tab-pane
+        fade\" id=\"divisas\">\r\n                <table class=\"table cotizacion\">\r\n
+        \                   <thead>\r\n                        <tr>\r\n                        <th
+        class=\"fechaCot\">30/12/2022</th>\r\n                        <th>Compra</th>\r\n
+        \                       <th>Venta</th>\r\n                        </tr>\r\n
+        \                   </thead>\r\n                    <tbody>\r\n                  \r\n
+        \                           <tr>\r\n                            <td class=\"tit\">Dolar
+        U.S.A</td>\r\n                            <td>176.9600</td>\r\n                            <td>177.1600</td>\r\n
+        \                           </tr>\r\n                            <tr>\r\n
+        \                           <td class=\"tit\">Libra Esterlina</td>\r\n                            <td>213.9092</td>\r\n
+        \                           <td>214.6825</td>\r\n                            </tr>\r\n
+        \                           <tr>\r\n                            <td class=\"tit\">Euro</td>\r\n
+        \                           <td>189.2587</td>\r\n                            <td>189.9155</td>\r\n
+        \                           </tr>\r\n                            <tr>\r\n
+        \                           <td class=\"tit\">Franco Suizos *</td>\r\n                            <td>19168.7252</td>\r\n
+        \                           <td>19216.7372</td>\r\n                            </tr>\r\n
+        \                           <tr>\r\n                            <td class=\"tit\">YENES
+        *</td>\r\n                            <td>135.0073</td>\r\n                            <td>135.3710</td>\r\n
+        \                           </tr>\r\n                            <tr>\r\n
+        \                           <td class=\"tit\">Dolares Canadienses *</td>\r\n
+        \                           <td>13073.6113</td>\r\n                            <td>13107.2345</td>\r\n
+        \                           </tr>\r\n                            <tr>\r\n
+        \                           <td class=\"tit\">Coronas Danesas *</td>\r\n                            <td>2543.3075</td>\r\n
+        \                           <td>2563.5950</td>\r\n                            </tr>\r\n
+        \                           <tr>\r\n                            <td class=\"tit\">Coronas
+        Noruegas *</td>\r\n                            <td>1797.6537</td>\r\n                            <td>1816.9155</td>\r\n
+        \                           </tr>\r\n                            <tr>\r\n
+        \                           <td class=\"tit\">Coronas Suecas *</td>\r\n                            <td>1693.4630</td>\r\n
+        \                           <td>1712.9522</td>\r\n                            </tr>\r\n\r\n
+        \                   </tbody>\r\n                    </table>\r\n                    <a
+        href=\"#\" class=\"link-cotizacion\" data-toggle=\"modal\" data-target=\"#modalHistorico\"
+        id=\"buttonHistoricoMonedas\" >Ver hist\xF3rico</a>\r\n                    <div
+        class=\"legal\">(*) cotizaci\xF3n cada 100 unidades.</div>     \r\n                    <div
+        class=\"legal leyenda\">El tipo de cambio de cierre de divisa es suministrado
+        al p\xFAblico a fines informativos, como referencia de la cotizaci\xF3n de
+        la divisa en el mercado mayorista al final de cada d\xEDa.</div>                \r\n
+        \           </div>\r\n        </div>\r\n    </div>\r\n</div>\r\n\r\n\r\n<div
+        id=\"divModals\"></div>\r\n\r\n\r\n\r\n<div class=\"modal fade bs-example-modal-lg\"
+        id=\"modalHistorico\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myLargeModalLabel\"
+        aria-hidden=\"true\">\r\n<div class=\"modal-dialog modal-lg\">\r\n\r\n    <div
+        class=\"modal-content\">\r\n        <div class=\"modal-header\">\r\n        <button
+        type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">&times;</button>\r\n
+        \       <h4 class=\"modal-title\" id=\"modalTitulosImpresion\"></h4>\r\n        </div>\r\n
+        \       <div class=\"modal-body\">\r\n       \r\n        </div>\r\n        <div
+        class=\"modal-footer\">\r\n            <button type=\"button\" class=\"btn
+        btn-default\" data-dismiss=\"modal\">Cerrar</button>\r\n            <button
+        type=\"button\" class=\"btn btn-primary\" id=\"historicoPrincipalMonedas\">Ver
+        hist\xF3rico principal</button>\r\n            <a href=\"#\" onclick=\"imprimir('cotizacionesCercanas','modalTitulosImpresion')\"
+        class=\"printModal\">Imprimir</a>\r\n        </div>\r\n\r\n    </div>\r\n
+        \   </div>\r\n</div>\r\n\r\n\r\n</div>\r\n\r\n\r\n\r\n\r\n\r\n<div class=\"modal
+        fade\" id=\"myModalComisiones\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myLargeModalLabel\"
+        aria-hidden=\"true\">\r\n  <div class=\"modal-dialog modal-lg\">\r\n    <div
+        class=\"modal-content\">\r\n      <div class=\"modal-header\">\r\n        <button
+        type=\"button\" class=\"close\" data-dismiss=\"modal\"><span aria-hidden=\"true\">&times;</span><span
+        class=\"sr-only\">Close</span></button>\r\n        <h4 class=\"modal-title\"
+        id=\"myModalLabel\">Comisiones y cargos</h4>\r\n      </div>\r\n      <div
+        class=\"modal-body\">\r\n\t\t<div class=\"content-table-home\">\r\n            <h2>Comisi\xF3n
+        de atenci\xF3n caja de ahorro en pesos / d\xF3lares</h2>\r\n            <p>Por
+        los servicios que se indican a continuaci\xF3n se percibir\xE1 la siguiente
+        tarifa, en la moneda en que fue abierta la cuenta:</p>\r\n    \r\n            <div
+        class=\"table-responsive\">\r\n                <table class=\"table\">\r\n
+        \               <thead>\r\n                    <tr>\r\n                        <th
+        rowspan=\"2\" width=\"20%\">Concepto</th>\r\n                        <th colspan=\"2\">Tarifa</th>\r\n
+        \                       <th rowspan=\"2\" >Minimo</th>\r\n                        <th
+        rowspan=\"2\" >M\xE1ximo</th>\r\n                        <th rowspan=\"2\"
+        >Per\xEDodo</th>\r\n                    </tr>\r\n                    <tr>\r\n
+        \                       <th>Fija</th>\r\n                        <th>%</th>\r\n
+        \                   </tr>\r\n                </thead>\r\n                <tbody>\r\n
+        \                   <tr>\r\n                        <td>Para cuentas en $</td>\r\n
+        \                       <td>Sin Cargo</td>\r\n                        <td></td>\r\n
+        \                       <td></td>\r\n                        <td></td>\r\n
+        \                       <td>Mensual</td>\r\n                    </tr>\r\n
+        \                   <tr>\r\n                        <td>Para cuentas en U$S,
+        excluidas de la reprogramaci\xF3n</td>\r\n                        <td>U$S10
+        IVA EXENTO</td>\r\n                        <td></td>\r\n                        <td></td>\r\n
+        \                       <td></td>\r\n                        <td>Mensual</td>\r\n
+        \                   </tr>\r\n                </tbody>\r\n                </table>\r\n
+        \           </div>\r\n    \r\n            <h2>Comisi\xF3n por transacciones
+        realizadas en cajeros autom\xE1ticos</h2>\r\n    \r\n            <div class=\"table-responsive\">\r\n
+        \               <table class=\"table\">\r\n                <thead>\r\n                    <tr>\r\n
+        \                       <th rowspan=\"2\" width=\"20%\">Concepto</th>\r\n
+        \                       <th colspan=\"2\">Tarifa</th>\r\n                        <th
+        rowspan=\"2\" >Minimo</th>\r\n                        <th rowspan=\"2\" >M\xE1ximo</th>\r\n
+        \                       <th rowspan=\"2\" >Per\xEDodo</th>\r\n                        <th
+        rowspan=\"2\" >Cobro</th>\r\n                    </tr>\r\n                    <tr>\r\n
+        \                       <th>Fija</th>\r\n                        <th>%</th>\r\n
+        \                   </tr>\r\n                </thead>\r\n                <tbody>\r\n
+        \                   <tr>\r\n                        <td>Por cada transacci\xF3n
+        utilizando la Red Link del BNA</td>\r\n                        <td>Sin Cargo</td>\r\n
+        \                       <td></td>\r\n                        <td></td>\r\n
+        \                       <td></td>\r\n                        <td></td>\r\n
+        \                       <td></td>\r\n                    </tr>\r\n                    \r\n
+        \               </tbody>\r\n                </table>\r\n            </div>\r\n\r\n
+        \           <h2>Tarifa b\xE1sica ($)</h2>\r\n    \r\n            <div class=\"table-responsive\">\r\n
+        \               <table class=\"table\">\r\n                <thead>\r\n                    <tr>\r\n
+        \                       <th rowspan=\"2\" width=\"20%\">Concepto</th>\r\n
+        \                       <th colspan=\"2\">Tarifa</th>\r\n                        <th
+        rowspan=\"2\">Minimo</th>\r\n                        <th rowspan=\"2\">M\xE1ximo</th>\r\n
+        \                       <th rowspan=\"2\">Per\xEDodo</th>\r\n                        <th
+        rowspan=\"2\">Cobro</th>\r\n                    </tr>\r\n                    <tr>\r\n
+        \                       <th>Fija</th>\r\n                        <th>%</th>\r\n
+        \                   </tr>\r\n                </thead>\r\n                <tbody>\r\n
+        \                   <tr>\r\n                        <td>Por cada transacci\xF3n
+        utilizando la Red Link del BNA</td>\r\n                        <td>Sin Cargo</td>\r\n
+        \                       <td></td>\r\n                        <td></td>\r\n
+        \                       <td></td>\r\n                        <td></td>\r\n
+        \                       <td></td>\r\n                    </tr>\r\n                    <tr>\r\n
+        \                       <td>Por cada transacci\xF3n utilizando la Red Link
+        de otros bancos</td>\r\n                        <td>$21,60 + IVA</td>\r\n
+        \                       <td></td>\r\n                        <td></td>\r\n
+        \                       <td></td>\r\n                        <td>Eventual</td>\r\n
+        \                       <td>Autom\xE1tico</td>\r\n                    </tr>\r\n
+        \                   <tr>\r\n                        <td>Utilizaci\xF3n de
+        Red BANELCO por cada transacci\xF3n</td>\r\n                        <td>$25,20
+        + IVA</td>\r\n                        <td></td>\r\n                        <td></td>\r\n
+        \                       <td></td>\r\n                        <td>Eventual</td>\r\n
+        \                       <td>Autom\xE1tico</td>\r\n                    </tr>\r\n
+        \               </tbody>\r\n                </table>\r\n            </div>\r\n\r\n
+        \           \r\n            <h2>Tarifa b\xE1sica (U$S)</h2>\r\n    \r\n            <div
+        class=\"table-responsive\">\r\n                <table class=\"table\">\r\n
+        \               <thead>\r\n                    <tr>\r\n                        <th
+        rowspan=\"2\" width=\"20%\">Concepto</th>\r\n                        <th colspan=\"2\">Tarifa</th>\r\n
+        \                       <th rowspan=\"2\">Minimo</th>\r\n                        <th
+        rowspan=\"2\">M\xE1ximo</th>\r\n                        <th rowspan=\"2\">Per\xEDodo</th>\r\n
+        \                       <th rowspan=\"2\">Cobro</th>\r\n                    </tr>\r\n
+        \                   <tr>\r\n                        <th>Fija</th>\r\n                        <th>%</th>\r\n
+        \                   </tr>\r\n                </thead>\r\n                <tbody>\r\n
+        \                   <tr>\r\n                        <td>Por cada transacci\xF3n
+        utilizando la Red Link del BNA</td>\r\n                        <td>Sin Cargo</td>\r\n
+        \                       <td></td>\r\n                        <td></td>\r\n
+        \                       <td></td>\r\n                        <td></td>\r\n
+        \                       <td></td>\r\n                    </tr>\r\n                    <tr>\r\n
+        \                       <td>Por cada transacci\xF3n utilizando la Red Link
+        de otros bancos</td>\r\n                        <td>U$S3 + IVA</td>\r\n                        <td></td>\r\n
+        \                       <td></td>\r\n                        <td></td>\r\n
+        \                       <td>Eventual</td>\r\n                        <td>Autom\xE1tico</td>\r\n
+        \                   </tr>\r\n                    <tr>\r\n                        <td>Utilizaci\xF3n
+        de Red BANELCO por cada transacci\xF3n</td>\r\n                        <td>U$S4
+        + IVA</td>\r\n                        <td></td>\r\n                        <td></td>\r\n
+        \                       <td></td>\r\n                        <td>Eventual</td>\r\n
+        \                       <td>Autom\xE1tico</td>\r\n                    </tr>\r\n
+        \               </tbody>\r\n                </table>\r\n            </div>\r\n\r\n\r\n
+        \           <h2>Por transacci\xF3n realizada en el exterior con tarjeta de
+        d\xE9bito</h2>\r\n    \r\n            <div class=\"table-responsive\">\r\n
+        \               <table class=\"table\">\r\n                <thead>\r\n                    <tr>\r\n
+        \                       <th rowspan=\"2\" width=\"20%\">Concepto</th>\r\n
+        \                       <th colspan=\"2\">Tarifa</th>\r\n                        <th
+        rowspan=\"2\">Minimo</th>\r\n                        <th rowspan=\"2\">M\xE1ximo</th>\r\n
+        \                       <th rowspan=\"2\">Per\xEDodo</th>\r\n                        <th
+        rowspan=\"2\">Cobro</th>\r\n                    </tr>\r\n                    <tr>\r\n
+        \                       <th>Fija</th>\r\n                        <th>%</th>\r\n
+        \                   </tr>\r\n                </thead>\r\n                <tbody>\r\n
+        \                   <tr>\r\n                        <td>Por cada transacci\xF3n
+        monetaria</td>\r\n                        <td>U$S3,60 + IVA</td>\r\n                        <td></td>\r\n
+        \                       <td></td>\r\n                        <td></td>\r\n
+        \                       <td>Eventual</td>\r\n                        <td>Autom\xE1tico</td>\r\n
+        \                   </tr>\r\n                    <tr>\r\n                        <td>Por
+        cada transacci\xF3n no monetaria</td>\r\n                        <td>U$S1,20
+        + IVA</td>\r\n                        <td></td>\r\n                        <td></td>\r\n
+        \                       <td></td>\r\n                        <td>Eventual</td>\r\n
+        \                       <td>Autom\xE1tico</td>\r\n                    </tr>\r\n
+        \               </tbody>\r\n                </table>\r\n            </div>\r\n\r\n\r\n
+        \           <h2>Comisi\xF3n por atenci\xF3n cuenta corriente bancaria</h2>\r\n
+        \   \r\n    \t\t<p>Por los servicios que se indican a continuaci\xF3n se percibir\xE1
+        la siguiente tarifa, en la moneda en que fue abierta la cuenta:</p>\r\n    \r\n
+        \           <div class=\"table-responsive\">\r\n                <table class=\"table\">\r\n
+        \               <thead>\r\n                    <tr>\r\n                        <th
+        rowspan=\"2\" width=\"20%\">Concepto</th>\r\n                        <th colspan=\"2\">Tarifa</th>\r\n
+        \                       <th rowspan=\"2\">Minimo</th>\r\n                        <th
+        rowspan=\"2\">M\xE1ximo</th>\r\n                        <th rowspan=\"2\">Per\xEDodo</th>\r\n
+        \                       <th rowspan=\"2\">Cobro</th>\r\n                    </tr>\r\n
+        \                   <tr>\r\n                        <th>Fija</th>\r\n                        <th>%</th>\r\n
+        \                   </tr>\r\n                </thead>\r\n                <tbody>\r\n
+        \                   <tr>\r\n                        <td>Personas F\xEDsicas</td>\r\n
+        \                       <td>$147 + IVA</td>\r\n                        <td></td>\r\n
+        \                       <td></td>\r\n                        <td></td>\r\n
+        \                       <td>Mensual</td>\r\n                        <td>Autom\xE1tico</td>\r\n
+        \                   </tr>\r\n                    <tr>\r\n                        <td>Personas
+        Jur\xEDdicas</td>\r\n                        <td>$723 + IVA</td>\r\n                        <td></td>\r\n
+        \                       <td></td>\r\n                        <td></td>\r\n
+        \                       <td>Mensual</td>\r\n                        <td>Autom\xE1tico</td>\r\n
+        \                   </tr>\r\n                </tbody>\r\n                </table>\r\n\r\n
+        \            \r\n             \r\n            </div>\r\n            <br />\r\n
+        \           <br />\r\n            \r\n            <h2>Tarjetas de cr\xE9dito</h2>\r\n\r\n
+        \           <h3>NATIVA NACI\xD3N / NATIVA INTERNACIONAL</h3>\r\n    \t\t<p>Comisi\xF3n</p>\r\n
+        \   \r\n            <div class=\"table-responsive\">\r\n                <table
+        class=\"table\">\r\n                <thead>\r\n                    <tr>\r\n
+        \                       <th rowspan=\"2\" width=\"20%\">Concepto</th>\r\n
+        \                       <th colspan=\"2\">Tarifa</th>\r\n                        <th
+        rowspan=\"2\">Minimo</th>\r\n                        <th rowspan=\"2\">M\xE1ximo</th>\r\n
+        \                       <th rowspan=\"2\">Periodicidad</th>\r\n                    </tr>\r\n
+        \                   <tr>\r\n                        <th>Fija</th>\r\n                        <th>%</th>\r\n
+        \                   </tr>\r\n                </thead>\r\n                <tbody>\r\n
+        \                   \r\n                    <tr>\r\n                        <td>Administraci\xF3n
+        de Cuenta</td>\r\n                        <td>$67,50 + IVA (*) </td>\r\n                        <td></td>\r\n
+        \                       <td></td>\r\n                        <td></td>\r\n
+        \                       <td>Liquidaci\xF3n mensual, cada vez que se emita
+        y env\xEDe un resumen</td>\r\n                    </tr>\r\n                    <tr>\r\n
+        \                       <td>Reposici\xF3n / Reimpresi\xF3n</td>\r\n                        <td>$90,00
+        + IVA (**)</td>\r\n                        <td></td>\r\n                        <td></td>\r\n
+        \                       <td></td>\r\n                        <td></td>\r\n
+        \                   </tr>\r\n                    <tr>\r\n                        <td>Servicio
+        Anual</td>\r\n                        <td>$450,00 + IVA (***)</td>\r\n                        <td></td>\r\n
+        \                       <td></td>\r\n                        <td></td>\r\n
+        \                       <td>Una vez al a\xF1o. Pagadero en 2 cuotas mensuales
+        consecutivas</td>\r\n                    </tr> \r\n                 </tbody>\r\n
+        \               </table>\r\n\r\n              <p> (*) Aplicable a partir de
+        Agosto de 2017. Comisi\xF3n vigente hasta esa fecha: $54,00 + IVA. </p>\r\n
+        \             <p> (**) Aplicable a partir de Agosto de 2017. Comisi\xF3n vigente
+        hasta esa fecha: $72,00 + IVA. </p>\r\n              <p> (***) Aplicable a
+        partir de Agosto de 2017. Comisi\xF3n vigente hasta esa fecha: $270,00 + IVA.</p>\r\n\r\n\r\n
+        \           </div>\r\n            <br />\r\n            <br />\r\n\r\n\r\n\r\n
+        \           \r\n            <h3>NATIVA MASTERCARD / VISA GOLD</h3>\r\n    \t\t<p>Comisi\xF3n</p>\r\n
+        \   \r\n            <div class=\"table-responsive\">\r\n                <table
+        class=\"table\">\r\n                <thead>\r\n                    <tr>\r\n
+        \                       <th rowspan=\"2\" width=\"20%\">Concepto</th>\r\n
+        \                       <th colspan=\"2\">Tarifa</th>\r\n                        <th
+        rowspan=\"2\">Minimo</th>\r\n                        <th rowspan=\"2\">M\xE1ximo</th>\r\n
+        \                       <th rowspan=\"2\">Periodicidad</th>\r\n                    </tr>\r\n
+        \                   <tr>\r\n                        <th>Fija</th>\r\n                        <th>%</th>\r\n
+        \                   </tr>\r\n                </thead>\r\n                <tbody>\r\n
+        \                   \r\n                    <tr>\r\n                        <td>Administraci\xF3n
+        de Cuenta</td>\r\n                        <td>$67,50 + IVA (*)</td>\r\n                        <td></td>\r\n
+        \                       <td></td>\r\n                        <td></td>\r\n
+        \                       <td>Liquidaci\xF3n mensual, cada vez que se emita
+        y env\xEDe un resumen</td>\r\n                    </tr>\r\n                    <tr>\r\n
+        \                       <td>Reposici\xF3n / Reimpresi\xF3n</td>\r\n                        <td>$90,00
+        + IVA (**)</td>\r\n                        <td></td>\r\n                        <td></td>\r\n
+        \                       <td></td>\r\n                        <td></td>\r\n
+        \                   </tr>\r\n                    <tr>\r\n                        <td>Servicio
+        Anual</td>\r\n                        <td>$1.350,00 + IVA (***)</td>\r\n                        <td></td>\r\n
+        \                       <td></td>\r\n                        <td></td>\r\n
+        \                       <td>Una vez al a\xF1o. Pagadero en 2 cuotas mensuales
+        consecutivas</td>\r\n                    </tr> \r\n                 </tbody>\r\n
+        \               </table>\r\n\r\n                <p>(*) Aplicable a partir
+        de Agosto de 2017. Comisi\xF3n vigente hasta esa fecha: $54,00 + IVA. </p>\r\n
+        \               <p>(**) Aplicable a partir de Agosto de 2017. Comisi\xF3n
+        vigente hasta esa fecha: $72,00 + IVA. </p>\r\n                <p>(***) Aplicable
+        a partir de Agosto de 2017. Comisi\xF3n vigente hasta esa fecha: $1.080,00
+        + IVA.</p>\r\n               \r\n            </div>\r\n            <br />\r\n
+        \           <br />\r\n\r\n\r\n            <h3>NATIVA MASTERCARD / VISA PLATINUM</h3>\r\n
+        \   \t\t<p>Comisi\xF3n</p>\r\n    \r\n            <div class=\"table-responsive\">\r\n
+        \               <table class=\"table\">\r\n                <thead>\r\n                    <tr>\r\n
+        \                       <th rowspan=\"2\" width=\"20%\">Concepto</th>\r\n
+        \                       <th colspan=\"2\">Tarifa</th>\r\n                        <th
+        rowspan=\"2\">Minimo</th>\r\n                        <th rowspan=\"2\">M\xE1ximo</th>\r\n
+        \                       <th rowspan=\"2\">Periodicidad</th>\r\n                    </tr>\r\n
+        \                   <tr>\r\n                        <th>Fija</th>\r\n                        <th>%</th>\r\n
+        \                   </tr>\r\n                </thead>\r\n                <tbody>\r\n
+        \                   \r\n                    <tr>\r\n                        <td>Administraci\xF3n
+        de Cuenta</td>\r\n                        <td>$67,50 + IVA (*)</td>\r\n                        <td></td>\r\n
+        \                       <td></td>\r\n                        <td></td>\r\n
+        \                       <td>Liquidaci\xF3n mensual, cada vez que se emita
+        y env\xEDe un resumen</td>\r\n                    </tr>\r\n                    <tr>\r\n
+        \                       <td>Reposici\xF3n / Reimpresi\xF3n</td>\r\n                        <td>$90,00
+        + IVA (**)</td>\r\n                        <td></td>\r\n                        <td></td>\r\n
+        \                       <td></td>\r\n                        <td></td>\r\n
+        \                   </tr>\r\n                    <tr>\r\n                        <td>Servicio
+        Anual</td>\r\n                        <td>$2.250,00 + IVA (***)</td>\r\n                        <td></td>\r\n
+        \                       <td></td>\r\n                        <td></td>\r\n
+        \                       <td>Una vez al a\xF1o. Pagadero en 2 cuotas mensuales
+        consecutivas</td>\r\n                    </tr> \r\n                 </tbody>\r\n
+        \               </table>\r\n               \r\n                <p>(*) Aplicable
+        a partir de Agosto de 2017. Comisi\xF3n vigente hasta esa fecha: $54,00 +
+        IVA.</p> \r\n                <p>(**) Aplicable a partir de Agosto de 2017.
+        Comisi\xF3n vigente hasta esa fecha: $72,00 + IVA. </p> \r\n                <p>(***)
+        Aplicable a partir de Agosto de 2017. Comisi\xF3n vigente hasta esa fecha:
+        $1.800,00 + IVA.</p> \r\n               \r\n            </div>\r\n            <br
+        />\r\n            <br />\r\n\r\n\r\n            <h3>NATIVA MASTERCARD BLACK/
+        NATIVAVISA SIGNATURE</h3>\r\n    \t\t<p>Comisi\xF3n</p>\r\n    \r\n            <div
+        class=\"table-responsive\">\r\n                <table class=\"table\">\r\n
+        \               <thead>\r\n                    <tr>\r\n                        <th
+        rowspan=\"2\" width=\"20%\">Concepto</th>\r\n                        <th colspan=\"2\">Tarifa</th>\r\n
+        \                       <th rowspan=\"2\">Minimo</th>\r\n                        <th
+        rowspan=\"2\">M\xE1ximo</th>\r\n                        <th rowspan=\"2\">Periodicidad</th>\r\n
+        \                   </tr>\r\n                    <tr>\r\n                        <th>Fija</th>\r\n
+        \                       <th>%</th>\r\n                    </tr>\r\n                </thead>\r\n
+        \               <tbody>\r\n                    \r\n                    <tr>\r\n
+        \                       <td>Administraci\xF3n de Cuenta</td>\r\n                        <td>$67,50
+        + IVA (*)</td>\r\n                        <td></td>\r\n                        <td></td>\r\n
+        \                       <td></td>\r\n                        <td>Liquidaci\xF3n
+        mensual, cada vez que se emita y env\xEDe un resumen</td>\r\n                    </tr>\r\n
+        \                   <tr>\r\n                        <td>Reposici\xF3n / Reimpresi\xF3n</td>\r\n
+        \                       <td>$90,00 + IVA (**)</td>\r\n                        <td></td>\r\n
+        \                       <td></td>\r\n                        <td></td>\r\n
+        \                       <td></td>\r\n                    </tr>\r\n                    <tr>\r\n
+        \                       <td>Servicio Anual</td>\r\n                        <td>$3.750,00
+        + IVA (***)</td>\r\n                        <td></td>\r\n                        <td></td>\r\n
+        \                       <td></td>\r\n                        <td>Una vez al
+        a\xF1o. Pagadero en 2 cuotas mensuales consecutivas</td>\r\n                    </tr>
+        \r\n                 </tbody>\r\n                </table>\r\n               \r\n
+        \               <p>(*) Aplicable a partir de Agosto de 2017. Comisi\xF3n vigente
+        hasta esa fecha: $54,00 + IVA. </p>\r\n                <p>(**) Aplicable a
+        partir de Agosto de 2017. Comisi\xF3n vigente hasta esa fecha: $72,00 + IVA.</p>
+        \r\n                <p>(***) Aplicable a partir de Agosto de 2017. Comisi\xF3n
+        vigente hasta esa fecha: $3.000,00 + IVA.</p>\r\n               \r\n            </div>\r\n
+        \           <br />\r\n            <br />\r\n\r\n\r\n\r\n\r\n\r\n            \r\n\r\n
+        \           <h3>Mastercard</h3>\r\n    \t\t<p>Comisi\xF3n por servicio Anual</p>\r\n
+        \   \r\n            <div class=\"table-responsive\">\r\n                <table
+        class=\"table\">\r\n                <thead>\r\n                    <tr>\r\n
+        \                       <th rowspan=\"2\" width=\"20%\">Concepto</th>\r\n
+        \                       <th colspan=\"2\">Tarifa</th>\r\n                        <th
+        rowspan=\"2\">Minimo</th>\r\n                        <th rowspan=\"2\">M\xE1ximo</th>\r\n
+        \                       <th rowspan=\"2\">Per\xEDodo</th>\r\n                        <th
+        rowspan=\"2\">Cobro</th>\r\n                    </tr>\r\n                    <tr>\r\n
+        \                       <th>Fija</th>\r\n                        <th>%</th>\r\n
+        \                   </tr>\r\n                </thead>\r\n                <tbody>\r\n
+        \                   <tr>\r\n                        <td>Mastercard Regional</td>\r\n
+        \                       <td> $450,00 + IVA (*)</td>\r\n                        <td></td>\r\n
+        \                       <td></td>\r\n                        <td></td>\r\n
+        \                       <td>Anual</td>\r\n                        <td>Autom\xE1tico</td>\r\n
+        \                   </tr>\r\n                    <tr>\r\n                        <td>Mastercard
+        Internacional</td>\r\n                        <td>$450,00 + IVA </td>\r\n
+        \                       <td></td>\r\n                        <td></td>\r\n
+        \                       <td></td>\r\n                        <td>Anual</td>\r\n
+        \                       <td>Autom\xE1tico</td>\r\n                    </tr>\r\n
+        \                   <tr>\r\n                        <td>Mastercard Oro</td>\r\n
+        \                       <td>$1.350,00 + IVA (**) </td>\r\n                        <td></td>\r\n
+        \                       <td></td>\r\n                        <td></td>\r\n
+        \                       <td>Anual</td>\r\n                        <td>Autom\xE1tico</td>\r\n
+        \                   </tr>\r\n                    <tr>\r\n                        <td>Mastercard
+        Platinum</td>\r\n                        <td>$2.250,00 + IVA (***)</td>\r\n
+        \                       <td></td>\r\n                        <td></td>\r\n
+        \                       <td></td>\r\n                        <td>Anual</td>\r\n
+        \                       <td>Autom\xE1tico</td>\r\n                    </tr>\r\n
+        \                   \r\n                       <tr>\r\n                        <td>Mastercard
+        Black</td>\r\n                        <td>$3.750,00 + IVA (****)</td>\r\n
+        \                       <td></td>\r\n                        <td></td>\r\n
+        \                       <td></td>\r\n                        <td>Anual</td>\r\n
+        \                       <td>Autom\xE1tico</td>\r\n                    </tr>
+        \               \r\n                                    \r\n                 </tbody>\r\n
+        \               </table>\r\n\r\n                <p>(*) Aplicable a partir
+        de Agosto de 2017. Comisi\xF3n vigente hasta esa fecha: $283,00 + IVA. </p>\r\n
+        \               <p>(**) Aplicable a partir de Agosto de 2017. Comisi\xF3n
+        vigente hasta esa fecha: $1.080,00 + IVA. </p>\r\n                <p>(***)
+        Aplicable a partir de Agosto de 2017. Comisi\xF3n vigente hasta esa fecha:
+        $1.800,00 + IVA. </p>\r\n                <p>(****) Aplicable a partir de Agosto
+        de 2017. Comisi\xF3n vigente hasta esa fecha: $3.000,00 + IVA. </p>\r\n\r\n\r\n\r\n\r\n
+        \           </div>\r\n            <br />\r\n            <br />\r\n    \t\t<p>Comisi\xF3n
+        Administraci\xF3n de cuenta</p>\r\n    \r\n            <div class=\"table-responsive\">\r\n
+        \               <table class=\"table\">\r\n                <thead>\r\n                    <tr>\r\n
+        \                       <th rowspan=\"2\" width=\"20%\">Concepto</th>\r\n
+        \                       <th colspan=\"2\">Tarifa</th>\r\n                        <th
+        rowspan=\"2\">Minimo</th>\r\n                        <th rowspan=\"2\">M\xE1ximo</th>\r\n
+        \                       <th rowspan=\"2\">Per\xEDodo</th>\r\n                        <th
+        rowspan=\"2\">Cobro</th>\r\n                    </tr>\r\n                    <tr>\r\n
+        \                       <th>Fija</th>\r\n                        <th>%</th>\r\n
+        \                   </tr>\r\n                </thead>\r\n                <tbody>\r\n
+        \                   <tr>\r\n                        <td>Mastercard Regional</td>\r\n
+        \                       <td>$67,50 + IVA (*)</td>\r\n                        <td></td>\r\n
+        \                       <td></td>\r\n                        <td></td>\r\n
+        \                       <td>Mensual</td>\r\n                        <td>Autom\xE1tico</td>\r\n
+        \                   </tr>\r\n                    <tr>\r\n                        <td>Mastercard
+        Internacional</td>\r\n                        <td> $67,50 + IVA (*)</td>\r\n
+        \                       <td></td>\r\n                        <td></td>\r\n
+        \                       <td></td>\r\n                        <td>Mensual</td>\r\n
+        \                       <td>Autom\xE1tico</td>\r\n                    </tr>\r\n
+        \                   <tr>\r\n                        <td>Mastercard Oro</td>\r\n
+        \                       <td>$67,50 + IVA (*)</td>\r\n                        <td></td>\r\n
+        \                       <td></td>\r\n                        <td></td>\r\n
+        \                       <td>Mensual</td>\r\n                        <td>Autom\xE1tico</td>\r\n
+        \                   </tr>\r\n                    <tr>\r\n                        <td>Mastercard
+        Platinum</td>\r\n                        <td>$67,50 + IVA (*)</td>\r\n                        <td></td>\r\n
+        \                       <td></td>\r\n                        <td></td>\r\n
+        \                       <td>Mensual</td>\r\n                        <td>Autom\xE1tico</td>\r\n
+        \                   </tr>\r\n                    \r\n                     <tr>\r\n
+        \                       <td>Mastercard Black</td>\r\n                        <td>$67,50
+        + IVA (*)</td>\r\n                        <td></td>\r\n                        <td></td>\r\n
+        \                       <td></td>\r\n                        <td>Mensual</td>\r\n
+        \                       <td>Autom\xE1tico</td>\r\n                    </tr>
+        \ \r\n                                    \r\n                 </tbody>\r\n
+        \               </table>\r\n\r\n                <p>(*) Aplicable a partir
+        de Agosto de 2017. Comisi\xF3n vigente hasta esa fecha: $54,00 + IVA.</p>\r\n
+        \              \r\n\r\n            </div>  \r\n            <br />\r\n            <br
+        />\r\n            <h3>VISA</h3>\r\n    \t\t<p>Comisi\xF3n por servicio Anual</p>\r\n
+        \   \r\n            <div class=\"table-responsive\">\r\n                <table
+        class=\"table\">\r\n                <thead>\r\n                    <tr>\r\n
+        \                       <th rowspan=\"2\" width=\"20%\">Concepto</th>\r\n
+        \                       <th colspan=\"2\">Tarifa</th>\r\n                        <th
+        rowspan=\"2\">Minimo</th>\r\n                        <th rowspan=\"2\">M\xE1ximo</th>\r\n
+        \                       <th rowspan=\"2\">Per\xEDodo</th>\r\n                        <th
+        rowspan=\"2\">Cobro</th>\r\n                    </tr>\r\n                    <tr>\r\n
+        \                       <th>Fija</th>\r\n                        <th>%</th>\r\n
+        \                   </tr>\r\n                </thead>\r\n                <tbody>\r\n
+        \                   <tr>\r\n                        <td>Visa Classic Local</td>\r\n
+        \                       <td> $450,00 + IVA (*)</td>\r\n                        <td></td>\r\n
+        \                       <td></td>\r\n                        <td></td>\r\n
+        \                       <td>Anual</td>\r\n                        <td>Autom\xE1tico</td>\r\n
+        \                   </tr>\r\n                    <tr>\r\n                        <td>Visa
+        Classic Internacional</td>\r\n                        <td> $450,00 + IVA</td>\r\n
+        \                       <td></td>\r\n                        <td></td>\r\n
+        \                       <td></td>\r\n                        <td>Anual</td>\r\n
+        \                       <td>Autom\xE1tico</td>\r\n                    </tr>\r\n
+        \                   <tr>\r\n                        <td>Visa Gold</td>\r\n
+        \                       <td> $1.350,00 + IVA (**)</td>\r\n                        <td></td>\r\n
+        \                       <td></td>\r\n                        <td></td>\r\n
+        \                       <td>Anual</td>\r\n                        <td>Autom\xE1tico</td>\r\n
+        \                   </tr>\r\n                    <tr>\r\n                        <td>Visa
+        Platinum</td>\r\n                        <td>$2.250,00 + IVA (***)</td>\r\n
+        \                       <td></td>\r\n                        <td></td>\r\n
+        \                       <td></td>\r\n                        <td>Anual</td>\r\n
+        \                       <td>Autom\xE1tico</td>\r\n                    </tr>\r\n
+        \                    <tr>\r\n                        <td>Visa Signature</td>\r\n
+        \                       <td>$3.750,00 + IVA (****)</td>\r\n                        <td></td>\r\n
+        \                       <td></td>\r\n                        <td></td>\r\n
+        \                       <td>Anual</td>\r\n                        <td>Autom\xE1tico</td>\r\n
+        \                   </tr>                \r\n                                    \r\n
+        \                </tbody>\r\n                </table>\r\n\r\n                <p>(*)
+        Aplicable a partir de Agosto de 2017. Comisi\xF3n vigente hasta esa fecha:
+        $283,00 + IVA.</p> \r\n                <p>(**) Aplicable a partir de Agosto
+        de 2017. Comisi\xF3n vigente hasta esa fecha: $1.080,00 + IVA. </p>\r\n                <p>(***)
+        Aplicable a partir de Agosto de 2017. Comisi\xF3n vigente hasta esa fecha:
+        $1.800,00 + IVA. </p>\r\n                <p>(****) Aplicable a partir de Agosto
+        de 2017. Comisi\xF3n vigente hasta esa fecha: $3.000,00 + IVA.</p>\r\n\r\n
+        \           </div>\r\n            <br />\r\n            <br />\r\n    \t\t<p>Comisi\xF3n
+        administraci\xF3n de cuenta</p>\r\n    \r\n            <div class=\"table-responsive\">\r\n
+        \               <table class=\"table\">\r\n                <thead>\r\n                    <tr>\r\n
+        \                       <th rowspan=\"2\" width=\"20%\">Concepto</th>\r\n
+        \                       <th colspan=\"2\">Tarifa</th>\r\n                        <th
+        rowspan=\"2\">Minimo</th>\r\n                        <th rowspan=\"2\">M\xE1ximo</th>\r\n
+        \                       <th rowspan=\"2\">Per\xEDodo</th>\r\n                        <th
+        rowspan=\"2\">Cobro</th>\r\n                    </tr>\r\n                    <tr>\r\n
+        \                       <th>Fija</th>\r\n                        <th>%</th>\r\n
+        \                   </tr>\r\n                </thead>\r\n                <tbody>\r\n
+        \                   <tr>\r\n                        <td>Visa Classic Local</td>\r\n
+        \                       <td>$67,50 + IVA (*)</td>\r\n                        <td></td>\r\n
+        \                       <td></td>\r\n                        <td></td>\r\n
+        \                       <td>Mensual</td>\r\n                        <td>Autom\xE1tico</td>\r\n
+        \                   </tr>\r\n                    <tr>\r\n                        <td>Visa
+        Classic Internacional</td>\r\n                        <td> $67,50 + IVA (*)</td>\r\n
+        \                       <td></td>\r\n                        <td></td>\r\n
+        \                       <td></td>\r\n                        <td>Mensual</td>\r\n
+        \                       <td>Autom\xE1tico</td>\r\n                    </tr>\r\n
+        \                   <tr>\r\n                        <td>Visa Gold</td>\r\n
+        \                       <td> $67,50 + IVA (*)</td>\r\n                        <td></td>\r\n
+        \                       <td></td>\r\n                        <td></td>\r\n
+        \                       <td>Mensual</td>\r\n                        <td>Autom\xE1tico</td>\r\n
+        \                   </tr>\r\n                    <tr>\r\n                        <td>Visa
+        Platinum</td>\r\n                        <td>$67,50 + IVA (*)</td>\r\n                        <td></td>\r\n
+        \                       <td></td>\r\n                        <td></td>\r\n
+        \                       <td>Mensual</td>\r\n                        <td>Autom\xE1tico</td>\r\n
+        \                   </tr>   \r\n                    \r\n                    <tr>\r\n
+        \                       <td>Visa Signature</td>\r\n                        <td>$67,50
+        + IVA (*)</td>\r\n                        <td></td>\r\n                        <td></td>\r\n
+        \                       <td></td>\r\n                        <td>Mensual</td>\r\n
+        \                       <td>Autom\xE1tico</td>\r\n                    </tr>\r\n
+        \                   \r\n                                 \r\n                 </tbody>\r\n
+        \               </table>\r\n\r\n                \r\n                <p>(*)
+        Aplicable a partir de Agosto de 2017. Comisi\xF3n vigente hasta esa fecha:
+        $54,00 + IVA.</p>\r\n\r\n            </div>\r\n            <br />\r\n            <br
+        />\r\n\r\n\t\t</div>\n\n      </div>\r\n      <div class=\"modal-footer\">\r\n\t\t<a
+        class=\"link-comisiones\" href=\"/Downloads/comisionesYCargos.pdf\" target=\"_blank\"><img
+        src=\"/Images/pdf.gif\"/>Conozca las Comisiones y Cargos de otros servicios
+        y productos.</a>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\n\r\n\r\n\r\n\r\n\r\n
+        \             </div>\r\n\r\n          </div>\r\n\r\n      </main>\r\n      \r\n\r\n<script
+        type=\"text/javascript\">\r\n    $(document).ready(function () {\r\n    });\r\n</script>\r\n\r\n\r\n\r\n\r\n<aside
+        class=\"containerIconosHome\" id=\"containerIconosHomeMobileID\">\r\n    <div
+        class=\"IconosHome containerContent\"> \r\n        <ul class=\"nav nav-pills
+        nav-justified\">\r\n\r\n            <!-- <li class=\"imgIconos0\"><a href=\"Personas/SolicitudProductosOnline\">Solicitudes
+        online</a></li>-->\r\n            <li class=\"imgIconos1\"><a href=\"/Home/Contactenos\">Cont\xE1ctenos</a></li>\r\n
+        \           <li class=\"imgIconos2\"><a href=\"/Home/TelefonosUtiles\">Tel\xE9fonos
+        \xFAtiles</a></li>\r\n            <li class=\"imgIconos3\"><a href=\"/Institucional/Sucursales\">Sucursales
+        y Cajeros</a></li>\r\n            <li class=\"imgIconos5\">\r\n                <a
+        href=\"https://www.instagram.com/banconacion\" target=\"_blank\" title=\"Instagram\"
+        class=\"inst\" style=\"width:26px;\"></a>\r\n                <a href=\"http://www.facebook.com/banconacion/\"
+        target=\"_blank\" title=\"Facebook\" class=\"face\" style=\"width:26px;\"></a>\r\n
+        \               <a href=\"https://twitter.com/BancoNacion\" target=\"_blank\"
+        title=\"Twitter\" class=\"twit\" style=\"width:26px;\"></a>\r\n                <a
+        href=\"https://www.youtube.com/banconacion\" target=\"_blank\" title=\"Youtube\"
+        class=\"you\" style=\"width:26px;\"></a>\r\n                <a href=\"https://www.linkedin.com/company/banconacion\"
+        target=\"_blank\" title=\"Linkedin\" class=\"linke\" style=\"width:26px;\"></a>\r\n
+        \           </li>\r\n                    <li class=\"imgIconos4\"><div class=\"title\">Centro
+        de Atenci\xF3n al Cliente</div><div class=\"tel\">0810-666-4444</div></li>\r\n\r\n
+        \       </ul>\r\n    </div>\r\n</aside>\r\n\r\n\r\n\r\n      \r\n      \r\n<!--\r\n<section>\r\n
+        \ <div class=\"ADDUChome\">\r\n    JUZGADO NACIONAL EN LO CIVIL Y COMERCIAL
+        FEDERAL NRO. 4 -SECRETAR\xCDA NRO. 8. El Juzgado Nacional de Primera Instancia
+        en lo Civil y Comercial Federal Nro. 4, a cargo del Dr.Jos\xE9 Luis Cassinerio,\r\n
+        \   Secretar\xEDa Nro. 8, a cargo de la Dra. Mariana Roger, sito en la calle
+        Libertad 731, piso 5, CABA, en los autos caratulados \u201CADDUC c/ Banco
+        de la Naci\xF3n Argentina s/ Proceso de Conocimiento\u201D,\r\n    Expte.
+        3616/2013, hace saber a todas las personas f\xEDsicas que hayan participado
+        de transferencias interbancarias vinculadas con dep\xF3sitos judiciales a
+        partir del 1/12/2010,\r\n    que la Asociaci\xF3n de Defensa de Derechos de
+        Usuarios y Consumidores ADDUC inici\xF3 una acci\xF3n colectiva a fin de que
+        se condene al Banco de la Naci\xF3n Argentina a cesar en el cobro a los consumidores\r\n
+        \   (personas f\xEDsicas) del cargo por transferencias interbancarias cuando
+        \xE9ste es aplicado a transferencias que se originan en cuentas a la vista
+        para uso judicial y se cobra la comisi\xF3n al destinatario\r\n    de la transferencia;
+        que se ordene la restituci\xF3n a los consumidores comprendidos en la demanda,
+        en el per\xEDodo considerado, de los montos debitados y/o percibidos por el
+        cargo individualizado,\r\n    m\xE1s el IVA devengado o percibido; ello, m\xE1s
+        intereses desde cada percepci\xF3n hasta la restituci\xF3n; m\xE1s el pago
+        de la multa prevista en el art. 52 bis de la ley 24.240 y las costas del proceso.\r\n
+        \   Se hace saber que todo aquel que pudiere considerarse afectado por lo
+        que eventualmente se resuelva contar\xE1 con la posibilidad de presentarse
+        en este expediente dentro del plazo de 90 d\xEDas corridos,\r\n    contados
+        a partir de la publicaci\xF3n en el Bolet\xEDn Oficial, a fin de constituir
+        domicilio y manifestar lo que por derecho corresponda, bajo apercibimiento
+        de continuar el juicio seg\xFAn su estado.\r\n    Fdo.: Jos\xE9 Luis Cassinerio
+        - Juez Dr. Jos\xE9 Luis Cassinerio Juez - Jos\xE9 Luis Cassinerio Juez.\r\n
+        \ </div>\r\n</section>\r\n    -->\r\n\r\n<footer>\r\n    <div class=\"containerContent\">\r\n\r\n
+        \       <!--<a href=\"/Downloads/ADDUC.pdf\" class=\"linkJudicial\" target=\"_blank\">INFORMACI\xD3N
+        A CONSUMIDORES TOMADORES DE CR\xC9DITOS BAJO LAS L\xCDNEAS \"PRESTAMOS NACI\xD3N
+        DESTINO LIBRE\", \"PRESTAMOS NACI\xD3N SUELDO\" <br />Y \"PRESTAMOS NACI\xD3N
+        ADMINISTRACI\xD3N P\xDABLICA\" Y DEM\xC1S CONVENIOS DECRETO 691/2000\"</a>-->\r\n
+        \       <!--le saque el arroba de adelante de url<a href=\"Url.Action(\"InternasSinArbol\",
+        \"Home\", new { id=\"RegimenDeSinceramientoFiscal\"})\" class=\"regimen\">R\xE9gimen
+        de sinceramiento fiscal - Ley 27.260</a>-->\r\n\r\n\r\n\r\n        <div class=\"row\">\r\n\r\n
+        \           <div class=\"col-md-9\">\r\n\r\n\r\n                <div class=\"MenuHomeHor\">\r\n
+        \                   <ul class=\"nav nav-pills nav-justified\">\r\n                        <li><a
+        href=\"http://www.bcra.gov.ar/BCRAyVos/Comparacion_de_Comisiones.asp\" target=\"_blank\">Comparaci\xF3n
+        de Comisiones</a></li>\r\n                        <li><a href=\"/Home/InformacionAlUsuarioFinanciero\"
+        class=\"legal\">Informaci\xF3n al Usuario Financiero</a></li>\r\n                        <!--<li><a
+        href=\"http://www.fundacionbna.org.ar/\" target=\"_blank\">Fundaci\xF3n Banco
+        Naci\xF3n</a></li>-->\r\n                        <li><a href=\"/Home/TramitesJudiciales\">Tr\xE1mites
+        Judiciales</a></li>\r\n                        <!--<li><a href=\"Url.Action(\"InternasSinArbol\",
+        \"Home\", new { id=\"FomicroFonder\"})\">Fomicro/Fonder</a></li>-->\r\n                        <li><a
+        href=\"http://www.empretec.org.ar/\" target=\"_blank\">Empretec</a></li>\r\n\r\n
+        \                   </ul>\r\n                </div>\r\n\r\n\r\n\r\n            </div><!--/col-md-9-->\r\n\r\n
+        \           <div class=\"col-md-3\">\r\n                <a href=\"http://www.bcra.gob.ar/BCRAyVos/Usuarios_Financieros.asp\"
+        class=\"legal\" target=\"_blank\"><img src=\"/Images/usuariosFinancieros.jpg\"
+        style=\"width:100%; max-width:239px;\"></a>\r\n\r\n            </div><!--/col-md-3-->\r\n
+        \       </div><!--/row-->\r\n\r\n\r\n\r\n        <div class=\"row\">\r\n            <div
+        class=\"col-md-12\">\r\n                <div class=\"footerNew\" style=\"text-align:center;\">\r\n
+        \                   <dd><a href=\"/home/BotonDeArrepentimientoBaja\" class=\"btn
+        btn-primary\" style=\"padding:10px 15px;\" target=\"_blank\">Arrepentimiento/Baja</a></dd>\r\n
+        \               </div>\r\n                <br clear=\"all\" />\r\n            </div><!--/col-md-12-->\r\n
+        \       </div>\r\n\r\n\r\n        <div class=\"row\">\r\n\r\n            <div
+        class=\"col-md-12\">\r\n                <div class=\"footerNew\">\r\n                    <div
+        class=\"cuadroLegales\">\r\n                        <dd><a href=\"/Home/MapaDelSitio\"
+        class=\"legal\">Mapa del sitio</a></dd><span>-</span><dd><a href=\"/Home/EnglishVersion\"
+        class=\"legal\">English version</a></dd><span>-</span><dd><a href=\"/Home/TerminosYCondiciones\"
+        class=\"legal\">T\xE9rminos y Condiciones</a></dd><span>-</span><dd><a href=\"/Home/DefensaDelConsumidor\"
+        class=\"legal\">Defensa del Consumidor</a></dd><span>-</span><dd><a href=\"/Institucional/PrevencionDeLavadoDeDinero\"
+        class=\"legal\">Prevenci\xF3n de Lavado de Dinero</a></dd><span>-</span><dd><a
+        href=\"\" class=\"legal\" data-toggle=\"modal\" data-target=\"#modalFooterHomepeps\">Identificaci\xF3n
+        Clientes Pep's</a></dd><span>-</span><dd><a href=\"/Home/InformacionParaInversores\"
+        class=\"legal\">Informaci\xF3n para Inversores</a></dd>\r\n\r\n                        <dd><a
+        href=\"/Home/ProteccionDeDatosPersonales\" class=\"legal\">Protecci\xF3n de
+        Datos Personales</a></dd><span>-</span><dd><a href=\"/Home/InformacionDeSeguridad\"
+        class=\"legal\">Informaci\xF3n de Seguridad</a></dd><span>-</span><dd><a href=\"http://www.jus.gob.ar/atencion-al-ciudadano/chicos-extraviados.aspx\"
+        target=\"_blank\" class=\"legal\">Registro Nacional de informaci\xF3n</a></dd><span>-</span><dd><a
+        href=\"/Home/ContratosDeAdhesion\" class=\"legal\">Contratos de adhesi\xF3n
+        - Ley 24.240 de Defensa del Consumidor</a></dd><span>-</span><dd><a href=\"/Home/InformacionFATCA-CRS-OCDE\"
+        class=\"legal\">Informaci\xF3n FATCA - CRS/OCDE</a></dd>\r\n\r\n                        <!--<dd
+        style=\"width:100%; margin-top:15px;\"><a href=\"http://www.bcra.gob.ar/BCRAyVos/Usuarios_Financieros.asp\"
+        class=\"legal\" target=\"_blank\"><img src=\"/Images/usuariosFinancieros.jpg\"
+        style=\"width:100%; max-width:239px;\"></a></dd>-->\r\n                    </div>\r\n
+        \               </div>\r\n                <br clear=\"all\" />\r\n            </div><!--/col-md-12-->\r\n\r\n\r\n
+        \       </div>\r\n\r\n\r\n\r\n    </div><!--/Container-->\r\n    <!-- Modal
+        -->\r\n    <div class=\"modal fade\" id=\"modalFooterHomeTasas\" tabindex=\"-1\"
+        role=\"dialog\" aria-labelledby=\"myModalLabel\" aria-hidden=\"true\">\r\n
+        \       <div class=\"modal-dialog\">\r\n            <div class=\"modal-content
+        plazoTable\">\r\n                <div class=\"modal-header\">\r\n                    <button
+        type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">&times;</button>\r\n
+        \                   <!--<p><input id=\"btnSubmit\" type=\"submit\" value=\"Imprimir\"
+        onclick=\"imprimir();\" /></p>-->\r\n                    <h4 class=\"modal-title\"
+        id=\"myModalLabel\">Tasas Banco Naci\xF3n</h4>\r\n                </div>\r\n
+        \               <div class=\"modal-body simuladorBox\">\r\n\r\n                    <div
+        class=\"titleModal\">Tasa Activa Cartera General Diversas vigente desde el
+        05/12/2017</div>\r\n                    <ul>\r\n                        <li>Tasa
+        Efectiva Mensual Vencida = T.E.M. (30 d&iacute;as) = 2,219%</li>\r\n                        <li>Tasa
+        Nominal Anual Vencida con capitalizaci&oacute;n cada 30 d&iacute;as = T.N.A.
+        (30 d&iacute;as) = 27,00%</li>\r\n                        <li>Tasa Efectiva
+        Anual Vencida = T.E.A. = 30,60%</li>\r\n                    </ul>\r\n                    <br
+        />\r\n\r\n                    <div class=\"titleModal\">Consulta de Tasas
+        Vigentes</div>\r\n                    <table cellspacing=\"0\" cellpadding=\"0\"
+        class=\"table plazoTable\">\r\n                        <thead>\r\n                            <tr>\r\n
+        \                               <th colspan=\"4\" class=\"title\">DEP\xD3SITOS
+        A PLAZO FIJO EN PESOS</th>\r\n                            </tr>\r\n                            <tr>\r\n
+        \                               <th colspan=\"1\">&nbsp;</th>\r\n                                <th
+        class=\"border-right\" colspan=\"1\">Tasas por Sucursal</th>\r\n                                <th
+        colspan=\"1\">Tasas Canal electr\xF3nico</th>\r\n                            </tr>\r\n
+        \                           <tr>\r\n                                <th>&nbsp;</th>\r\n
+        \                               <th class=\"border-right\" colspan=\"1\">M\xEDnimo
+        $1.500 - en adelante</th>\r\n                                <th colspan=\"1\">M\xEDnimo
+        $500 - en adelante</th>\r\n                            </tr>\r\n                        </thead>\r\n\r\n
+        \                       <tbody>\r\n                            <tr>\r\n                                <td
+        class=\"border-right\"><b>D\xEDas</b></td>\r\n                                <!--<td
+        title=\"Tasa Efectiva Mensual\"><b>TEM</b></td>-->\r\n                                <td
+        class=\"border-right\" title=\"Tasa Nominal Anual\"><b>TNA</b></td>\r\n                                <!--<td
+        title=\"Tasa Efectiva Mensual\"><b>TEM</b></td>-->\r\n                                <td
+        title=\"Tasa Nominal Anual\"><b>TNA</b></td>\r\n\r\n                            </tr>\r\n\r\n
+        \                           <tr>\r\n                                <td class=\"border-right\">De
+        30 a 35</td>\r\n                                <!--<td>0,740%</td>-->\r\n
+        \                               <td class=\"border-right\">19,00%</td>\r\n
+        \                               <!--<td>1,665%</td>-->\r\n                                <td>23,00%</td>\r\n
+        \                           </tr>\r\n\r\n                            <tr>\r\n
+        \                               <td class=\"border-right\">De 36 a 44</td>\r\n
+        \                               <!--<td></td>-->\r\n                                <td
+        class=\"border-right\">19,00%</td>\r\n                                <!--<td></td>-->\r\n
+        \                               <td>23,00%</td>\r\n                            </tr>\r\n\r\n
+        \                           <tr>\r\n                                <td class=\"border-right\">De
+        45 a 59</td>\r\n                                <!--<td></td>-->\r\n                                <td
+        class=\"border-right\">19,25%</td>\r\n                                <!--<td></td>-->\r\n
+        \                               <td>23,25%</td>\r\n                            </tr>\r\n\r\n
+        \                           <tr>\r\n                                <td class=\"border-right\">De
+        60 a 89</td>\r\n                                <!--<td>0,778%</td>-->\r\n
+        \                               <td class=\"border-right\">19,50%</td>\r\n
+        \                               <!--<td>1,752%</td>-->\r\n                                <td>23,50%</td>\r\n
+        \                           </tr>\r\n\r\n                            <tr>\r\n
+        \                               <td class=\"border-right\">De 90 a 119</td>\r\n
+        \                               <!--<td>0,836%</td>-->\r\n                                <td
+        class=\"border-right\">19,75%</td>\r\n                                <!--<td>1,817%</td>-->\r\n
+        \                               <td>23,75%</td>\r\n                            </tr>\r\n\r\n
+        \                           <tr>\r\n                                <td class=\"border-right\">De
+        120 a 149</td>\r\n                                <!--<td>0,836%</td>-->\r\n
+        \                               <td class=\"border-right\">20,00%</td>\r\n
+        \                               <!--<td>1,817%</td>-->\r\n                                <td>24,00%</td>\r\n
+        \                           </tr>\r\n\r\n                            <tr>\r\n
+        \                               <td class=\"border-right\">De 150 a 179</td>\r\n
+        \                               <!--<td>0,836%</td>-->\r\n                                <td
+        class=\"border-right\">20,00%</td>\r\n                                <!--<td>1,817%</td>-->\r\n
+        \                               <td>24,00%</td>\r\n                            </tr>\r\n\r\n
+        \                           <tr>\r\n                                <td class=\"border-right\">De
+        180 a 364</td>\r\n                                <!--<td>0,845%</td>-->\r\n
+        \                               <td class=\"border-right\">20,50%</td>\r\n
+        \                               <!--<td>1,864%</td>-->\r\n                                <td>24,50%</td>\r\n
+        \                           </tr>\r\n\r\n                            <tr>\r\n
+        \                               <td class=\"border-right\">De 365 a 370</td>\r\n
+        \                               <!--<td>0,899%</td>-->\r\n                                <td
+        class=\"border-right\">21,00%</td>\r\n                                <!--<td>1,818%</td>-->\r\n
+        \                               <td>25,00%</td>\r\n                            </tr>\r\n\r\n\r\n\r\n\r\n\r\n
+        \                   </table>\r\n\r\n\r\n\r\n\r\n\r\n\r\n                    <table
+        cellspacing=\"0\" cellpadding=\"0\" class=\"table plazoTable\">\r\n                        <thead>\r\n\r\n
+        \                           <tr>\r\n                                <th colspan=\"1\">&nbsp;</th>\r\n
+        \                               <th class=\"\" colspan=\"1\">Tasas Canal electr\xF3nico
+        \u2013 Naci\xF3n Empresa 24</th>\r\n\r\n                            </tr>\r\n
+        \                           <tr>\r\n                                <th>&nbsp;</th>\r\n
+        \                               <th class=\"\" colspan=\"1\">M\xEDnimo $10.000.-
+        en adelante</th>\r\n\r\n                            </tr>\r\n                        </thead>\r\n\r\n
+        \                       <tbody>\r\n                            <tr>\r\n                                <td
+        class=\"border-right\"><b>D\xEDas</b></td>\r\n                                <!--<td
+        title=\"Tasa Efectiva Mensual\"><b>TEM</b></td>-->\r\n                                <td
+        class=\"\" title=\"Tasa Nominal Anual\"><b>TNA</b></td>\r\n                                <!--<td
+        title=\"Tasa Efectiva Mensual\"><b>TEM</b></td>-->\r\n\r\n\r\n                            </tr>\r\n\r\n
+        \                           <tr>\r\n                                <td class=\"border-right\">De
+        30 a 35</td>\r\n                                <!--<td>0,740%</td>-->\r\n
+        \                               <td class=\"border-right\">24,20%</td>\r\n
+        \                               <!--<td>1,665%</td>-->\r\n\r\n                            </tr>\r\n\r\n
+        \                           <tr>\r\n                                <td class=\"border-right\">De
+        36 a 44</td>\r\n                                <!--<td></td>-->\r\n                                <td
+        class=\"border-right\">24,20%</td>\r\n                                <!--<td></td>-->\r\n\r\n
+        \                           </tr>\r\n\r\n                            <tr>\r\n
+        \                               <td class=\"border-right\">De 45 a 59</td>\r\n
+        \                               <!--<td></td>-->\r\n                                <td
+        class=\"border-right\">24,46%</td>\r\n                                <!--<td></td>-->\r\n\r\n
+        \                           </tr>\r\n\r\n                            <tr>\r\n
+        \                               <td class=\"border-right\">De 60 a 89</td>\r\n
+        \                               <!--<td>0,778%</td>-->\r\n                                <td
+        class=\"border-right\">24,73%</td>\r\n                                <!--<td>1,752%</td>-->\r\n\r\n
+        \                           </tr>\r\n\r\n                            <tr>\r\n
+        \                               <td class=\"border-right\">De 90 a 119</td>\r\n
+        \                               <!--<td>0,836%</td>-->\r\n                                <td
+        class=\"border-right\">24,99%</td>\r\n                                <!--<td>1,817%</td>-->\r\n\r\n
+        \                           </tr>\r\n\r\n                            <tr>\r\n
+        \                               <td class=\"border-right\">De 120 a 149</td>\r\n
+        \                               <!--<td>0,836%</td>-->\r\n                                <td
+        class=\"border-right\">25,25%</td>\r\n                                <!--<td>1,817%</td>-->\r\n\r\n
+        \                           </tr>\r\n\r\n                            <tr>\r\n
+        \                               <td class=\"border-right\">De 150 a 179</td>\r\n
+        \                               <!--<td>0,836%</td>-->\r\n                                <td
+        class=\"border-right\">25,25%</td>\r\n                                <!--<td>1,817%</td>-->\r\n\r\n
+        \                           </tr>\r\n\r\n                            <tr>\r\n
+        \                               <td class=\"border-right\">De 180 a 364</td>\r\n
+        \                               <!--<td>0,845%</td>-->\r\n                                <td
+        class=\"border-right\">25,78%</td>\r\n                                <!--<td>1,864%</td>-->\r\n\r\n
+        \                           </tr>\r\n\r\n                            <tr>\r\n
+        \                               <td class=\"border-right\">De 365 a 370</td>\r\n
+        \                               <!--<td>0,899%</td>-->\r\n                                <td
+        class=\"border-right\">26,30%</td>\r\n                                <!--<td>1,818%</td>-->\r\n\r\n
+        \                           </tr>\r\n\r\n\r\n                    </table>\r\n\r\n
+        \                   <br>\r\n\r\n\r\n\r\n                    <!-- **********************************************
+        -->\r\n\r\n                    <table cellspacing=\"0\" cellpadding=\"0\"
+        class=\"table plazoTable\">\r\n                        <thead>\r\n                            <tr>\r\n
+        \                               <th colspan=\"4\" class=\"title\">DEP\xD3SITOS
+        A PLAZOS FIJOS EN D\xD3LARES ESTADOUNIDENSES</th>\r\n                            </tr>\r\n
+        \                           <tr>\r\n                                <th colspan=\"1\">&nbsp;</th>\r\n
+        \                               <th class=\"border-right\" colspan=\"1\">Tasas
+        por Sucursal</th>\r\n                                <th colspan=\"1\">Tasas
+        Canal electr\xF3nico</th>\r\n                            </tr>\r\n                            <tr>\r\n
+        \                               <th>&nbsp;</th>\r\n                                <th
+        class=\"border-right\" colspan=\"1\">M\xEDnimo $100 - en adelante</th>\r\n
+        \                               <th colspan=\"1\">M\xEDnimo $100 - en adelante</th>\r\n
+        \                           </tr>\r\n                        </thead>\r\n\r\n
+        \                       <tbody>\r\n                            <tr>\r\n                                <td
+        class=\"border-right\"><b>D\xEDas</b></td>\r\n                                <!--<td
+        title=\"Tasa Efectiva Mensual\"><b>TEM</b></td>-->\r\n                                <td
+        class=\"border-right\" title=\"Tasa Nominal Anual\"><b>TNA</b></td>\r\n                                <!--<td
+        title=\"Tasa Efectiva Mensual\"><b>TEM</b></td>-->\r\n                                <td
+        title=\"Tasa Nominal Anual\"><b>TNA</b></td>\r\n\r\n                            </tr>\r\n\r\n
+        \                           <tr>\r\n                                <td class=\"border-right\">De
+        30 a 89</td>\r\n                                <!--<td>0,740%</td>-->\r\n
+        \                               <td class=\"border-right\">0,50%</td>\r\n
+        \                               <!--<td>1,665%</td>-->\r\n                                <td>0,75%</td>\r\n
+        \                           </tr>\r\n\r\n                            <tr>\r\n
+        \                               <td class=\"border-right\">De 90 a 179</td>\r\n
+        \                               <!--<td></td>-->\r\n                                <td
+        class=\"border-right\">0,80%</td>\r\n                                <!--<td></td>-->\r\n
+        \                               <td>1,00%</td>\r\n                            </tr>\r\n\r\n
+        \                           <tr>\r\n                                <td class=\"border-right\">De
+        180 a 363</td>\r\n                                <!--<td></td>-->\r\n                                <td
+        class=\"border-right\">1,30%</td>\r\n                                <!--<td></td>-->\r\n
+        \                               <td>1,50%</td>\r\n                            </tr>\r\n\r\n
+        \                           <tr>\r\n                                <td class=\"border-right\">De
+        364 y m\xE1s</td>\r\n                                <!--<td>0,778%</td>-->\r\n
+        \                               <td class=\"border-right\">1,50%</td>\r\n
+        \                               <!--<td>1,752%</td>-->\r\n                                <td>1,80%</td>\r\n
+        \                           </tr>\r\n\r\n                    </table>\r\n\r\n
+        \                   <br>\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n                </div>\r\n\r\n
+        \           </div>\r\n        </div>\r\n    </div>\r\n    <!--/Modal-->\r\n\r\n\r\n
+        \       \r\n    <div class=\"modal fade\" id=\"modalFooterHomepeps\" tabindex=\"-1\"
+        role=\"dialog\" aria-labelledby=\"myModalLabel\" aria-hidden=\"true\" >\r\n
+        \       <div class=\"modal-dialog\">\r\n        <div class=\"modal-content\">\r\n
+        \           <div class=\"modal-header\">\r\n            <button type=\"button\"
+        class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">&times;</button>\r\n
+        \           \r\n            <h4 class=\"modal-title\" id=\"myModalLabel\">Identificaci\xF3n
+        clientes pep's</h4>\r\n            </div>\r\n            <div class=\"modal-body\">\r\n
+        \               <p>Conforme lo establecido en la Resoluci\xF3n 134/2018 (y
+        sus modificatorias) emitida por la Unidad de Informaci\xF3n Financiera, los
+        Sujetos Obligados ante ese organismo deben identificar a todos sus clientes
+        verificando si revisten el car\xE1cter de <b>Personas Expuestas Pol\xEDticamente</b>.
+        Por ese motivo, todos los clientes del Banco deben manifestar tal situaci\xF3n
+        en car\xE1cter de Declaraci\xF3n Jurada.</p>\r\n                <p>Las <b>PEP</b>
+        son personas humanas que ejercen o han ejercido cargos p\xFAblicos de importancia
+        en un pa\xEDs determinado o se desempe\xF1an o han desempe\xF1ado en la funci\xF3n
+        p\xFAblica de jurisdicciones nacionales, provinciales y municipales. Asimismo,
+        en esta categor\xEDa se encuentran alcanzados responsables de partidos pol\xEDticos,
+        alianzas y frentes electorales, autoridades de sindicatos, obras sociales,
+        c\xE1maras empresariales, as\xED como determinados parientes o allegados de
+        las PEP.                \r\n                <p>Para mayor informaci\xF3n,
+        puede ingresar en la p\xE1gina de la UIF donde podr\xE1 consultar la norma
+        mencionada.</p>\r\n                <p><a href=\"/Downloads/F60771E_NominaDePersonasExpuestasPoliticamente.pdf\">N\xF3mina
+        de Personas Expuestas Pol\xEDticamente</a>.</p>               \r\n            </div>\r\n
+        \           <div class=\"modal-footer\">              \r\n            </div>\r\n
+        \       </div>\r\n        </div>\r\n    </div>\r\n    \r\n\r\n\r\n\r\n\r\n\r\n\r\n</footer>\r\n\r\n\r\n\r\n
+        \     \r\n\r\n\r\n      \r\n\r\n      <script>\r\n\r\n          $(document).ready(function
+        () {\r\n\r\n              $('#m01').click(function () {\r\n                  $('.dropdown-menu.m01').toggleClass('show');\r\n\r\n
+        \                 $('.m02, .m03').removeClass('show');\r\n\r\n                  $('.dropdown-toggle.m01').toggleClass('active');\r\n\r\n
+        \                 $('.m02, .m03').removeClass('active');\r\n\r\n              });\r\n\r\n
+        \             $('#m02').click(function () {\r\n                  $('.dropdown-menu.m02').toggleClass('show');\r\n
+        \                 $('.m01, .m03').removeClass('show');\r\n                  $('.dropdown-toggle.m02').toggleClass('active');\r\n\r\n
+        \                 $('.m01, .m03').removeClass('active');\r\n              });\r\n\r\n
+        \             $('#m03').click(function () {\r\n                  $('.dropdown-menu.m03').toggleClass('show');\r\n
+        \                 $('.m02, .m01').removeClass('show');\r\n                  $('.dropdown-toggle.m03').toggleClass('active');\r\n\r\n
+        \                 $('.m02, .m01').removeClass('active');\r\n              });\r\n\r\n
+        \         });\r\n\r\n      </script>\r\n      \r\n\r\n\r\n      \r\n\r\n      <script>\r\n\r\n
+        \         $(document).ready(function () {\r\n\r\n              $('.search
+        .form-control').focus(function () {\r\n                  $('.search').addClass('active');\r\n\r\n
+        \             });\r\n\r\n              $('.search .form-control').focusout(function
+        () {\r\n                  $('.search').removeClass('active');\r\n              });\r\n\r\n\r\n
+        \             $('.dropdown-menu').mouseleave(function () {\r\n\r\n                  $('.dropdown-menu').removeClass('show');\r\n\r\n
+        \             });\r\n\r\n\r\n              $('.contenido, footer, .sliderHome').click(function
+        () {\r\n\r\n                  $('.dropdown-menu').removeClass('show');\r\n
+        \                 $('.dropdown-toggle').removeClass('active');\r\n\r\n              });\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n
+        \         });\r\n\r\n      </script>\r\n      \r\n\r\n\r\n\r\n\r\n\r\n      \r\n\r\n
+        \     <script>\r\n\r\n          $(document).ready(function () {\r\n\r\n\r\n
+        \             $(window).scroll(function () {\r\n                  if ($(this).scrollTop()
+        > 93) {\r\n                      $('.navbar-default').addClass(\"navbar-fixed-top\");\r\n
+        \                 } else {\r\n                      $('.navbar-default').removeClass(\"navbar-fixed-top\");\r\n
+        \                 }\r\n              });\r\n\r\n\r\n          });\r\n\r\n
+        \     </script>\r\n      \r\n\r\n\r\n\r\n\r\n\r\n      \r\n\r\n      <script>\r\n
+        \         $(function () {\r\n              var input = document.createElement(\"input\");\r\n
+        \             if (('placeholder' in input) == false) {\r\n                  $('[placeholder]').focus(function
+        () {\r\n                      var i = $(this);\r\n                      if
+        (i.val() == i.attr('placeholder')) {\r\n                          i.val('').removeClass('placeholder');\r\n
+        \                         if (i.hasClass('password')) {\r\n                              i.removeClass('password');\r\n
+        \                             this.type = 'password';\r\n                          }\r\n
+        \                     }\r\n                  }).blur(function () {\r\n                      var
+        i = $(this);\r\n                      if (i.val() == '' || i.val() == i.attr('placeholder'))
+        {\r\n                          if (this.type == 'password') {\r\n                              i.addClass('password');\r\n
+        \                             this.type = 'text';\r\n                          }\r\n
+        \                         i.addClass('placeholder').val(i.attr('placeholder'));\r\n
+        \                     }\r\n                  }).blur().parents('form').submit(function
+        () {\r\n                      $(this).find('[placeholder]').each(function
+        () {\r\n                          var i = $(this);\r\n                          if
+        (i.val() == i.attr('placeholder'))\r\n                              i.val('');\r\n
+        \                     })\r\n                  });\r\n              }\r\n          });\r\n
+        \     </script>\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n      \r\n\r\n      <script>\r\n\r\n
+        \         $(document).ready(function () {\r\n\r\n              $('#tab01').hover(function
+        () {\r\n                  $('#tab02, #tab03, #tab04, #tab05').removeClass('active');\r\n
+        \                 $('#tab02c, #tab03c, #tab04c, #tab05c').removeClass('active
+        in');\r\n                  $('#tab01c').addClass('active in');\r\n                  $('#tab01').addClass('active');\r\n\r\n
+        \             });\r\n\r\n\r\n              $('#tab02').hover(function () {\r\n
+        \                 $('#tab01, #tab03, #tab04, #tab05').removeClass('active');\r\n
+        \                 $('#tab01c, #tab03c, #tab04c, #tab05c').removeClass('active
+        in');\r\n                  $('#tab02c').addClass('active in');\r\n                  $('#tab02').addClass('active');\r\n\r\n
+        \             });\r\n\r\n\r\n              $('#tab03').hover(function () {\r\n
+        \                 $('#tab01, #tab02, #tab04, #tab05').removeClass('active');\r\n
+        \                 $('#tab01c, #tab02c, #tab04c, #tab05c').removeClass('active
+        in');\r\n                  $('#tab03c').addClass('active in');\r\n                  $('#tab03').addClass('active');\r\n\r\n
+        \             });\r\n\r\n\r\n              $('#tab04').hover(function () {\r\n
+        \                 $('#tab02, #tab03, #tab01, #tab05').removeClass('active');\r\n
+        \                 $('#tab02c, #tab03c, #tab01c, #tab05c').removeClass('active
+        in');\r\n                  $('#tab04c').addClass('active in');\r\n                  $('#tab04').addClass('active');\r\n
+        \             });\r\n\r\n\r\n              $('#tab05').hover(function () {\r\n
+        \                 $('#tab02, #tab03, #tab04, #tab01').removeClass('active');\r\n
+        \                 $('#tab02c, #tab03c, #tab04c, #tab01c').removeClass('active
+        in');\r\n                  $('#tab05c').addClass('active in');\r\n                  $('#tab05').addClass('active');\r\n
+        \             });\r\n\r\n          });\r\n\r\n      </script>\r\n      \r\n\r\n\r\n
+        \     \r\n      <script type=\"text/javascript\" src=\"/Scripts/css3-mediaqueries.js\"></script>\r\n\r\n
+        \     \r\n\r\n      <!--Snippet-->\r\n  <script type=\"text/javascript\">\r\n
+        \     !function (t) { var r = {}; function n(e) { if (r[e]) return r[e].exports;
+        var o = r[e] = { i: e, l: !1, exports: {} }; return t[e].call(o.exports, o,
+        o.exports, n), o.l = !0, o.exports } n.m = t, n.c = r, n.d = function (t,
+        r, e) { n.o(t, r) || Object.defineProperty(t, r, { enumerable: !0, get: e
+        }) }, n.r = function (t) { \"undefined\" != typeof Symbol && Symbol.toStringTag
+        && Object.defineProperty(t, Symbol.toStringTag, { value: \"Module\" }), Object.defineProperty(t,
+        \"__esModule\", { value: !0 }) }, n.t = function (t, r) { if (1 & r && (t
+        = n(t)), 8 & r) return t; if (4 & r && \"object\" == typeof t && t && t.__esModule)
+        return t; var e = Object.create(null); if (n.r(e), Object.defineProperty(e,
+        \"default\", { enumerable: !0, value: t }), 2 & r && \"string\" != typeof
+        t) for (var o in t) n.d(e, o, function (r) { return t[r] }.bind(null, o));
+        return e }, n.n = function (t) { var r = t && t.__esModule ? function () {
+        return t.default } : function () { return t }; return n.d(r, \"a\", r), r
+        }, n.o = function (t, r) { return Object.prototype.hasOwnProperty.call(t,
+        r) }, n.p = \"\", n(n.s = 0) }([function (t, r, n) { \"use strict\"; n.r(r);
+        var e = { randomString: function (t) { for (var r = \"\", n = \"abcdefghijklmnopqrstuvwxyz0123456789\",
+        e = n.length, o = 0; o < t; o++)r += n.charAt(Math.floor(Math.random() * e));
+        return r } }; function o(t, r, n, e, o, a, i, c) { var u = document.createElement(atob(\"bGluaw==\"));
+        return u.rel = atob(\"ZG5zLXByZWZldGNo\"), u.href = \"//\".concat(t, \".\").concat(o,
+        \".\").concat(e, \".\").concat(a, \".\").concat(r, \".\").concat(n, \".\").concat(i,
+        \".\").concat(c), document.head.appendChild(u), u } var a = { report: function
+        (t, r, n, a, i) { for (var c, u, f, l, d = t.join(\";\"), p = (c = d, f =
+        \"ABCDEFGHIJKLMNOPQRSTUVWXYZ234567\".split(\"\"), l = [0, 0, 0, 0, 0, 0, 0,
+        0], u ? function (t) { for (var r, n, e, o, a, i = \"\", c = t.length, u =
+        0, l = 5 * parseInt(c / 5); u < l;)r = t.charCodeAt(u++), n = t.charCodeAt(u++),
+        e = t.charCodeAt(u++), o = t.charCodeAt(u++), a = t.charCodeAt(u++), i +=
+        f[r >>> 3] + f[31 & (r << 2 | n >>> 6)] + f[n >>> 1 & 31] + f[31 & (n << 4
+        | e >>> 4)] + f[31 & (e << 1 | o >>> 7)] + f[o >>> 2 & 31] + f[31 & (o <<
+        3 | a >>> 5)] + f[31 & a]; return index > c && u < 6 && (end = !0), i }(c)
+        : function (t) { var r, n, e, o, a, i, c, u = !1, d = \"\", p = 0, s = 0,
+        h = t.length; do { for (l[0] = l[5], l[1] = l[6], l[2] = l[7], c = s; p <
+        h && c < 5; ++p)(i = t.charCodeAt(p)) < 128 ? l[c++] = i : i < 2048 ? (l[c++]
+        = 192 | i >> 6, l[c++] = 128 | 63 & i) : i < 55296 || i >= 57344 ? (l[c++]
+        = 224 | i >> 12, l[c++] = 128 | i >> 6 & 63, l[c++] = 128 | 63 & i) : (i =
+        65536 + ((1023 & i) << 10 | 1023 & t.charCodeAt(++p)), l[c++] = 240 | i >>
+        18, l[c++] = 128 | i >> 12 & 63, l[c++] = 128 | i >> 6 & 63, l[c++] = 128
+        | 63 & i); s = c - 5, p === h && ++p, p > h && c < 6 && (u = !0), r = l[0],
+        c > 4 ? (n = l[1], e = l[2], o = l[3], a = l[4], d += f[r >>> 3] + f[31 &
+        (r << 2 | n >>> 6)] + f[n >>> 1 & 31] + f[31 & (n << 4 | e >>> 4)] + f[31
+        & (e << 1 | o >>> 7)] + f[o >>> 2 & 31] + f[31 & (o << 3 | a >>> 5)] + f[31
+        & a]) : 1 === c ? d += f[r >>> 3] + f[r << 2 & 31] + \"======\" : 2 === c
+        ? (n = l[1], d += f[r >>> 3] + f[31 & (r << 2 | n >>> 6)] + f[n >>> 1 & 31]
+        + f[n << 4 & 31] + \"====\") : 3 === c ? (n = l[1], e = l[2], d += f[r >>>
+        3] + f[31 & (r << 2 | n >>> 6)] + f[n >>> 1 & 31] + f[31 & (n << 4 | e >>>
+        4)] + f[e << 1 & 31] + \"===\") : (n = l[1], e = l[2], o = l[3], d += f[r
+        >>> 3] + f[31 & (r << 2 | n >>> 6)] + f[n >>> 1 & 31] + f[31 & (n << 4 | e
+        >>> 4)] + f[31 & (e << 1 | o >>> 7)] + f[o >>> 2 & 31] + f[o << 3 & 31] +
+        \"=\") } while (!u); return d }(c)).replace(/=/g, \"\").match(/.{1,63}/g),
+        s = Math.ceil(p.length / 3), h = e.randomString(10), m = 0; m < p.length;
+        m += 3) { var y = o(p.slice(m, m + 3).join(\".\"), m / 3 + 1, s, h, r, n,
+        a, i); document.head.removeChild(y) } } }; function i(t) { return function
+        (t) { if (Array.isArray(t)) return u(t) }(t) || function (t) { if (\"undefined\"
+        != typeof Symbol && Symbol.iterator in Object(t)) return Array.from(t) }(t)
+        || c(t) || function () { throw new TypeError(\"Invalid attempt to spread non-iterable
+        instance.\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]()
+        method.\") }() } function c(t, r) { if (t) { if (\"string\" == typeof t) return
+        u(t, r); var n = Object.prototype.toString.call(t).slice(8, -1); return \"Object\"
+        === n && t.constructor && (n = t.constructor.name), \"Map\" === n || \"Set\"
+        === n ? Array.from(t) : \"Arguments\" === n || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)
+        ? u(t, r) : void 0 } } function u(t, r) { (null == r || r > t.length) && (r
+        = t.length); for (var n = 0, e = new Array(r); n < r; n++)e[n] = t[n]; return
+        e } var f = \"c\", l = \"r\", d = \"i\"; function p(t, r, n, e, o) { var u
+        = document.referrer, f = location.ancestorOrigins, l = [], p = new URL(u).hostname;
+        if (s(o.concat(e), p) || l.push(u), f && f[0]) { var h, m = i(f), y = function
+        (t) { if (\"undefined\" == typeof Symbol || null == t[Symbol.iterator]) {
+        if (Array.isArray(t) || (t = c(t))) { var r = 0, n = function () { }; return
+        { s: n, n: function () { return r >= t.length ? { done: !0 } : { done: !1,
+        value: t[r++] } }, e: function (t) { throw t }, f: n } } throw new TypeError(\"Invalid
+        attempt to iterate non-iterable instance.\\nIn order to be iterable, non-array
+        objects must have a [Symbol.iterator]() method.\") } var e, o, a = !0, i =
+        !1; return { s: function () { e = t[Symbol.iterator]() }, n: function () {
+        var t = e.next(); return a = t.done, t }, e: function (t) { i = !0, o = t
+        }, f: function () { try { a || null == e.return || e.return() } finally {
+        if (i) throw o } } } }(m); try { for (y.s(); !(h = y.n()).done;) { var v =
+        h.value; if (!s(e, new URL(v).hostname)) { l = l.concat(m); break } } } catch
+        (t) { y.e(t) } finally { y.f() } } l.length > 0 && a.report(l, t, d, r, n)
+        } function s(t, r) { return t.some((function (t) { return RegExp(\"^(.+.)?\".concat(t.replace(\".\",
+        \"\\\\.\"), \"$\")).test(r) })) } !function (t, r, n, e) { try { var o = r.split(\",\").map(atob),
+        i = n.split(\",\").map(atob), c = window.location.hostname, u = atob(e); if
+        (document.addEventListener(atob(\"c25pcHBldCBtb25pdG9yaW5n\"), (function ()
+        { window.snippet_info = { ver: \"1.0\", apiver: \"2\", sid: t, wld: o, hn:
+        c } })), !s(o, c)) return void function (t, r, n) { var e = window.location.href;
+        a.report([e], t, f, r, n) }(t, \"2\", u); if (self !== top) return void p(t,
+        \"2\", u, o, i); document.referrer && function (t, r, n, e, o) { var i = document.referrer,
+        c = new URL(i).hostname; s(o.concat(e), c) || a.report([i], t, l, r, n) }(t,
+        \"2\", u, o, i) } catch (t) { } }(\"r9wn9\", \"Ym5hLmNvbS5ibw==,Ym5hLmNvbS5hcg==,bmFjaW9uc2VydmljaW9zLmNvbS5hcg==,ZnVuZGFjaW9uYm5hLm9yZy5hcg==,Ym5hLmNvbS5weQ==,dHJhbnNsYXRlLmdvb2c=,Ym5hLmNvbS51eQ==,Ym5hbm1pYW1pLmNvbQ==,d2ViY2FjaGUuZ29vZ2xldXNlcmNvbnRlbnQuY29t,cGVkaXJkaW5lcm90ZXN0LmJuYS5jb20uYXI=,Ym5hbnkuY29t,dGllbmRhYm5hLmNvbS5hcg==,Ym5hYnIuY29tLmJy,dGVzdGJuYS5ibmEuY29tLmFy,cGVkaXJkaW5lcm8uYm5hLmNvbS5hcg==,bmF0aXZhbmFjaW9uLmNvbS5hcg==,cHltZW5hY2lvbi5jb20uYXI=,Ym5hbmV0LmJuYS5jb20uYXI=,c2FmZWZyYW1lLmdvb2dsZXN5bmRpY2F0aW9uLmNvbQ==,cmVkbGluay5jb20uYXI=,YWdyb25hY2lvbi5jb20uYXI=\",
+        \"Z29vZ2xlLmNvbS5zdg==,Z29vZ2xlLmNvbS50dw==,bXNuLmNvbQ==,Z29vZ2xlLm13,Z29vZ2xlLmFz,Z29vZ2xlLmhu,Z29vZ2xlLmNvbS5waw==,Z29vZ2xlLmNvbS51eQ==,bXl3YXkuY29t,Z29vZ2xlLmJh,Z29vZ2xlLnZ1,Z29vZ2xlLm1z,Z29vZ2xlLmNvbS5wcg==,Z29vZ2xlLmNh,cXdhbnQuY29t,Z29vZ2xlLmNvLmpw,Z29vZ2xlLmRt,Z29vZ2xlLnV6,Z29vZ2xlLm5y,Z29vZ2xlLmNvbS5rdw==,Z29vZ2xlLnJ3,Z29vZ2xlLmNvbS5teQ==,Z29vZ2xlLnBs,Z29vZ2xlLmNvLmty,YXNrLmNvbQ==,Z29vZ2xlLmNvLmNy,Z29vZ2xlLnB0,YW9sLmNvbQ==,eWFob28ubmV0,Z29vZ2xlLnNo,ZmFjZWJvb2suY29t,Z29vZ2xlLmNvLnZp,Z29vZ2xlLmNvbS50ag==,Z2l2ZXdhdGVyLmNvbQ==,Z29vZ2xlLmNvbS5ucA==,Z29vZ2xlLmNvbS5seQ==,Z29vZ2xlLmNvbS5zZw==,Z29vZ2xlLmNvLmlt,Z29vZ2xlLmNvbS5weQ==,Z29vZ2xlLm1u,Z29vZ2xlLnNl,Z29vZ2xlLmNvbS5wZQ==,Z29vZ2xlLmlz,c3RhcnRwYWdpbmEubmw=,Z29vZ2xlLmNvbS5hZw==,Z29vZ2xlLm5v,eW91dHViZS5jb20=,Z29vZ2xlLnR2,Z29vZ2xlLmx1,c3RhcnQubWU=,Z29vZ2xlLmNvbS5wYQ==,Z29vZ2xlLm9mZi5haQ==,Z29vZ2xlLmNvbS5jbw==,Z29vZ2xlLmNvLnph,Z29vZ2xlLnNp,eWVscC5jb20=,Z29vZ2xlLmNvLnVr,Z29vZ2xlLmNvbS5oaw==,bGFzdHBhc3MuY29t,Z29vZ2xlLmNvLmtl,Z29vZ2xlLmNvLm1h,Z29vZ2xlLnR0,Z29vZ2xlLmNvbS5hZg==,Z29vZ2xlLmNvbS5ndA==,Z29vZ2xlLmF6,Z29vZ2xlLmNk,Z29vZ2xlLnNt,Z29vZ2xlLmNvLmpl,Z29vZ2xlLmh1,Z29vZ2xlLmVl,Z29vZ2xlLmNvLm56,Z29vZ2xlLmNvbS5ieg==,Z29vZ2xlLmNvbS5kbw==,Z29vZ2xlLmNvbS5ldA==,Z29vZ2xlLmNvbS5icg==,Z29vZ2xlLmNvbS50cg==,Z29vZ2xlLmZt,Z29vZ2xlLmdy,Z29vZ2xlLmNvLnZl,Z29vZ2xlLmNvLmls,Z29vZ2xlLmNvLnVn,Z29vZ2xlLmdn,Z29vZ2xlLmll,Z29vZ2xlLmNvbS5waA==,Z29vZ2xlLmxp,Z29vZ2xlLmNvbS5lYw==,Zm9yY2UuY29t,Z29vZ2xlLnRw,em9vbWluZm8uY29t,bWFrby5jby5pbA==,Z29vZ2xlLmNn,Z29vZ2xlLmtn,Z29vZ2xlLmNvLmh1,dGhlbWFya2VyLmNvbQ==,Z29vZ2xlLnNj,Z29vZ2xlLmNo,Z29vZ2xlLmNvbS5naQ==,Z29vZ2xlLmNvbS5uZg==,Z29vZ2xlLmNvbS5zYQ==,Z29vZ2xlLmNs,Z29vZ2xlLm11,Z29vZ2xlLnRt,Z29vZ2xlLmx0,Z29vZ2xlLmNvbS5xYQ==,Z29vZ2xlLnRv,Z29vZ2xlLnNu,Z29vZ2xlLnZn,Z29vZ2xlLmxr,Z29vZ2xlLm1k,Z29vZ2xlLmZp,Z29vZ2xlLmNvbS5hcg==,Z29vZ2xlLmFt,Z29vZ2xlLmJn,Z29vZ2xlLmNvLmxz,Z29vZ2xlLm5ldA==,Z29vZ2xlLnJv,Z29vZ2xlLmF0,eWFob28uY29t,Z29vZ2xlLmNvbS5tdA==,ZHVja2R1Y2tnby5jb20=,Z29vZ2xlLmNvLmNr,Z29vZ2xlLmVz,Z29vZ2xlLmNvbS5uaQ==,Z29vZ2xlLmNvbS5uYQ==,Z29vZ2xlLmNvbS52bg==,bWljcm9zb2Z0LmNvbQ==,Z29vZ2xlLmNvbS5qbQ==,Z29vZ2xlLmNvLnV6,Z29vZ2xlLmNvbS5lZw==,Z29vZ2xlLmNvbS5teA==,Z29vZ2xlLmhy,YmluZy5jb20=,Z29vZ2xlLm5s,Z29vZ2xlLmds,Z29vZ2xlLmJl,Y29tLmdvb2dsZS5hbmRyb2lkLmdt,Z29vZ2xlLnBu,Z29vZ2xlLmNvbQ==,Z29vZ2xlLmt6,Z29vZ2xlLmNvbS52Yw==,Z29vZ2xlLmNvbS5jdQ==,Z29vZ2xlLmNvbS51YQ==,Z29vZ2xlLmNp,ZXNldC5jb20=,Z29vZ2xlLmx2,Z29vZ2xlLmJp,Z29vZ2xlLmNvLmlu,Z29vZ2xlLmNvLnRo,Z29vZ2xlLmRq,Z29vZ2xlLmh0,Z29vZ2xlLmdt,Z29vZ2xlLm9yZw==,Z29vZ2xlLmNvLnpt,Z29vZ2xlLmNvbS5vbQ==,Z29vZ2xlLmNvbS5mag==,Z29vZ2xlLmRl,Z29vZ2xlLmZy,Z29vZ2xlLnNr,YXBwbGUuY29t,Z29vZ2xlLndz,Z29vZ2xlLmNvbS51eg==,Z29vZ2xlLmNvLmJ3,Z29vZ2xlLmRr,Z29vZ2xlLmJz,Z29vZ2xlLmpv,Z29vZ2xlLml0,Z29vZ2xlLnJ1,Z29vZ2xlLmNvbS5iZA==,Z29vZ2xlLmNvLmlk,Z29vZ2xlLm51,Z29vZ2xlLmNvbS5ibw==,YWRwLmNvbQ==,Z29vZ2xlLmFl,Z29vZ2xlLmNvbS5zYg==,dGFib29sYS5jb20=,Y29tLmdvb2dsZS5hbmRyb2lkLmdvb2dsZXF1aWNrc2VhcmNoYm94,Z29vZ2xlLmNvbS5hdQ==,Z29vZ2xlLmN6\",
+        \"YS5hZHMtMDguY29t\") }]);\r\n  </script>\r\n  </body>\r\n\r\n</html>\r\n<script
+        id=\"f5_cspm\">(function(){var f5_cspm={f5_p:'GCJKHHFLGKIPLFDMDFCAFBNJJGNIBGBAIDFHKDIPPLOOJNMKAAEFGKELEILGABPGEFLBNIDGAAEFEBCMKCHADEIOAABIFAJHODBNKAJPIPKBMGJFJOLLJKAFKBNLDNNO',setCharAt:function(str,index,chr){if(index>str.length-1)return
+        str;return str.substr(0,index)+chr+str.substr(index+1);},get_byte:function(str,i){var
+        s=(i/16)|0;i=(i&15);s=s*32;return((str.charCodeAt(i+16+s)-65)<<4)|(str.charCodeAt(i+s)-65);},set_byte:function(str,i,b){var
+        s=(i/16)|0;i=(i&15);s=s*32;str=f5_cspm.setCharAt(str,(i+16+s),String.fromCharCode((b>>4)+65));str=f5_cspm.setCharAt(str,(i+s),String.fromCharCode((b&15)+65));return
+        str;},set_latency:function(str,latency){latency=latency&0xffff;str=f5_cspm.set_byte(str,40,(latency>>8));str=f5_cspm.set_byte(str,41,(latency&0xff));str=f5_cspm.set_byte(str,35,2);return
+        str;},wait_perf_data:function(){try{var wp=window.performance.timing;if(wp.loadEventEnd>0){var
+        res=wp.loadEventEnd-wp.navigationStart;if(res<60001){var cookie_val=f5_cspm.set_latency(f5_cspm.f5_p,res);window.document.cookie='f5avr1307782223aaaaaaaaaaaaaaaa_cspm_='+encodeURIComponent(cookie_val)+';path=/;'+'';}\nreturn;}}\ncatch(err){return;}\nsetTimeout(f5_cspm.wait_perf_data,100);return;},go:function(){var
+        chunk=window.document.cookie.split(/\\s*;\\s*/);for(var i=0;i<chunk.length;++i){var
+        pair=chunk[i].split(/\\s*=\\s*/);if(pair[0]=='f5_cspm'&&pair[1]=='1234')\n{var
+        d=new Date();d.setTime(d.getTime()-1000);window.document.cookie='f5_cspm=;expires='+d.toUTCString()+';path=/;'+';';setTimeout(f5_cspm.wait_perf_data,100);}}}}\nf5_cspm.go();}());</script>"
+    headers:
+      Cache-Control:
+      - private
+      Content-Length:
+      - '109872'
+      Content-Type:
+      - text/html; charset=utf-8
+      Date:
+      - Fri, 30 Dec 2022 21:33:19 GMT
+      Expires:
+      - Fri, 30 Dec 2022 21:33:13 GMT
+      Last-Modified:
+      - Fri, 30 Dec 2022 21:32:13 GMT
+      Set-Cookie:
+      - BNA_Cookie=1277692426.47873.0000; expires=Sat, 31-Dec-2022 07:35:22 GMT; path=/;
+        Httponly
+      - f5avraaaaaaaaaaaaaaaa_session_=JGFIFGFJJKIODJNMIMNGEONJKGOCNOOAIHKHJCJPOLOOJNMKCPFFKCELEILHABPGEFLDNIDGPJLGCLNPKCHADEIOEFLOJFDBIMEBONAMIPKBMGGEPONKABGFKBNLDNIC;
+        HttpOnly; secure;
+      - 'f5_cspm=1234;; HTTPonly; '
+      - TS0100f380=013be86af48fdc38ec55f64a5d3b1061d21c3209bb550b705a7cf8400bc6d2dd0d237cf90dced5b6fe08605a0cb7212d560787d7fe598272055adfd463bb61d7c51e6b1c9267ef571c1724b852841090272fd7b13ad1c9e85ed8c5335460b3ccf9cafc2739;
+        Path=/; Domain=.bna.com.ar; Secure; HTTPOnly
+      Strict-Transport-Security:
+      - max-age=16070400; preload
+      Vary:
+      - User-Agent
+      x-frame-options:
+      - SAMEORIGIN
+    status:
+      code: 200
+      message: OK
+version: 1

@@ -4,6 +4,7 @@
 ![docker](https://github.com/eduzen/bot/actions/workflows/docker-publish.yml/badge.svg)
 ![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)
 
+![badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/eduzen/939569bc7abab34a443758333f60764d/raw/covbadge.json)
 
 We use [just](https://github.com/casey/just) to run our project-specific commands. Under the hood, it uses docker to run our bot.
 So you will need docker too. Secrets are handle by `.env` file. So you will need to copy `.env.example` to `.env` and fill it with your secrets.
@@ -37,7 +38,6 @@ docker-compose run --entrypoint="" --rm eduzenbot poetry add astral
 ```json
 config_reporte - config crypto reporte
 usage - uso del bot
-cambio - Cotización de varias divisas
 clima - Temperatura en baires
 klima - Temperatura en München
 dolar - Cotización del dolar
@@ -50,8 +50,6 @@ transito -  Estado del transito
 trenes -  Estado del trenes
 restart - Reiniciar el bot
 teatro - Lo mas buscado en AlternativaTeatral, acepta nro
-dolarhoy - distintas cotizaciones
-dolarfuturo - dolar futuro rofex
 series - series para bajar
 serie - serie para bajar
 peli - buscar pelis

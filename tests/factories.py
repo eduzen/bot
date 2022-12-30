@@ -2,7 +2,7 @@ from typing import Any
 
 import factory
 
-from eduzen_bot import models
+from eduzenbot import models
 
 
 class UserFactory(factory.Factory):

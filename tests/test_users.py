@@ -1,5 +1,5 @@
-from eduzen_bot.decorators import get_or_create_user
-from eduzen_bot.models import User
+from eduzenbot.decorators import get_or_create_user
+from eduzenbot.models import User
 
 from .factories import UserFactory
 
