@@ -98,8 +98,8 @@ jobs:
         with:
           auth: ${{ secrets.GIST_SECRET }}
           gistID: 939569bc7abab34a443758333f60764d
-          filename: test.json
-          label: Hello
+          filename: covbadge.json
+          label: Coverage
           color: orange
           message: ${{ env.total }}%
           minColorRange: 50
