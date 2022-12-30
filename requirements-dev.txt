@@ -191,7 +191,7 @@ tomli==2.0.1
     #   ipdb
     #   mypy
     #   pytest
-tornado==6.1
+tornado==6.2
     # via python-telegram-bot
 traitlets==5.8.0
     # via
