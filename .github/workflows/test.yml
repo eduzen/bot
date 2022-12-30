@@ -37,7 +37,10 @@ jobs:
       run: pip install -r requirements-dev.txt
 
     - name: Test
-      run: pytest --cov=eduzenbot --cov-report=term-missing --record-mode=none -cov-report=term -cov-report=json
+      run:
+        - export EDUZEN_ID=1234
+        - export TOKEN=blah
+        - pytest --cov=eduzenbot --cov-report=term-missing --record-mode=none -cov-report=term -cov-report=json
 
     - name: "Upload coverage data"
       uses: actions/upload-artifact@v3
