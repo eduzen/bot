@@ -4,6 +4,7 @@
 ![docker](https://github.com/eduzen/bot/actions/workflows/docker-publish.yml/badge.svg)
 ![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)
 
+![badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/eduzen/939569bc7abab34a443758333f60764d/raw/test.json)
 
 We use [just](https://github.com/casey/just) to run our project-specific commands. Under the hood, it uses docker to run our bot.
 So you will need docker too. Secrets are handle by `.env` file. So you will need to copy `.env.example` to `.env` and fill it with your secrets.

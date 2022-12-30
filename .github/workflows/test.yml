@@ -36,6 +36,14 @@ jobs:
     - name: Install dependencies
       run: pip install -r requirements-dev.txt
 
+    - uses: actions/cache@v3.2.2
+      id: cache
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements-dev.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+
     - name: Test
       run: |
         export EDUZEN_ID=1234 TOKEN=blah
@@ -63,6 +71,14 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
+      - uses: actions/cache@v3.2.2
+        id: cache
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements-dev.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
       - name: Install dependencies
         run: pip install -r requirements-dev.txt
 
@@ -77,14 +93,14 @@ jobs:
           echo "total=$TOTAL" >> $GITHUB_ENV
           echo "### Total coverage: ${TOTAL}%" >> $GITHUB_STEP_SUMMARY
 
-      - name: "Make badge"
-        uses: schneegans/dynamic-badges-action@v1.4.0
+      - name: Create Awesome Badge
+        uses: schneegans/dynamic-badges-action@v1.6.0
         with:
-          # GIST_TOKEN is a GitHub personal access token with scope "gist".
-          auth: ${{ secrets.GIST_TOKEN }}
-          gistID: 5e721384275f7d873c5adbe2b27de069
-          filename: covbadge.json
-          label: Coverage
+          auth: ${{ secrets.GIST_SECRET }}
+          gistID: 939569bc7abab34a443758333f60764d
+          filename: test.json
+          label: Hello
+          color: orange
           message: ${{ env.total }}%
           minColorRange: 50
           maxColorRange: 90
