@@ -38,17 +38,17 @@ jobs:
 
     - name: Test
       run: |
-        export EDUZEN_ID=1234
-        export TOKEN=blah
-        pytest --cov=eduzenbot --cov-report=term-missing --record-mode=none -cov-report=term -cov-report=json
-        ls -l
-
+        export EDUZEN_ID=1234 TOKEN=blah
+        coverage run -m pytest --record-mode=none
+        python -m coverage combine
+        python -m coverage report -m --skip-covered
+        python -m coverage json
 
     - name: "Upload coverage data"
       uses: actions/upload-artifact@v3
       with:
-        name: .coverage
-        path: .coverage
+        name: coverage.json
+        path: coverage.json
 
 
   coverage:
@@ -69,11 +69,10 @@ jobs:
       - name: "Download coverage data"
         uses: actions/download-artifact@v3
         with:
-          name: .coverage
+          name: coverage.json
 
       - name: "Combine"
         run: |
-          python -m pytest -e coverage
           export TOTAL=$(python -c "import json;print(json.load(open('coverage.json'))['totals']['percent_covered_display'])")
           echo "total=$TOTAL" >> $GITHUB_ENV
           echo "### Total coverage: ${TOTAL}%" >> $GITHUB_STEP_SUMMARY

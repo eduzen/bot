@@ -45,7 +45,7 @@ dev = [
   "factory-boy",
   "mypy",
   "pytest",
-  "pytest-cov",
+  "coverage",
   "pytest-mock",
   "pytest-xdist",
   "pytest-recording",
@@ -70,15 +70,6 @@ Source = "https://github.com/eduzen/bot"
 
 [tool.hatch.version]
 path = "eduzenbot/__about__.py"
-
-[tool.hatch.envs.default]
-dependencies = [
-  "pytest",
-  "pytest-cov",
-]
-[tool.hatch.envs.default.scripts]
-cov = "pytest --cov-report=term-missing --cov-config=pyproject.toml --cov=eduzenbot --cov=tests {args}"
-no-cov = "cov --no-cov {args}"
 
 [tool.coverage.run]
 branch = true
