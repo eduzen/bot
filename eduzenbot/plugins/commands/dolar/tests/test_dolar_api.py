@@ -1,9 +1,9 @@
 import pytest
 
 from eduzenbot.plugins.commands.dolar.api import (
+    get_banco_nacion,
     get_bluelytics,
     get_dolar_blue_geeklab,
-    parse_bnc,
 )
 
 
@@ -27,12 +27,5 @@ def test_dolar_get_bluelytics():
 
 @pytest.mark.vcr()
 def test_parse_bnc():
-    msg = parse_bnc()
+    msg = get_banco_nacion()
     assert "cotización cada 100 unidades" in msg
-
-
-# # @pytest.mark.vcr()
-# def test_get_dollar_all_good(mocker):
-#     mocker.patch("eduzenbot.plugins.commands.dolar.api.cached")
-#     msg = get_dollar()
-#     assert "by https://openexchangerates.org" in msg

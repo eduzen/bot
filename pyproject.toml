@@ -85,6 +85,7 @@ branch = true
 parallel = true
 omit = [
   "eduzenbot/__about__.py",
+  "eduzenbot/scripts/*",
 ]
 
 [tool.coverage.report]
