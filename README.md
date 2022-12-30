@@ -1,20 +1,16 @@
 # Just another telegram-bot
 
-![test](https://github.com/eduzen/bot/actions/workflows/test.yml/badge.svg)
-![docker](https://github.com/eduzen/bot/actions/workflows/docker-publish.yml/badge.svg)
-![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)
-
 ![badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/eduzen/939569bc7abab34a443758333f60764d/raw/covbadge.json)
 
-We use [just](https://github.com/casey/just) to run our project-specific commands. Under the hood, it uses docker to run our bot.
-So you will need docker too. Secrets are handle by `.env` file. So you will need to copy `.env.example` to `.env` and fill it with your secrets.
+![test](https://github.com/eduzen/bot/actions/workflows/test.yml/badge.svg)
+
+![docker](https://github.com/eduzen/bot/actions/workflows/docker-publish.yml/badge.svg)
+
+![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)
 
 
-```bash
-  cargo install just
-  cp .env.sample .env
-  just start
-```
+
+Secrets are handle by `.env` file. So you will need to copy `.env.example` to `.env` and fill it with your secrets.
 
 ### Code style
 
@@ -25,17 +21,11 @@ pre-commit install
 pre-commit run --all-files
 ```
 
-### Dependencies
 
-We are using poetry. So in case you need a new library just run:
-
-```bash
-docker-compose run --entrypoint="" --rm eduzenbot poetry add astral
-```
 
 ## Algunos commandos para pasarle a botfather
 
-```json
+```txt
 config_reporte - config crypto reporte
 usage - uso del bot
 clima - Temperatura en baires
