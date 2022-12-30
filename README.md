@@ -37,7 +37,6 @@ docker-compose run --entrypoint="" --rm eduzenbot poetry add astral
 ```json
 config_reporte - config crypto reporte
 usage - uso del bot
-cambio - Cotización de varias divisas
 clima - Temperatura en baires
 klima - Temperatura en München
 dolar - Cotización del dolar
@@ -50,8 +49,6 @@ transito -  Estado del transito
 trenes -  Estado del trenes
 restart - Reiniciar el bot
 teatro - Lo mas buscado en AlternativaTeatral, acepta nro
-dolarhoy - distintas cotizaciones
-dolarfuturo - dolar futuro rofex
 series - series para bajar
 serie - serie para bajar
 peli - buscar pelis

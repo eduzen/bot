@@ -9,7 +9,7 @@ import os
 import sys
 from threading import Thread
 
-from telegram import Bot, Update
+from telegram import Update
 from telegram.ext import CallbackContext
 
 from eduzenbot.auth.restricted import restricted
@@ -61,7 +61,7 @@ def ayuda(update: Update, context: CallbackContext) -> None:
     )
 
 
-def stop_and_restart(update: Update, bot: Bot) -> None:
+def stop_and_restart() -> None:
     """Gracefully stop the Updater and replace the current process with a new one"""
     logger.info("Restarting eduzenbot...")
     os.execl(sys.executable, sys.executable, *sys.argv)

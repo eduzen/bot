@@ -1,0 +1,36 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.28.1
+    method: GET
+    uri: http://ws.geeklab.com.ar/dolar/get-dolar-json.php
+  response:
+    body:
+      string: '{"libre":"403.04","blue":"403.04"}'
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Connection:
+      - Keep-Alive
+      Content-Length:
+      - '34'
+      Content-Type:
+      - text/javascript;charset=UTF-8
+      Date:
+      - Fri, 30 Dec 2022 21:35:14 GMT
+      Keep-Alive:
+      - timeout=45, max=100
+      Server:
+      - Apache/2.2.22 (Debian)
+    status:
+      code: 200
+      message: OK
+version: 1

@@ -9,33 +9,7 @@ interactions:
       Connection:
       - keep-alive
       User-Agent:
-      - python-requests/2.27.1
-    method: GET
-    uri: http://www.bna.com.ar/
-  response:
-    body:
-      string: ''
-    headers:
-      Connection:
-      - Keep-Alive
-      Content-Length:
-      - '0'
-      Location:
-      - https://www.bna.com.ar/
-    status:
-      code: 302
-      message: Moved Temporarily
-- request:
-    body: null
-    headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
-      Connection:
-      - keep-alive
-      User-Agent:
-      - python-requests/2.27.1
+      - python-requests/2.28.1
     method: GET
     uri: https://www.bna.com.ar/
   response:
@@ -61,7 +35,7 @@ interactions:
       Connection:
       - keep-alive
       User-Agent:
-      - python-requests/2.27.1
+      - python-requests/2.28.1
     method: GET
     uri: https://www.bna.com.ar/Personas
   response:
@@ -132,9 +106,9 @@ interactions:
         href=\"/Institucional/Sucursales\">Buscador de Sucursales y cajeros (con opci\xF3n
         no videntes)</a>\r\n\r\n<nav class=\"navbar navbar-default\" role=\"navigation\">\r\n\t<div
         class=\"containerMenu\">\r\n    \t<div class=\"container-fluid\">\r\n          \r\n
-        \         \r\n          <div class=\"navbar-header\">\r\n          <h1><a
-        class=\"navbar-brand\" alt=\"Logo Banco Naci\xF3n\" href=\"/\" title=\"Banco
-        Naci\xF3n\"><img src=\"/Images/logo__bna.svg\" /></a></h1>\r\n          </div>\r\n
+        \         \r\n            <div class=\"navbar-header\">\r\n                \r\n\r\n
+        \               <a class=\"navbar-brand\" href=\"/\"><img src=\"/Images/Logo__BNA.svg\"
+        alt=\"Logo del Banco Naci\xF3n\" title=\"Banco Naci\xF3n\"/></a>\r\n            </div>\r\n
         \    \r\n\r\n\r\n<div class=\"collapse navbar-collapse\" id=\"bs-example-navbar-collapse-1\">\r\n\t<ul
         class=\"nav navbar-nav\">\r\n          <li class=\"dropdown\" id=\"personasLI\">\r\n
         \               <a href=\"#\" id=\"m01\" class=\"dropdown-toggle m01 pTablet\">Personas</a>\r\n
@@ -142,14 +116,15 @@ interactions:
         \             \r\n              <ul class=\"dropdown-menu m01\">\r\n                    <li
         class=\"title pTablet\"><a href=\"/Personas\">Ir a Inicio Personas</a></li>\r\n
         \                     <div class=\"sub-menu-col\">\r\n                          <li>\r\n
-        \                           <ul class=\"menu-box\">\r\n                                <li
-        class=\"title\">Cuentas</li>\r\n\r\n\r\n                                \r\n\r\n
-        \                              \r\n                                <li><a
-        href=\"/Personas/Paquetes\">Paquetes</a></li>\r\n                            \r\n
-        \                               <li><a href=\"/Personas/CajasDeAhorros\">Cajas
-        de Ahorros</a></li>       \r\n                                <li><a href=\"/Personas/CuentaCorriente\">Cuenta
-        Corriente</a></li>\r\n                                 <li><a href=\"/Personas/CuentaSueldo\">Cuenta
-        Sueldo</a></li>\r\n                            </ul>\r\n                          </li>\r\n
+        \                             <ul class=\"menu-box\">\r\n                                  <li
+        class=\"title\">Cuentas</li>\r\n\r\n\r\n                                  \r\n\r\n
+        \                                 \r\n                                  <li><a
+        href=\"/Personas/Paquetes\">Paquetes</a></li>\r\n\r\n                                  <li><a
+        href=\"/Personas/CajasDeAhorros\">Cajas de Ahorros</a></li>\r\n                                  <li><a
+        href=\"/Personas/CuentaCorriente\">Cuenta Corriente</a></li>\r\n                                  <li><a
+        href=\"/Personas/CuentaSueldo\">Cuenta Sueldo</a></li>\r\n                                  <li><a
+        href=\"/Personas/CasasParticulares\">Casas Particulares</a></li>\r\n                       \r\n\r\n
+        \                             </ul>\r\n                          </li>\r\n
         \                         \r\n                          <li>\r\n                            <ul
         class=\"menu-box\">\r\n                                <li class=\"title\">Tarjetas</li>\r\n
         \                               <li><a href=\"/Personas/TarjetasDeCredito\">Cr\xE9dito</a></li>\r\n
@@ -212,8 +187,7 @@ interactions:
         \                           <li>\r\n                                <ul class=\"menu-box\">\r\n
         \                                   <li class=\"title\">ENLACES ESPECIALES</li>\r\n
         \                                   <li><a href=\"/Personas/JubiladosYPensionadosAnses\">Mayores
-        Activos</a></li>\r\n                                    <li><a href=\"/Personas/SupervivenciaJubiladosYPensionadosANSES\">Supervivencia
-        Anses</a></li>\r\n                                    <li><a href=\"https://www.youtube.com/playlist?list=PLIinff-hDEz049rTr-vfF92UlhiImgCck\"
+        Activos</a></li>\r\n\r\n                                    <li><a href=\"https://www.youtube.com/playlist?list=PLIinff-hDEz049rTr-vfF92UlhiImgCck\"
         target=\"_blank\">Tutoriales</a></li>\r\n                                    <li><a
         href=\"/Personas/ImpuestoPais\">Impuesto PAIS</a></li>\r\n                                </ul>\r\n
         \                           </li>\r\n\r\n                      </div>\r\n
@@ -224,8 +198,8 @@ interactions:
         m02 \">\r\n                <li class=\"title pTablet\"><a href=\"/Empresas\">Ir
         a Inicio Empresas</a></li>\r\n             <div class=\"sub-menu-col\">\r\n
         \             \r\n             <li>\r\n                 <ul class=\"menu-box\">\r\n
-        \                    <li class=\"title\">Microempresas y <br>Negocios</li>\r\n
-        \                    <li><a href=\"/Empresas/NacionEmprende/Microempresa\">Microempresa</a></li>\r\n
+        \                    <li class=\"title\">Microempresas</li>\r\n                     <li><a
+        href=\"/Empresas/NacionEmprende/Microempresa\">Cr\xE9ditos para Microempresas</a></li>\r\n
         \                    <li><a href=\"/Empresas/Novedades/CuentaComercio\">Cuenta
         comercio</a></li>\r\n\r\n                 </ul>\r\n              </li>\r\n
         \                <li>\r\n              <ul class=\"menu-box\">\r\n                  <li
@@ -274,8 +248,7 @@ interactions:
         class=\"title\">Novedades</li>\r\n                        <li><a href=\"/Empresas/Novedades/Newsletter\">Todo
         Pyme</a></li>\r\n                        <li><a href=\"/Empresas/EventosYCapacitaciones\">Eventos
         y capacitaciones</a></li>\r\n                        <li><a href=\"/Empresas/Novedades/CentrosPyMENacion\">Centros
-        PyME Naci\xF3n</a></li>\r\n                        <li><a href=\"/Empresas/Novedades/CreditosParaLaEmergencia\">Cr\xE9ditos
-        Para La Emergencia</a></li>\r\n                    </ul>\r\n                </li>\r\n
+        PyME Naci\xF3n</a></li>\r\n                    </ul>\r\n                </li>\r\n
         </div>\r\n\r\n           \r\n          </ul>\r\n          </li>\r\n\r\n\r\n
         \         \r\n          <li class=\"dropdown\" id=\"institucionalLI\">\r\n\r\n
         \           <a href=\"#\" id=\"m03\" class=\"dropdown-toggle m03 pTablet\">Institucional</a>\r\n
@@ -283,47 +256,45 @@ interactions:
         \           \r\n            <ul class=\"dropdown-menu m03\">\r\n                <li
         class=\"title pTablet\"><a href=\"/Institucional\">Ir a Inicio Institucional</a></li>\r\n
         \             <div class=\"sub-menu-col\">\r\n                  <li>\r\n                      <ul
-        class=\"menu-box\">\r\n                              <li class=\"title\">Nuestro
-        Banco</li>\r\n                              <li><a href=\"/Institucional/NuestraHistoria\">Nuestra
-        Historia</a></li>\r\n                              <li><a href=\"/Downloads/Directorio_Actual_2021.pdf\"
-        target=\"_blank\">Autoridades</a></li>\r\n                              <li><a
+        class=\"menu-box\">\r\n                          <li class=\"title\">Nuestro
+        Banco</li>\r\n                          <li><a href=\"/Institucional/NuestraHistoria\">Nuestra
+        Historia</a></li>\r\n                          <li><a href=\"/Downloads/DIRECTORIO2022.pdf\"
+        target=\"_blank\">Autoridades</a></li>\r\n                          <li><a
         href=\"/Institucional/PerfilDeLaEntidad\">Perfil de la Entidad</a></li>\r\n
-        \                             <li><a href=\"/Institucional/TrayectoriaInternacional\">Trayectoria
-        Internacional</a></li>\r\n                             \r\n                              <li><a
+        \                         <li><a href=\"/Institucional/CartaOrganica\">Carta
+        Org\xE1nica</a></li>\r\n                          <li><a href=\"/Institucional/TrayectoriaInternacional\">Trayectoria
+        Internacional</a></li>\r\n                          \r\n                          <li><a
         href=\"/Institucional/GrupoBancoNacion\">Grupo Banco Naci\xF3n</a></li>\r\n
-        \                             <li><a href=\"/Institucional/Sucursales\">Sucursales
-        y Cajeros</a></li>\r\n                              <li><a href=\"/Institucional/ElBancoEnCifras\">El
-        Banco en Cifras</a></li>                                    \r\n                              <li><a
-        href=\"/Institucional/FundacionBNA\">Fundaci\xF3n BNA</a></li>                                    \r\n
-        \                     </ul>\r\n                  </li>\r\n              </div>\r\n
-        \             \r\n              \r\n              <div class=\"sub-menu-col\">\r\n
-        \                 <li>\r\n                      <ul class=\"menu-box\">\r\n
-        \                         <li class=\"title\">Informaci\xF3n P\xFAblica</li>\r\n
-        \                             <li><a href=\"/Institucional/Prensa/1\">Prensa</a></li>\r\n
-        \                             <li><a href=\"/Institucional/MemoriaYBalances\">Memoria
-        y Balances</a></li>\r\n                              <li><a href=\"/Institucional/GobiernoCorporativo\">C\xF3digo
-        Gobierno Corporativo</a></li>\r\n                              <li><a href=\"/Institucional/ComprasYContrataciones\">Compras
-        y Contrataciones</a></li>\r\n                              <li><a href=\"/Institucional/InmueblesALaVenta\">Inmuebles
-        a la Venta</a></li>\r\n                              <li><a href=\"/Institucional/PrevencionDeLavadoDeDinero\">Prevenci\xF3n
-        de Lavado de Dinero</a></li>\r\n                              <li><a href=\"/Institucional/DisciplinaDeMercado\">Disciplina
-        de Mercado</a></li>\r\n                              <li><a href=\"/Institucional/ResponsabilidadSocial\">Responsabilidad
+        \                         <li><a href=\"/Institucional/Sucursales\">Sucursales
+        y Cajeros</a></li>\r\n                          <li><a href=\"/Institucional/ElBancoEnCifras\">El
+        Banco en Cifras</a></li>\r\n                          <li><a href=\"/Institucional/FundacionBNA\">Fundaci\xF3n
+        BNA</a></li>\r\n                      </ul>\r\n                  </li>\r\n
+        \             </div>\r\n              \r\n              \r\n              <div
+        class=\"sub-menu-col\">\r\n                  <li>\r\n                      <ul
+        class=\"menu-box\">\r\n                          <li class=\"title\">Informaci\xF3n
+        P\xFAblica</li>\r\n                          <li><a href=\"/Institucional/Prensa/1\">Prensa</a></li>\r\n
+        \                         <li><a href=\"/Institucional/MemoriaYBalances\">Memoria
+        y Balances</a></li>\r\n                          <li><a href=\"/Institucional/GobiernoCorporativo\">C\xF3digo
+        Gobierno Corporativo</a></li>\r\n                          <li><a href=\"/Institucional/CodigoDeEticaYConducta\">C\xF3digo
+        de \xC9tica y Conducta</a></li>\r\n                          <li><a href=\"/Institucional/ComprasYContrataciones\">Compras
+        y Contrataciones</a></li>\r\n                          <li><a href=\"/Institucional/InmueblesALaVenta\">Inmuebles
+        a la Venta</a></li>\r\n                          <li><a href=\"/Institucional/PrevencionDeLavadoDeDinero\">Prevenci\xF3n
+        de Lavado de Dinero</a></li>\r\n                          <li><a href=\"/Institucional/DisciplinaDeMercado\">Disciplina
+        de Mercado</a></li>\r\n                          <li><a href=\"/Institucional/ResponsabilidadSocial\">Responsabilidad
         Social</a></li>\r\n                      </ul>\r\n                  </li>\r\n
-        \             </div>\r\n              \r\n              <div class=\"sub-menu-col\">\r\n
-        \                 <li>\r\n                      <ul class=\"menu-box\">\r\n
-        \                         <li class=\"title\">Acciones Institucionales</li>\r\n
-        \                         <li><a href=\"/Institucional/BienesCulturales\">Bienes
-        Culturales</a></li>\r\n                          \r\n                          <li><a
-        href=\"/Institucional/BNAYElDeporte\">BNA y el Deporte</a></li>\r\n                          \r\n
-        \                     </ul>\r\n                  </li>\r\n                  <li>\r\n
-        \                     <ul class=\"menu-box\">\r\n                          <li
-        class=\"title\">Trabaj\xE1 con nosotros</li>\r\n                          <li><a
-        href=\"/Institucional/IngresaTuCurriculum\">Ingres\xE1 tu Curr\xEDculum</a></li>\r\n
-        \                         <li><a href=\"/Institucional/CupoTrans%E2%80%93EnviaTuCurriculum\">Cupo
-        Trans \u2013 Envi\xE1 tu Curriculum</a></li>\r\n                      </ul>\r\n
-        \                 </li>\r\n              </div>\r\n            </ul>\r\n          </li>\r\n\t</ul>
-        \r\n              \r\n\t<br clear=\"all\" />\r\n</div>\r\n\r\n\r\n\r\n\r\n\r\n\r\n
-        \           <div class=\"content-Homebanking-Header\">\r\n                <a
-        class=\"btn-Homebanking-Header Turnos\" href=\"https://www.bna.com.ar/Home/AtencionEnSucursales\">Solicitud
+        \             </div>\r\n              \r\n                  <div class=\"sub-menu-col\">\r\n
+        \                     <li>\r\n                          <ul class=\"menu-box\">\r\n
+        \                             <li class=\"title\">Acciones Institucionales</li>\r\n
+        \                             <li><a href=\"/Institucional/BienesCulturales\">Bienes
+        Culturales</a></li>\r\n\r\n                              <li><a href=\"/Institucional/BNADeporte\">BNA
+        y el Deporte</a></li>\r\n                              \r\n                          </ul>\r\n
+        \                     </li>\r\n                      <li>\r\n                          <ul
+        class=\"menu-box\">\r\n                              <li class=\"title\">Trabaj\xE1
+        con nosotros</li>\r\n                              <li><a href=\"/Institucional/IngresaTuCurriculum\">Ingres\xE1
+        tu Curr\xEDculum</a></li>\r\n\r\n                          </ul>\r\n                      </li>\r\n
+        \                 </div>\r\n</ul>\r\n          </li>\r\n\t</ul> \r\n              \r\n\t<br
+        clear=\"all\" />\r\n</div>\r\n\r\n\r\n\r\n\r\n\r\n\r\n            <div class=\"content-Homebanking-Header\">\r\n
+        \               <a class=\"btn-Homebanking-Header Turnos\" href=\"https://www.bna.com.ar/Home/AtencionEnSucursales\">Solicitud
         de Turnos</a>\r\n                <a class=\"btn-Homebanking-Header\" href=\"https://hb.redlink.com.ar/bna/login.htm\">Home
         Banking</a>\r\n            </div>\r\n\r\n    \r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n<form
         id=\"searchForm\" class=\"navbar-form navbar-left search\" style=\"visibility:
@@ -347,51 +318,46 @@ interactions:
         ret;\r\n            });\r\n    });\r\n</script>\r\n\r\n\r\n        \r\n        </div>\r\n
         \   </div> \r\n</nav>\r\n\r\n</header>\r\n\r\n\r\n      \r\n      \r\n    \r\n<div
         class=\"sliderHome\">\r\n<ul class=\"bxslider\">\r\n\r\n            <li class=\"slider-01\">\r\n
-        \                       <a href=\"/Personas/Promociones/verano2022\"><img
-        src=\"/Images/slider/Slide_DisfrutaElVerano_2022.jpg\" /></a>\r\n                <div
-        class=\"content-slider\">\r\n                </div>\r\n            </li>  \r\n
-        \           <li class=\"slider-02\">\r\n                        <a href=\"/Personas/bnamas\"><img
-        src=\"/Images/slider/slideBNAmigracionB.jpg\" /></a>\r\n                <div
+        \                       <a href=\"/Personas/bnamas\"><img src=\"/Images/slider/Slide_BNAmas_2.jpg\"
+        /></a>\r\n                <div class=\"content-slider\">\r\n                </div>\r\n
+        \           </li>  \r\n            <li class=\"slider-02\">\r\n                        <a
+        href=\"https://solicitudes.bna.com.ar/formulario/datospersonales/TC\" target=\"_blank\"><img
+        src=\"/Images/slider/Slide_SolicitaTuTarjeta_2022b.jpg\" /></a>\r\n                <div
         class=\"content-slider\">\r\n                </div>\r\n            </li>  \r\n
         \           <li class=\"slider-03\">\r\n                        <a href=\"/Personas/PrestamosVivienda\"><img
-        src=\"/Images/slider/slide_nuevos_prestamos.jpg\" /></a>\r\n                <div
+        src=\"/Images/slider/Slide_PrestamosVivienda_2.jpg\" /></a>\r\n                <div
         class=\"content-slider\">\r\n                </div>\r\n            </li>  \r\n
-        \           <li class=\"slider-04\">\r\n                        <a href=\"http://www.tiendabna.com.ar\"
-        target=\"_blank\"><img src=\"/Images/slider/Slide_TiendaBNA_Ene21.jpg\" /></a>\r\n
+        \           <li class=\"slider-04\">\r\n                        <a href=\"http://www.mayoresactivos.com.ar\"
+        target=\"_blank\"><img src=\"/Images/slider/Slide_MayoresActivosV4.jpg\" /></a>\r\n
         \               <div class=\"content-slider\">\r\n                </div>\r\n
-        \           </li>  \r\n            <li class=\"slider-05\">\r\n                        <a
-        href=\"http://www.mayoresactivos.com.ar\" target=\"_blank\"><img src=\"/Images/slider/SlideHome_MayoresActivos.jpg\"
-        /></a>\r\n                <div class=\"content-slider\">\r\n                </div>\r\n
         \           </li>  \r\n\r\n\r\n</ul>\r\n\r\n    <div id=\"bx-pager\">\r\n
         \           <a data-slide-index=\"0\" class=\"pager-01\" href=\"\"><div class=\"arrow_box\"></div>
-        Disfruta el verano 2022</a>\r\n            <a data-slide-index=\"1\" class=\"pager-01\"
-        href=\"\"><div class=\"arrow_box\"></div> BNA migracion</a>\r\n            <a
+        BNA migracion</a>\r\n            <a data-slide-index=\"1\" class=\"pager-01\"
+        href=\"\"><div class=\"arrow_box\"></div> Tarjeta 321</a>\r\n            <a
         data-slide-index=\"2\" class=\"pager-01\" href=\"\"><div class=\"arrow_box\"></div>
         Prestamos Vivienda</a>\r\n            <a data-slide-index=\"3\" class=\"pager-01\"
-        href=\"\"><div class=\"arrow_box\"></div> Tienda BNA</a>\r\n            <a
-        data-slide-index=\"4\" class=\"pager-01\" href=\"\"><div class=\"arrow_box\"></div>
-        Mayores activos</a>\r\n\r\n\r\n    \r\n    </div>\r\n\r\n</div>\r\n\r\n\r\n\r\n
-        \     \r\n      <main class=\"contenido\">\r\n\r\n          \r\n          \r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n
-        \         <div class=\"containerContent\">\r\n\r\n              \r\n              \r\n\r\n
-        \             <div class=\"row\">\r\n\r\n                  \r\n                  \r\n\r\n
-        \                 <div class=\"col-md-9\" id=\"contenidoInternaLayout\">\r\n
-        \                     \r\n                  </div>\r\n\r\n                  \r\n
-        \                 \r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n<!-- ****************************
-        \ CHATBOT **************************** -->\r\n<section id=\"chatbot\" style=\"visibility:
-        hidden;\">\r\n    <div class=\"container\">\r\n        <div class=\"columns
-        is-centered\">\r\n            <div class=\"column is-one-quarter\">\r\n                <button
-        id=\"btnOpenChat\" class=\"IconoChatbot\"></button>\r\n            </div>\r\n
-        \       </div>\r\n    </div>\r\n</section>\r\n\r\n<div class=\"columns is-centered
-        contenedorChatbot\" style=\"visibility: hidden;\">\r\n    <div class=\"column
-        is-half\">\r\n        <div id=\"sectionChat\">\r\n            <button id=\"btnCloseFrame\"
-        class=\"delete is-pulled-right\" aria-label=\"delete\"></button>\r\n            <iframe
-        id=\"frameChat\" class=\"chatIframe\" scrolling=\"no\" width=\"400px\" height=\"510px\"
-        frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media;
-        gyroscope; picture-in-picture\" allowfullscreen=\"\"></iframe>\r\n        </div>\r\n
-        \   </div>\r\n</div>\r\n\r\n<!-- ****************************  FIN CHATBOT
-        **************************** -->\r\n\r\n\r\n\r\n<div id=\"leftHome\">\r\n
-        \   \r\n\r\n    <script>\r\n        $(document).ready(function () {\r\n            \n\r\n
-        \       });\r\n\r\n        function MovimientoVerticalAutomaticoBanner(x)
+        href=\"\"><div class=\"arrow_box\"></div> Mayores activos</a>\r\n\r\n\r\n
+        \   \r\n    </div>\r\n\r\n</div>\r\n\r\n\r\n\r\n      \r\n      <main class=\"contenido\">\r\n\r\n
+        \         \r\n          \r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n          <div class=\"containerContent\">\r\n\r\n
+        \             \r\n              \r\n\r\n              <div class=\"row\">\r\n\r\n
+        \                 \r\n                  \r\n\r\n                  <div class=\"col-md-9\"
+        id=\"contenidoInternaLayout\">\r\n                      \r\n                  </div>\r\n\r\n
+        \                 \r\n                  \r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n<!--
+        ****************************  CHATBOT **************************** -->\r\n<section
+        id=\"chatbot\" style=\"visibility: hidden;\">\r\n    <div class=\"container\">\r\n
+        \       <div class=\"columns is-centered\">\r\n            <div class=\"column
+        is-one-quarter\">\r\n                <button id=\"btnOpenChat\" class=\"IconoChatbot\"></button>\r\n
+        \           </div>\r\n        </div>\r\n    </div>\r\n</section>\r\n\r\n<div
+        class=\"columns is-centered contenedorChatbot\" style=\"visibility: hidden;\">\r\n
+        \   <div class=\"column is-half\">\r\n        <div id=\"sectionChat\">\r\n
+        \           <button id=\"btnCloseFrame\" class=\"delete is-pulled-right\"
+        aria-label=\"delete\"></button>\r\n            <iframe id=\"frameChat\" class=\"chatIframe\"
+        scrolling=\"no\" width=\"400px\" height=\"510px\" frameborder=\"0\" allow=\"accelerometer;
+        autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\"
+        allowfullscreen=\"\"></iframe>\r\n        </div>\r\n    </div>\r\n</div>\r\n\r\n<!--
+        ****************************  FIN CHATBOT **************************** -->\r\n\r\n\r\n\r\n<div
+        id=\"leftHome\">\r\n    \r\n\r\n    <script>\r\n        $(document).ready(function
+        () {\r\n            \n\r\n        });\r\n\r\n        function MovimientoVerticalAutomaticoBanner(x)
         {\r\n            $('.bx-next').trigger('click');\r\n            for (i = 1;
         i < $('li.tabs-li').length + 1 ; i++) {\r\n                $('#tab0' + i).removeClass('active');\r\n
         \               $('#tab0' + i + 'c').removeClass('active in');\r\n            }\r\n
@@ -402,28 +368,19 @@ interactions:
         \       <div class=\"tabDouble tabSlider\">\r\n            <div class=\"tab-content\">\r\n\r\n
         \                       <div id=\"tab01c\" class=\"tab-pane fade active in\">\r\n
         \                           <ul class=\"slider01 slider\">\r\n                                        <li
-        class=\"primero\"><a href=\"https://lasclavesnosecomparten.com.ar/\"><img
-        src=\"/Backoffice/images/bannerHome/ABAPPRA-Ciberseguridad_Banner-Rotativo.jpg\"
-        /></a></li>\r\n                                        <li><a href=\"https://www.bna.com.ar/home/casasparticulares\"><img
-        src=\"/Backoffice/images/bannerHome/BannerRotativo-Casasparticulares.png\"
-        /></a></li>\r\n                                        <li><a href=\"https://bna.com.ar/Home/ReaperturaCanjeDeTitulosPublicos\"><img
-        src=\"/Backoffice/images/bannerHome/BannerRotativo-CanjedeTitulosPublicos.jpg\"
-        /></a></li>\r\n                                        <li><a href=\"http://www.bna.com.ar/home/condicionescreditosUva\"><img
-        src=\"/Backoffice/images/bannerHome/BannerRotativos-CreditosUVA.jpg\" /></a></li>\r\n
+        class=\"primero\"><a href=\"http://www.bna.com.ar/AB/AltaProducto/TD\"><img
+        src=\"/Backoffice/images/bannerHome/BannerRotativo_TarjetaDeDebito.png\" /></a></li>\r\n
+        \                                       <li><a href=\"https://bna.com.ar/home/estafasvirtuales\"><img
+        src=\"/Backoffice/images/bannerHome/BannerRotativo-estafas.jpg\" /></a></li>\r\n
         \                           </ul>\r\n                        </div>\r\n\r\n
         \       </div>       \r\n\r\n             \r\n    </div>\r\n\r\n\r\n\r\n\r\n
         \           <div class=\"tabDouble tabSlider\" style=\"margin-left: 10px;\">\r\n
         \           <div class=\"tab-content\">\r\n\r\n                            <div
         id=\"tab01c\" class=\"tab-pane fade active in\">\r\n                                <ul
         class=\"slider01 slider\">\r\n                                            <li
-        class=\"primero\"><a href=\"http://www.bna.com.ar/AB/AltaProducto/TD\"><img
-        src=\"/Backoffice/images/bannerHome/BannerRotativo-TarjetaDebito.png\" /></a></li>\r\n
-        \                                           <li><a href=\"https://www.bna.com.ar/Personas/Promociones/SEMANA\"><img
-        src=\"/Backoffice/images/bannerHome/Bannerrotativo-SemanaNacion.jpg\" /></a></li>\r\n
-        \                                           <li><a href=\"http://www.bna.com.ar/AB/AltaProducto/Tcwebfast\"><img
-        src=\"/Backoffice/images/bannerHome/BannerRotativo321.jpg\" /></a></li>\r\n
-        \                                           <li><a href=\"https://www.argentina.gob.ar/generos/linea-144\"><img
-        src=\"/Backoffice/images/bannerHome/BannerRotativo-linea144.jpg\" /></a></li>\r\n
+        class=\"primero\"><a href=\"https://www.tiendabna.com.ar\"><img src=\"/Backoffice/images/bannerHome/BannerRotativo_TiendaBNA.png\"
+        /></a></li>\r\n                                            <li><a href=\"http://www.bna.com.ar/home/condicionescreditosUva\"><img
+        src=\"/Backoffice/images/bannerHome/Rotativo_Hipotecarios_UVA.png\" /></a></li>\r\n
         \                               </ul>\r\n                            </div>\r\n\r\n
         \           </div>       \r\n    </div>\r\n\r\n\r\n\r\n\r\n\r\n</div>   \r\n</div>\r\n\r\n\r\n\r\n\r\n<div
         id=\"rightHome\">\r\n<script src=\"/Scripts/datepicker.min.js\"></script>\r\n<script
@@ -464,50 +421,50 @@ interactions:
         \       <div class=\"tab-content\">\r\n            \r\n                <div
         class=\"tab-pane fade in active\" id=\"billetes\">\r\n            \r\n                <table
         class=\"table cotizacion\">\r\n                    <thead>\r\n                        <tr>\r\n
-        \                       <th class=\"fechaCot\">25/2/2022</th>\r\n                        <th>Compra</th>\r\n
+        \                       <th class=\"fechaCot\">30/12/2022</th>\r\n                        <th>Compra</th>\r\n
         \                       <th>Venta</th>\r\n                        </tr>\r\n
         \                   </thead>\r\n                    <tbody>\r\n\r\n                            <tr>\r\n
-        \                           <td class=\"tit\">Dolar U.S.A</td>\r\n                            <td>106,5000</td>\r\n
-        \                           <td>112,5000</td>\r\n                            </tr>\r\n
+        \                           <td class=\"tit\">Dolar U.S.A</td>\r\n                            <td>175,2500</td>\r\n
+        \                           <td>183,2500</td>\r\n                            </tr>\r\n
         \                           <tr>\r\n                            <td class=\"tit\">Euro</td>\r\n
-        \                           <td>117,5000</td>\r\n                            <td>124,5000</td>\r\n
+        \                           <td>184,2500</td>\r\n                            <td>193,2500</td>\r\n
         \                           </tr>\r\n                            <tr>\r\n
-        \                           <td class=\"tit\">Real *</td>\r\n                            <td>1970,0000</td>\r\n
-        \                           <td>2270,0000</td>\r\n                            </tr>\r\n\r\n
+        \                           <td class=\"tit\">Real *</td>\r\n                            <td>3120,0000</td>\r\n
+        \                           <td>3520,0000</td>\r\n                            </tr>\r\n\r\n
         \                   </tbody>\r\n                    </table>       \r\n                    <a
         href=\"#\" class=\"link-cotizacion\" data-toggle=\"modal\" data-target=\"#modalHistorico\"
         id=\"buttonHistoricoBilletes\" >Ver hist\xF3rico</a>\r\n                    <div
-        class=\"legal\">Hora Actualizaci\xF3n: 15:09</div>\r\n                    <div
+        class=\"legal\">Hora Actualizaci\xF3n: 15:04</div>\r\n                    <div
         class=\"legal\">(*) cotizaci\xF3n cada 100 unidades.</div>    \r\n                               \r\n
         \     \t\t</div>\r\n            \r\n                <div class=\"tab-pane
         fade\" id=\"divisas\">\r\n                <table class=\"table cotizacion\">\r\n
         \                   <thead>\r\n                        <tr>\r\n                        <th
-        class=\"fechaCot\">25/2/2022</th>\r\n                        <th>Compra</th>\r\n
+        class=\"fechaCot\">30/12/2022</th>\r\n                        <th>Compra</th>\r\n
         \                       <th>Venta</th>\r\n                        </tr>\r\n
         \                   </thead>\r\n                    <tbody>\r\n                  \r\n
         \                           <tr>\r\n                            <td class=\"tit\">Dolar
-        U.S.A</td>\r\n                            <td>107.2500</td>\r\n                            <td>107.4500</td>\r\n
+        U.S.A</td>\r\n                            <td>176.9600</td>\r\n                            <td>177.1600</td>\r\n
         \                           </tr>\r\n                            <tr>\r\n
-        \                           <td class=\"tit\">Libra Esterlina</td>\r\n                            <td>143.5220</td>\r\n
-        \                           <td>144.1119</td>\r\n                            </tr>\r\n
+        \                           <td class=\"tit\">Libra Esterlina</td>\r\n                            <td>213.9092</td>\r\n
+        \                           <td>214.6825</td>\r\n                            </tr>\r\n
         \                           <tr>\r\n                            <td class=\"tit\">Euro</td>\r\n
-        \                           <td>120.4632</td>\r\n                            <td>120.9565</td>\r\n
+        \                           <td>189.2587</td>\r\n                            <td>189.9155</td>\r\n
         \                           </tr>\r\n                            <tr>\r\n
-        \                           <td class=\"tit\">Franco Suizos *</td>\r\n                            <td>11553.7218</td>\r\n
-        \                           <td>11591.1782</td>\r\n                            </tr>\r\n
+        \                           <td class=\"tit\">Franco Suizos *</td>\r\n                            <td>19168.7252</td>\r\n
+        \                           <td>19216.7372</td>\r\n                            </tr>\r\n
         \                           <tr>\r\n                            <td class=\"tit\">YENES
-        *</td>\r\n                            <td>92.6111</td>\r\n                            <td>92.9206</td>\r\n
+        *</td>\r\n                            <td>135.0073</td>\r\n                            <td>135.3710</td>\r\n
         \                           </tr>\r\n                            <tr>\r\n
         \                           <td class=\"tit\">Dolares Canadienses *</td>\r\n
-        \                           <td>8408.9600</td>\r\n                            <td>8436.2946</td>\r\n
+        \                           <td>13073.6113</td>\r\n                            <td>13107.2345</td>\r\n
         \                           </tr>\r\n                            <tr>\r\n
-        \                           <td class=\"tit\">Coronas Danesas *</td>\r\n                            <td>1617.5052</td>\r\n
-        \                           <td>1631.1729</td>\r\n                            </tr>\r\n
+        \                           <td class=\"tit\">Coronas Danesas *</td>\r\n                            <td>2543.3075</td>\r\n
+        \                           <td>2563.5950</td>\r\n                            </tr>\r\n
         \                           <tr>\r\n                            <td class=\"tit\">Coronas
-        Noruegas *</td>\r\n                            <td>1206.7961</td>\r\n                            <td>1219.6735</td>\r\n
+        Noruegas *</td>\r\n                            <td>1797.6537</td>\r\n                            <td>1816.9155</td>\r\n
         \                           </tr>\r\n                            <tr>\r\n
-        \                           <td class=\"tit\">Coronas Suecas *</td>\r\n                            <td>1133.4125</td>\r\n
-        \                           <td>1146.4024</td>\r\n                            </tr>\r\n\r\n
+        \                           <td class=\"tit\">Coronas Suecas *</td>\r\n                            <td>1693.4630</td>\r\n
+        \                           <td>1712.9522</td>\r\n                            </tr>\r\n\r\n
         \                   </tbody>\r\n                    </table>\r\n                    <a
         href=\"#\" class=\"link-cotizacion\" data-toggle=\"modal\" data-target=\"#modalHistorico\"
         id=\"buttonHistoricoMonedas\" >Ver hist\xF3rico</a>\r\n                    <div
@@ -934,7 +891,7 @@ interactions:
         src=\"/Images/pdf.gif\"/>Conozca las Comisiones y Cargos de otros servicios
         y productos.</a>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\n\r\n\r\n\r\n\r\n\r\n
         \             </div>\r\n\r\n          </div>\r\n\r\n      </main>\r\n      \r\n\r\n<script
-        type=\"text/javascript\">\r\n    $(document).ready(function () {\r\n    });\r\n</script>\r\n\r\n\r\n\r\n<aside
+        type=\"text/javascript\">\r\n    $(document).ready(function () {\r\n    });\r\n</script>\r\n\r\n\r\n\r\n\r\n<aside
         class=\"containerIconosHome\" id=\"containerIconosHomeMobileID\">\r\n    <div
         class=\"IconosHome containerContent\"> \r\n        <ul class=\"nav nav-pills
         nav-justified\">\r\n\r\n            <!-- <li class=\"imgIconos0\"><a href=\"Personas/SolicitudProductosOnline\">Solicitudes
@@ -943,52 +900,49 @@ interactions:
         \xFAtiles</a></li>\r\n            <li class=\"imgIconos3\"><a href=\"/Institucional/Sucursales\">Sucursales
         y Cajeros</a></li>\r\n            <li class=\"imgIconos5\">\r\n                <a
         href=\"https://www.instagram.com/banconacion\" target=\"_blank\" title=\"Instagram\"
-        class=\"face\" style=\"width:26px;\"></a>\r\n                <a href=\"http://www.facebook.com/banconacion/\"
-        target=\"_blank\" title=\"Facebook\" class=\"you\" style=\"width:26px;\"></a>\r\n
+        class=\"inst\" style=\"width:26px;\"></a>\r\n                <a href=\"http://www.facebook.com/banconacion/\"
+        target=\"_blank\" title=\"Facebook\" class=\"face\" style=\"width:26px;\"></a>\r\n
         \               <a href=\"https://twitter.com/BancoNacion\" target=\"_blank\"
-        title=\"Twitter\" class=\"twit\"\r\n                   style=\"width:26px;
-        background-size: initial; background-image: url(../../Images/iconosHomeTwit1.png);
-        display: inline-block; background-position: center -287px; padding: 0;\"></a>\r\n
-        \               <a href=\"https://www.youtube.com/banconacion\" target=\"_blank\"
-        title=\"Youtube\" class=\"inst\" style=\"width:26px;\"></a>\r\n                <a
-        href=\"https://www.linkedin.com/company/banconacion\" target=\"_blank\" title=\"Linkedin\"
-        class=\"linke\" style=\"width:26px;\"></a>\r\n            </li>\r\n                    <li
-        class=\"imgIconos4\"><div class=\"title\">Centro de Atenci\xF3n al Cliente</div><div
-        class=\"tel\">0810-666-4444</div></li>\r\n\r\n        </ul>\r\n    </div>\r\n</aside>\r\n\r\n\r\n\r\n
-        \     \r\n      \r\n<!--\r\n<section>\r\n  <div class=\"ADDUChome\">\r\n    JUZGADO
-        NACIONAL EN LO CIVIL Y COMERCIAL FEDERAL NRO. 4 -SECRETAR\xCDA NRO. 8. El
-        Juzgado Nacional de Primera Instancia en lo Civil y Comercial Federal Nro.
-        4, a cargo del Dr.Jos\xE9 Luis Cassinerio,\r\n    Secretar\xEDa Nro. 8, a
-        cargo de la Dra. Mariana Roger, sito en la calle Libertad 731, piso 5, CABA,
-        en los autos caratulados \u201CADDUC c/ Banco de la Naci\xF3n Argentina s/
-        Proceso de Conocimiento\u201D,\r\n    Expte. 3616/2013, hace saber a todas
-        las personas f\xEDsicas que hayan participado de transferencias interbancarias
-        vinculadas con dep\xF3sitos judiciales a partir del 1/12/2010,\r\n    que
-        la Asociaci\xF3n de Defensa de Derechos de Usuarios y Consumidores ADDUC inici\xF3
-        una acci\xF3n colectiva a fin de que se condene al Banco de la Naci\xF3n Argentina
-        a cesar en el cobro a los consumidores\r\n    (personas f\xEDsicas) del cargo
-        por transferencias interbancarias cuando \xE9ste es aplicado a transferencias
-        que se originan en cuentas a la vista para uso judicial y se cobra la comisi\xF3n
-        al destinatario\r\n    de la transferencia; que se ordene la restituci\xF3n
-        a los consumidores comprendidos en la demanda, en el per\xEDodo considerado,
-        de los montos debitados y/o percibidos por el cargo individualizado,\r\n    m\xE1s
-        el IVA devengado o percibido; ello, m\xE1s intereses desde cada percepci\xF3n
-        hasta la restituci\xF3n; m\xE1s el pago de la multa prevista en el art. 52
-        bis de la ley 24.240 y las costas del proceso.\r\n    Se hace saber que todo
-        aquel que pudiere considerarse afectado por lo que eventualmente se resuelva
-        contar\xE1 con la posibilidad de presentarse en este expediente dentro del
-        plazo de 90 d\xEDas corridos,\r\n    contados a partir de la publicaci\xF3n
-        en el Bolet\xEDn Oficial, a fin de constituir domicilio y manifestar lo que
-        por derecho corresponda, bajo apercibimiento de continuar el juicio seg\xFAn
-        su estado.\r\n    Fdo.: Jos\xE9 Luis Cassinerio - Juez Dr. Jos\xE9 Luis Cassinerio
-        Juez - Jos\xE9 Luis Cassinerio Juez.\r\n  </div>\r\n</section>\r\n    -->\r\n\r\n<footer>\r\n
-        \   <div class=\"containerContent\">\r\n\r\n        <!--<a href=\"/Downloads/ADDUC.pdf\"
-        class=\"linkJudicial\" target=\"_blank\">INFORMACI\xD3N A CONSUMIDORES TOMADORES
-        DE CR\xC9DITOS BAJO LAS L\xCDNEAS \"PRESTAMOS NACI\xD3N DESTINO LIBRE\", \"PRESTAMOS
-        NACI\xD3N SUELDO\" <br />Y \"PRESTAMOS NACI\xD3N ADMINISTRACI\xD3N P\xDABLICA\"
-        Y DEM\xC1S CONVENIOS DECRETO 691/2000\"</a>-->\r\n        <!--le saque el
-        arroba de adelante de url<a href=\"Url.Action(\"InternasSinArbol\", \"Home\",
-        new { id=\"RegimenDeSinceramientoFiscal\"})\" class=\"regimen\">R\xE9gimen
+        title=\"Twitter\" class=\"twit\" style=\"width:26px;\"></a>\r\n                <a
+        href=\"https://www.youtube.com/banconacion\" target=\"_blank\" title=\"Youtube\"
+        class=\"you\" style=\"width:26px;\"></a>\r\n                <a href=\"https://www.linkedin.com/company/banconacion\"
+        target=\"_blank\" title=\"Linkedin\" class=\"linke\" style=\"width:26px;\"></a>\r\n
+        \           </li>\r\n                    <li class=\"imgIconos4\"><div class=\"title\">Centro
+        de Atenci\xF3n al Cliente</div><div class=\"tel\">0810-666-4444</div></li>\r\n\r\n
+        \       </ul>\r\n    </div>\r\n</aside>\r\n\r\n\r\n\r\n      \r\n      \r\n<!--\r\n<section>\r\n
+        \ <div class=\"ADDUChome\">\r\n    JUZGADO NACIONAL EN LO CIVIL Y COMERCIAL
+        FEDERAL NRO. 4 -SECRETAR\xCDA NRO. 8. El Juzgado Nacional de Primera Instancia
+        en lo Civil y Comercial Federal Nro. 4, a cargo del Dr.Jos\xE9 Luis Cassinerio,\r\n
+        \   Secretar\xEDa Nro. 8, a cargo de la Dra. Mariana Roger, sito en la calle
+        Libertad 731, piso 5, CABA, en los autos caratulados \u201CADDUC c/ Banco
+        de la Naci\xF3n Argentina s/ Proceso de Conocimiento\u201D,\r\n    Expte.
+        3616/2013, hace saber a todas las personas f\xEDsicas que hayan participado
+        de transferencias interbancarias vinculadas con dep\xF3sitos judiciales a
+        partir del 1/12/2010,\r\n    que la Asociaci\xF3n de Defensa de Derechos de
+        Usuarios y Consumidores ADDUC inici\xF3 una acci\xF3n colectiva a fin de que
+        se condene al Banco de la Naci\xF3n Argentina a cesar en el cobro a los consumidores\r\n
+        \   (personas f\xEDsicas) del cargo por transferencias interbancarias cuando
+        \xE9ste es aplicado a transferencias que se originan en cuentas a la vista
+        para uso judicial y se cobra la comisi\xF3n al destinatario\r\n    de la transferencia;
+        que se ordene la restituci\xF3n a los consumidores comprendidos en la demanda,
+        en el per\xEDodo considerado, de los montos debitados y/o percibidos por el
+        cargo individualizado,\r\n    m\xE1s el IVA devengado o percibido; ello, m\xE1s
+        intereses desde cada percepci\xF3n hasta la restituci\xF3n; m\xE1s el pago
+        de la multa prevista en el art. 52 bis de la ley 24.240 y las costas del proceso.\r\n
+        \   Se hace saber que todo aquel que pudiere considerarse afectado por lo
+        que eventualmente se resuelva contar\xE1 con la posibilidad de presentarse
+        en este expediente dentro del plazo de 90 d\xEDas corridos,\r\n    contados
+        a partir de la publicaci\xF3n en el Bolet\xEDn Oficial, a fin de constituir
+        domicilio y manifestar lo que por derecho corresponda, bajo apercibimiento
+        de continuar el juicio seg\xFAn su estado.\r\n    Fdo.: Jos\xE9 Luis Cassinerio
+        - Juez Dr. Jos\xE9 Luis Cassinerio Juez - Jos\xE9 Luis Cassinerio Juez.\r\n
+        \ </div>\r\n</section>\r\n    -->\r\n\r\n<footer>\r\n    <div class=\"containerContent\">\r\n\r\n
+        \       <!--<a href=\"/Downloads/ADDUC.pdf\" class=\"linkJudicial\" target=\"_blank\">INFORMACI\xD3N
+        A CONSUMIDORES TOMADORES DE CR\xC9DITOS BAJO LAS L\xCDNEAS \"PRESTAMOS NACI\xD3N
+        DESTINO LIBRE\", \"PRESTAMOS NACI\xD3N SUELDO\" <br />Y \"PRESTAMOS NACI\xD3N
+        ADMINISTRACI\xD3N P\xDABLICA\" Y DEM\xC1S CONVENIOS DECRETO 691/2000\"</a>-->\r\n
+        \       <!--le saque el arroba de adelante de url<a href=\"Url.Action(\"InternasSinArbol\",
+        \"Home\", new { id=\"RegimenDeSinceramientoFiscal\"})\" class=\"regimen\">R\xE9gimen
         de sinceramiento fiscal - Ley 27.260</a>-->\r\n\r\n\r\n\r\n        <div class=\"row\">\r\n\r\n
         \           <div class=\"col-md-9\">\r\n\r\n\r\n                <div class=\"MenuHomeHor\">\r\n
         \                   <ul class=\"nav nav-pills nav-justified\">\r\n                        <li><a
@@ -1200,30 +1154,24 @@ interactions:
         class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">&times;</button>\r\n
         \           \r\n            <h4 class=\"modal-title\" id=\"myModalLabel\">Identificaci\xF3n
         clientes pep's</h4>\r\n            </div>\r\n            <div class=\"modal-body\">\r\n
-        \               Le informamos que el BANCO CENTRAL DE LA REPUBLICA ARGENTINA
-        -a trav\xE9s de las Comunicaciones \u201CA\u201D Nro. 4835 y 4928 - establece
-        nueva normativa a seguir por las Entidades Financieras del pa\xEDs, para la
-        identificaci\xF3n de clientes denominados PEP\u2019s - Personas Expuestas
-        Pol\xEDticamente \u2013 y de la identificaci\xF3n del depositante no titular
-        de cuenta, en el marco de los procedimientos dispuestos en materia de prevenci\xF3n
-        de lavado de dinero y de otras actividades il\xEDcitas.\r\n                La
-        definici\xF3n \u201CPEP\u2019s\u201D alcanza a funcionarios p\xFAblicos nacionales,
-        provinciales, municipales o de la Ciudad Aut\xF3noma de Buenos Aires, etc.,
-        as\xED como tambi\xE9n a funcionarios p\xFAblicos extranjeros. Del mismo modo,
-        quedan abarcados los miembros de la familia de la Persona Expuesta Pol\xEDticamente.\r\n
-        \               En tal sentido, el Banco de la Naci\xF3n Argentina lo invita
-        a acercarse a la sucursal de radicaci\xF3n de su cuenta en el transcurso del
-        presente a\xF1o, a efectos de dar cumplimiento con la declaraci\xF3n jurada
-        solicitada por esta nueva normativa.\r\n                Asimismo la Comunicaci\xF3n
-        \u201CA\u201D 4928 del BCRA, establece que las Entidades Financieras deber\xE1n
-        identificar al depositante cuando \xE9ste no sea el cliente titular de la
-        cuenta, para los casos de dep\xF3sitos en efectivo. Este deber\xE1 informar
-        si el dep\xF3sito es realizado por s\xED o por cuenta de un tercero, indicando
-        en \xE9ste \xFAltimo caso identificaci\xF3n del mismo.\r\n                Para
-        mayor informaci\xF3n, ingrese en <a href=\"http://www.bcra.gov.ar/\" target=\"_blank\">BCRA,</a>
-        y encontrar\xE1 el texto completo de las citadas Comunicaciones del BCRA.\r\n
-        \           </div>\r\n            <div class=\"modal-footer\">              \r\n
-        \           </div>\r\n        </div>\r\n        </div>\r\n    </div>\r\n    \r\n\r\n\r\n\r\n\r\n\r\n\r\n</footer>\r\n\r\n\r\n\r\n
+        \               <p>Conforme lo establecido en la Resoluci\xF3n 134/2018 (y
+        sus modificatorias) emitida por la Unidad de Informaci\xF3n Financiera, los
+        Sujetos Obligados ante ese organismo deben identificar a todos sus clientes
+        verificando si revisten el car\xE1cter de <b>Personas Expuestas Pol\xEDticamente</b>.
+        Por ese motivo, todos los clientes del Banco deben manifestar tal situaci\xF3n
+        en car\xE1cter de Declaraci\xF3n Jurada.</p>\r\n                <p>Las <b>PEP</b>
+        son personas humanas que ejercen o han ejercido cargos p\xFAblicos de importancia
+        en un pa\xEDs determinado o se desempe\xF1an o han desempe\xF1ado en la funci\xF3n
+        p\xFAblica de jurisdicciones nacionales, provinciales y municipales. Asimismo,
+        en esta categor\xEDa se encuentran alcanzados responsables de partidos pol\xEDticos,
+        alianzas y frentes electorales, autoridades de sindicatos, obras sociales,
+        c\xE1maras empresariales, as\xED como determinados parientes o allegados de
+        las PEP.                \r\n                <p>Para mayor informaci\xF3n,
+        puede ingresar en la p\xE1gina de la UIF donde podr\xE1 consultar la norma
+        mencionada.</p>\r\n                <p><a href=\"/Downloads/F60771E_NominaDePersonasExpuestasPoliticamente.pdf\">N\xF3mina
+        de Personas Expuestas Pol\xEDticamente</a>.</p>               \r\n            </div>\r\n
+        \           <div class=\"modal-footer\">              \r\n            </div>\r\n
+        \       </div>\r\n        </div>\r\n    </div>\r\n    \r\n\r\n\r\n\r\n\r\n\r\n\r\n</footer>\r\n\r\n\r\n\r\n
         \     \r\n\r\n\r\n      \r\n\r\n      <script>\r\n\r\n          $(document).ready(function
         () {\r\n\r\n              $('#m01').click(function () {\r\n                  $('.dropdown-menu.m01').toggleClass('show');\r\n\r\n
         \                 $('.m02, .m03').removeClass('show');\r\n\r\n                  $('.dropdown-toggle.m01').toggleClass('active');\r\n\r\n
@@ -1378,38 +1326,36 @@ interactions:
         \"2\", u, o, i) } catch (t) { } }(\"r9wn9\", \"Ym5hLmNvbS5ibw==,Ym5hLmNvbS5hcg==,bmFjaW9uc2VydmljaW9zLmNvbS5hcg==,ZnVuZGFjaW9uYm5hLm9yZy5hcg==,Ym5hLmNvbS5weQ==,dHJhbnNsYXRlLmdvb2c=,Ym5hLmNvbS51eQ==,Ym5hbm1pYW1pLmNvbQ==,d2ViY2FjaGUuZ29vZ2xldXNlcmNvbnRlbnQuY29t,cGVkaXJkaW5lcm90ZXN0LmJuYS5jb20uYXI=,Ym5hbnkuY29t,dGllbmRhYm5hLmNvbS5hcg==,Ym5hYnIuY29tLmJy,dGVzdGJuYS5ibmEuY29tLmFy,cGVkaXJkaW5lcm8uYm5hLmNvbS5hcg==,bmF0aXZhbmFjaW9uLmNvbS5hcg==,cHltZW5hY2lvbi5jb20uYXI=,Ym5hbmV0LmJuYS5jb20uYXI=,c2FmZWZyYW1lLmdvb2dsZXN5bmRpY2F0aW9uLmNvbQ==,cmVkbGluay5jb20uYXI=,YWdyb25hY2lvbi5jb20uYXI=\",
         \"Z29vZ2xlLmNvbS5zdg==,Z29vZ2xlLmNvbS50dw==,bXNuLmNvbQ==,Z29vZ2xlLm13,Z29vZ2xlLmFz,Z29vZ2xlLmhu,Z29vZ2xlLmNvbS5waw==,Z29vZ2xlLmNvbS51eQ==,bXl3YXkuY29t,Z29vZ2xlLmJh,Z29vZ2xlLnZ1,Z29vZ2xlLm1z,Z29vZ2xlLmNvbS5wcg==,Z29vZ2xlLmNh,cXdhbnQuY29t,Z29vZ2xlLmNvLmpw,Z29vZ2xlLmRt,Z29vZ2xlLnV6,Z29vZ2xlLm5y,Z29vZ2xlLmNvbS5rdw==,Z29vZ2xlLnJ3,Z29vZ2xlLmNvbS5teQ==,Z29vZ2xlLnBs,Z29vZ2xlLmNvLmty,YXNrLmNvbQ==,Z29vZ2xlLmNvLmNy,Z29vZ2xlLnB0,YW9sLmNvbQ==,eWFob28ubmV0,Z29vZ2xlLnNo,ZmFjZWJvb2suY29t,Z29vZ2xlLmNvLnZp,Z29vZ2xlLmNvbS50ag==,Z2l2ZXdhdGVyLmNvbQ==,Z29vZ2xlLmNvbS5ucA==,Z29vZ2xlLmNvbS5seQ==,Z29vZ2xlLmNvbS5zZw==,Z29vZ2xlLmNvLmlt,Z29vZ2xlLmNvbS5weQ==,Z29vZ2xlLm1u,Z29vZ2xlLnNl,Z29vZ2xlLmNvbS5wZQ==,Z29vZ2xlLmlz,c3RhcnRwYWdpbmEubmw=,Z29vZ2xlLmNvbS5hZw==,Z29vZ2xlLm5v,eW91dHViZS5jb20=,Z29vZ2xlLnR2,Z29vZ2xlLmx1,c3RhcnQubWU=,Z29vZ2xlLmNvbS5wYQ==,Z29vZ2xlLm9mZi5haQ==,Z29vZ2xlLmNvbS5jbw==,Z29vZ2xlLmNvLnph,Z29vZ2xlLnNp,eWVscC5jb20=,Z29vZ2xlLmNvLnVr,Z29vZ2xlLmNvbS5oaw==,bGFzdHBhc3MuY29t,Z29vZ2xlLmNvLmtl,Z29vZ2xlLmNvLm1h,Z29vZ2xlLnR0,Z29vZ2xlLmNvbS5hZg==,Z29vZ2xlLmNvbS5ndA==,Z29vZ2xlLmF6,Z29vZ2xlLmNk,Z29vZ2xlLnNt,Z29vZ2xlLmNvLmpl,Z29vZ2xlLmh1,Z29vZ2xlLmVl,Z29vZ2xlLmNvLm56,Z29vZ2xlLmNvbS5ieg==,Z29vZ2xlLmNvbS5kbw==,Z29vZ2xlLmNvbS5ldA==,Z29vZ2xlLmNvbS5icg==,Z29vZ2xlLmNvbS50cg==,Z29vZ2xlLmZt,Z29vZ2xlLmdy,Z29vZ2xlLmNvLnZl,Z29vZ2xlLmNvLmls,Z29vZ2xlLmNvLnVn,Z29vZ2xlLmdn,Z29vZ2xlLmll,Z29vZ2xlLmNvbS5waA==,Z29vZ2xlLmxp,Z29vZ2xlLmNvbS5lYw==,Zm9yY2UuY29t,Z29vZ2xlLnRw,em9vbWluZm8uY29t,bWFrby5jby5pbA==,Z29vZ2xlLmNn,Z29vZ2xlLmtn,Z29vZ2xlLmNvLmh1,dGhlbWFya2VyLmNvbQ==,Z29vZ2xlLnNj,Z29vZ2xlLmNo,Z29vZ2xlLmNvbS5naQ==,Z29vZ2xlLmNvbS5uZg==,Z29vZ2xlLmNvbS5zYQ==,Z29vZ2xlLmNs,Z29vZ2xlLm11,Z29vZ2xlLnRt,Z29vZ2xlLmx0,Z29vZ2xlLmNvbS5xYQ==,Z29vZ2xlLnRv,Z29vZ2xlLnNu,Z29vZ2xlLnZn,Z29vZ2xlLmxr,Z29vZ2xlLm1k,Z29vZ2xlLmZp,Z29vZ2xlLmNvbS5hcg==,Z29vZ2xlLmFt,Z29vZ2xlLmJn,Z29vZ2xlLmNvLmxz,Z29vZ2xlLm5ldA==,Z29vZ2xlLnJv,Z29vZ2xlLmF0,eWFob28uY29t,Z29vZ2xlLmNvbS5tdA==,ZHVja2R1Y2tnby5jb20=,Z29vZ2xlLmNvLmNr,Z29vZ2xlLmVz,Z29vZ2xlLmNvbS5uaQ==,Z29vZ2xlLmNvbS5uYQ==,Z29vZ2xlLmNvbS52bg==,bWljcm9zb2Z0LmNvbQ==,Z29vZ2xlLmNvbS5qbQ==,Z29vZ2xlLmNvLnV6,Z29vZ2xlLmNvbS5lZw==,Z29vZ2xlLmNvbS5teA==,Z29vZ2xlLmhy,YmluZy5jb20=,Z29vZ2xlLm5s,Z29vZ2xlLmds,Z29vZ2xlLmJl,Y29tLmdvb2dsZS5hbmRyb2lkLmdt,Z29vZ2xlLnBu,Z29vZ2xlLmNvbQ==,Z29vZ2xlLmt6,Z29vZ2xlLmNvbS52Yw==,Z29vZ2xlLmNvbS5jdQ==,Z29vZ2xlLmNvbS51YQ==,Z29vZ2xlLmNp,ZXNldC5jb20=,Z29vZ2xlLmx2,Z29vZ2xlLmJp,Z29vZ2xlLmNvLmlu,Z29vZ2xlLmNvLnRo,Z29vZ2xlLmRq,Z29vZ2xlLmh0,Z29vZ2xlLmdt,Z29vZ2xlLm9yZw==,Z29vZ2xlLmNvLnpt,Z29vZ2xlLmNvbS5vbQ==,Z29vZ2xlLmNvbS5mag==,Z29vZ2xlLmRl,Z29vZ2xlLmZy,Z29vZ2xlLnNr,YXBwbGUuY29t,Z29vZ2xlLndz,Z29vZ2xlLmNvbS51eg==,Z29vZ2xlLmNvLmJ3,Z29vZ2xlLmRr,Z29vZ2xlLmJz,Z29vZ2xlLmpv,Z29vZ2xlLml0,Z29vZ2xlLnJ1,Z29vZ2xlLmNvbS5iZA==,Z29vZ2xlLmNvLmlk,Z29vZ2xlLm51,Z29vZ2xlLmNvbS5ibw==,YWRwLmNvbQ==,Z29vZ2xlLmFl,Z29vZ2xlLmNvbS5zYg==,dGFib29sYS5jb20=,Y29tLmdvb2dsZS5hbmRyb2lkLmdvb2dsZXF1aWNrc2VhcmNoYm94,Z29vZ2xlLmNvbS5hdQ==,Z29vZ2xlLmN6\",
         \"YS5hZHMtMDguY29t\") }]);\r\n  </script>\r\n  </body>\r\n\r\n</html>\r\n<script
-        id=\"f5_cspm\">(function(){var f5_cspm={f5_p:'MLOLMKKIGLCGKKNIPJPBBOCMDKOIMNHNBPPLDCEJILHBNIICPMLJMBIIJCIDEDCPHHABBFHDAAKCEAMNMCAABDNEAAGOMGLJGACIFFGCIPCFHKPNGNLLGIIIOAKDEMIF',setCharAt:function(str,index,chr){if(index>str.length-1)return
+        id=\"f5_cspm\">(function(){var f5_cspm={f5_p:'GCJKHHFLGKIPLFDMDFCAFBNJJGNIBGBAIDFHKDIPPLOOJNMKAAEFGKELEILGABPGEFLBNIDGAAEFEBCMKCHADEIOAABIFAJHODBNKAJPIPKBMGJFJOLLJKAFKBNLDNNO',setCharAt:function(str,index,chr){if(index>str.length-1)return
         str;return str.substr(0,index)+chr+str.substr(index+1);},get_byte:function(str,i){var
         s=(i/16)|0;i=(i&15);s=s*32;return((str.charCodeAt(i+16+s)-65)<<4)|(str.charCodeAt(i+s)-65);},set_byte:function(str,i,b){var
         s=(i/16)|0;i=(i&15);s=s*32;str=f5_cspm.setCharAt(str,(i+16+s),String.fromCharCode((b>>4)+65));str=f5_cspm.setCharAt(str,(i+s),String.fromCharCode((b&15)+65));return
         str;},set_latency:function(str,latency){latency=latency&0xffff;str=f5_cspm.set_byte(str,40,(latency>>8));str=f5_cspm.set_byte(str,41,(latency&0xff));str=f5_cspm.set_byte(str,35,2);return
         str;},wait_perf_data:function(){try{var wp=window.performance.timing;if(wp.loadEventEnd>0){var
-        res=wp.loadEventEnd-wp.navigationStart;if(res<60001){var cookie_val=f5_cspm.set_latency(f5_cspm.f5_p,res);window.document.cookie='f5avr1968189797aaaaaaaaaaaaaaaa_cspm_='+encodeURIComponent(cookie_val)+';path=/';}\nreturn;}}\ncatch(err){return;}\nsetTimeout(f5_cspm.wait_perf_data,100);return;},go:function(){var
+        res=wp.loadEventEnd-wp.navigationStart;if(res<60001){var cookie_val=f5_cspm.set_latency(f5_cspm.f5_p,res);window.document.cookie='f5avr1307782223aaaaaaaaaaaaaaaa_cspm_='+encodeURIComponent(cookie_val)+';path=/;'+'';}\nreturn;}}\ncatch(err){return;}\nsetTimeout(f5_cspm.wait_perf_data,100);return;},go:function(){var
         chunk=window.document.cookie.split(/\\s*;\\s*/);for(var i=0;i<chunk.length;++i){var
         pair=chunk[i].split(/\\s*=\\s*/);if(pair[0]=='f5_cspm'&&pair[1]=='1234')\n{var
-        d=new Date();d.setTime(d.getTime()-1000);window.document.cookie='f5_cspm=;expires='+d.toUTCString()+';path=/;';setTimeout(f5_cspm.wait_perf_data,100);}}}}\nf5_cspm.go();}());</script>"
+        d=new Date();d.setTime(d.getTime()-1000);window.document.cookie='f5_cspm=;expires='+d.toUTCString()+';path=/;'+';';setTimeout(f5_cspm.wait_perf_data,100);}}}}\nf5_cspm.go();}());</script>"
     headers:
       Cache-Control:
       - private
       Content-Length:
-      - '111747'
+      - '109872'
       Content-Type:
       - text/html; charset=utf-8
       Date:
-      - Sun, 27 Feb 2022 21:31:14 GMT
+      - Fri, 30 Dec 2022 21:33:19 GMT
       Expires:
-      - Sun, 27 Feb 2022 21:32:14 GMT
+      - Fri, 30 Dec 2022 21:33:13 GMT
       Last-Modified:
-      - Sun, 27 Feb 2022 21:31:14 GMT
+      - Fri, 30 Dec 2022 21:32:13 GMT
       Set-Cookie:
-      - _AnonId_=28a1708e-16e1-637815834744886533; expires=Mon, 27-Feb-2023 21:31:14
-        GMT; path=/; HttpOnly
-      - BNA_Cookie=1109920266.47873.0000; expires=Mon, 28-Feb-2022 07:31:17 GMT; path=/;
+      - BNA_Cookie=1277692426.47873.0000; expires=Sat, 31-Dec-2022 07:35:22 GMT; path=/;
         Httponly
-      - f5avraaaaaaaaaaaaaaaa_session_=JBLPKDKLCLCHCKGJJMALBDCMDKNCABPNJHJLHBFJJLHBNIICNLJJOJIIJCICEDCPHHADBFHDKNBAFOHPMCAABDNEFOHIBIKPHFIPHNIAIPCFHKBNBFDPOLIIOAKDEMEL;
-        HttpOnly; secure
-      - 'f5_cspm=1234; HTTPonly; '
-      - TS0100f380=013be86af47ce1db436c5587f9f2aab6983b934d196656d5e73c48e0a5b0816e3fe44fb96f05065217d7f6f5a975cd5c99b8a20e708245f6e7cac43d1e20ea8c5af78530c1;
+      - f5avraaaaaaaaaaaaaaaa_session_=JGFIFGFJJKIODJNMIMNGEONJKGOCNOOAIHKHJCJPOLOOJNMKCPFFKCELEILHABPGEFLDNIDGPJLGCLNPKCHADEIOEFLOJFDBIMEBONAMIPKBMGGEPONKABGFKBNLDNIC;
+        HttpOnly; secure;
+      - 'f5_cspm=1234;; HTTPonly; '
+      - TS0100f380=013be86af48fdc38ec55f64a5d3b1061d21c3209bb550b705a7cf8400bc6d2dd0d237cf90dced5b6fe08605a0cb7212d560787d7fe598272055adfd463bb61d7c51e6b1c9267ef571c1724b852841090272fd7b13ad1c9e85ed8c5335460b3ccf9cafc2739;
         Path=/; Domain=.bna.com.ar; Secure; HTTPOnly
       Strict-Transport-Security:
       - max-age=16070400; preload
