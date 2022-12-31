@@ -107,19 +107,19 @@ def get_torrents_by_id(imdb_id: int, limit: int | None = None) -> tuple[str, str
     try:
         r = requests.get("https://eztv.ag/api/get-torrents", params={"imdb_id": imdb_id, "limit": limit})
         if r.status_code != 200:
-            return
+            return  # type: ignore
         data = r.json()
 
         if not data or data["torrents_count"] == 0:
-            return
+            return  # type: ignore
 
         torrents = sorted(r.json()["torrents"], key=lambda d: (d["season"], d["episode"]))
     except KeyError:
         logger.info("No torrents in eztv api for this serie. Response %s", r.json())
-        return
+        return  # type: ignore
     except Exception:
         logger.exception("Error requesting torrents for %s", imdb_id)
-        return
+        return  # type: ignore
 
     return _minify_torrents(torrents)
 

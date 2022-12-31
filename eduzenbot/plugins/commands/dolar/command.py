@@ -17,7 +17,7 @@ from eduzenbot.plugins.commands.dolar.api import (
 logger = logging.getLogger("rich")
 
 
-def send_msg(bot: Bot, chat_id: str, msg: str, provider: str) -> str:
+def send_msg(bot: Bot, chat_id: int, msg: str, provider: str) -> str:
     if not msg:
         return f"No hay datos para mostrar de {provider}"
     bot.send_message(chat_id=chat_id, text=msg)
@@ -25,7 +25,7 @@ def send_msg(bot: Bot, chat_id: str, msg: str, provider: str) -> str:
 
 @create_user
 def get_dolar(update: Update, context: CallbackContext) -> None:
-    bot = context.bot
+    bot: Bot = context.bot
     chat_id = update.message.chat_id
     bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
     bot.send_message(chat_id=chat_id, text="Getting dolar info...")

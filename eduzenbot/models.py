@@ -49,7 +49,7 @@ class User(BaseModel):
 
     def save(self, *args: int, **kwargs: str) -> None:
         self.updated_at = datetime.now()
-        kwargs["force_insert"] = True  # Non incremental id
+        kwargs["force_insert"] = True  # Non incremental id  # type: ignore
         return super().save(*args, **kwargs)
 
     def __str__(self) -> str:

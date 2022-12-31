@@ -1,0 +1,223 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.28.1
+    method: GET
+    uri: https://hacker-news.firebaseio.com/v0/topstories.json
+  response:
+    body:
+      string: '[34195529,34196294,34196381,34195764,34193895,34195045,34194659,34195291,34195372,34193847,34194889,34170525,34168452,34164221,34193244,34195353,34196621,34173534,34185191,34196161,34196340,34194555,34180436,34192647,34193248,34189106,34194182,34193243,34176253,34163642,34178539,34196592,34191984,34189422,34196771,34196324,34187461,34188461,34195836,34186742,34186283,34195293,34176739,34193033,34193287,34188975,34195734,34184993,34176479,34157751,34162865,34151296,34187973,34188734,34161864,34190421,34196635,34181319,34192336,34193047,34184669,34190975,34191184,34177863,34185209,34174765,34161259,34184129,34163242,34182278,34157636,34178870,34183663,34189110,34193435,34193891,34186349,34173290,34182945,34184903,34178789,34195609,34186806,34184627,34185389,34163552,34194990,34162739,34182233,34184564,34187716,34186484,34183588,34194069,34184587,34191060,34171406,34193995,34195616,34181165,34191028,34185442,34162763,34158077,34195063,34195516,34190284,34179185,34190219,34178300,34189684,34195446,34190714,34178168,34179426,34186573,34188535,34191831,34186886,34186265,34193766,34187030,34177252,34172205,34191257,34169051,34181484,34189003,34193293,34188168,34179748,34182331,34181206,34188356,34158235,34190681,34183738,34191708,34177935,34168284,34162700,34166193,34178994,34161661,34173006,34177331,34171863,34194732,34193427,34167839,34164493,34184540,34157505,34195067,34175639,34161265,34192171,34181339,34191450,34173761,34187119,34176601,34179067,34163413,34165791,34161997,34161044,34185718,34161412,34183515,34162229,34169951,34187463,34165522,34159868,34176035,34193030,34172240,34194742,34179568,34184229,34170379,34186479,34165014,34159144,34191020,34191078,34189895,34153883,34175209,34194257,34183944,34139048,34165960,34180508,34151708,34159022,34161410,34188393,34155783,34157363,34158318,34165950,34189717,34187285,34188354,34167216,34179949,34156778,34191970,34194486,34189843,34161647,34160801,34141615,34171618,34190003,34160793,34176488,34152369,34165838,34175768,34178880,34163231,34174806,34165882,34161081,34194435,34166930,34180501,34158071,34169393,34156227,34165295,34169039,34194968,34180026,34152137,34168467,34187032,34178358,34160356,34178349,34160097,34173996,34181912,34169967,34190346,34164312,34163624,34167099,34161071,34158160,34161221,34187773,34147937,34145002,34145672,34173830,34154254,34190024,34184397,34156631,34158689,34145799,34180924,34175466,34165853,34192563,34158798,34158933,34190450,34190270,34170584,34170868,34192427,34161822,34167965,34172416,34189855,34163748,34168867,34160672,34143119,34134473,34147465,34181150,34191233,34177201,34175491,34194985,34140206,34151382,34167962,34191650,34163084,34172506,34157907,34189946,34169106,34152100,34161180,34169554,34161129,34179115,34187564,34174356,34173046,34174183,34148502,34168542,34188362,34177930,34147366,34163559,34137751,34188055,34164684,34117429,34193438,34159699,34157808,34161085,34164546,34147825,34172989,34182324,34159631,34185779,34172092,34162001,34145934,34175759,34161272,34173712,34151880,34191533,34165830,34161214,34147934,34138028,34163505,34162118,34169710,34176480,34145680,34188320,34183147,34165560,34189128,34156140,34171762,34191890,34177759,34109771,34136381,34180949,34186690,34171421,34135593,34171751,34146212,34161077,34102868,34190473,34115747,34146145,34183694,34159118,34153648,34156780,34183630,34160353,34190296,34172728,34162515,34186192,34134905,34157761,34188528,34124726,34182013,34187862,34165789,34128776,34160509,34161528,34187671,34189911,34137381,34191219,34191216,34157142,34125958,34158633,34099641,34175558,34130726,34144707,34147243,34187538,34149239,34182990,34156896,34159062,34167322,34155009,34162002,34094497,34167586,34188132,34193703,34146493,34172101,34177057,34151951,34158033,34143197,34136729,34137065,34179465,34160824,34179301,34108434,34144479,34142602,34148402,34152306,34177361,34188239,34190065,34181946,34145216,34161954,34174935,34127683,34149340,34156844,34115109,34174110,34154778,34119879,34142138,34154406,34188446,34181675,34160639,34136666,34160611,34134109,34188282,34169725,34192764,34149804,34181695,34184536,34160107,34155875,34156869,34109349,34142932,34113978,34124991,34148082,34172649,34189413,34131337,34138863,34146794,34185139,34137709,34184410,34117875,34138188,34186568,34142168,34158895,34145665,34134565,34179167,34132866,34142965,34190934,34118562,34152333,34136879,34153404,34183791,34139850,34156189,34136331,34186403,34161628,34135219,34109734,34150097,34173825,34102363,34160424,34179012]'
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '4501'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Sat, 31 Dec 2022 15:04:24 GMT
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31556926; includeSubDomains; preload
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.28.1
+    method: GET
+    uri: https://hacker-news.firebaseio.com/v0/item/34195529.json
+  response:
+    body:
+      string: '{"by":"Tomte","descendants":83,"id":34195529,"kids":[34196998,34195835,34196240,34196027,34195900,34196204,34196815,34196132,34196007,34196914,34196194,34195819,34196920,34195853,34195857,34195936,34196533,34195925,34195878,34196701,34196140,34196183,34196059,34195984,34195791,34196137],"score":181,"time":1672486493,"title":"Dinner
+        for one: The little-known British comedy famous in Germany","type":"story","url":"https://www.historyhit.com/culture/dinner-for-one/"}'
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '468'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Sat, 31 Dec 2022 15:04:24 GMT
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31556926; includeSubDomains; preload
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.28.1
+    method: GET
+    uri: https://hacker-news.firebaseio.com/v0/item/34196294.json
+  response:
+    body:
+      string: '{"by":"aloukissas","descendants":17,"id":34196294,"kids":[34196711,34197005,34196484,34196971,34196665,34196903,34196678,34196524,34196449,34196602],"score":49,"time":1672493610,"title":"Should
+        Small Rust Structs be Passed by-copy or by-borrow?","type":"story","url":"https://www.forrestthewoods.com/blog/should-small-rust-structs-be-passed-by-copy-or-by-borrow/"}'
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '364'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Sat, 31 Dec 2022 15:04:24 GMT
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31556926; includeSubDomains; preload
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.28.1
+    method: GET
+    uri: https://hacker-news.firebaseio.com/v0/item/34196381.json
+  response:
+    body:
+      string: '{"by":"edent","descendants":1,"id":34196381,"kids":[34196865],"score":34,"time":1672494560,"title":"Cached
+        Chrome Top Million Websites","type":"story","url":"https://github.com/zakird/crux-top-lists"}'
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '200'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Sat, 31 Dec 2022 15:04:24 GMT
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31556926; includeSubDomains; preload
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.28.1
+    method: GET
+    uri: https://hacker-news.firebaseio.com/v0/item/34195764.json
+  response:
+    body:
+      string: '{"by":"luca020400","descendants":8,"id":34195764,"kids":[34196928,34196889,34196692,34196868],"score":56,"time":1672488816,"title":"LineageOS
+        20","type":"story","url":"https://lineageos.org/Changelog-27/"}'
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '205'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Sat, 31 Dec 2022 15:04:24 GMT
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31556926; includeSubDomains; preload
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.28.1
+    method: GET
+    uri: https://hacker-news.firebaseio.com/v0/item/34193895.json
+  response:
+    body:
+      string: '{"by":"curling_grad","descendants":61,"id":34193895,"kids":[34194369,34194364,34194362,34195215,34194427,34194536,34194551,34194765,34194305,34194560,34195597],"score":351,"time":1672464625,"title":"Why
+        does my SSH private key still work after changing some bytes? (2016)","type":"story","url":"https://crypto.stackexchange.com/questions/31807/why-does-my-ssh-private-key-still-work-after-changing-some-bytes-in-the-file"}'
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - no-cache
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '422'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Sat, 31 Dec 2022 15:04:25 GMT
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31556926; includeSubDomains; preload
+    status:
+      code: 200
+      message: OK
+version: 1

@@ -37,7 +37,6 @@ users - Lista de usuarios
 subte -  Estado del subte
 subtenews - Estado del subte, acepta numero de tweets
 transito -  Estado del transito
-trenes -  Estado del trenes
 restart - Reiniciar el bot
 teatro - Lo mas buscado en AlternativaTeatral, acepta nro
 series - series para bajar

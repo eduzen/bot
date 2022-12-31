@@ -60,7 +60,7 @@ class TelegramBot:
 
     def start(self) -> None:
         if not self.polling:
-            self.updater.start_polling()
+            self.updater.start_polling(read_latency=4)
         else:
             self.updater.start_webhook(listen="0.0.0.0", port=self.port, url_path=self.token)
             self.updater.bot.setWebhook(f"https://eduzenbot.herokuapp.com/{self.token}")  # type: ignore
@@ -79,23 +79,18 @@ class TelegramBot:
         except BadRequest:
             # handle malformed requests - read more below!
             logger.warning("Update caused a BadRequest")
-            logger.debug(f"{context.error}")
         except TimedOut:
             # handle slow connection problems
             logger.warning("Update caused a TimedOut")
-            logger.debug(f"{context.error}")
         except NetworkError:
             # handle other connection problems
             logger.warning("Update caused a NetworkError")
-            logger.debug(f"{context.error}")
         except ChatMigrated:
             # the chat_id of a group has changed, use e.new_chat_id instead
             logger.warning("Update caused a ChatMigrated")
-            logger.debug(f"{context.error}")
         except TelegramError:
             # handle all other telegram related errors
             logger.warning("Update caused a TelegramError")
-            logger.debug(f"{context.error}")
         except Exception:
             logger.exception(f"Unhandled issue: {context.error}")
 
