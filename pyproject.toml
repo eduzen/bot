@@ -62,7 +62,6 @@ dev = [
   "types-setuptools"
 ]
 
-
 [project.urls]
 Documentation = "https://github.com/eduzen/bot#readme"
 Issues = "https://github.com/eduzen/bot/issues"
@@ -93,3 +92,6 @@ profile = "black"
 
 [tool.coverage.json]
 pretty_print=true
+
+[tool.mypy]
+ignore_missing_imports = true

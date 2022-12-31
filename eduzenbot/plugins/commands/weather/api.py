@@ -53,6 +53,8 @@ def get_timezone(city: str) -> str:
         if city in timezone.lower():
             return timezone
 
+    return "Europe/Amsterdam"
+
 
 def get_sun_times(data: dict[str, Any], city: str) -> tuple:
     tz = get_timezone(city)
@@ -117,7 +119,7 @@ def get_weather() -> str:
         return msg
 
     soup = BeautifulSoup(data, "html.parser")
-    data = soup.find_all("div", {"class": "floatFix cuadroTemp"})
+    data = soup.find_all("div", {"class": "floatFix cuadroTemp"})  # type: ignore
 
     if not data:
         return msg

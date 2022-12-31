@@ -1,5 +1,5 @@
 import logging
-from typing import Callable
+from typing import Callable, Optional
 
 from telegram import Update
 from telegram.ext import CallbackContext
@@ -21,7 +21,7 @@ handlers = {
 }
 
 
-def _select_handler(key: str) -> Callable:
+def _select_handler(key: str) -> Callable | None:
     if key.startswith("get_season"):
         return handlers["get_season"]
 
@@ -31,7 +31,7 @@ def _select_handler(key: str) -> Callable:
     return handlers.get(key)
 
 
-def callback_query(update: Update, context: CallbackContext, **kwargs: str) -> Callable | None:
+def callback_query(update: Update, context: CallbackContext, **kwargs: str) -> Optional[Callable]:
     query = update.callback_query
 
     func = _select_handler(query.data)
@@ -51,7 +51,7 @@ def callback_query(update: Update, context: CallbackContext, **kwargs: str) -> C
             message_id=query.message.message_id,
             parse_mode="Markdown",
         )
-        return
+        return  # type: ignore
 
     chat_context = context.chat_data["context"]
     log.info(f"from {chat_context['command']} - {query.data}")

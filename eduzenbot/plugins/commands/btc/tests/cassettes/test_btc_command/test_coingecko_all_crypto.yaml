@@ -1,0 +1,79 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.28.1
+    method: GET
+    uri: https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,dogecoin,solana,cardano,shiba-inu,decentraland,kava,kusama&vs_currencies=usd
+  response:
+    body:
+      string: !!binary |
+        H4sIAAVNsGMAA1SOQRKDIAwA/8K5MoECor+JkqlMK8yI9OLw98JF7XU3yeZgafETdj5kNh4sJ8dG
+        y4WhDkx5sBk3hyGeCrhUVild1Ru/eOO6F3qwldO+0EZ5PZ2QoLhqavL7HH24jDGguWwhRzOFfcMP
+        BnevDVbrtppiNVdPAAfVnsgJ1wtLxeHZrsUX/ZXqeA9Wl/IDAAD//wMAOUfzNPAAAAA=
+    headers:
+      Access-Control-Allow-Headers:
+      - Origin, X-Requested-With, Content-Type, Accept, Authorization
+      Access-Control-Allow-Methods:
+      - POST, PUT, DELETE, GET, OPTIONS
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - link, per-page, total
+      Access-Control-Request-Method:
+      - '*'
+      Age:
+      - '77'
+      Alternate-Protocol:
+      - 443:npn-spdy/2
+      CF-Cache-Status:
+      - HIT
+      CF-RAY:
+      - 7823dae3dcdf0eb3-AMS
+      Cache-Control:
+      - public, max-age=120
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Sat, 31 Dec 2022 14:55:14 GMT
+      ETag:
+      - W/"caf850c7dae41c7fc3c575f1c76f5ef6"
+      Expires:
+      - Sat, 31 Dec 2022 14:57:14 GMT
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Server:
+      - cloudflare
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding, Origin
+      X-Content-Type-Options:
+      - nosniff
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Request-Id:
+      - e8999b3c-519a-4844-b026-3240ef2944ed
+      X-Runtime:
+      - '0.003716'
+      X-XSS-Protection:
+      - '0'
+    status:
+      code: 200
+      message: OK
+version: 1

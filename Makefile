@@ -9,3 +9,9 @@ compile:
 
 compile-dev:
 	pip-compile --extra=dev pyproject.toml -o requirements-dev.txt
+
+coverage:
+	TOKEN=blah EDUZEN_ID=9 coverage run -m pytest
+	python -m coverage combine
+	python -m coverage report -m --skip-covered
+	python -m coverage json

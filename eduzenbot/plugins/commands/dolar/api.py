@@ -50,7 +50,7 @@ def _extract(data):
 
 def _process_bcn(data: str) -> str:
     soup = BeautifulSoup(data, "html.parser")
-    data = soup.find_all("table", {"class": "table cotizacion"})
+    data = soup.find_all("table", {"class": "table cotizacion"})  # type: ignore
 
     if not data:
         return "Banco nacion changed his html."
@@ -69,9 +69,9 @@ def _process_bluelytics(data: dict) -> str:
     oficial = data["oficial"]
     blue = data["blue"]
     eur = data["oficial_euro"]
-    oficial_venta = oficial["value_sell"]
+    oficial_venta = str(oficial["value_sell"])
     blue_venta = blue["value_sell"]
-    brecha = round(((blue_venta / oficial_venta) - 1) * 100, 2)
+    brecha = str(round(((blue_venta / oficial_venta) - 1) * 100, 2))
     data = (
         "🏦 Oficial:\n"
         f"💵 Dólar {oficial['value_buy']} - {oficial_venta}\n"
