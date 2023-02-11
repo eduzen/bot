@@ -70,7 +70,7 @@ iniconfig==1.1.1
     # via pytest
 ipdb==0.13.11
     # via eduzenbot (pyproject.toml)
-ipython==8.7.0
+ipython==8.10.0
     # via
     #   eduzenbot (pyproject.toml)
     #   ipdb
