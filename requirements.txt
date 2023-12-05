@@ -101,7 +101,7 @@ soupsieve==2.3.2.post1
     # via beautifulsoup4
 tmdbsimple==2.9.1
     # via eduzenbot (pyproject.toml)
-tornado==6.1
+tornado==6.4
     # via python-telegram-bot
 tweepy==4.12.1
     # via eduzenbot (pyproject.toml)
