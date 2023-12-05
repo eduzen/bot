@@ -6,7 +6,7 @@
 #
 appdirs==1.4.4
     # via yfinance
-apscheduler==3.6.3
+apscheduler==3.10.4
     # via python-telegram-bot
 attrs==22.2.0
     # via eduzenbot (pyproject.toml)
