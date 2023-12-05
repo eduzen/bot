@@ -43,7 +43,7 @@ lxml==4.9.2
     # via yfinance
 multitasking==0.0.11
     # via yfinance
-numpy==1.24.0
+numpy==1.26.2
     # via
     #   pandas
     #   yfinance
