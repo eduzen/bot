@@ -229,7 +229,7 @@ tzdata==2022.7
     # via pytz-deprecation-shim
 tzlocal==4.2
     # via apscheduler
-urllib3==1.26.13
+urllib3==2.2.1
     # via
     #   requests
     #   sentry-sdk
