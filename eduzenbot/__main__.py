@@ -5,16 +5,20 @@ import os
 
 import sentry_sdk
 from rich.logging import RichHandler
-from sentry_sdk.integrations.tornado import TornadoIntegration
 from telegram.ext import CallbackQueryHandler, CommandHandler, Filters
 
 from eduzenbot.callbacks_handler import callback_query
 from eduzenbot.models import db
 from eduzenbot.plugins.job_queue.alarms.command import set_timer, unset
-from eduzenbot.plugins.messages.inline import code_markdown
 from eduzenbot.plugins.messages.unknown import unknown
 from eduzenbot.scripts.initialize_db import create_db_tables
 from eduzenbot.telegram_bot import TelegramBot
+from dotenv import load_dotenv
+from pathlib import Path
+
+# Load environment variables from .env file
+env_path = Path("../.env")
+load_dotenv(env_path)
 
 TOKEN = os.environ["TOKEN"]
 SENTRY_DSN = os.getenv("SENTRY_DSN", "")
@@ -35,7 +39,6 @@ logger = logging.getLogger()
 sentry_sdk.init(
     dsn=SENTRY_DSN,
     traces_sample_rate=0.8,
-    integrations=[TornadoIntegration()],
 )
 
 
@@ -51,9 +54,6 @@ def main() -> None:
     message_handlers: list[str] = []  # parse_msgs
 
     bot.register_message_handler(message_handlers)
-
-    code_handler = bot.create_inlinequery(code_markdown)
-    bot.add_handler(code_handler)
 
     unknown_handler = bot.create_msg(unknown, Filters.command)
     bot.add_handler(unknown_handler)

@@ -14,7 +14,11 @@ logger = logging.getLogger("rich")
 
 
 def get_tweets(api: str, username: str, count: int, date: datetime) -> str:
-    tweets = [tweet.text for tweet in api.user_timeline(username, count=count) if (date - tweet.created_at).days < 1]
+    tweets = [
+        tweet.text
+        for tweet in api.user_timeline(username, count=count)
+        if (date - tweet.created_at).days < 1
+    ]
     if not tweets:
         return "No hay novedades de trenes para hoy"
 

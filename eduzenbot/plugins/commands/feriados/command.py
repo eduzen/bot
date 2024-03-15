@@ -1,6 +1,7 @@
 """
 feriados - feriadosarg
 """
+
 import logging
 from datetime import datetime
 
@@ -19,7 +20,9 @@ logger = logging.getLogger("rich")
 
 
 @create_user
-def feriadosarg(update: Update, context: CallbackContext, *args: int, **kwargs: str) -> None:
+def feriadosarg(
+    update: Update, context: CallbackContext, *args: int, **kwargs: str
+) -> None:
     today = datetime.now(pytz.timezone("America/Argentina/Buenos_Aires"))
     feriados = get_feriados(today.year)
     if not feriados:

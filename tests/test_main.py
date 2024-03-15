@@ -7,7 +7,10 @@ def test_init_telegram_bot_missing_token():
     with pytest.raises(TypeError) as exc:
         TelegramBot()
 
-    assert str(exc.value) == "TelegramBot.__init__() missing 1 required positional argument: 'token'"
+    assert (
+        str(exc.value)
+        == "TelegramBot.__init__() missing 1 required positional argument: 'token'"
+    )
 
 
 def test_init_telegram_bot_wrong_token():

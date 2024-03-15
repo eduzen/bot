@@ -1,5 +1,5 @@
 import logging
-from typing import Callable
+from collections.abc import Callable
 
 from telegram import Update
 from telegram.ext import CallbackContext
@@ -31,7 +31,9 @@ def _select_handler(key: str) -> Callable:
     return handlers.get(key)
 
 
-def callback_query(update: Update, context: CallbackContext, **kwargs: str) -> Callable | None:
+def callback_query(
+    update: Update, context: CallbackContext, **kwargs: str
+) -> Callable | None:
     query = update.callback_query
 
     func = _select_handler(query.data)
@@ -44,7 +46,11 @@ def callback_query(update: Update, context: CallbackContext, **kwargs: str) -> C
         return
 
     if not context.chat_data:
-        txt = "_Errare humanum est._\n" "Algo paso en el medio.\n" "Empecemos de nuevo con el commando original"
+        txt = (
+            "_Errare humanum est._\n"
+            "Algo paso en el medio.\n"
+            "Empecemos de nuevo con el commando original"
+        )
         context.bot.edit_message_text(
             text=txt,
             chat_id=query.message.chat_id,

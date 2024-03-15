@@ -1,7 +1,8 @@
 import functools
 import logging
 from functools import wraps
-from typing import Any, Callable
+from typing import Any
+from collections.abc import Callable
 
 import peewee
 from telegram import Update
@@ -58,7 +59,9 @@ def create_user(func: Callable) -> Callable:
     """
 
     @wraps(func)
-    def wrapper(update: Update, context: CallbackContext, *args: int, **kwarg: dict[Any, Any]) -> Callable:
+    def wrapper(
+        update: Update, context: CallbackContext, *args: int, **kwarg: dict[Any, Any]
+    ) -> Callable:
         command = func.__name__
         if not update.message.from_user:
             logger.warning(f"{command}... by unknown user")
@@ -71,7 +74,9 @@ def create_user(func: Callable) -> Callable:
                 logger.warning(f"{command}... by {user}")
                 log_event(user, command=command)
             else:
-                logger.warning(f"{command}... by unknown user {update.message.from_user}")
+                logger.warning(
+                    f"{command}... by unknown user {update.message.from_user}"
+                )
         except Exception:
             logger.exception("Something went wrong with create_user decorator")
 

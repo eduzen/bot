@@ -2,6 +2,7 @@
 btc - btc
 report - daily_report
 """
+
 import calendar
 import logging
 
@@ -20,9 +21,10 @@ from eduzenbot.plugins.commands.weather.api import get_klima
 logger = logging.getLogger()
 
 
-CITY_AMSTERDAM = "amsterdam"
-CITY_BUENOS_AIRES = "buenos aires"
+CITY_AMSTERDAM = "amsterdam,nl"
+CITY_BUENOS_AIRES = "buenos aires,ar"
 CITY_HEIDELBERG = "heidelberg,de"
+CITY_DALLAS = "dallas,us"
 
 
 def melistock(name: str) -> str:
@@ -33,7 +35,11 @@ def melistock(name: str) -> str:
         market = stock.info.get("market")
         avg_price = round(stock.info.get("fiftyDayAverage", 0), 2)
 
-        txt = f"{short_name}\n" f"U$D {mkt_price} for {market}\n" f"55 days average price U$D {avg_price}\n"
+        txt = (
+            f"{short_name}\n"
+            f"U$D {mkt_price} for {market}\n"
+            f"55 days average price U$D {avg_price}\n"
+        )
         return txt
     except Exception:
         logger.exception(f"Error getting stock price for {name}")
@@ -46,9 +52,13 @@ def get_crypto_report() -> str:
     blue = get_bluelytics() or "-"
     # oficial = escape_markdown(parse_bnc() or "")
 
-    clima = get_klima(city_name=CITY_BUENOS_AIRES).replace("By api.openweathermap.org", "")
-    amsterdam = get_klima(city_name=CITY_AMSTERDAM).replace("By api.openweathermap.org", "")
-    heidelberg = get_klima(city_name=CITY_HEIDELBERG).replace("By api.openweathermap.org", "")
+    clima = get_klima(city_name=CITY_BUENOS_AIRES).replace(
+        "By api.openweathermap.org", ""
+    )
+    amsterdam = get_klima(city_name=CITY_AMSTERDAM).replace(
+        "By api.openweathermap.org", ""
+    )
+    dallas = get_klima(city_name=CITY_DALLAS).replace("By api.openweathermap.org", "")
 
     today = pendulum.today()
     week_day = calendar.day_name[today.weekday()]
@@ -62,19 +72,21 @@ def get_crypto_report() -> str:
         f"*Buenas hoy es {week_day}, {today}:*\n\n"
         f"{clima}"
         f"{amsterdam}"
-        f"{heidelberg}"
-        f"{hn}\n"
-        "\n*Dólar 💸*\n"
+        f"{dallas}"
+        "*Dólar 💸*\n"
         f"{blue}\n"
         "\n*Las crypto:*\n"
         f"{crypto}\n"
+        f"\n{hn}\n"
     )
     return text
 
 
 @create_user
 def btc(update: Update, context: CallbackContext, *args: int, **kwargs: str) -> None:
-    context.bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
+    context.bot.send_chat_action(
+        chat_id=update.message.chat_id, action=ChatAction.TYPING
+    )
 
     text = get_all()
 
@@ -82,11 +94,18 @@ def btc(update: Update, context: CallbackContext, *args: int, **kwargs: str) -> 
 
 
 @create_user
-def daily_report(update: Update, context: CallbackContext, *args: int, **kwargs: str) -> None:
-    context.bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
+def daily_report(
+    update: Update, context: CallbackContext, *args: int, **kwargs: str
+) -> None:
+    context.bot.send_chat_action(
+        chat_id=update.message.chat_id, action=ChatAction.TYPING
+    )
 
     report = get_crypto_report()
 
     context.bot.send_message(
-        chat_id=update.message.chat_id, text=report, parse_mode="Markdown", disable_web_page_preview=True
+        chat_id=update.message.chat_id,
+        text=report,
+        parse_mode="Markdown",
+        disable_web_page_preview=True,
     )

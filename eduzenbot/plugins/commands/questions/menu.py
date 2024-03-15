@@ -18,7 +18,9 @@ def q_menu(update: Update, context: CallbackContext) -> None:
     ]
     reply_markup = InlineKeyboardMarkup(build_menu(keyboard, n_cols=2))
 
-    context.bot.send_message(chat_id=update.message.chat_id, text="Please choose:", reply_markup=reply_markup)
+    context.bot.send_message(
+        chat_id=update.message.chat_id, text="Please choose:", reply_markup=reply_markup
+    )
 
 
 def get_questions(answer: str | None = None) -> str:

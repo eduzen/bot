@@ -1,6 +1,7 @@
 """
 gasto - expense
 """
+
 import logging
 
 from api import send_expense
@@ -16,7 +17,9 @@ logger = logging.getLogger("rich")
 @restricted
 @create_user
 def expense(update: Update, context: CallbackContext, *args: int, **kwargs: str):
-    context.bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
+    context.bot.send_chat_action(
+        chat_id=update.message.chat_id, action=ChatAction.TYPING
+    )
     if not update.message.from_user.name == "@eduzen":
         update.message.reply_text(
             f"Mmm... no es para ti! Humano {update.message.from_user.name} "

@@ -2,6 +2,7 @@
 subte - subte
 subtenews - subte_novedades
 """
+
 import logging
 
 from api import get_subte
@@ -17,8 +18,12 @@ metro = emojize(":metro:")
 
 
 @create_user
-def subte_novedades(update: Update, context: CallbackContext, *args: int, **kwargs: str) -> None:
-    context.bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
+def subte_novedades(
+    update: Update, context: CallbackContext, *args: int, **kwargs: str
+) -> None:
+    context.bot.send_chat_action(
+        chat_id=update.message.chat_id, action=ChatAction.TYPING
+    )
 
     try:
         amount = int(args[0])
@@ -34,7 +39,9 @@ def subte_novedades(update: Update, context: CallbackContext, *args: int, **kwar
 
 @create_user
 def subte(update: Update, context: CallbackContext, *args: int, **kwargs: str) -> None:
-    context.bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
+    context.bot.send_chat_action(
+        chat_id=update.message.chat_id, action=ChatAction.TYPING
+    )
 
     estadosubte = get_estado_del_subte()
     if estadosubte:

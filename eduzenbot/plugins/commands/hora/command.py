@@ -2,6 +2,7 @@
 time - time
 hora - time
 """
+
 import logging
 import random
 
@@ -28,7 +29,9 @@ def find_timezone(city: str = "buenos_aires") -> str:
 
 @create_user
 def time(update: Update, context: CallbackContext, *args: int, **kwargs: str) -> None:
-    context.bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
+    context.bot.send_chat_action(
+        chat_id=update.message.chat_id, action=ChatAction.TYPING
+    )
 
     if not context.args:
         timezone = find_timezone()

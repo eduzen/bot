@@ -1,6 +1,7 @@
 """
 stock - stock
 """
+
 import datetime as dt
 import logging
 
@@ -15,7 +16,9 @@ logger = logging.getLogger()
 
 @create_user
 def stock(update: Update, context: CallbackContext, *args: int, **kwargs: str) -> None:
-    context.bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
+    context.bot.send_chat_action(
+        chat_id=update.message.chat_id, action=ChatAction.TYPING
+    )
     if not context.args:
         update.message.reply_text("Se usa: /stock meli")
         return
@@ -30,6 +33,10 @@ def stock(update: Update, context: CallbackContext, *args: int, **kwargs: str) -
             f"55 days average price {stock.info.get('fiftyDayAverage')}\n"
         )
 
-        context.bot.send_photo(chat_id=update.message.chat_id, photo=stock.info.get("logo_url"), caption=info)
+        context.bot.send_photo(
+            chat_id=update.message.chat_id,
+            photo=stock.info.get("logo_url"),
+            caption=info,
+        )
     except KeyError:
         update.message.reply_text(f"No encontramos nada con '{name}'")

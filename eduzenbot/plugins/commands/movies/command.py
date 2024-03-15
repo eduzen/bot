@@ -3,6 +3,7 @@ peli - get_movie
 movie - get_movie
 pelicula - get_movie
 """
+
 import logging
 
 from telegram import Update
@@ -38,7 +39,9 @@ def get_movie(update: Update, context: CallbackContext, **kwargs: str) -> None:
     movies = tmdb_movie_search(query)
 
     if not movies:
-        context.bot.send_message(chat_id=chat_id, text="No encontré info sobre %s" % query)
+        context.bot.send_message(
+            chat_id=chat_id, text="No encontré info sobre %s" % query
+        )
         return
 
     movie = movies[0]
@@ -60,7 +63,13 @@ def get_movie(update: Update, context: CallbackContext, **kwargs: str) -> None:
         )
         return
     videos = movie_object.videos()
-    movie.update({"imdb_id": imdb_id, "imdb_link": IMDB_LINK.format(imdb_id), "videos": videos["results"]})
+    movie.update(
+        {
+            "imdb_id": imdb_id,
+            "imdb_link": IMDB_LINK.format(imdb_id),
+            "videos": videos["results"],
+        }
+    )
 
     logger.debug(f"Found {movie}")
 
@@ -68,7 +77,9 @@ def get_movie(update: Update, context: CallbackContext, **kwargs: str) -> None:
 
     poster_chat = None
     if poster:
-        poster_chat = context.bot.send_photo(chat_id=update.message.chat_id, photo=poster)
+        poster_chat = context.bot.send_photo(
+            chat_id=update.message.chat_id, photo=poster
+        )
 
     chat_data["context"] = {
         "data": movie,

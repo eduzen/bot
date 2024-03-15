@@ -29,7 +29,11 @@ def get_feriados(year: int):
 
 def filter_feriados(today: datetime, feriados: list) -> list:
     """Returns the future feriados. Filtering past feriados."""
-    return [f for f in feriados if (f["mes"] == today.month and f["dia"] >= today.day) or f["mes"] > today.month]
+    return [
+        f
+        for f in feriados
+        if (f["mes"] == today.month and f["dia"] >= today.day) or f["mes"] > today.month
+    ]
 
 
 def prettify_feriados(today: datetime, feriados: dict, compact=False) -> str:

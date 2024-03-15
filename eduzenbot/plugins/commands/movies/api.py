@@ -22,7 +22,9 @@ def tmdb_movie_search(query):
 
 def get_director(obj):
     cred = obj.credits()
-    directors = [crew["name"] for crew in cred["crew"] if "director" == crew["job"].lower()]
+    directors = [
+        crew["name"] for crew in cred["crew"] if "director" == crew["job"].lower()
+    ]
 
     return ", ".join(directors)
 
@@ -35,7 +37,9 @@ def prettify_movie(movie, obj):
 
 
 def get_basic_info(movie):
-    title = f"[{movie.get('title') or movie.get('original_title')}]({movie['imdb_link']})"
+    title = (
+        f"[{movie.get('title') or movie.get('original_title')}]({movie['imdb_link']})"
+    )
     rating = movie["vote_average"]
     overview = movie["overview"]
     try:
@@ -65,7 +69,9 @@ def get_movie_detail(pk):
 
 
 def get_yt_trailer(videos):
-    youtube_videos = [f"[{video['name']}]({YT_LINK.format(video['key'])})" for video in videos]
+    youtube_videos = [
+        f"[{video['name']}]({YT_LINK.format(video['key'])})" for video in videos
+    ]
     return youtube_videos
 
 

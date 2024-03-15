@@ -1,6 +1,7 @@
 """
 hn - get_hackernews
 """
+
 import logging
 from enum import Enum
 from types import SimpleNamespace
@@ -34,7 +35,9 @@ class STORIES(Enum):
         return self.value
 
 
-def get_top_stories(story_type: STORIES = STORIES.TOP, limit: int | None = 10) -> list[Any]:
+def get_top_stories(
+    story_type: STORIES = STORIES.TOP, limit: int | None = 10
+) -> list[Any]:
     """
     Get the top stories from hackernews.
 
@@ -76,7 +79,9 @@ def parse_hackernews(story_id: int) -> str:
         url = story.url
     except AttributeError:
         url = ""
-    story_text = f"[{story.title}]({url})\n Score: {story.score} Hace: {date.in_words()}"
+    story_text = (
+        f"[{story.title}]({url})\n Score: {story.score} Hace: {date.in_words()}"
+    )
     return story_text
 
 

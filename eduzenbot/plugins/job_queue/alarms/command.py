@@ -3,6 +3,7 @@ set - Setear alarma
 reporte - Reporte de criptomonedas
 unset - Sacar alarma
 """
+
 import datetime
 import logging
 
@@ -66,9 +67,13 @@ def set_timer(update: Update, context: CallbackContext) -> None:
         # Add job to queue
         job_removed = remove_job_if_exists(str(chat_id), context)
 
-        when = datetime.time(hour=hour, minute=0, tzinfo=pytz.timezone("Europe/Amsterdam"))
+        when = datetime.time(
+            hour=hour, minute=0, tzinfo=pytz.timezone("Europe/Amsterdam")
+        )
         # context.job_queue.run_once(alarm, due, context=chat_id, name=str(chat_id))
-        context.job_queue.run_daily(alarm, when, days=range(7), context=chat_id, name=str(chat_id))  # type: ignore
+        context.job_queue.run_daily(
+            alarm, when, days=range(7), context=chat_id, name=str(chat_id)
+        )  # type: ignore
         text = "Timer successfully set!"
 
         if job_removed:
@@ -83,5 +88,7 @@ def unset(update: Update, context: CallbackContext) -> None:
     """Remove the job if the user changed their mind."""
     chat_id = update.message.chat_id
     job_removed = remove_job_if_exists(str(chat_id), context)
-    text = "Timer successfully cancelled!" if job_removed else "You have no active timer."
+    text = (
+        "Timer successfully cancelled!" if job_removed else "You have no active timer."
+    )
     update.message.reply_text(text)

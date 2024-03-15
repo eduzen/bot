@@ -4,7 +4,8 @@ import os
 import pkgutil
 from collections.abc import Sequence
 from functools import partial
-from typing import Any, Callable
+from typing import Any
+from collections.abc import Callable
 
 import attr
 import pytz
@@ -48,13 +49,17 @@ class TelegramBot:
 
     def __attrs_post_init__(self) -> None:
         try:
-            self.updater = Updater(token=self.token, workers=self.workers, use_context=self.use_context)
+            self.updater = Updater(
+                token=self.token, workers=self.workers, use_context=self.use_context
+            )
         except TelegramError as exc:
             logger.exception("Something went wrong...")
             raise SystemExit(exc.message)
 
         bot = self.updater.bot  # type: ignore
-        logger.info(f"[bold green]Created updater for {bot.name}", extra={"markup": True})
+        logger.info(
+            f"[bold green]Created updater for {bot.name}", extra={"markup": True}
+        )
         self.updater.dispatcher.add_error_handler(self.error)  # type: ignore
         self._load_plugins()
 
@@ -62,7 +67,9 @@ class TelegramBot:
         if not self.polling:
             self.updater.start_polling()
         else:
-            self.updater.start_webhook(listen="0.0.0.0", port=self.port, url_path=self.token)
+            self.updater.start_webhook(
+                listen="0.0.0.0", port=self.port, url_path=self.token
+            )
             self.updater.bot.setWebhook(f"https://eduzenbot.herokuapp.com/{self.token}")  # type: ignore
         self.send_msg_to_eduzen("eduzenbot reiniciado!")
         self.configure_cronjobs()
@@ -99,11 +106,13 @@ class TelegramBot:
         except Exception:
             logger.exception(f"Unhandled issue: {context.error}")
 
-    def add_handler(self, handler: CommandHandler[Any] | MessageHandler[Any]) -> None:
+    def add_handler(self, handler) -> None:
         dispatcher = self.updater.dispatcher  # type: ignore
         dispatcher.add_handler(handler)
 
-    def add_list_of_handlers(self, handlers: Sequence[CommandHandler[Any] | MessageHandler[Any]]) -> None:
+    def add_list_of_handlers(
+        self, handlers: Sequence[CommandHandler | MessageHandler]
+    ) -> None:
         for handler in handlers:
             self.add_handler(handler)
 
@@ -121,19 +130,32 @@ class TelegramBot:
 
     def configure_cronjobs(self) -> None:
         for report in Report.select():
-            when = datetime.time(hour=report.hour, minute=report.min, tzinfo=pytz.timezone("Europe/Amsterdam"))
+            when = datetime.time(
+                hour=report.hour,
+                minute=report.min,
+                tzinfo=pytz.timezone("Europe/Amsterdam"),
+            )
             chat_id = report.chat_id
             job_queue = self.updater.job_queue  # type: ignore
-            job_queue.run_daily(alarm, when, days=range(7), context=chat_id, name=str(chat_id))
+            job_queue.run_daily(
+                alarm, when, days=range(7), context=chat_id, name=str(chat_id)
+            )
             msg = f"hey, I've just restarted. Remember that you have a crypto report everyday at {report.hour}."
             self.send_msg_to_chatid(chat_id, msg)
             self.send_msg_to_eduzen(f"Crypto report in Chat_id {report.chat_id}")
 
     def create_command(self, name: str, func: Callable) -> CommandHandler:
-        return CommandHandler(name, func, pass_args=True, pass_chat_data=True, run_async=True)
+        return CommandHandler(
+            name, func, pass_args=True, pass_chat_data=True, run_async=True
+        )
 
     def create_command_args(
-        self, name: str, func: Callable, pass_args=True, pass_job_queue=True, pass_chat_data=True
+        self,
+        name: str,
+        func: Callable,
+        pass_args=True,
+        pass_job_queue=True,
+        pass_chat_data=True,
     ) -> CommandHandler:
         return CommandHandler(
             name,
@@ -152,10 +174,14 @@ class TelegramBot:
         return [self.create_command(key, value) for key, value in kwargs.items()]
 
     @staticmethod
-    def create_msg(func: Callable, filters: Filters._Text = Filters.text) -> MessageHandler:
+    def create_msg(
+        func: Callable, filters: Filters._Text = Filters.text
+    ) -> MessageHandler:
         return MessageHandler(filters, func)
 
-    def create_list_of_msg_handlers(self, funcs: list[Callable]) -> list[MessageHandler]:
+    def create_list_of_msg_handlers(
+        self, funcs: list[Callable]
+    ) -> list[MessageHandler]:
         return [self.create_msg(func) for func in funcs]
 
     def register_commands(self, kwargs: dict[Any, Any]) -> None:

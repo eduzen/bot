@@ -3,6 +3,7 @@ serie - search_serie
 series - search_serie
 show - search_serie
 """
+
 import logging
 
 from api import (
@@ -22,7 +23,9 @@ logger = logging.getLogger("rich")
 
 @create_user
 def search_serie(update: Update, context: CallbackContext, **kwargs: str):
-    context.bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
+    context.bot.send_chat_action(
+        chat_id=update.message.chat_id, action=ChatAction.TYPING
+    )
     if not context.args:
         context.bot.send_message(
             chat_id=update.message.chat_id,
@@ -38,13 +41,18 @@ def search_serie(update: Update, context: CallbackContext, **kwargs: str):
     if not results:
         bot_reply = context.bot.send_message(
             chat_id=chat_id,
-            text=(f"No encontré información en imdb sobre _'{query}'_." " Está bien escrito el nombre?"),
+            text=(
+                f"No encontré información en imdb sobre _'{query}'_."
+                " Está bien escrito el nombre?"
+            ),
             parse_mode="Markdown",
         )
         return
 
     serie = results[0]
-    context.bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
+    context.bot.send_chat_action(
+        chat_id=update.message.chat_id, action=ChatAction.TYPING
+    )
     serie_object = get_serie_detail(serie["id"])
     external_ids = serie_object.external_ids()
 
@@ -79,7 +87,10 @@ def search_serie(update: Update, context: CallbackContext, **kwargs: str):
     poster_url = get_poster_url(serie)
     poster_chat = context.bot.send_photo(chat_id, poster_url)
     bot_reply = context.bot.send_message(
-        chat_id=chat_id, text=response, parse_mode="Markdown", disable_web_page_preview=True
+        chat_id=chat_id,
+        text=response,
+        parse_mode="Markdown",
+        disable_web_page_preview=True,
     )
 
     context.chat_data["context"] = {

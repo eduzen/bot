@@ -8,4 +8,7 @@ compile:
 	pip-compile pyproject.toml -o requirements.txt
 
 compile-dev:
-	pip-compile --extra=dev pyproject.toml -o requirements-dev.txt
+	pip-compile --all-extras pyproject.toml -o requirements-dev.txt
+
+format:
+	pre-commit run --all-files

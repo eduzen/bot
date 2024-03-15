@@ -30,7 +30,9 @@ class EventFactory(factory.Factory):
     command = factory.Faker("sentence")
 
     @classmethod
-    def _create(cls, target_class: models.EventLog, *args: Any, **kwargs: Any) -> models.EventLog:
+    def _create(
+        cls, target_class: models.EventLog, *args: Any, **kwargs: Any
+    ) -> models.EventLog:
         """Create an instance of the model, and save it to the database."""
         obj = target_class.create(**kwargs)
         return obj

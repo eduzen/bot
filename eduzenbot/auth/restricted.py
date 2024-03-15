@@ -1,19 +1,25 @@
 import logging
 import os
 from functools import wraps
-from typing import Callable
+from collections.abc import Callable
 
 from telegram import Update
 from telegram.ext import CallbackContext
 
 logger = logging.getLogger("rich")
 
-EDUZEN_ID = int(os.environ["EDUZEN_ID"])
+
+def get_edu():
+    return int(os.environ["EDUZEN_ID"])
 
 
 def restricted(func: Callable):
     @wraps(func)
-    def wrapped(update: Update, context: CallbackContext, *args: int, **kwargs: str) -> Callable:
+    def wrapped(
+        update: Update, context: CallbackContext, *args: int, **kwargs: str
+    ) -> Callable:
+        EDUZEN_ID = get_edu()
+
         user = update.effective_user
         if user.id == EDUZEN_ID:
             return func(update, context, *args, **kwargs)

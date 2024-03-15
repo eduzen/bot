@@ -19,7 +19,9 @@ def get_movie_imdb(update: Update, context: CallbackContext) -> None:
 
     logger.info(f"Sending IMDB link for {imdb_id} {answer}")
     update.callback_query.bot.send_message(
-        chat_id=update.callback_query.message.chat_id, text=answer, parse_mode="Markdown"
+        chat_id=update.callback_query.message.chat_id,
+        text=answer,
+        parse_mode="Markdown",
     )
 
 
@@ -40,11 +42,16 @@ def get_movie_torrent(update: Update, context: CallbackContext, **kwargs: str) -
     if torrent:
         url, seeds, size, quality = torrent
         answer = (
-            f"🏴‍☠️ [{movie['title']}]({url})\n\n" f"🌱 Seeds: {seeds}\n\n" f"🗳 Size: {size}\n\n" f"🖥 Quality: {quality}"
+            f"🏴‍☠️ [{movie['title']}]({url})\n\n"
+            f"🌱 Seeds: {seeds}\n\n"
+            f"🗳 Size: {size}\n\n"
+            f"🖥 Quality: {quality}"
         )
     else:
         answer = "🚧 No torrent available for this movie."
 
     update.callback_query.bot.send_message(
-        chat_id=update.callback_query.message.chat_id, text=answer, parse_mode="Markdown"
+        chat_id=update.callback_query.message.chat_id,
+        text=answer,
+        parse_mode="Markdown",
     )

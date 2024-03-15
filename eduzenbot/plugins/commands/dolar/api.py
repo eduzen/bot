@@ -60,7 +60,13 @@ def _process_bcn(data: str) -> str:
     dolar = " ".join(data[3:6]).strip()
     euro = " ".join(data[6:9]).strip()
     real = " ".join(data[9:]).strip()
-    data = f"{head}\n" f"{dolar}\n" f"{euro}\n" f"{real}\n" f"(*) cotización cada 100 unidades.\n{punch} by bna.com.ar"
+    data = (
+        f"{head}\n"
+        f"{dolar}\n"
+        f"{euro}\n"
+        f"{real}\n"
+        f"(*) cotización cada 100 unidades.\n{punch} by bna.com.ar"
+    )
 
     return data
 
@@ -121,7 +127,9 @@ def get_bluelytics() -> str:
 def get_dolar_blue_geeklab() -> str:
     r = client.get(GEEKLAB_API)
     if r.status_code != 200:
-        logger.error("Something went wrong when it gets dollar. Status code: %s", r.status_code)
+        logger.error(
+            "Something went wrong when it gets dollar. Status code: %s", r.status_code
+        )
         text = "Perdón! La api no está  disponible!"
         return text
 
@@ -131,5 +139,8 @@ def get_dolar_blue_geeklab() -> str:
         text = "Perdón! La api no devolvió info!"
         return text
 
-    text = f"USD libre {data['libre']} - Blue {data['blue']}" f"\n{punch} by http://ws.geeklab.com.ar"
+    text = (
+        f"USD libre {data['libre']} - Blue {data['blue']}"
+        f"\n{punch} by http://ws.geeklab.com.ar"
+    )
     return text
