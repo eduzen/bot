@@ -67,7 +67,7 @@ jobs:
       - name: "Check out the repo"
         uses: actions/checkout@v3
 
-      - uses: actions/setup-python@v4.5.0
+      - uses: actions/setup-python@v5.0.0
         with:
           python-version: ${{ matrix.python-version }}
 
