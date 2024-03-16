@@ -52,6 +52,8 @@ def get_timezone(city: str) -> str:
     for timezone in pytz.all_timezones:
         if city in timezone.lower():
             return timezone
+        elif city == "dallas":
+            return "America/Chicago"
 
 
 def get_sun_times(data: dict[str, Any], city: str) -> tuple:

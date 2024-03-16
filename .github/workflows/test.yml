@@ -53,7 +53,7 @@ jobs:
         python -m coverage json
 
     - name: "Upload coverage data"
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: coverage.json
         path: coverage.json
@@ -69,7 +69,7 @@ jobs:
 
       - uses: actions/setup-python@v4.5.0
         with:
-          python-version: ${{ matrix.python-version }}
+            python-version: 3.11
 
       - uses: actions/cache@v4.0.1
         id: cache
