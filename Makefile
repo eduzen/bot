@@ -12,3 +12,9 @@ compile-dev:
 
 format:
 	pre-commit run --all-files
+
+upgrade:
+	uv pip compile --upgrade pyproject.toml -o requirements.txt
+
+upgrade-dev:
+	uv pip compile --upgrade --all-extras pyproject.toml -o requirements-dev.txt
