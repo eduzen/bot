@@ -24,7 +24,7 @@ logger = logging.getLogger()
 CITY_AMSTERDAM = "amsterdam,nl"
 CITY_BUENOS_AIRES = "buenos aires,ar"
 CITY_HEIDELBERG = "heidelberg,de"
-CITY_DALLAS = "dallas,us"
+CITY_DALLAS = "dallas"
 
 
 def melistock(name: str) -> str:
