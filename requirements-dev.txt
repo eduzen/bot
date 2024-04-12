@@ -35,7 +35,7 @@ frozendict==2.4.1
     # via yfinance
 html5lib==1.1
     # via yfinance
-idna==3.6
+idna==3.7
     # via
     #   requests
     #   yarl
