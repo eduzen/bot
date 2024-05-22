@@ -60,7 +60,7 @@ pytz==2024.1
     #   pandas
     #   python-telegram-bot
     #   yfinance
-requests==2.31.0
+requests==2.32.2
     # via
     #   requests-oauthlib
     #   tmdbsimple
