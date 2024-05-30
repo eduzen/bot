@@ -119,7 +119,7 @@ pytz==2024.1
     #   yfinance
 pyyaml==6.0.1
     # via vcrpy
-requests==2.31.0
+requests==2.32.3
     # via
     #   requests-oauthlib
     #   tmdbsimple
