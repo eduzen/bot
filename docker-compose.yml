@@ -1,11 +1,8 @@
-version: '3.9'
-
 volumes:
   pgdata:
   shell_history:
 
 services:
-
   eduzenbot:
     tty: true
     image: eduzen/bot:latest

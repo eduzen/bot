@@ -21,7 +21,7 @@ RUN apt-get update && \
     apt-get autoclean -y && \
     rm -rf /var/lib/apt/lists/*
 
-RUN pip install -U wheel pip
+RUN pip install -U wheel pip pip-tools
 
 COPY pyproject.toml requirements.txt ./
 

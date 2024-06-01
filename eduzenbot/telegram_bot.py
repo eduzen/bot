@@ -2,10 +2,9 @@ import datetime
 import logging
 import os
 import pkgutil
-from collections.abc import Sequence
+from collections.abc import Callable, Sequence
 from functools import partial
 from typing import Any
-from collections.abc import Callable
 
 import attr
 import pytz

@@ -2,8 +2,10 @@
 
 import logging
 import os
+from pathlib import Path
 
 import sentry_sdk
+from dotenv import load_dotenv
 from rich.logging import RichHandler
 from telegram.ext import CallbackQueryHandler, CommandHandler, Filters
 
@@ -13,8 +15,6 @@ from eduzenbot.plugins.job_queue.alarms.command import set_timer, unset
 from eduzenbot.plugins.messages.unknown import unknown
 from eduzenbot.scripts.initialize_db import create_db_tables
 from eduzenbot.telegram_bot import TelegramBot
-from dotenv import load_dotenv
-from pathlib import Path
 
 # Load environment variables from .env file
 env_path = Path("../.env")

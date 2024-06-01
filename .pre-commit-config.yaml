@@ -28,10 +28,16 @@ repos:
         args: [--py311-plus]
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: 'v0.4.2'
+    rev: 'v0.4.7'
     hooks:
       # Run the linter
       - id: ruff
         args: ["--fix"]
       # Run the formatter
       - id: ruff-format
+
+  - repo: https://github.com/pycqa/isort
+    rev: 5.13.2  # Use the ref you want to point at
+    hooks:
+      - id: isort
+        args: ["--profile", "black"]

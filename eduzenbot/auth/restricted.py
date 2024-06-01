@@ -1,7 +1,7 @@
 import logging
 import os
-from functools import wraps
 from collections.abc import Callable
+from functools import wraps
 
 from telegram import Update
 from telegram.ext import CallbackContext

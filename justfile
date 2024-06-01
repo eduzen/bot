@@ -1,7 +1,7 @@
 set dotenv-load := true
 
-dco := "docker-compose"
-run := "{{dco}} run --rm eduzenbot"
+dco := "docker compose"
+run := "docker compose run --rm eduzenbot"
 
 os:
   #!/usr/bin/env bash
@@ -17,6 +17,17 @@ dco-version:
 dockershell:
   #!/usr/bin/env bash
   {{run}} eduzenbot bash
+
+update-requirements-dev:
+  {{run}} pip-compile --upgrade --extra=dev pyproject.toml -o requirements-dev.txt
+
+update-requirements-prod:
+  {{run}} pip-compile --upgrade pyproject.toml -o requirements.txt
+
+update-requirements:
+  just update-requirements-dev
+  just update-requirements-prod
+
 
 test:
   #!/usr/bin/env bash
@@ -50,6 +61,12 @@ compile:
 
 compile-dev:
   pip-compile --extra=dev pyproject.toml -o requirements-dev.txt
+
+format:
+  pre-commit run --all-files
+
+fmt:
+  just format
 
 clean:
   #!/usr/bin/env python3

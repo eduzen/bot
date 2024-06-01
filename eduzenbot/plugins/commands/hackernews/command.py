@@ -7,7 +7,6 @@ from enum import Enum
 from types import SimpleNamespace
 from typing import Any
 
-import pendulum
 import requests
 from cachetools import TTLCache, cached
 from telegram import ChatAction, Update
@@ -73,14 +72,14 @@ def get_hackernews_help(story_type: STORIES = STORIES.TOP) -> str:
 def parse_hackernews(story_id: int) -> str:
     raw_story = get_item(story_id)
     story = SimpleNamespace(**raw_story)
-    now = pendulum.now()
-    date = now - pendulum.from_timestamp(story.time)
+    # now = pendulum.now()
+    # date = now - pendulum.from_timestamp(story.time)
     try:
         url = story.url
     except AttributeError:
         url = ""
     story_text = (
-        f"[{story.title}]({url})\n Score: {story.score} Hace: {date.in_words()}"
+        f"[{story.title}]({url})\n"  # Score: {story.score} Hace: {date.in_words()}"
     )
     return story_text
 
