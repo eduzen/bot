@@ -125,3 +125,5 @@ scripts/db/02dump-eduzen-21-04-2019.sql
 docker-compose*.yml
 .git
 .mypy_cache/
+
+justfile

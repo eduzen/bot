@@ -28,10 +28,8 @@ update-requirements:
   just update-requirements-dev
   just update-requirements-prod
 
-
 test:
-  #!/usr/bin/env bash
-  {{run}} pytest --cov=eduzenbot --cov-report=term-missing
+  {{run}} coverage run -m pytest
 
 logs:
   {{dco}} logs -f eduzenbot
