@@ -75,8 +75,7 @@ def get_crypto_report() -> str:
         f"{dallas}"
         "*Dólar 💸*\n"
         f"{blue}\n"
-        "\n*Las crypto:*\n"
-        f"{crypto}\n"
+        f"\n{crypto}\n"
         f"\n{hn}\n"
     )
     return text

@@ -79,7 +79,7 @@ def parse_hackernews(story_id: int) -> str:
     except AttributeError:
         url = ""
     story_text = (
-        f"[{story.title}]({url})\n"  # Score: {story.score} Hace: {date.in_words()}"
+        f"[{story.title}]({url})"  # Score: {story.score} Hace: {date.in_words()}"
     )
     return story_text
 
@@ -95,7 +95,8 @@ def hackernews(story_type: STORIES = STORIES.TOP, limit: int = 5) -> str:
             logger.exception(e)
             continue
 
-    title = get_hackernews_help(story_type=story_type)
+    # title = get_hackernews_help(story_type=story_type)
+    title = "Stories from [HackerNews](https://news.ycombinator.com)\n"
     return title + "\n".join(text_stories)
 
 

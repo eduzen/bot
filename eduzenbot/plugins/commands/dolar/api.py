@@ -86,7 +86,7 @@ def _process_bluelytics(data: dict) -> str:
         f"💵 Dólar {blue['value_buy']} - {blue_venta}\n"
         f"🇪🇺 Euro {data['blue_euro']['value_buy']} - {data['blue_euro']['value_sell']}\n"
         f"📊 *Brecha Dolar*: {brecha}%"
-        f"\n{punch} by bluelytics.com.ar"
+        # f"\n{punch} by bluelytics.com.ar"
     )
     return data
 

@@ -18,7 +18,7 @@ cachetools==4.2.2
     # via
     #   eduzenbot (pyproject.toml)
     #   python-telegram-bot
-certifi==2024.2.2
+certifi==2024.6.2
     # via
     #   python-telegram-bot
     #   requests
@@ -39,7 +39,7 @@ executing==2.0.1
     # via stack-data
 factory-boy==3.3.0
     # via eduzenbot (pyproject.toml)
-faker==25.3.0
+faker==25.8.0
     # via factory-boy
 frozendict==2.4.4
     # via yfinance
@@ -101,7 +101,7 @@ platformdirs==4.2.2
     # via yfinance
 pluggy==1.5.0
     # via pytest
-prompt-toolkit==3.0.45
+prompt-toolkit==3.0.46
     # via ipython
 psycopg2-binary==2.9.9
     # via eduzenbot (pyproject.toml)
@@ -113,7 +113,7 @@ pygments==2.18.0
     # via
     #   ipython
     #   rich
-pytest==8.2.1
+pytest==8.2.2
     # via
     #   eduzenbot (pyproject.toml)
     #   pytest-mock
@@ -157,7 +157,7 @@ requests-oauthlib==1.3.1
     # via tweepy
 rich==13.7.1
     # via eduzenbot (pyproject.toml)
-sentry-sdk==2.3.1
+sentry-sdk==2.5.1
     # via eduzenbot (pyproject.toml)
 six==1.16.0
     # via
@@ -199,13 +199,13 @@ types-pygments==2.18.0.20240506
     # via eduzenbot (pyproject.toml)
 types-pytz==2024.1.0.20240417
     # via eduzenbot (pyproject.toml)
-types-requests==2.32.0.20240523
+types-requests==2.32.0.20240602
     # via eduzenbot (pyproject.toml)
 types-setuptools==70.0.0.20240524
     # via
     #   eduzenbot (pyproject.toml)
     #   types-pygments
-typing-extensions==4.12.1
+typing-extensions==4.12.2
     # via
     #   emoji
     #   ipython
