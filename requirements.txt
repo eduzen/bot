@@ -100,7 +100,7 @@ time-machine==2.14.1
     # via pendulum
 tmdbsimple==2.9.1
     # via eduzenbot (pyproject.toml)
-tornado==6.1
+tornado==6.4.1
     # via python-telegram-bot
 tweepy==4.14.0
     # via eduzenbot (pyproject.toml)
