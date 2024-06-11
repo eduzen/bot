@@ -79,7 +79,7 @@ def parse_hackernews(story_id: int) -> str:
     except AttributeError:
         url = ""
     story_text = (
-        f"[{story.title}]({url})"  # Score: {story.score} Hace: {date.in_words()}"
+        f"- [{story.title}]({url})"  # Score: {story.score} Hace: {date.in_words()}"
     )
     return story_text
 
