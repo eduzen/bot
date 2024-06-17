@@ -75,7 +75,7 @@ mypy==1.10.0
     # via eduzenbot (pyproject.toml)
 mypy-extensions==1.0.0
     # via mypy
-numpy==1.26.4
+numpy==2.0.0
     # via
     #   pandas
     #   yfinance
