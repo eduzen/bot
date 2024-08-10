@@ -3,11 +3,18 @@ set dotenv-load := true
 dco := "docker compose"
 run := "docker compose run --rm eduzenbot"
 
+check_env:
+  #!/bin/bash
+  if [ ! -f .env ]; then
+    echo "Creating .env file from .env.sample"
+    cp .env.sample .env
+  fi
+
 os:
   #!/usr/bin/env bash
   echo $OSTYPE
 
-build:
+build: check_env
   #!/usr/bin/env bash
   {{dco}} build
 
@@ -24,7 +31,7 @@ update-requirements-dev:
 update-requirements-prod:
   {{run}} pip-compile --upgrade pyproject.toml -o requirements.txt
 
-update-requirements:
+update-requirements: check_env
   just update-requirements-dev
   just update-requirements-prod
 
@@ -37,7 +44,7 @@ logs:
 shell:
   {{run}} ipython
 
-start:
+start: check_env
   {{dco}} up -d
   logs
 
@@ -45,7 +52,7 @@ restart:
   {{dco}} rm -sf eduzenbot
   start
 
-start-debug:
+start-debug: check_env
   {{dco}} run --rm --service-ports eduzenbot
 
 install:

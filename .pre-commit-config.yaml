@@ -21,14 +21,20 @@ repos:
       - id: pretty-format-json
         args: [--autofix]
 
+  - repo: https://github.com/abravalheri/validate-pyproject
+    rev: v0.18
+    hooks:
+      - id: validate-pyproject
+        name: validate-pyproject
+
   - repo: https://github.com/asottile/pyupgrade
-    rev: v3.16.0
+    rev: v3.17.0
     hooks:
       - id: pyupgrade
         args: [--py311-plus]
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: 'v0.4.8'
+    rev: 'v0.5.7'
     hooks:
       # Run the linter
       - id: ruff
