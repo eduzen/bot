@@ -18,7 +18,7 @@ cachetools==4.2.2
     # via
     #   eduzenbot (pyproject.toml)
     #   python-telegram-bot
-certifi==2024.7.4
+certifi==2024.8.30
     # via
     #   python-telegram-bot
     #   requests
