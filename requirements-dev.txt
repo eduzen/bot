@@ -4,7 +4,7 @@
 #
 #    pip-compile --extra=dev --output-file=requirements-dev.txt pyproject.toml
 #
-apscheduler==3.6.3
+apscheduler==3.11.0
     # via python-telegram-bot
 asttokens==2.4.1
     # via stack-data
