@@ -4,7 +4,7 @@
 #
 #    pip-compile --output-file=requirements.txt pyproject.toml
 #
-apscheduler==3.6.3
+apscheduler==3.11.0
     # via python-telegram-bot
 attrs==24.2.0
     # via eduzenbot (pyproject.toml)
