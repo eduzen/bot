@@ -112,7 +112,7 @@ tzdata==2024.1
     #   pendulum
 tzlocal==5.2
     # via apscheduler
-urllib3==2.2.2
+urllib3==2.3.0
     # via
     #   requests
     #   sentry-sdk
