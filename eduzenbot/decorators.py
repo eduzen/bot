@@ -1,16 +1,14 @@
 import functools
-import logging
 from collections.abc import Callable
 from functools import wraps
 from typing import Any
 
+import logfire
 import peewee
 from telegram import Update
 from telegram.ext import CallbackContext
 
 from eduzenbot.models import EventLog, User
-
-logger = logging.getLogger("rich")
 
 
 def hash_dict(func: Callable) -> Callable:
@@ -41,16 +39,16 @@ def get_or_create_user(user: User) -> User | None:
         user, _ = User.get_or_create(id=data.get("id"), defaults=data)
         return user
     except peewee.IntegrityError:
-        logger.exception("Peweeeeeeerror")
+        logfire.exception("Peweeeeeeerror")
     except Exception:
-        logger.exception("'get_or_create_user' is not working")
+        logfire.exception("'get_or_create_user' is not working")
 
 
 def log_event(user: User, command: str) -> None:
     try:
         EventLog.create(user=user, command=command)
     except Exception:
-        logger.exception("We couldn't log the event")
+        logfire.exception("We couldn't log the event")
 
 
 def create_user(func: Callable) -> Callable:
@@ -59,26 +57,22 @@ def create_user(func: Callable) -> Callable:
     """
 
     @wraps(func)
-    def wrapper(
-        update: Update, context: CallbackContext, *args: int, **kwarg: dict[Any, Any]
-    ) -> Callable:
+    def wrapper(update: Update, context: CallbackContext, *args: int, **kwarg: dict[Any, Any]) -> Callable:
         command = func.__name__
         if not update.message.from_user:
-            logger.warning(f"{command}... by unknown user")
+            logfire.warning(f"{command}... by unknown user")
             log_event(user=None, command=command)
             return func(update, context, *args, **kwarg)
 
         try:
             user = get_or_create_user(update.message.from_user)
             if user:
-                logger.warning(f"{command}... by {user}")
+                logfire.warning(f"{command}... by {user}")
                 log_event(user, command=command)
             else:
-                logger.warning(
-                    f"{command}... by unknown user {update.message.from_user}"
-                )
+                logfire.warning(f"{command}... by unknown user {update.message.from_user}")
         except Exception:
-            logger.exception("Something went wrong with create_user decorator")
+            logfire.exception("Something went wrong with create_user decorator")
 
         result = func(update, context, *args, **kwarg)
         return result

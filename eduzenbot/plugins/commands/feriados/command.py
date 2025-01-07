@@ -2,7 +2,6 @@
 feriados - feriadosarg
 """
 
-import logging
 from datetime import datetime
 
 import pytz
@@ -16,13 +15,9 @@ from eduzenbot.plugins.commands.feriados.api import (
     prettify_feriados,
 )
 
-logger = logging.getLogger("rich")
-
 
 @create_user
-def feriadosarg(
-    update: Update, context: CallbackContext, *args: int, **kwargs: str
-) -> None:
+def feriadosarg(update: Update, context: CallbackContext, *args: int, **kwargs: str) -> None:
     today = datetime.now(pytz.timezone("America/Argentina/Buenos_Aires"))
     feriados = get_feriados(today.year)
     if not feriados:

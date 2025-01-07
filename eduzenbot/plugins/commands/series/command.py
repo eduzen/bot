@@ -4,8 +4,7 @@ series - search_serie
 show - search_serie
 """
 
-import logging
-
+import logfire
 from api import (
     get_keyboard,
     get_poster_url,
@@ -14,55 +13,49 @@ from api import (
     prettify_serie,
 )
 from telegram import ChatAction, Update
-from telegram.ext import CallbackContext
+from telegram.ext import ContextTypes
 
 from eduzenbot.decorators import create_user
 
-logger = logging.getLogger("rich")
-
 
 @create_user
-def search_serie(update: Update, context: CallbackContext, **kwargs: str):
-    context.bot.send_chat_action(
-        chat_id=update.message.chat_id, action=ChatAction.TYPING
-    )
+async def search_serie(update: Update, context: ContextTypes.DEFAULT_TYPE, **kwargs: str) -> None:
+    """Handle /serie, /series, and /show commands to fetch TV series information."""
+    await context.bot.send_chat_action(chat_id=update.effective_chat.id, action=ChatAction.TYPING)
+
     if not context.args:
-        context.bot.send_message(
-            chat_id=update.message.chat_id,
+        await context.bot.send_message(
+            chat_id=update.effective_chat.id,
             text="Te faltó pasarme el nombre de la serie. /serie <serie>",
         )
         return
-    query = " ".join(context.args)
-    chat_id = update.message.chat_id
 
-    logger.info("Search serie", args=context.args)
+    query = " ".join(context.args)
+    chat_id = update.effective_chat.id
+
+    logfire.info("Search serie", args=context.args)
     results = get_related_series(query)
 
     if not results:
-        bot_reply = context.bot.send_message(
+        await context.bot.send_message(
             chat_id=chat_id,
-            text=(
-                f"No encontré información en imdb sobre _'{query}'_."
-                " Está bien escrito el nombre?"
-            ),
+            text=(f"No encontré información en IMDb sobre _'{query}'_. ¿Está bien escrito el nombre?"),
             parse_mode="Markdown",
         )
         return
 
     serie = results[0]
-    context.bot.send_chat_action(
-        chat_id=update.message.chat_id, action=ChatAction.TYPING
-    )
+    await context.bot.send_chat_action(chat_id=update.effective_chat.id, action=ChatAction.TYPING)
     serie_object = get_serie_detail(serie["id"])
     external_ids = serie_object.external_ids()
 
     try:
         imdb_id = external_ids["imdb_id"].replace("t", "")  # tt<id> -> <id>
     except (KeyError, AttributeError):
-        logger.info("imdb id for the movie not found")
-        context.bot.send_message(
+        logfire.info("IMDb ID for the series not found.")
+        await context.bot.send_message(
             chat_id=chat_id,
-            text="👎 No encontré el id de imdb de esta serie, imposible de bajar por acá",
+            text="👎 No encontré el ID de IMDb de esta serie, imposible de bajar por acá.",
             parse_mode="Markdown",
         )
         return
@@ -85,8 +78,8 @@ def search_serie(update: Update, context: CallbackContext, **kwargs: str):
     response = prettify_serie(serie)
 
     poster_url = get_poster_url(serie)
-    poster_chat = context.bot.send_photo(chat_id, poster_url)
-    bot_reply = context.bot.send_message(
+    poster_chat = await context.bot.send_photo(chat_id, poster_url)
+    bot_reply = await context.bot.send_message(
         chat_id=chat_id,
         text=response,
         parse_mode="Markdown",
@@ -100,11 +93,8 @@ def search_serie(update: Update, context: CallbackContext, **kwargs: str):
         "poster_chat": poster_chat,
     }
 
-    context.bot.edit_message_reply_markup(
-        chat_id=update.message.chat.id,
+    await context.bot.edit_message_reply_markup(
+        chat_id=update.effective_chat.id,
         message_id=bot_reply.message_id,
-        # text=bot_reply.caption,
         reply_markup=get_keyboard(),
-        # parse_mode="Markdown",
-        # disable_web_page_preview=True,
     )

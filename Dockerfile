@@ -1,8 +1,10 @@
-FROM python:3.11-slim-bookworm as production
+FROM python:3.13-slim-bookworm AS production
 
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
-    PYTHONWARNINGS='ignore:Unverified HTTPS request'
+    UV_COMPILE_BYTECODE=1 \
+    PYTHONWARNINGS='ignore:Unverified HTTPS request' \
+    PATH="/code/.venv/bin:$PATH"
 
 WORKDIR /code
 
@@ -12,7 +14,6 @@ RUN apt-get update && \
     apt-get install --no-install-recommends -y \
         curl \
         iputils-ping \
-        libpq-dev \
         libffi-dev \
         libxml2-dev \
         libxslt-dev \
@@ -21,20 +22,17 @@ RUN apt-get update && \
     apt-get autoclean -y && \
     rm -rf /var/lib/apt/lists/*
 
-RUN pip install -U wheel pip pip-tools
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
-COPY pyproject.toml requirements.txt ./
+COPY pyproject.toml uv.lock /code/
 
-RUN pip install --no-cache-dir -r requirements.txt
-
+RUN uv sync --frozen
 COPY . .
 
-RUN pip install .
+CMD ["uv", "run", "python", "-m", "eduzenbot"]
 
-CMD ["python", "eduzenbot"]
+FROM production AS dev
 
-FROM production as dev
+RUN uv sync --dev --frozen --all-groups --compile-bytecode
 
-RUN pip install --no-cache-dir -r requirements-dev.txt -e .
-
-CMD ["python", "eduzenbot"]
+CMD ["uv", "run", "python", "-m", "eduzenbot"]

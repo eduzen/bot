@@ -1,9 +1,8 @@
-import logging
 import sys
 
-from eduzenbot.models import EventLog, Question, Report, User, db
+import logfire
 
-logger = logging.getLogger()
+from eduzenbot.models import EventLog, Question, Report, User, db
 
 
 @db.connection_context()
@@ -12,7 +11,7 @@ def create_db_tables():
     Question.create_table()
     EventLog.create_table()
     Report.create_table()
-    logger.info("Tables created!")
+    logfire.info("Tables created!")
 
 
 if __name__ == "__main__":

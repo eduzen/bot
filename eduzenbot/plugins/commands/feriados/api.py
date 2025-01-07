@@ -1,26 +1,24 @@
 from __future__ import annotations
 
-import logging
 from datetime import datetime
 
+import logfire
 import pytz
 import requests
 
 from eduzenbot.plugins.commands.feriados.aconstants import FERIADOS_URL, month_names
-
-logger = logging.getLogger("rich")
 
 
 def get_feriados(year: int):
     try:
         url = FERIADOS_URL.format(year=year)
         r = requests.get(url, params={"incluir": "opcional"})
-        logger.info(f"Retrieved feriados from {r.url}")
+        logfire.info(f"Retrieved feriados from {r.url}")
     except Exception:
-        logger.error("Error requestion feriados", exc_info=True)
+        logfire.error("Error requestion feriados", exc_info=True)
         return None
     if r.status_code != 200:
-        logger.info(f"Response not 200. {r.status_code} {r.reason}")
+        logfire.info(f"Response not 200. {r.status_code} {r.reason}")
         return None
 
     feriados = r.json()
@@ -29,11 +27,7 @@ def get_feriados(year: int):
 
 def filter_feriados(today: datetime, feriados: list) -> list:
     """Returns the future feriados. Filtering past feriados."""
-    return [
-        f
-        for f in feriados
-        if (f["mes"] == today.month and f["dia"] >= today.day) or f["mes"] > today.month
-    ]
+    return [f for f in feriados if (f["mes"] == today.month and f["dia"] >= today.day) or f["mes"] > today.month]
 
 
 def prettify_feriados(today: datetime, feriados: dict, compact=False) -> str:

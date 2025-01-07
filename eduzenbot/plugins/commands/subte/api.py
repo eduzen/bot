@@ -1,4 +1,3 @@
-import logging
 import os
 from datetime import datetime
 
@@ -10,16 +9,12 @@ TWITTER_CONSUMER_SECRET = os.getenv("TWITTER_CONSUMER_SECRET")
 TWITTER_ACCESS_TOKEN_SECRET = os.getenv("TWITTER_ACCESS_TOKEN_SECRET")
 TWITTER_ACCESS_TOKEN = os.getenv("TWITTER_ACCESS_TOKEN")
 
-logger = logging.getLogger("rich")
+
 metro = emojize(":metro:")
 
 
 def get_tweets(api: str, username: str, count: int, date: datetime) -> str:
-    tweets = [
-        tweet.text
-        for tweet in api.user_timeline(username, count=count)
-        if (date - tweet.created_at).days < 1
-    ]
+    tweets = [tweet.text for tweet in api.user_timeline(username, count=count) if (date - tweet.created_at).days < 1]
     if not tweets:
         return f"No hay novedades de subtes {metro} para hoy"
 

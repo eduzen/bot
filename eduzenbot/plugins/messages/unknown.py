@@ -1,9 +1,9 @@
 from telegram import Update
-from telegram.ext import CallbackContext
+from telegram.ext import ContextTypes
 
 
-def unknown(update: Update, context: CallbackContext) -> None:
-    context.bot.send_message(
-        chat_id=update.message.chat_id,
+async def unknown(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await context.bot.send_message(
+        chat_id=update.effective_chat.chat_id,
         text="Che, no te entiendo, no existe ese comando!",
     )

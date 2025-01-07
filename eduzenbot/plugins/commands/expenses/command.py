@@ -2,54 +2,53 @@
 gasto - expense
 """
 
-import logging
-
+import logfire
 from api import send_expense
 from telegram import ChatAction, Update
-from telegram.ext import CallbackContext
+from telegram.ext import ContextTypes
 
 from eduzenbot.auth.restricted import restricted
 from eduzenbot.decorators import create_user
 
-logger = logging.getLogger("rich")
-
 
 @restricted
 @create_user
-def expense(update: Update, context: CallbackContext, *args: int, **kwargs: str):
-    context.bot.send_chat_action(
-        chat_id=update.message.chat_id, action=ChatAction.TYPING
-    )
-    if not update.message.from_user.name == "@eduzen":
-        update.message.reply_text(
-            f"Mmm... no es para ti! Humano {update.message.from_user.name} "
-            "inferior ya callate! No es un comando que tu pueadas usar"
+async def expense(update: Update, context: ContextTypes.DEFAULT_TYPE, *args: int, **kwargs: str) -> None:
+    """Handle /gasto command to log an expense."""
+    await context.bot.send_chat_action(chat_id=update.effective_chat.id, action=ChatAction.TYPING)
+
+    if update.effective_user.username != "eduzen":
+        await update.message.reply_text(
+            f"Mmm... no es para ti! Humano {update.effective_user.first_name}, "
+            "inferior ya callate! No es un comando que tu puedas usar."
         )
         return
 
     if not context.args:
-        update.message.reply_text("mmm no enviaste nada!")
+        await update.message.reply_text("Mmm... no enviaste nada!")
         return
 
     try:
-        amount = float(args[0])
-    except Exception:
-        logger.error("No pudimos convertir %s", args)
+        amount = float(context.args[0])
+    except (ValueError, IndexError):
+        logfire.error("No pudimos convertir %s", context.args)
+        await update.message.reply_text("Error: No pudimos convertir el monto. Por favor, revisa tu entrada.")
+        return
 
     try:
-        title = args[1]
-    except Exception:
+        title = " ".join(context.args[1:])
+    except IndexError:
         title = "gasto desconocido"
 
     try:
-        r = send_expense(title, amount)
-    except Exception:
-        logger.exception("algo paso")
-        update.message.reply_text("Chequea que algo paso y no pudimos enviar el gasto!")
+        response = send_expense(title, amount)
+    except Exception as e:
+        logfire.exception("Algo pasó: %s", e)
+        await update.message.reply_text("Chequea que algo pasó y no pudimos enviar el gasto!")
         return
 
-    if r.status_code != 201:
-        update.message.reply_text("Chequea que algo paso y no pudimos enviar el gasto!")
+    if response.status_code != 201:
+        await update.message.reply_text("Chequea que algo pasó y no pudimos enviar el gasto!")
         return
 
-    update.message.reply_text(f"Joya {update.message.from_user.name}! Gasto agendado!")
+    await update.message.reply_text(f"¡Joya {update.effective_user.first_name}! Gasto agendado.")

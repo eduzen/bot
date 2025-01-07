@@ -1,5 +1,5 @@
 # import codecs
-# import logging
+# import logfire
 # import os
 # import random
 
@@ -31,7 +31,7 @@
 
 # chats = {"-288031841": "t3"}
 
-# logger = logging.getLogger("rich")
+#
 
 
 # def get_or_create_user(user):
@@ -42,21 +42,21 @@
 #     try:
 #         user, created = User.get_or_create(**data)
 #     except peewee.IntegrityError:
-#         logger.warning("User already created")
+#         logfire.warning("User already created")
 
 #     if user and created:
-#         logger.debug("User created. Id %s", user.id)
+#         logfire.debug("User created. Id %s", user.id)
 #         return
 
 #     try:
 #         user = User.update(**data)
-#         logger.debug("User updated")
+#         logfire.debug("User updated")
 #     except Exception:
-#         logger.exception("User cannot be updated")
+#         logfire.exception("User cannot be updated")
 
 
 # def record_msg(user, msg, chat_id):
-#     logger.info("Recording msg chat_id %s", chat_id)
+#     logfire.info("Recording msg chat_id %s", chat_id)
 #     filename = f"history_{chat_id}.txt"
 #     key = chats.get(chat_id)
 #     if key:
@@ -97,7 +97,7 @@
 #         return Question.get(Question.question == question).answer
 
 #     except Exception:
-#         logger.info("no answer")
+#         logfire.info("no answer")
 
 
 # def parse_chat(blob):
@@ -128,7 +128,7 @@
 
 
 # def parse_regular_chat(msg):
-#     logger.info("parsing regular chat")
+#     logfire.info("parsing regular chat")
 #     answer = False
 #     giphy = False
 #     for sentence in msg.sentences:
@@ -178,7 +178,7 @@
 #     return text.replace(" ?", "?")
 
 
-# def parse_msgs(update: Update, context: CallbackContext):
+# def parse_msgs(update: Update, context: ContextTypes.DEFAULT_TYPE):
 #     message = update.message
 #     if not message:
 #         return
@@ -186,7 +186,7 @@
 #     try:
 #         entities = update.message.parse_entities()
 #     except Exception:
-#         logger.exception("Parece que no hay parse_entities")
+#         logfire.exception("Parece que no hay parse_entities")
 #         return
 
 #     mentions = [value for key, value in entities.items() if "@eduzenbot" in value or "@eduzenbot" in value]
@@ -195,7 +195,7 @@
 #         return
 
 #     username = update.message.from_user.username
-#     logger.info("parse_msgs... by %s", username)
+#     logfire.info("parse_msgs... by %s", username)
 
 #     text = prepare_text(update.message.text)
 #     blob = TextBlob(text)

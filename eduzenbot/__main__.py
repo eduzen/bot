@@ -1,13 +1,11 @@
 #!/usr/bin/env python3
-
-import logging
 import os
 from pathlib import Path
 
+import logfire
 import sentry_sdk
 from dotenv import load_dotenv
-from rich.logging import RichHandler
-from telegram.ext import CallbackQueryHandler, CommandHandler, Filters
+from telegram.ext import CallbackQueryHandler, CommandHandler, MessageHandler
 
 from eduzenbot.callbacks_handler import callback_query
 from eduzenbot.models import db
@@ -27,14 +25,7 @@ PORT = int(os.getenv("PORT", 5000))
 LOG_LEVEL = os.getenv("LOG_LEVEL", "ERROR")
 
 
-logging.basicConfig(
-    level=logging.getLevelName(LOG_LEVEL),
-    format="%(message)s",
-    datefmt="[%d-%m-%y %X]",
-    handlers=[RichHandler(rich_tracebacks=True)],
-)
-
-logger = logging.getLogger()
+logfire.configure()
 
 sentry_sdk.init(
     dsn=SENTRY_DSN,
@@ -55,7 +46,7 @@ def main() -> None:
 
     bot.register_message_handler(message_handlers)
 
-    unknown_handler = bot.create_msg(unknown, Filters.command)
+    unknown_handler = bot.create_msg(unknown, filters=MessageHandler.FILTERS.command)
     bot.add_handler(unknown_handler)
 
     bot.add_handler(CallbackQueryHandler(callback_query, pass_chat_data=True))

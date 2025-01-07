@@ -5,51 +5,52 @@ msg - send_private_msg
 restart - restart
 """
 
-import logging
 import os
 import sys
 from threading import Thread
 
+import logfire
 from telegram import Update
-from telegram.ext import CallbackContext
+from telegram.ext import ContextTypes
 
 from eduzenbot.auth.restricted import restricted
 
-logger = logging.getLogger("rich")
 
-
-def send_private_msg(update: Update, context: CallbackContext) -> None:
+async def send_private_msg(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     args = context.args
-    if not args:
-        update.message.reply_text("Se usa: /msg <:user_id> <:msg>")
+    if not args or len(args) < 2:
+        await update.message.reply_text("Se usa: /msg <:user_id> <:msg>")
         return
 
-    if len(args) < 2:
-        update.message.reply_text("Se usa: /msg <:user_id> <:msg>")
-        return
+    user_id = args[0]
+    msg = " ".join(args[1:])  # Combine all remaining args as the message
+    try:
+        await context.bot.send_message(chat_id=user_id, text=msg)
+        await update.message.reply_text(f"Mensaje enviado a {user_id}")
+    except Exception as e:
+        logfire.error(f"Error sending message: {e}")
+        await update.message.reply_text("Error al enviar el mensaje.")
 
-    context.bot.send_message(args[0], args[1])
 
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    logfire.info(f"Starting command... by {update.effective_user.username}")
+    user = update.effective_user
 
-def start(update: Update, context: CallbackContext) -> None:
-    logger.info(f"Starting comand... by {update.message.from_user.name}")
-    user = update.message.from_user
-
-    update.message.reply_text(
+    await update.message.reply_text(
         f"Hola! Soy edu_bot!\n"
         f"Encantado de conocerte {user.username}!\n"
         "Haciendo click en el icono de la contrabarra \\ podés ver algunos"
-        "algunos de los commandos que podés usar:\n"
+        "de los comandos que podés usar:\n"
         "Por ejemplo: /btc, /caps, /dolar, /clima, /subte, /transito, /trenes"
     )
 
 
-def ayuda(update: Update, context: CallbackContext) -> None:
-    logger.info(f"Help comand... by {update.message.from_user.name}")
-    context.bot.send_message(
-        chat_id=update.message.chat_id,
+async def ayuda(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    logfire.info(f"Help command... by {update.effective_user.username}")
+    await context.bot.send_message(
+        chat_id=update.effective_chat.id,
         text=(
-            "las opciones son:\n"
+            "Las opciones son:\n"
             "/start te saluda y boludeces \n"
             "/btc cotización del btc\n"
             "/dolar cotización del dolar\n"
@@ -63,12 +64,12 @@ def ayuda(update: Update, context: CallbackContext) -> None:
 
 
 def stop_and_restart() -> None:
-    """Gracefully stop the Updater and replace the current process with a new one"""
-    logger.info("Restarting eduzenbot...")
+    """Gracefully stop the bot and replace the current process with a new one"""
+    logfire.info("Restarting eduzenbot...")
     os.execl(sys.executable, sys.executable, *sys.argv)
 
 
 @restricted
-def restart(update: Update, context: CallbackContext) -> None:
-    update.message.reply_text("hey, I'm going to restart myself...")
+async def restart(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text("Hey, I'm going to restart myself...")
     Thread(target=stop_and_restart).start()

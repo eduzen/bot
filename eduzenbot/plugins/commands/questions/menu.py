@@ -1,16 +1,13 @@
-import logging
-
 from emoji import emojize
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
-from telegram.ext import CallbackContext
+from telegram.ext import ContextTypes
 
 from eduzenbot.menus.builder import build_menu
 from eduzenbot.models import Question
 
-logger = logging.getLogger("rich")
 
-
-def q_menu(update: Update, context: CallbackContext) -> None:
+async def q_menu(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Display a menu with options."""
     keyboard = [
         InlineKeyboardButton("Only questions", callback_data="questions"),
         InlineKeyboardButton("Questions & answers", callback_data="answer"),
@@ -18,12 +15,11 @@ def q_menu(update: Update, context: CallbackContext) -> None:
     ]
     reply_markup = InlineKeyboardMarkup(build_menu(keyboard, n_cols=2))
 
-    context.bot.send_message(
-        chat_id=update.message.chat_id, text="Please choose:", reply_markup=reply_markup
-    )
+    await context.bot.send_message(chat_id=update.effective_chat.id, text="Please choose:", reply_markup=reply_markup)
 
 
-def get_questions(answer: str | None = None) -> str:
+def get_questions(answer: bool | None = None) -> str:
+    """Retrieve questions or questions with answers from the database."""
     punch = emojize(":punch:")
 
     if not answer:
@@ -34,8 +30,10 @@ def get_questions(answer: str | None = None) -> str:
     return f"{qs}\n{punch}"
 
 
-def button(update: Update, context: CallbackContext) -> None:
+async def button(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Handle button presses from the inline menu."""
     query = update.callback_query
+    await query.answer()  # Acknowledge the callback query to avoid timeout
 
     selected = query.data
 
@@ -51,9 +49,7 @@ def button(update: Update, context: CallbackContext) -> None:
             "Despues resta hablarle al bot `tu pregunta? @eduzenbot`"
         )
 
-    context.bot.edit_message_text(
+    await query.edit_message_text(
         text=f"{answer}",
-        chat_id=query.message.chat_id,
-        message_id=query.message.message_id,
         parse_mode="Markdown",
     )

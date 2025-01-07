@@ -1,19 +1,12 @@
-import logging
 from uuid import uuid4
 
-from telegram import (
-    InlineQueryResultArticle,
-    InputTextMessageContent,
-    ParseMode,
-    Update,
-)
-from telegram.ext import CallbackContext
-from telegram.utils.helpers import escape_markdown
-
-logger = logging.getLogger("rich")
+from telegram import InlineQueryResultArticle, InputTextMessageContent, Update
+from telegram.constants import ParseMode
+from telegram.ext import ContextTypes
+from telegram.helpers import escape_markdown
 
 
-def code_markdown(update: Update, context: CallbackContext) -> None:
+async def code_markdown(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     query = update.inline_query.query
 
     if not query:
@@ -21,30 +14,25 @@ def code_markdown(update: Update, context: CallbackContext) -> None:
 
     results = [
         InlineQueryResultArticle(
-            id=uuid4(),
-            title="code",
-            input_message_content=InputTextMessageContent(
-                f"```\n{query}\n```", parse_mode=ParseMode.MARKDOWN
-            ),
+            id=str(uuid4()),
+            title="Code",
+            input_message_content=InputTextMessageContent(f"```\n{query}\n```", parse_mode=ParseMode.MARKDOWN),
         ),
         InlineQueryResultArticle(
-            id=uuid4(),
+            id=str(uuid4()),
             title="Caps",
             input_message_content=InputTextMessageContent(query.upper()),
         ),
         InlineQueryResultArticle(
-            id=uuid4(),
+            id=str(uuid4()),
             title="Bold",
-            input_message_content=InputTextMessageContent(
-                f"*{escape_markdown(query)}*", parse_mode=ParseMode.MARKDOWN
-            ),
+            input_message_content=InputTextMessageContent(f"*{escape_markdown(query)}*", parse_mode=ParseMode.MARKDOWN),
         ),
         InlineQueryResultArticle(
-            id=uuid4(),
+            id=str(uuid4()),
             title="Italic",
-            input_message_content=InputTextMessageContent(
-                f"_{escape_markdown(query)}_", parse_mode=ParseMode.MARKDOWN
-            ),
+            input_message_content=InputTextMessageContent(f"_{escape_markdown(query)}_", parse_mode=ParseMode.MARKDOWN),
         ),
     ]
-    context.bot.answer_inline_query(update.inline_query.id, results)
+
+    await context.bot.answer_inline_query(update.inline_query.id, results)

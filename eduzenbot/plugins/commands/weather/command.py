@@ -3,24 +3,17 @@ clima - weather
 klima - klima
 """
 
-import logging
-
 from api import get_klima, get_weather
 from telegram import ChatAction, Update
-from telegram.ext import CallbackContext
+from telegram.ext import ContextTypes
 
 from eduzenbot.decorators import create_user
 
-logger = logging.getLogger()
-
 
 @create_user
-def weather(
-    update: Update, context: CallbackContext, *args: int, **kwargs: str
-) -> None:
-    context.bot.send_chat_action(
-        chat_id=update.message.chat_id, action=ChatAction.TYPING
-    )
+async def weather(update: Update, context: ContextTypes.DEFAULT_TYPE, *args: int, **kwargs: str) -> None:
+    """Handle /weather command to fetch weather for a specific city or default location."""
+    await context.bot.send_chat_action(chat_id=update.effective_chat.id, action=ChatAction.TYPING)
 
     if not context.args:
         text = get_weather()
@@ -31,14 +24,13 @@ def weather(
     if not text:
         return
 
-    context.bot.send_message(chat_id=update.message.chat_id, text=text)
+    await context.bot.send_message(chat_id=update.effective_chat.id, text=text)
 
 
 @create_user
-def klima(update: Update, context: CallbackContext, *args: int, **kwargs: str) -> None:
-    context.bot.send_chat_action(
-        chat_id=update.message.chat_id, action=ChatAction.TYPING
-    )
+async def klima(update: Update, context: ContextTypes.DEFAULT_TYPE, *args: int, **kwargs: str) -> None:
+    """Handle /klima command to fetch detailed weather for a specific city or default."""
+    await context.bot.send_chat_action(chat_id=update.effective_chat.id, action=ChatAction.TYPING)
 
     if not context.args:
         text = get_klima()
@@ -49,6 +41,4 @@ def klima(update: Update, context: CallbackContext, *args: int, **kwargs: str) -
     if not text:
         return
 
-    context.bot.send_message(
-        chat_id=update.message.chat_id, text=text, parse_mode="Markdown"
-    )
+    await context.bot.send_message(chat_id=update.effective_chat.id, text=text, parse_mode="Markdown")

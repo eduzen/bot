@@ -1,13 +1,11 @@
-import logging
 from collections.abc import Callable
 
+import logfire
 from telegram import Update
 from telegram.ext import CallbackContext
 
 from eduzenbot.plugins.commands.movies import callbacks as movies_callbacks
 from eduzenbot.plugins.commands.series import callbacks as series_callbacks
-
-log = logging.getLogger("rich")
 
 handlers = {
     "latest_episodes": series_callbacks.latest_episodes,
@@ -31,9 +29,7 @@ def _select_handler(key: str) -> Callable:
     return handlers.get(key)
 
 
-def callback_query(
-    update: Update, context: CallbackContext, **kwargs: str
-) -> Callable | None:
+def callback_query(update: Update, context: CallbackContext, **kwargs: str) -> Callable | None:
     query = update.callback_query
 
     func = _select_handler(query.data)
@@ -46,11 +42,7 @@ def callback_query(
         return
 
     if not context.chat_data:
-        txt = (
-            "_Errare humanum est._\n"
-            "Algo paso en el medio.\n"
-            "Empecemos de nuevo con el commando original"
-        )
+        txt = "_Errare humanum est._\n" "Algo paso en el medio.\n" "Empecemos de nuevo con el commando original"
         context.bot.edit_message_text(
             text=txt,
             chat_id=query.message.chat_id,
@@ -60,12 +52,12 @@ def callback_query(
         return
 
     chat_context = context.chat_data["context"]
-    log.info(f"from {chat_context['command']} - {query.data}")
+    logfire.info(f"from {chat_context['command']} - {query.data}")
 
     try:
         func(update, chat_context, **kwargs)
     except Exception as exc:
-        log.exception(f"El callback se rompió... {exc} {exc.args}")
+        logfire.exception(f"El callback se rompió... {exc} {exc.args}")
         context.bot.send_message(
             chat_id=update.callback_query.message.chat_id,
             text="En el medio sucedieron cosas... _Errare humanum est._",

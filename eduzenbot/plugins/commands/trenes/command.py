@@ -2,26 +2,22 @@
 trenes - trenes
 """
 
-import logging
-
+import logfire
 from api import get_trenes
 from telegram import ChatAction, Update
-from telegram.ext import CallbackContext
+from telegram.ext import ContextTypes
 
 from eduzenbot.decorators import create_user
 
-logger = logging.getLogger("rich")
-
 
 @create_user
-def trenes(update: Update, context: CallbackContext, *args: int, **kwargs: str) -> None:
-    context.bot.send_chat_action(
-        chat_id=update.message.chat_id, action=ChatAction.TYPING
-    )
-    logger.info(f"Trenes... by {update.message.from_user.name}")
+async def trenes(update: Update, context: ContextTypes.DEFAULT_TYPE, *args: int, **kwargs: str) -> None:
+    """Handle /trenes command to fetch train status."""
+    await context.bot.send_chat_action(chat_id=update.effective_chat.id, action=ChatAction.TYPING)
+    logfire.info(f"Trenes... by {update.effective_user.username}")
 
     text = get_trenes()
     if not text:
         return
 
-    context.bot.send_message(chat_id=update.message.chat_id, text=text)
+    await context.bot.send_message(chat_id=update.effective_chat.id, text=text)

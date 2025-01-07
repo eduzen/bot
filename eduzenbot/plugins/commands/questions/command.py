@@ -8,8 +8,7 @@ add_answer - add_answer
 edit_question - edit_question
 """
 
-import logging
-
+import logfire
 from telegram import ChatAction, Update
 from telegram.ext import CallbackContext
 
@@ -17,66 +16,41 @@ from eduzenbot.auth.restricted import restricted
 from eduzenbot.decorators import create_user
 from eduzenbot.models import Question, User
 
-logger = logging.getLogger("rich")
-
 
 @restricted
 @create_user
-def get_users(
-    update: Update, context: CallbackContext, *args: int, **kwargs: str
-) -> None:
-    context.bot.send_chat_action(
-        chat_id=update.message.chat_id, action=ChatAction.TYPING
-    )
+def get_users(update: Update, context: CallbackContext, *args: int, **kwargs: str) -> None:
+    context.bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
 
     try:
         txt = "\n".join([str(user.to_str()) for user in User.select()])
     except Exception:
-        logger.error("DB problem")
+        logfire.error("DB problem")
         txt = "No hay usuarios"
 
     context.bot.send_message(chat_id=update.message.chat_id, text=txt)
 
 
 @create_user
-def get_questions(
-    update: Update, context: CallbackContext, *args: int, **kwargs: str
-) -> None:
-    context.bot.send_chat_action(
-        chat_id=update.message.chat_id, action=ChatAction.TYPING
-    )
+def get_questions(update: Update, context: CallbackContext, *args: int, **kwargs: str) -> None:
+    context.bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
     try:
-        qs = "\n".join(
-            [
-                f"{q.id}: {q.question} | {q.answer} | by {q.user}"
-                for q in Question.select()
-            ]
-        )
+        qs = "\n".join([f"{q.id}: {q.question} | {q.answer} | by {q.user}" for q in Question.select()])
         context.bot.send_message(chat_id=update.message.chat_id, text=f"{qs}")
     except Exception:
-        logger.exception("Problems with get_questions")
-        context.bot.send_message(
-            chat_id=update.message.chat_id, text="Mmm algo malo pasó"
-        )
+        logfire.exception("Problems with get_questions")
+        context.bot.send_message(chat_id=update.message.chat_id, text="Mmm algo malo pasó")
 
 
 @create_user
-def edit_question(
-    update: Update, context: CallbackContext, *args: int, **kwargs: str
-) -> None:
-    context.bot.send_chat_action(
-        chat_id=update.message.chat_id, action=ChatAction.TYPING
-    )
+def edit_question(update: Update, context: CallbackContext, *args: int, **kwargs: str) -> None:
+    context.bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
     if not context.args:
-        update.message.reply_text(
-            "Se usa: /edit_question <:id_pregunta> <:tu_respuesta>"
-        )
+        update.message.reply_text("Se usa: /edit_question <:id_pregunta> <:tu_respuesta>")
         return
 
     if len(args) < 2:
-        update.message.reply_text(
-            "Se usa: /edit_question <:id_pregunta> <:tu_respuesta>"
-        )
+        update.message.reply_text("Se usa: /edit_question <:id_pregunta> <:tu_respuesta>")
         return
 
     try:
@@ -90,9 +64,7 @@ def edit_question(
     try:
         q = Question.get_by_id(question_id)
     except Exception:
-        context.bot.send_message(
-            chat_id=update.message.chat_id, text="No existe pregunta con ese id"
-        )
+        context.bot.send_message(chat_id=update.message.chat_id, text="No existe pregunta con ese id")
 
     q.question = " ".join(list(args[1:]))
     q.save()
@@ -104,13 +76,9 @@ def edit_question(
     )
 
 
-def add_answer(
-    update: Update, context: CallbackContext, *args: int, **kwargs: str
-) -> None:
-    context.bot.send_chat_action(
-        chat_id=update.message.chat_id, action=ChatAction.TYPING
-    )
-    logger.info(f"Add_question... by {update.message.from_user.name}")
+def add_answer(update: Update, context: CallbackContext, *args: int, **kwargs: str) -> None:
+    context.bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
+    logfire.info(f"Add_question... by {update.message.from_user.name}")
     if not context.args:
         update.message.reply_text("Se usa: /add_answer <:id_pregunta> <:tu_respuesta>")
         return
@@ -130,9 +98,7 @@ def add_answer(
     try:
         q = Question.get_by_id(question_id)
     except Exception:
-        context.bot.send_message(
-            chat_id=update.message.chat_id, text="No existe pregunta con ese id"
-        )
+        context.bot.send_message(chat_id=update.message.chat_id, text="No existe pregunta con ese id")
 
     q.answer = " ".join(list(args[1:]))
     q.save()
@@ -145,12 +111,8 @@ def add_answer(
 
 
 @create_user
-def add_question(
-    update: Update, context: CallbackContext, *args: int, **kwargs: str
-) -> None:
-    context.bot.send_chat_action(
-        chat_id=update.message.chat_id, action=ChatAction.TYPING
-    )
+def add_question(update: Update, context: CallbackContext, *args: int, **kwargs: str) -> None:
+    context.bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
     if not context.args:
         update.message.reply_text("Se usa: /add_question <:tu_pregunta>")
         return
@@ -171,23 +133,17 @@ def add_question(
 
         q = Question.get_or_create(user=user.id, question=question)
         q = q[0]
-        logger.info("pregunta creada con id: %i", q.id)
+        logfire.info("pregunta creada con id: %i", q.id)
         txt = f"Pregunta creada con id: {q.id}"
         context.bot.send_message(chat_id=update.message.chat_id, text=txt)
     except Exception:
-        logger.exception("no pudimos agregar preguntas")
-        context.bot.send_message(
-            chat_id=update.message.chat_id, text="No pudimos agregar tu pregunta"
-        )
+        logfire.exception("no pudimos agregar preguntas")
+        context.bot.send_message(chat_id=update.message.chat_id, text="No pudimos agregar tu pregunta")
 
 
 @create_user
-def remove_question(
-    update: Update, context: CallbackContext, *args: int, **kwargs: str
-) -> None:
-    context.bot.send_chat_action(
-        chat_id=update.message.chat_id, action=ChatAction.TYPING
-    )
+def remove_question(update: Update, context: CallbackContext, *args: int, **kwargs: str) -> None:
+    context.bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
     if not context.args:
         update.message.reply_text("Se usa /remove <:id>")
         return
@@ -207,12 +163,8 @@ def remove_question(
     try:
         q = Question.get(Question.id == question_id).delete_instance()
         if q == 1:
-            logger.info("pregunta eliminada")
-            context.bot.send_message(
-                chat_id=update.message.chat_id, text="pregunta eliminada"
-            )
+            logfire.info("pregunta eliminada")
+            context.bot.send_message(chat_id=update.message.chat_id, text="pregunta eliminada")
     except Exception:
-        logger.exception("no pudimos eliminar tu pregunta")
-        context.bot.send_message(
-            chat_id=update.message.chat_id, text="No pudimos agregar tu pregunta"
-        )
+        logfire.exception("no pudimos eliminar tu pregunta")
+        context.bot.send_message(chat_id=update.message.chat_id, text="No pudimos agregar tu pregunta")

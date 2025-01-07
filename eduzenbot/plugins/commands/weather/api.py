@@ -1,8 +1,8 @@
-import logging
 import os
+from datetime import datetime
 from typing import Any
 
-import pendulum
+import logfire
 import pytz
 import requests
 from bs4 import BeautifulSoup
@@ -11,7 +11,6 @@ from cachetools import TTLCache, cached
 ow_token = os.getenv("openweathermap_token")
 
 client = requests.Session()
-logger = logging.getLogger("rich")
 
 
 WEATHER_EMOJIS = {
@@ -55,11 +54,14 @@ def get_timezone(city: str) -> str:
         elif city == "dallas":
             return "America/Chicago"
 
+    return "UTC"
+
 
 def get_sun_times(data: dict[str, Any], city: str) -> tuple:
-    tz = get_timezone(city)
-    sunrise = pendulum.from_timestamp(data["sunrise"], tz=tz).strftime("%H:%m")
-    sunset = pendulum.from_timestamp(data["sunset"], tz=tz).strftime("%H:%m")
+    tz_name = get_timezone(city)
+    tz = pytz.timezone(tz_name)
+    sunrise = datetime.fromtimestamp(data["sunrise"], tz).strftime("%H:%M")
+    sunset = datetime.fromtimestamp(data["sunset"], tz).strftime("%H:%M")
     return sunrise, sunset
 
 
@@ -83,7 +85,7 @@ def get_klima(city_name: str = "Amsterdam,nl") -> str:
     try:
         sunrise_time, sunset_time = get_sun_times(data["sys"], data["name"])
     except Exception as e:
-        logger.warning(f"error in astral time calculation: {e}")
+        logfire.warning(f"error in astral time calculation: {e}")
         sunrise_time = "?"
         sunset_time = "?"
 

@@ -1,10 +1,10 @@
-import logging
 from functools import lru_cache
 from typing import Any
 
+import logfire
 import requests
 from telegram import InputMediaPhoto, Update
-from telegram.ext import CallbackContext
+from telegram.ext import ContextTypes
 
 from eduzenbot.plugins.commands.series import keyboards
 from eduzenbot.plugins.commands.series.api import (
@@ -13,8 +13,6 @@ from eduzenbot.plugins.commands.series.api import (
     prettify_serie,
 )
 from eduzenbot.plugins.commands.series.constants import EZTV_API_ERROR, EZTV_NO_RESULTS
-
-logger = logging.getLogger("rich")
 
 
 def monospace(text: str) -> str:
@@ -32,7 +30,7 @@ def prettify_episode(ep) -> str:
     else:
         header = "No torrent nor magnet available for this episode."
 
-    return f"{header}" f"🌱 Seeds: {ep.seeds} | 🗳 Size: {ep.size or '-'}"
+    return f"{header} 🌱 Seeds: {ep.seeds} | 🗳 Size: {ep.size or '-'}"
 
 
 def prettify_episodes(episodes, header=None) -> str:
@@ -45,9 +43,7 @@ def prettify_episodes(episodes, header=None) -> str:
 
 @lru_cache(5)
 def prettify_torrents(torrents) -> str:
-    return "\n".join(
-        prettify_torrent(*torrent) for torrent in torrents if prettify_torrent(*torrent)
-    )
+    return "\n".join(prettify_torrent(*torrent) for torrent in torrents if prettify_torrent(*torrent))
 
 
 def prettify_torrent(name: str, torrent_url: str, seeds: str, size: str) -> str:
@@ -63,17 +59,15 @@ def _minify_torrents(torrents: list[dict[str, Any]]) -> tuple[str, str, str, str
             MB = 1024 * 1024
             size_float = int(torrent["size_bytes"]) / MB
             size = f"{size_float:.2f}"
-            minified_torrents.append(
-                (torrent["title"], torrent["torrent_url"], torrent["seeds"], size)
-            )
+            minified_torrents.append((torrent["title"], torrent["torrent_url"], torrent["seeds"], size))
         except Exception:
-            logger.exception("Error parsing torrent from eztv api. <%s>", torrent)
+            logfire.exception(f"Error parsing torrent from eztv api. <{torrent}>")
             continue
 
     return tuple(minified_torrents)
 
 
-def go_back(update: Update, context: CallbackContext) -> None:
+async def go_back(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     # Remove season and episode context so we can start the search again if the user wants to download another episode.
     context.pop("selected_season_episodes", None)  # type: ignore
     answer = update.callback_query.data
@@ -83,7 +77,7 @@ def go_back(update: Update, context: CallbackContext) -> None:
     try:
         response = prettify_serie(serie)
     except KeyError:
-        logger.exception("Error prettifying serie. <%s>", serie)
+        logfire.exception(f"Error prettifying serie. <{serie}>")
         response = "Error prettifying serie. Try again later."
 
     keyboard = keyboards.serie()
@@ -94,22 +88,19 @@ def go_back(update: Update, context: CallbackContext) -> None:
 
     original_text = update.callback_query.message.text
     if response != original_text:
-        update.callback_query.edit_message_text(
+        await update.callback_query.edit_message_text(
             text=response,
             reply_markup=keyboard,
             parse_mode="Markdown",
             disable_web_page_preview=True,
         )
     else:
-        logger.info(
-            "Selected option '%s' would leave text as it is."
-            "Ignoring to avoid exception. '%s' " % (answer, response)
+        logfire.info(
+            f"Selected option '{answer}' would leave text as it is." f"Ignoring to avoid exception. '{response}' "
         )
 
 
-def get_torrents_by_id(
-    imdb_id: int, limit: int | None = None
-) -> tuple[str, str, str, str] | None:
+def get_torrents_by_id(imdb_id: int, limit: int | None = None) -> tuple[str, str, str, str] | None:
     """Request torrents from api and return a minified torrent representation."""
     try:
         r = requests.get(
@@ -123,26 +114,24 @@ def get_torrents_by_id(
         if not data or data["torrents_count"] == 0:
             return
 
-        torrents = sorted(
-            r.json()["torrents"], key=lambda d: (d["season"], d["episode"])
-        )
+        torrents = sorted(r.json()["torrents"], key=lambda d: (d["season"], d["episode"]))
     except KeyError:
-        logger.info("No torrents in eztv api for this serie. Response %s", r.json())
+        logfire.info(f"No torrents in eztv api for this serie. Response {r.json()}")
         return
     except Exception:
-        logger.exception("Error requesting torrents for %s", imdb_id)
+        logfire.exception(f"Error requesting torrents for {imdb_id}")
         return
 
     return _minify_torrents(torrents)
 
 
-def latest_episodes(update: Update, context: CallbackContext, **kwargs: str) -> None:
-    logger.info("Called latest episodes")
+async def latest_episodes(update: Update, context: ContextTypes.DEFAULT_TYPE, **kwargs: str) -> None:
+    logfire.info("Called latest episodes")
 
     if not context:
         message = "Lpm, no pude responder a tu pedido.\nProbá invocando de nuevo el comando a ver si me sale 😊"
-        logger.info(f"Conflicting update: '{update.to_dict()}'")
-        context.bot.send_message(
+        logfire.info(f"Conflicting update: '{update.to_dict()}'")
+        await context.bot.send_message(
             chat_id=update.callback_query.message.chat_id,
             text=message,
             parse_mode="Markdown",
@@ -150,9 +139,6 @@ def latest_episodes(update: Update, context: CallbackContext, **kwargs: str) -> 
         # Notify telegram we have answered
         update.callback_query.answer(text="")
         return
-
-    # Get user selection
-    answer = update.callback_query.data
 
     # Get latest episodes from eztv api
     # update.callback_query.answer(text='Getting latest episodes..')
@@ -162,10 +148,8 @@ def latest_episodes(update: Update, context: CallbackContext, **kwargs: str) -> 
     torrents = get_torrents_by_id(imdb_id)
 
     if not torrents:
-        logger.info(f"No torrents for {data['name']}")
-        update.callback_query.edit_message_text(
-            text=EZTV_NO_RESULTS, reply_markup=keyboards.serie_go_back_keyboard()
-        )
+        logfire.info(f"No torrents for {data['name']}")
+        update.callback_query.edit_message_text(text=EZTV_NO_RESULTS, reply_markup=keyboards.serie_go_back_keyboard())
         return
 
     pretty_torrents = prettify_torrents(torrents)
@@ -173,29 +157,25 @@ def latest_episodes(update: Update, context: CallbackContext, **kwargs: str) -> 
 
     original_text = update.callback_query.message.text
     if response != original_text:
-        update.callback_query.edit_message_text(
+        await update.callback_query.edit_message_text(
             text=response,
             reply_markup=keyboards.serie_go_back_keyboard(),
             parse_mode="Markdown",
             disable_web_page_preview=True,
         )
     else:
-        logger.info(
-            "Selected option '%s' would leave text as it is."
-            "Ignoring to avoid exception. '%s' " % (answer, response)
+        answer = update.callback_query.data
+        logfire.info(
+            f"Selected option '{answer}' would leave text as it is." f"Ignoring to avoid exception. '{response}' "
         )
 
 
-def all_episodes(update: Update, context: CallbackContext, **kwargs: str) -> None:
+async def all_episodes(update: Update, context: ContextTypes.DEFAULT_TYPE, **kwargs: str) -> None:
     serie = context["data"]
-    answer = update.callback_query.data
-
     seasons = serie.get("seasons")
     if not seasons:
-        update.callback_query.answer(text="Loading episodes... this may take a while")
-        seasons = get_all_seasons(
-            serie["name"], serie["original_name"], serie["number_of_seasons"]
-        )
+        await update.callback_query.answer(text="Loading episodes... this may take a while")
+        seasons = get_all_seasons(serie["name"], serie["original_name"], serie["number_of_seasons"])
         serie["seasons"] = seasons
 
     response = "Choose a season to see its episodes."
@@ -203,21 +183,15 @@ def all_episodes(update: Update, context: CallbackContext, **kwargs: str) -> Non
 
     original_text = update.callback_query.message.text
     if response != original_text:
-        update.callback_query.edit_message_text(
+        await update.callback_query.edit_message_text(
             text=response,
             reply_markup=keyboard,
             parse_mode="Markdown",
             disable_web_page_preview=True,
         )
-    else:
-        logger.info(
-            "Selected option '{}' would leave text as it is. Ignoring to avoid exception. '{}' ".format(
-                answer, response
-            )
-        )
 
 
-def get_season(update: Update, context: CallbackContext, **kwargs: str) -> None:
+async def get_season(update: Update, context: ContextTypes.DEFAULT_TYPE, **kwargs: str) -> None:
     serie = context["data"]
     poster_chat = context["poster_chat"]  # type: ignore
     answer = update.callback_query.data
@@ -230,57 +204,48 @@ def get_season(update: Update, context: CallbackContext, **kwargs: str) -> None:
     try:
         url = get_poster_url(serie["seasons_info"][season_choice - 1])
         poster = InputMediaPhoto(url)
-        poster_chat.edit_media(poster)
+        await poster_chat.edit_media(poster)
     except Exception:
-        logger.info("No hay poster para esta temporada")
+        logfire.info("No hay poster para esta temporada")
 
     season_episodes = serie["seasons"][season_choice]
     serie["selected_season_episodes"] = season_episodes
     response = f"You chose season {season_choice}.\n{season_overview}"
-    logger.info(
-        f"Season {season_choice} episodes {sorted(tuple(season_episodes.keys()))}"
-    )
+    logfire.info(f"Season {season_choice} episodes {sorted(tuple(season_episodes.keys()))}")
     keyboard = keyboards.serie_episodes(season_episodes)
 
     original_text = update.callback_query.message.text
     if response != original_text:
-        update.callback_query.edit_message_text(
+        await update.callback_query.edit_message_text(
             text=response,
             reply_markup=keyboard,
             parse_mode="Markdown",
             disable_web_page_preview=True,
         )
     else:
-        logger.info(
-            f"Selected option '{answer}' would leave text as it is. Ignoring to avoid exception. {response}"
-        )
+        logfire.info(f"Selected option '{answer}' would leave text as it is. Ignoring to avoid exception. {response}")
 
 
-def get_episode(update: Update, context: CallbackContext, **kwargs: str) -> None:
-    serie = context["data"]
+async def get_episode(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    serie = context.chat_data.get("data")
     answer = update.callback_query.data
     episode = answer.split("_")[-1]
-    # update.callback_query.answer(text=f"Loading torrents of episode {episode}")
     episode_list = serie["selected_season_episodes"][int(episode)]
     the_episodes = prettify_episodes(episode_list)
     response = the_episodes if the_episodes else "No episodes found."
     keyboard = keyboards.serie_go_back_keyboard()
-
     original_text = update.callback_query.message.text
+
     if response != original_text:
-        update.callback_query.edit_message_text(
+        await update.callback_query.edit_message_text(
             text=response,
             reply_markup=keyboard,
             parse_mode="Markdown",
             disable_web_page_preview=True,
         )
-    else:
-        logger.info(
-            f"Selected option '{answer}' would leave text as it is. Ignoring to avoid exception. {response}"
-        )
 
 
-def load_episodes(update: Update, context: CallbackContext, **kwargs: str) -> None:
+def load_episodes(update: Update, context: ContextTypes.DEFAULT_TYPE, **kwargs: str) -> None:
     serie = context["data"]
     seasons = serie.get("seasons")
     answer = update.callback_query.data
@@ -302,6 +267,4 @@ def load_episodes(update: Update, context: CallbackContext, **kwargs: str) -> No
             disable_web_page_preview=True,
         )
     else:
-        logger.info(
-            f"Selected option '{answer}' would leave text as it is. Ignoring to avoid exception. {response}"
-        )
+        logfire.info(f"Selected option '{answer}' would leave text as it is. Ignoring to avoid exception. {response}")

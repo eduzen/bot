@@ -4,10 +4,8 @@ movie - get_movie
 pelicula - get_movie
 """
 
-import logging
-
-from telegram import Update
-from telegram.ext import CallbackContext
+import logfire
+from telegram.ext import ContextTypes
 
 from eduzenbot.decorators import create_user
 from eduzenbot.plugins.commands.movies import keyboards
@@ -18,16 +16,15 @@ from eduzenbot.plugins.commands.movies.api import (
 )
 from eduzenbot.plugins.commands.movies.constants import IMDB_LINK
 
-logger = logging.getLogger("rich")
-
 
 @create_user
-def get_movie(update: Update, context: CallbackContext, **kwargs: str) -> None:
+async def get_movie(update: ContextTypes, context: ContextTypes.DEFAULT_TYPE, **kwargs: str) -> None:
     args = context.args
     chat_data = context.chat_data
-    chat_id = update.message.chat_id
+    chat_id = update.effective_chat.id  # type: ignore
+
     if not context.args:
-        context.bot.send_message(
+        await context.bot.send_message(
             chat_id=chat_id,
             text="Necesito que me pases una pelicula. `/pelicula <nombre>`",
             parse_mode="Markdown",
@@ -35,28 +32,26 @@ def get_movie(update: Update, context: CallbackContext, **kwargs: str) -> None:
         return
 
     query = " ".join(args)
-    logger.debug(f"Searching for {query}")
+    logfire.debug(f"Searching for {query}")
     movies = tmdb_movie_search(query)
 
     if not movies:
-        context.bot.send_message(
-            chat_id=chat_id, text="No encontré info sobre %s" % query
-        )
+        await context.bot.send_message(chat_id=chat_id, text="No encontré info sobre %s" % query)
         return
 
     movie = movies[0]
 
-    logger.debug(f"Found {movie}")
+    logfire.debug(f"Found {movie}")
 
     movie_object = get_movie_detail(movie["id"])
     external_data = movie_object.external_ids()
 
     try:
-        logger.debug(f"Found {external_data['imdb_id']}")
+        logfire.debug(f"Found {external_data['imdb_id']}")
         imdb_id = external_data["imdb_id"]  # tt<id> -> <id>
     except (KeyError, AttributeError):
-        logger.info("imdb id for the movie not found")
-        context.bot.send_message(
+        logfire.info("imdb id for the movie not found")
+        await context.bot.send_message(
             chat_id=chat_id,
             text="👎 No encontré el id de imdb de esta serie, imposible de bajar por acá",
             parse_mode="Markdown",
@@ -71,15 +66,13 @@ def get_movie(update: Update, context: CallbackContext, **kwargs: str) -> None:
         }
     )
 
-    logger.debug(f"Found {movie}")
+    logfire.debug(f"Found {movie}")
 
     movie_details, poster = prettify_movie(movie, movie_object)
 
     poster_chat = None
     if poster:
-        poster_chat = context.bot.send_photo(
-            chat_id=update.message.chat_id, photo=poster
-        )
+        poster_chat = context.bot.send_photo(chat_id=chat_id, photo=poster)
 
     chat_data["context"] = {
         "data": movie,
@@ -88,10 +81,10 @@ def get_movie(update: Update, context: CallbackContext, **kwargs: str) -> None:
         "poster_chat": poster_chat,
     }
 
-    logger.debug(f"Found {movie_details}")
+    logfire.debug(f"Found {movie_details}")
 
-    context.bot.send_message(
-        chat_id=update.message.chat_id,
+    await context.bot.send_message(
+        chat_id=chat_id,
         text=movie_details,
         reply_markup=keyboards.pelis(),
         parse_mode="Markdown",

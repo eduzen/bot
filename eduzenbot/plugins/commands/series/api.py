@@ -1,8 +1,8 @@
-import logging
 import os
 from collections import defaultdict
 from functools import lru_cache
 
+import logfire
 import requests
 import tmdbsimple as tmdb
 from bs4 import BeautifulSoup
@@ -20,8 +20,6 @@ from eduzenbot.plugins.commands.series.constants import (
     TORRENT,
     Episode,
 )
-
-logger = logging.getLogger("rich")
 
 tmdb.API_KEY = os.getenv("TMDB_API_KEY")
 
@@ -89,13 +87,10 @@ def get_all_seasons(series_name, raw_user_query, number_of_seasons):
         # '*The* TV Show S07E00 Catfish Keeps it *100*' which we don't want
         # We also use the raw_user_query because sometimes the complete name from
         # tmdb is not the same name used on eztv.
-        if (
-            series_name.lower() not in name.lower()
-            and raw_user_query.lower() not in name.lower()
-        ):
+        if series_name.lower() not in name.lower() and raw_user_query.lower() not in name.lower():
             # The tradeoff is that we don't longer work for series with typos.
             # But it's better than giving fake results.
-            logger.info(f"Fake result '{name}' for query '{series_name}'")
+            logfire.info(f"Fake result '{name}' for query '{series_name}'")
             return
 
         for pattern in EPISODE_PATTERNS:
@@ -105,7 +100,7 @@ def get_all_seasons(series_name, raw_user_query, number_of_seasons):
                 break
         else:
             # No season and episode found
-            logger.info(f"Could not read season and episode data from torrent '{name}'")
+            logfire.info(f"Could not read season and episode data from torrent '{name}'")
             return
 
         if not season or int(season) > number_of_seasons:
@@ -139,9 +134,7 @@ def get_all_seasons(series_name, raw_user_query, number_of_seasons):
         # Attach the episode under the season key, under the episode key, in a list of torrents of that episode
         series_episodes[season][episode].append(episode_info)
 
-    logger.info(
-        f"'{series_name}' series episodes retrieved. Seasons: {series_episodes.keys()}"
-    )
+    logfire.info(f"'{series_name}' series episodes retrieved. Seasons: {series_episodes.keys()}")
 
     return series_episodes
 
@@ -165,9 +158,7 @@ def prettify_serie(serie):
     stars = rating_stars(serie["vote_average"])
     title = f"{name} | {first_air_date} | {lang}"
     data = f"{number_of_seasons} | {number_of_episodes}"
-    response = "\n".join(
-        (title, original_name, stars, serie["overview"], data, next_episode)
-    )
+    response = "\n".join((title, original_name, stars, serie["overview"], data, next_episode))
 
     return response
 

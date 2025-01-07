@@ -29,10 +29,8 @@ NAME, SIZE, RELEASED, SEEDS = 0, 2, 3, 4
 MAGNET, TORRENT = 0, 1
 
 EZTV_NO_RESULTS = (
-    "Eztv api did not return any torrent result for the series❕\n"
-    "Please notice it's still in beta mode 🐣\n"
+    "Eztv api did not return any torrent result for the series❕\n" "Please notice it's still in beta mode 🐣\n"
 )
 EZTV_API_ERROR = (
-    "EZTV api failed to respond with latest torrents.\n"
-    "Try 'Load all episodes' option and look for latest episode."
+    "EZTV api failed to respond with latest torrents.\n" "Try 'Load all episodes' option and look for latest episode."
 )

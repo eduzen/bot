@@ -1,7 +1,7 @@
-import logging
 import os
 from datetime import datetime
 
+import logfire
 import tweepy
 from cachetools import TTLCache, cached
 
@@ -11,15 +11,8 @@ TWITTER_ACCESS_TOKEN_SECRET = os.getenv("TWITTER_ACCESS_TOKEN_SECRET")
 TWITTER_ACCESS_TOKEN = os.getenv("TWITTER_ACCESS_TOKEN")
 
 
-logger = logging.getLogger("rich")
-
-
 def get_tweets(api: str, username: str, count: int, date: datetime) -> str:
-    tweets = [
-        tweet.text
-        for tweet in api.user_timeline(username, count=count)
-        if (date - tweet.created_at).days < 1
-    ]
+    tweets = [tweet.text for tweet in api.user_timeline(username, count=count) if (date - tweet.created_at).days < 1]
     if not tweets:
         return "No hay novedades de subtes para hoy"
 
@@ -28,7 +21,7 @@ def get_tweets(api: str, username: str, count: int, date: datetime) -> str:
 
 @cached(cache=TTLCache(maxsize=2048, ttl=360))
 def get_transito(count: int = 20) -> str:
-    logger.info("get_transito from twitter...")
+    logfire.info("get_transito from twitter...")
     if count > 20:
         count = 20
     auth = tweepy.OAuthHandler(TWITTER_CONSUMER_KEY, TWITTER_CONSUMER_SECRET)

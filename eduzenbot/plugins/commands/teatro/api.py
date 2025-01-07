@@ -1,10 +1,6 @@
-import logging
-
 import requests
 from bs4 import BeautifulSoup
 from cachetools import TTLCache, cached
-
-logger = logging.getLogger("rich")
 
 ALTERNATIVA = "http://www.alternativateatral.com/"
 

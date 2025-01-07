@@ -1,10 +1,7 @@
-import logging
-
+import logfire
 import requests
 from bs4 import BeautifulSoup
 from cachetools import TTLCache, cached
-
-logger = logging.getLogger("rich")
 
 GEEKLAB_API = "http://ws.geeklab.com.ar/dolar/get-dolar-json.php"
 BNC = "https://www.bna.com.ar/"
@@ -60,13 +57,7 @@ def _process_bcn(data: str) -> str:
     dolar = " ".join(data[3:6]).strip()
     euro = " ".join(data[6:9]).strip()
     real = " ".join(data[9:]).strip()
-    data = (
-        f"{head}\n"
-        f"{dolar}\n"
-        f"{euro}\n"
-        f"{real}\n"
-        f"(*) cotización cada 100 unidades.\n{punch} by bna.com.ar"
-    )
+    data = f"{head}\n" f"{dolar}\n" f"{euro}\n" f"{real}\n" f"(*) cotización cada 100 unidades.\n{punch} by bna.com.ar"
 
     return data
 
@@ -103,7 +94,7 @@ def get_banco_nacion() -> str:
         data = response.text
         return _process_bcn(data)
     except Exception:
-        logger.exception("Error getting BNC")
+        logfire.exception("Error getting BNC")
 
     return "Banco nación no responde 🤷‍♀"
 
@@ -119,7 +110,7 @@ def get_bluelytics() -> str:
         data = response.json()
         return _process_bluelytics(data)
     except Exception:
-        logger.exception("bluelytics")
+        logfire.exception("bluelytics")
     return "Bluelytics no responde 🤷‍♀️"
 
 
@@ -127,20 +118,15 @@ def get_bluelytics() -> str:
 def get_dolar_blue_geeklab() -> str:
     r = client.get(GEEKLAB_API)
     if r.status_code != 200:
-        logger.error(
-            "Something went wrong when it gets dollar. Status code: %s", r.status_code
-        )
+        logfire.error("Something went wrong when it gets dollar. Status code: %s", r.status_code)
         text = "Perdón! La api no está  disponible!"
         return text
 
     data = r.json()
     if not data:
-        logger.error("Something went wrong when it gets dollar. No data!")
+        logfire.error("Something went wrong when it gets dollar. No data!")
         text = "Perdón! La api no devolvió info!"
         return text
 
-    text = (
-        f"USD libre {data['libre']} - Blue {data['blue']}"
-        f"\n{punch} by http://ws.geeklab.com.ar"
-    )
+    text = f"USD libre {data['libre']} - Blue {data['blue']}" f"\n{punch} by http://ws.geeklab.com.ar"
     return text
