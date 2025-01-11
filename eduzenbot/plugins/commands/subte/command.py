@@ -6,7 +6,8 @@ subtenews - subte_novedades
 from api import get_subte
 from emoji import emojize
 from subte.crawlers import get_estado_del_subte, get_estado_metrovias_html
-from telegram import ChatAction, Update
+from telegram import Update
+from telegram.constants import ChatAction
 from telegram.ext import ContextTypes
 
 from eduzenbot.decorators import create_user

@@ -12,7 +12,8 @@ from api import (
     get_serie_detail,
     prettify_serie,
 )
-from telegram import ChatAction, Update
+from telegram import Update
+from telegram.constants import ChatAction
 from telegram.ext import ContextTypes
 
 from eduzenbot.decorators import create_user

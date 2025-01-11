@@ -9,7 +9,8 @@ from typing import Any
 import logfire
 import requests
 from cachetools import TTLCache, cached
-from telegram import ChatAction, Update
+from telegram import Update
+from telegram.constants import ChatAction
 from telegram.ext import ContextTypes
 
 from eduzenbot.decorators import create_user

@@ -3,7 +3,8 @@ transito - transito
 """
 
 from api import get_transito
-from telegram import ChatAction, Update
+from telegram import Update
+from telegram.constants import ChatAction
 from telegram.ext import CallbackContext
 
 from eduzenbot.decorators import create_user

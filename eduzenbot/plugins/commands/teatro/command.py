@@ -3,7 +3,8 @@ teatro - get_ranking
 """
 
 from api import parse_alternativa
-from telegram import ChatAction, Update
+from telegram import Update
+from telegram.constants import ChatAction
 from telegram.ext import CallbackContext
 
 from eduzenbot.decorators import create_user

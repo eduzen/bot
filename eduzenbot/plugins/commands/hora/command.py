@@ -8,7 +8,8 @@ import random
 import logfire
 import pytz
 import requests
-from telegram import ChatAction, Update
+from telegram import Update
+from telegram.constants import ChatAction
 from telegram.ext import ContextTypes
 
 from eduzenbot.decorators import create_user

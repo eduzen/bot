@@ -60,17 +60,17 @@ def create_user(func: Callable) -> Callable:
     def wrapper(update: Update, context: CallbackContext, *args: int, **kwarg: dict[Any, Any]) -> Callable:
         command = func.__name__
         if not update.message.from_user:
-            logfire.warning(f"{command}... by unknown user")
+            logfire.warn(f"{command}... by unknown user")
             log_event(user=None, command=command)
             return func(update, context, *args, **kwarg)
 
         try:
             user = get_or_create_user(update.message.from_user)
             if user:
-                logfire.warning(f"{command}... by {user}")
+                logfire.warn(f"{command}... by {user}")
                 log_event(user, command=command)
             else:
-                logfire.warning(f"{command}... by unknown user {update.message.from_user}")
+                logfire.warn(f"{command}... by unknown user {update.message.from_user}")
         except Exception:
             logfire.exception("Something went wrong with create_user decorator")
 

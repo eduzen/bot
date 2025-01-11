@@ -4,9 +4,10 @@
 # import random
 
 # import peewee
-# from telegram import ChatAction, Update
+# from telegram import Update
 # from telegram.ext import CallbackContext
 # from eduzenbot.models import Question, User
+# from telegram.constants import ChatAction
 
 # from .vocabulary import (
 #     BYE_KEYWORDS,

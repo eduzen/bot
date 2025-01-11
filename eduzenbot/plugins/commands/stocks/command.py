@@ -5,7 +5,8 @@ stock - stock
 import datetime as dt
 
 import yfinance as yf
-from telegram import ChatAction, Update
+from telegram import Update
+from telegram.constants import ChatAction
 from telegram.ext import ContextTypes
 
 from eduzenbot.decorators import create_user

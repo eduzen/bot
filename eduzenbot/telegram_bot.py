@@ -41,23 +41,23 @@ class TelegramBot:
         # Load and register plugins
         self._load_plugins()
 
-    def start(self) -> None:
+    async def start(self) -> None:
         if not self.polling:
             logfire.info("Starting bot with polling...")
-            self.application.run_polling()
+            await self.application.run_polling()
         else:
             logfire.info("Starting bot with webhook...")
-            self.application.run_webhook(
+            await self.application.run_webhook(
                 listen="0.0.0.0",
                 port=self.port,
                 webhook_url=f"https://eduzenbot.herokuapp.com/{self.token}",
             )
 
         # Notify the developer
-        self.send_msg_to_eduzen("eduzenbot reiniciado!")
+        await self.send_msg_to_eduzen("eduzenbot reiniciado!")
 
         # Now schedule any daily jobs
-        schedule_reports(
+        await schedule_reports(
             self.application.job_queue,
             self.send_msg_to_chatid,
             self.eduzen_id,
@@ -105,7 +105,7 @@ class TelegramBot:
 
     def _load_plugins(self) -> None:
         logfire.info("Loading plugins...")
-        plugins_path = get_path("./plugins/commands")
+        plugins_path = get_path("plugins/commands")
         commands = load_plugins(plugins_path)
         logfire.info("Registering commands!")
         self.register_commands(commands)

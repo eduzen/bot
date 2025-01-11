@@ -4,7 +4,8 @@ gasto - expense
 
 import logfire
 from api import send_expense
-from telegram import ChatAction, Update
+from telegram import Update
+from telegram.constants import ChatAction
 from telegram.ext import ContextTypes
 
 from eduzenbot.auth.restricted import restricted

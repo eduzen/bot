@@ -4,7 +4,8 @@ trenes - trenes
 
 import logfire
 from api import get_trenes
-from telegram import ChatAction, Update
+from telegram import Update
+from telegram.constants import ChatAction
 from telegram.ext import ContextTypes
 
 from eduzenbot.decorators import create_user

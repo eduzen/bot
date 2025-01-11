@@ -9,7 +9,8 @@ edit_question - edit_question
 """
 
 import logfire
-from telegram import ChatAction, Update
+from telegram import Update
+from telegram.constants import ChatAction
 from telegram.ext import CallbackContext
 
 from eduzenbot.auth.restricted import restricted
