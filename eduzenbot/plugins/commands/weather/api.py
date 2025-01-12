@@ -2,15 +2,15 @@ import os
 from datetime import datetime
 from typing import Any
 
+import httpx
 import logfire
 import pytz
-import requests
 from bs4 import BeautifulSoup
 from cachetools import TTLCache, cached
 
 ow_token = os.getenv("openweathermap_token")
 
-client = requests.Session()
+client = httpx.Client()
 
 
 WEATHER_EMOJIS = {
@@ -66,13 +66,13 @@ def get_sun_times(data: dict[str, Any], city: str) -> tuple:
 
 
 @cached(cache=TTLCache(maxsize=2048, ttl=360))
-def get_klima(city_name: str = "Amsterdam,nl") -> str:
+async def get_klima(city_name: str = "Amsterdam,nl") -> str:
     params = {
         "q": city_name,
         "APPID": ow_token,
         "units": "metric",
     }
-    r = client.get(OPENWEATHERMAP_URL, params=params)
+    r = await client.get(OPENWEATHERMAP_URL, params=params)
     msg = "No pudimos conseguir el clima"
 
     if r.status_code != 200:
@@ -85,7 +85,7 @@ def get_klima(city_name: str = "Amsterdam,nl") -> str:
     try:
         sunrise_time, sunset_time = get_sun_times(data["sys"], data["name"])
     except Exception as e:
-        logfire.warning(f"error in astral time calculation: {e}")
+        logfire.warn(f"error in astral time calculation: {e}")
         sunrise_time = "?"
         sunset_time = "?"
 
@@ -108,8 +108,8 @@ def get_klima(city_name: str = "Amsterdam,nl") -> str:
 
 
 @cached(cache=TTLCache(maxsize=2048, ttl=360))
-def get_weather() -> str:
-    r = requests.get(lanacion, headers=headers)
+async def get_weather() -> str:
+    r = await client.get(lanacion, headers=headers)
     r.encoding = "utf-8"
     msg = "No pudimos conseguir el clima"
 

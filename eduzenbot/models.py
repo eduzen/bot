@@ -47,10 +47,9 @@ class User(BaseModel):
     created_at = DateTimeField(default=datetime.now)
     updated_at = DateTimeField(null=True)
 
-    def save(self, *args: int, **kwargs: str) -> None:
+    def save(self, force_insert=False, *args, **kwargs) -> None:
         self.updated_at = datetime.now()
-        kwargs["force_insert"] = True  # Non incremental id
-        return super().save(*args, **kwargs)
+        return super().save(force_insert=force_insert, *args, **kwargs)
 
     def __str__(self) -> str:
         return f"<{self.username or ''}: {self.first_name or ''} {self.last_name or ''}>"

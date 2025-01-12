@@ -1,4 +1,3 @@
-import functools
 from collections.abc import Callable
 from functools import wraps
 from typing import Any
@@ -6,75 +5,120 @@ from typing import Any
 import logfire
 import peewee
 from telegram import Update
-from telegram.ext import CallbackContext
+from telegram import User as TelegramUser
+from telegram.ext import ContextTypes
 
-from eduzenbot.models import EventLog, User
+from eduzenbot.models import EventLog
+from eduzenbot.models import User as UserModel
 
 
-def hash_dict(func: Callable) -> Callable:
-    """Transform mutable dictionnary
-    Into immutable
-    Useful to be compatible with cache
+def get_or_create_user(telegram_user: TelegramUser) -> UserModel | None:
     """
+    Retrieves an existing user or creates a new one if not found.
 
-    class HDict(dict):
-        def __hash__(self) -> str:
-            return hash(frozenset(self.items()))
+    Args:
+        telegram_user (TelegramUser): The user object from Python Telegram Bot.
 
-    @functools.wraps(func)
-    def wrapped(*args: int, **kwargs: str) -> Callable:
-        args = tuple(HDict(arg) if isinstance(arg, dict) else arg for arg in args)
-        kwargs = {k: HDict(v) if isinstance(v, dict) else v for k, v in kwargs.items()}
-        return func(*args, **kwargs)
-
-    return wrapped
-
-
-def get_or_create_user(user: User) -> User | None:
+    Returns:
+        Optional[UserModel]: The retrieved or newly created user, or None if an error occurred.
+    """
     try:
-        data = user.to_dict()
-        if not data.get("username"):
-            data["username"] = data.get("id")
+        # Prepare default data from the Telegram user object
+        data = {
+            "username": telegram_user.username or str(telegram_user.id),
+            "first_name": telegram_user.first_name,
+            "last_name": telegram_user.last_name,
+            "is_bot": telegram_user.is_bot,
+            "language_code": telegram_user.language_code,
+        }
 
-        user, _ = User.get_or_create(id=data.get("id"), defaults=data)
-        return user
-    except peewee.IntegrityError:
-        logfire.exception("Peweeeeeeerror")
-    except Exception:
-        logfire.exception("'get_or_create_user' is not working")
+        # Attempt to get or create the user in the DB
+        user_model, created = UserModel.get_or_create(
+            id=telegram_user.id,
+            defaults=data,
+        )
+
+        # If the user already existed, you can optionally update fields
+        # in case they changed their username or other info
+        if not created:
+            user_model.username = data["username"]
+            user_model.first_name = data["first_name"]
+            user_model.last_name = data["last_name"]
+            user_model.is_bot = data["is_bot"]
+            user_model.language_code = data["language_code"]
+            user_model.save()
+
+        return user_model
+
+    except peewee.IntegrityError as exc:
+        logfire.exception(
+            "IntegrityError occurred while creating or retrieving user.",
+            extra={"telegram_id": telegram_user.id, "error": str(exc)},
+        )
+    except peewee.PeeweeException as exc:
+        logfire.exception(
+            "Database error in 'get_or_create_user'.", extra={"telegram_id": telegram_user.id, "error": str(exc)}
+        )
+    return None
 
 
-def log_event(user: User, command: str) -> None:
+def log_event(user_model: UserModel, command: str) -> None:
+    """
+    Logs the execution of a command by a user.
+
+    Args:
+        user_model (UserModel): The user who executed the command.
+        command (str): The command executed.
+    """
     try:
-        EventLog.create(user=user, command=command)
-    except Exception:
-        logfire.exception("We couldn't log the event")
+        EventLog.create(user=user_model, command=command)
+    except peewee.PeeweeException as exc:
+        logfire.exception(
+            "Database error while logging the event.",
+            extra={"user_id": user_model.id, "command": command, "error": str(exc)},
+        )
 
 
-def create_user(func: Callable) -> Callable:
+def create_user() -> Callable:
     """
-    Decorator that creates and logs user.
+    Decorator factory to ensure a user is created in the database and logs the command execution.
+
+    Returns:
+        A decorator which wraps the Telegram handler function.
     """
 
-    @wraps(func)
-    def wrapper(update: Update, context: CallbackContext, *args: int, **kwarg: dict[Any, Any]) -> Callable:
-        command = func.__name__
-        if not update.message.from_user:
-            logfire.warn(f"{command}... by unknown user")
-            log_event(user=None, command=command)
-            return func(update, context, *args, **kwarg)
+    def decorator(func: Callable) -> Callable:
+        @wraps(func)
+        async def wrapper(update: Update, context: ContextTypes.DEFAULT_TYPE, *args: Any, **kwargs: Any) -> Any:
+            command = func.__name__
 
-        try:
-            user = get_or_create_user(update.message.from_user)
-            if user:
-                logfire.warn(f"{command}... by {user}")
-                log_event(user, command=command)
-            else:
-                logfire.warn(f"{command}... by unknown user {update.message.from_user}")
-        except Exception:
-            logfire.exception("Something went wrong with create_user decorator")
+            user_data = update.effective_user
+            if not user_data:
+                logfire.warn(f"{command} executed by an unknown user.")
+                return await func(update, context, *args, **kwargs)
 
-        result = func(update, context, *args, **kwarg)
-        return result
+            try:
+                user_model = get_or_create_user(user_data)
+                if not user_model:
+                    logfire.error(f"Error creating user: {user_data}")
+                    return
 
-    return wrapper
+                log_event(user_model, command=command)
+                logfire.info(f"{command} executed by {user_model.username or user_model.id}")
+
+            except peewee.PeeweeException as db_exc:
+                logfire.exception(
+                    "Database error occurred in 'create_user' decorator.",
+                    extra={"user_data": user_data.to_dict(), "command": command, "error": str(db_exc)},
+                )
+            except Exception as exc:
+                logfire.exception(
+                    "Unexpected error occurred in 'create_user' decorator.",
+                    extra={"user_data": user_data.to_dict(), "command": command, "error": str(exc)},
+                )
+
+            return await func(update, context, *args, **kwargs)
+
+        return wrapper
+
+    return decorator

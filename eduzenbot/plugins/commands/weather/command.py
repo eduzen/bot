@@ -3,12 +3,13 @@ clima - weather
 klima - klima
 """
 
-from api import get_klima, get_weather
 from telegram import Update
 from telegram.constants import ChatAction
 from telegram.ext import ContextTypes
 
 from eduzenbot.decorators import create_user
+
+from .api import get_klima, get_weather
 
 
 @create_user
@@ -17,10 +18,10 @@ async def weather(update: Update, context: ContextTypes.DEFAULT_TYPE, *args: int
     await context.bot.send_chat_action(chat_id=update.effective_chat.id, action=ChatAction.TYPING)
 
     if not context.args:
-        text = get_weather()
+        text = await get_weather()
     else:
         city = " ".join(context.args)
-        text = get_klima(city)
+        text = await get_klima(city)
 
     if not text:
         return
@@ -34,10 +35,10 @@ async def klima(update: Update, context: ContextTypes.DEFAULT_TYPE, *args: int, 
     await context.bot.send_chat_action(chat_id=update.effective_chat.id, action=ChatAction.TYPING)
 
     if not context.args:
-        text = get_klima()
+        text = await get_klima()
     else:
         city = " ".join(context.args)
-        text = get_klima(city)
+        text = await get_klima(city)
 
     if not text:
         return

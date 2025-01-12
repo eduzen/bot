@@ -3,7 +3,6 @@ FROM python:3.13-slim-bookworm AS production
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
     UV_COMPILE_BYTECODE=1 \
-    PYTHONWARNINGS='ignore:Unverified HTTPS request' \
     PATH="/code/.venv/bin:$PATH"
 
 WORKDIR /code

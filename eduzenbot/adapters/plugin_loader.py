@@ -1,68 +1,93 @@
 import importlib.util
-import os
-import pkgutil
-from collections.abc import Callable
-from typing import Any
+import inspect
+from pathlib import Path
 
 import logfire
+from telegram.ext import CommandHandler
 
 
-def get_commands_from_plugin(plugin) -> dict[str, Callable]:
+def _get_commands_path() -> Path:
+    """Get the absolute path to the commands directory."""
+    return Path(__file__).resolve().parent / ".." / "plugins" / "commands"
+
+
+def _get_plugin_folders(commands_path: Path) -> list[Path]:
+    """Retrieve all plugin folders containing a command.py file."""
+    return [folder for folder in commands_path.iterdir() if (folder / "command.py").is_file()]
+
+
+def _load_module_from_folder(folder_path: Path) -> None | object:
+    """Dynamically load the command.py module from a given plugin folder."""
+    module_name = f"eduzenbot.plugins.commands.{folder_path.name}.command"
+    command_file = folder_path / "command.py"
+
+    try:
+        spec = importlib.util.spec_from_file_location(module_name, command_file)
+        module = importlib.util.module_from_spec(spec)
+        logfire.debug(f"Loading module {module_name} ...")
+        spec.loader.exec_module(module)
+        return module
+    except Exception:
+        logfire.exception(f"Error loading module {module_name}")
+        return None
+
+
+def _extract_command_handlers(module, module_name: str, registered_commands: set) -> list[CommandHandler]:
     """
-    Each plugin should document commands in its __doc__ with lines like:
-        command_name - function_name
+    Extract CommandHandler instances from a module using docstring definitions.
+
+    Args:
+        module: The imported module.
+        module_name: The plugin folder name.
+        registered_commands: A set of already registered command names.
+
+    Returns:
+        List[CommandHandler]: CommandHandlers ready to be registered.
     """
-    plugins: dict[str, Callable] = {}
-    if not plugin.__doc__:
-        return plugins
+    handlers: list[CommandHandler] = []
+    if not module.__doc__:
+        logfire.warn(f"Module {module_name} has no docstring. Skipping...")
+        return handlers
 
-    for line in plugin.__doc__.strip().splitlines():
-        command = [s.strip() for s in line.split("-")]
-        cmd_name, func_name = command[0], command[1]
-        plugins[cmd_name] = getattr(plugin, func_name)
-    return plugins
+    for line in module.__doc__.strip().splitlines():
+        parts = [s.strip().lower() for s in line.split("-")]
+        if len(parts) != 2:
+            logfire.warn(f"Invalid docstring format in {module_name}: {line}")
+            continue
+        command_name, func_name = parts
 
-
-def load_module_from_path(module_name: str, path: str) -> Any:
-    spec = importlib.util.spec_from_file_location(module_name, path)
-    if not spec or not spec.loader:
-        raise ImportError(f"Cannot load module {module_name} from {path}")
-    module = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(module)
-    return module
-
-
-def find_modules(paths: list[str]) -> dict[str, Any]:
-    commands = {}
-    for path in paths:
-        for _, package_name, _ in pkgutil.iter_modules([path]):
-            module_path = os.path.join(path, f"{package_name}.py")
-            module = load_module_from_path(package_name, module_path)
-            commands.update(get_commands_from_plugin(module))
-    return commands
-
-
-def load_plugins(plugins_root: str) -> dict[str, Callable]:
-    """
-    Recursively loads modules from the given folder,
-    aggregating commands declared in their __doc__.
-    """
-    logfire.info(f"Loading plugins from {plugins_root}...")
-    all_commands = {}
-    for importer, package_name, is_pkg in pkgutil.iter_modules([plugins_root]):
-        # Skip packages and test directories
-        if is_pkg or package_name == "tests":
+        if command_name in registered_commands:
+            logfire.warn(f"Duplicate command /{command_name} detected. Skipping...")
             continue
 
-        module_path = os.path.join(plugins_root, package_name)
-        logfire.debug(f"Checking {module_path} ...")
-        if not os.path.isfile(module_path):  # Ensure the module file exists
-            logfire.warning(f"Module {module_path} does not exist")
+        func = getattr(module, func_name, None)
+        if func and inspect.isfunction(func):
+            handlers.append(CommandHandler(command_name, func))
+            registered_commands.add(command_name)
+            logfire.info(f"Registered command: /{command_name} -> {module_name}.{func_name}")
+        else:
+            logfire.warn(f"Function '{func_name}' not found in {module_name}")
+
+    return handlers
+
+
+def load_and_register_plugins() -> list[CommandHandler]:
+    """
+    Load plugin commands from the plugins directory and register them.
+
+    Returns:
+        List[CommandHandler]: A list of registered CommandHandler instances.
+    """
+    handlers = []
+    registered_commands: set[str] = set()
+    commands_path = _get_commands_path()
+
+    for folder_path in _get_plugin_folders(commands_path):
+        module = _load_module_from_folder(folder_path)
+        if not module:
             continue
 
-        logfire.info(f"Loading {package_name} ...")
-        commands = find_modules([module_path])
-        all_commands.update(commands)
+        module_handlers = _extract_command_handlers(module, folder_path.name, registered_commands)
+        handlers.extend(module_handlers)
 
-    logfire.info(f"Found {len(all_commands)} commands in total")
-    return all_commands
+    return handlers

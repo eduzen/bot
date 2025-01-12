@@ -14,8 +14,6 @@ from telegram.ext import ContextTypes
 
 from eduzenbot.decorators import create_user
 
-logfire = logfire.get_logger()
-
 BASE_URL = "http://worldtimeapi.org/api/timezone/"
 
 

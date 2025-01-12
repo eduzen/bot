@@ -1,14 +1,16 @@
-import requests
+import httpx
 from bs4 import BeautifulSoup
 from cachetools import TTLCache, cached
 
 ALTERNATIVA = "http://www.alternativateatral.com/"
 
+client = httpx.Client()
+
 
 def get_response(url, verify=False):
     try:
-        response = requests.get(url, verify=verify)
-    except requests.exceptions.ConnectionError:
+        response = client.get(url, verify=verify)
+    except httpx.ConnectError:
         return
 
     return response

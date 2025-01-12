@@ -1,5 +1,5 @@
+import httpx
 import logfire
-import requests
 from bs4 import BeautifulSoup
 from cachetools import TTLCache, cached
 
@@ -7,7 +7,7 @@ GEEKLAB_API = "http://ws.geeklab.com.ar/dolar/get-dolar-json.php"
 BNC = "https://www.bna.com.ar/"
 BLUELYTICS = "https://api.bluelytics.com.ar/v2/latest"
 
-client = requests.Session()
+client = httpx.Client()
 
 dolar = "🇺🇸"
 euro = "🇪🇺"
@@ -115,8 +115,8 @@ def get_bluelytics() -> str:
 
 
 @cached(cache=TTLCache(maxsize=1024, ttl=60))
-def get_dolar_blue_geeklab() -> str:
-    r = client.get(GEEKLAB_API)
+async def get_dolar_blue_geeklab() -> str:
+    r = await client.get(GEEKLAB_API)
     if r.status_code != 200:
         logfire.error("Something went wrong when it gets dollar. Status code: %s", r.status_code)
         text = "Perdón! La api no está  disponible!"

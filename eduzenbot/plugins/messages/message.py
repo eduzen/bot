@@ -43,7 +43,7 @@
 #     try:
 #         user, created = User.get_or_create(**data)
 #     except peewee.IntegrityError:
-#         logfire.warning("User already created")
+#         logfire.warn("User already created")
 
 #     if user and created:
 #         logfire.debug("User created. Id %s", user.id)

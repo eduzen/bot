@@ -23,21 +23,21 @@ async def telegram_error_handler(update: Update, context: ContextTypes.DEFAULT_T
     try:
         raise context.error
     except Forbidden as e:
-        logfire.warning(f"Unauthorized error: {e}")
+        logfire.warn(f"Unauthorized error: {e}")
     except BadRequest as e:
-        logfire.warning(f"BadRequest error: {e}")
+        logfire.warn(f"BadRequest error: {e}")
         logfire.debug(f"Details: {e}")
     except TimedOut as e:
-        logfire.warning(f"TimedOut error: {e}")
+        logfire.warn(f"TimedOut error: {e}")
         logfire.debug(f"Details: {e}")
     except NetworkError as e:
-        logfire.warning(f"NetworkError: {e}")
+        logfire.warn(f"NetworkError: {e}")
         logfire.debug(f"Details: {e}")
     except ChatMigrated as e:
-        logfire.warning(f"ChatMigrated error: {e}")
+        logfire.warn(f"ChatMigrated error: {e}")
         logfire.debug(f"Details: {e}")
     except TelegramError as e:
-        logfire.warning(f"TelegramError: {e}")
+        logfire.warn(f"TelegramError: {e}")
         logfire.debug(f"Details: {e}")
     except Exception as e:
         logfire.exception(f"Unhandled exception: {e}")

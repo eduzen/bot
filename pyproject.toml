@@ -9,19 +9,16 @@ authors = [
   { name = "Eduardo Enriquez (eduzen)", email = "eduardo.a.enriquez@gmail.com" },
 ]
 dependencies = [
-  "attrs",
   "beautifulsoup4",
   "cachetools",
   "emoji",
   "peewee",
   "python-telegram-bot[job-queue]",
-  "requests",
   "sentry-sdk",
-  "tmdbsimple",
-  "tweepy",
   "yfinance",
   "python-dotenv",
   "logfire>=2.11.1",
+  "httpx>=0.28.1",
 ]
 
 [dependency-groups]
@@ -33,9 +30,8 @@ dev = [
   "pytest",
   "coverage",
   "pytest-mock",
-  "pytest-xdist",
-  "pytest-recording",
   "pytest-randomly",
+  "pytest-asyncio>=0.25.2",
   "mypy",
   "types-beautifulsoup4",
   "types-cachetools",
@@ -45,7 +41,7 @@ dev = [
   "types-psycopg2",
   "types-pytz",
   "types-requests",
-  "types-setuptools"
+  "types-setuptools",
 ]
 
 [tool.isort]

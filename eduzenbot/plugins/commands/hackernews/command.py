@@ -6,8 +6,8 @@ from enum import Enum
 from types import SimpleNamespace
 from typing import Any
 
+import httpx
 import logfire
-import requests
 from cachetools import TTLCache, cached
 from telegram import Update
 from telegram.constants import ChatAction
@@ -15,7 +15,7 @@ from telegram.ext import ContextTypes
 
 from eduzenbot.decorators import create_user
 
-session = requests.Session()
+session = httpx.Client()
 
 
 class STORIES(Enum):
