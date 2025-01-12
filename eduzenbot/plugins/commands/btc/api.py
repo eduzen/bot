@@ -1,5 +1,5 @@
+import httpx
 import logfire
-import requests
 from cachetools import TTLCache, cached
 
 COIN_BIN = "https://coinbin.org/btc"
@@ -13,19 +13,15 @@ ALL = (
 )
 
 
-client = requests.Session()
+client = httpx.AsyncClient()
 
 
-def get_coin_value(url: str) -> requests.Response | None:
-    try:
-        response = client.get(url)
-    except requests.exceptions.ConnectionError:
-        return
-
+async def get_coin_value(url: str):
+    response = await client.get(url)
     return response
 
 
-def process_coinbin(response: requests.Response) -> str:
+def process_coinbin(response) -> str:
     data = response.json()
     if not data:
         logfire.error("Something went wrong when it gets dollar. No data!")
@@ -37,7 +33,7 @@ def process_coinbin(response: requests.Response) -> str:
     return text
 
 
-def process_coindesk(response: requests.Response) -> str:
+def process_coindesk(response) -> str:
     data = response.json()
     if not data:
         logfire.error("Something went wrong when it gets dollar. No data!")
@@ -50,7 +46,7 @@ def process_coindesk(response: requests.Response) -> str:
     return f"₿ 1 btc == USD {usd_price:,.2f} 💵 | EUR {eur_price:,.2f} 🇪🇺 \n By coindesk.org"
 
 
-def process_eth(response: requests.Response) -> str:
+def process_eth(response) -> str:
     try:
         response.raise_for_status()
         data = response.json()
@@ -59,7 +55,7 @@ def process_eth(response: requests.Response) -> str:
         logfire.exception("No pudimos conseguir eth")
 
 
-def process_dogecoin(response: requests.Response) -> str:
+def process_dogecoin(response) -> str:
     try:
         response.raise_for_status()
         data = response.json()
@@ -93,7 +89,7 @@ def get_eth() -> str:
     return "Perdón! No hay ninguna api disponible!"
 
 
-def process_all(response: requests.Response) -> str:
+def process_all(response) -> str:
     try:
         response.raise_for_status()
         data = response.json()
@@ -139,8 +135,8 @@ def get_dogecoin() -> str:
     return "Perdón! No hay ninguna api disponible!"
 
 
-def get_all() -> str:
-    r = get_coin_value(ALL)
+async def get_all() -> str:
+    r = await get_coin_value(ALL)
 
     if r and r.status_code == 200:
         return process_all(r)

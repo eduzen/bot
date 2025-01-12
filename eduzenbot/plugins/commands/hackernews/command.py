@@ -15,7 +15,7 @@ from telegram.ext import ContextTypes
 
 from eduzenbot.decorators import create_user
 
-session = httpx.Client()
+client = httpx.AsyncClient()
 
 
 class STORIES(Enum):
@@ -33,7 +33,7 @@ class STORIES(Enum):
         return self.value
 
 
-def get_top_stories(story_type: STORIES = STORIES.TOP, limit: int | None = 10) -> list[Any]:
+async def get_top_stories(story_type: STORIES = STORIES.TOP, limit: int | None = 10) -> list[Any]:
     """
     Get the top stories from Hacker News.
 
@@ -44,12 +44,12 @@ def get_top_stories(story_type: STORIES = STORIES.TOP, limit: int | None = 10) -
         raise ValueError(f"Invalid story type: {story_type}")
 
     url = f"https://hacker-news.firebaseio.com/v0/{story_type}.json"
-    response = session.get(url)
+    response = await client.get(url)
     response.raise_for_status()
     return response.json()[:limit]
 
 
-def get_item(id: int) -> dict[Any, Any]:
+async def get_item(id: int) -> dict[Any, Any]:
     """
     Get the story with the given ID.
 
@@ -57,16 +57,16 @@ def get_item(id: int) -> dict[Any, Any]:
     :return: A dictionary containing the story.
     """
     url = f"https://hacker-news.firebaseio.com/v0/item/{id}.json"
-    response = session.get(url)
+    response = await client.get(url)
     response.raise_for_status()
     return response.json()
 
 
-def parse_hackernews(story_id: int) -> str:
+async def parse_hackernews(story_id: int) -> str:
     """
     Parse a story's details into a formatted string.
     """
-    raw_story = get_item(story_id)
+    raw_story = await get_item(story_id)
     story = SimpleNamespace(**raw_story)
     try:
         url = story.url
@@ -77,17 +77,18 @@ def parse_hackernews(story_id: int) -> str:
 
 
 @cached(cache=TTLCache(maxsize=1024, ttl=10800))
-def hackernews(story_type: STORIES = STORIES.TOP, limit: int = 5) -> str:
+async def fetch_hackernews_stories(story_type: STORIES = STORIES.TOP, limit: int = 5) -> str:
     """
     Fetch and format top Hacker News stories.
     """
     text_stories = []
-    for story_id in get_top_stories(story_type, limit):
+    top_stories = await get_top_stories(story_type, limit)
+    for story_id in top_stories:
         try:
-            story = parse_hackernews(story_id)
+            story = await parse_hackernews(story_id)
             text_stories.append(story)
-        except Exception as e:
-            logfire.exception(e)
+        except Exception:
+            logfire.exception("Failed to parse story.", extra={"story_id": story_id})
             continue
 
     title = "Stories from [HackerNews](https://news.ycombinator.com)\n"
@@ -105,10 +106,10 @@ async def get_hackernews(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
     type_story = context.args[0] if context.args else STORIES.TOP
     try:
         story_type = STORIES[type_story.upper()]
-    except KeyError:
+    except (KeyError, AttributeError):
         story_type = STORIES.TOP
 
-    text = hackernews(story_type)
+    text = await fetch_hackernews_stories(story_type)
 
     await context.bot.send_message(
         chat_id=chat_id,

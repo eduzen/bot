@@ -42,6 +42,7 @@ dev = [
   "types-pytz",
   "types-requests",
   "types-setuptools",
+  "respx>=0.22.0",
 ]
 
 [tool.isort]

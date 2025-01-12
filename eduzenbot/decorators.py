@@ -79,7 +79,7 @@ def log_event(user_model: UserModel, command: str) -> None:
         )
 
 
-def create_user() -> Callable:
+def create_user(func: Callable) -> Callable:
     """
     Decorator factory to ensure a user is created in the database and logs the command execution.
 
@@ -87,38 +87,35 @@ def create_user() -> Callable:
         A decorator which wraps the Telegram handler function.
     """
 
-    def decorator(func: Callable) -> Callable:
-        @wraps(func)
-        async def wrapper(update: Update, context: ContextTypes.DEFAULT_TYPE, *args: Any, **kwargs: Any) -> Any:
-            command = func.__name__
+    @wraps(func)
+    async def wrapper(update: Update, context: ContextTypes.DEFAULT_TYPE, *args: Any, **kwargs: Any) -> Any:
+        command = func.__name__
 
-            user_data = update.effective_user
-            if not user_data:
-                logfire.warn(f"{command} executed by an unknown user.")
-                return await func(update, context, *args, **kwargs)
-
-            try:
-                user_model = get_or_create_user(user_data)
-                if not user_model:
-                    logfire.error(f"Error creating user: {user_data}")
-                    return
-
-                log_event(user_model, command=command)
-                logfire.info(f"{command} executed by {user_model.username or user_model.id}")
-
-            except peewee.PeeweeException as db_exc:
-                logfire.exception(
-                    "Database error occurred in 'create_user' decorator.",
-                    extra={"user_data": user_data.to_dict(), "command": command, "error": str(db_exc)},
-                )
-            except Exception as exc:
-                logfire.exception(
-                    "Unexpected error occurred in 'create_user' decorator.",
-                    extra={"user_data": user_data.to_dict(), "command": command, "error": str(exc)},
-                )
-
+        user_data = update.effective_user
+        if not user_data:
+            logfire.warn(f"{command} executed by an unknown user.")
             return await func(update, context, *args, **kwargs)
 
-        return wrapper
+        try:
+            user_model = get_or_create_user(user_data)
+            if not user_model:
+                logfire.error(f"Error creating user: {user_data}")
+                return
 
-    return decorator
+            log_event(user_model, command=command)
+            logfire.info(f"{command} executed by {user_model.username or user_model.id}")
+
+        except peewee.PeeweeException as db_exc:
+            logfire.exception(
+                "Database error occurred in 'create_user' decorator.",
+                extra={"user_data": user_data.to_dict(), "command": command, "error": str(db_exc)},
+            )
+        except Exception as exc:
+            logfire.exception(
+                "Unexpected error occurred in 'create_user' decorator.",
+                extra={"user_data": user_data.to_dict(), "command": command, "error": str(exc)},
+            )
+
+        return await func(update, context, *args, **kwargs)
+
+    return wrapper

@@ -17,7 +17,7 @@ from telegram.ext import ContextTypes
 from eduzenbot.decorators import create_user
 from eduzenbot.plugins.commands.btc.api import get_all
 from eduzenbot.plugins.commands.dolar.api import get_bluelytics
-from eduzenbot.plugins.commands.hackernews.command import hackernews
+from eduzenbot.plugins.commands.hackernews.command import fetch_hackernews_stories
 from eduzenbot.plugins.commands.weather.api import get_klima
 
 CITY_AMSTERDAM = "amsterdam,nl"
@@ -42,19 +42,19 @@ def melistock(name: str) -> str:
 
 
 @cached(cache=TTLCache(maxsize=2048, ttl=600))
-def get_crypto_report() -> str:
-    crypto = get_all()
-    blue = get_bluelytics() or "-"
-    clima = get_klima(city_name=CITY_BUENOS_AIRES).replace("By api.openweathermap.org", "")
-    amsterdam = get_klima(city_name=CITY_AMSTERDAM).replace("By api.openweathermap.org", "")
-    dallas = get_klima(city_name=CITY_DALLAS).replace("By api.openweathermap.org", "")
+async def get_crypto_report() -> str:
+    crypto = await get_all()
+    blue = await get_bluelytics() or "-"
+    clima = await get_klima(city_name=CITY_BUENOS_AIRES).replace("By api.openweathermap.org", "")
+    amsterdam = await get_klima(city_name=CITY_AMSTERDAM).replace("By api.openweathermap.org", "")
+    dallas = await get_klima(city_name=CITY_DALLAS).replace("By api.openweathermap.org", "")
 
     now = datetime.now(pytz.timezone("America/Argentina/Buenos_Aires"))
     week_day = calendar.day_name[now.weekday()]
     today = now.strftime("%d %B del %Y")
 
     try:
-        hn = hackernews()
+        hn = await fetch_hackernews_stories()
     except Exception:
         hn = ""
 
@@ -86,7 +86,7 @@ async def daily_report(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
     """Handle /report command to send a daily report."""
     await context.bot.send_chat_action(chat_id=update.effective_chat.id, action=ChatAction.TYPING)
 
-    report = get_crypto_report()
+    report = await get_crypto_report()
 
     await context.bot.send_message(
         chat_id=update.effective_chat.id,

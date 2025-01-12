@@ -78,6 +78,7 @@ def load_and_register_plugins() -> list[CommandHandler]:
     Returns:
         List[CommandHandler]: A list of registered CommandHandler instances.
     """
+    logfire.info("Loading plugins...")
     handlers = []
     registered_commands: set[str] = set()
     commands_path = _get_commands_path()
@@ -90,4 +91,5 @@ def load_and_register_plugins() -> list[CommandHandler]:
         module_handlers = _extract_command_handlers(module, folder_path.name, registered_commands)
         handlers.extend(module_handlers)
 
+    logfire.info(f"Handlers created: {handlers}")
     return handlers

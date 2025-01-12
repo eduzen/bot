@@ -4,7 +4,7 @@ from cachetools import TTLCache, cached
 
 ALTERNATIVA = "http://www.alternativateatral.com/"
 
-client = httpx.Client()
+client = httpx.AsyncClient()
 
 
 def get_response(url, verify=False):

@@ -10,7 +10,7 @@ from cachetools import TTLCache, cached
 
 ow_token = os.getenv("openweathermap_token")
 
-client = httpx.Client()
+client = httpx.AsyncClient()
 
 
 WEATHER_EMOJIS = {

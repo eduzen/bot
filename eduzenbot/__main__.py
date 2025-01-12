@@ -62,13 +62,12 @@ def main():
     app.add_handler(CommandHandler("config_reporte", set_timer))
     app.add_handler(CommandHandler("unset", unset))
 
-    logfire.info("Loading plugins...")
     handlers = load_and_register_plugins()
-    logfire.info(f"Handlers created: {handlers}")
     app.add_handlers(handlers)
     logfire.info("Plugins loaded!")
 
-    # job_queue = application.job_queue
+    job_queue = app.job_queue
+    print(job_queue)
     # kwargs = {"msg": "eduzenbot reiniciado!", "eduzen_id": EDUZEN_ID}
     # breakpoint()
     # schedule_reports(

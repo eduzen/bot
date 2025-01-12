@@ -7,7 +7,7 @@ GEEKLAB_API = "http://ws.geeklab.com.ar/dolar/get-dolar-json.php"
 BNC = "https://www.bna.com.ar/"
 BLUELYTICS = "https://api.bluelytics.com.ar/v2/latest"
 
-client = httpx.Client()
+client = httpx.AsyncClient()
 
 dolar = "🇺🇸"
 euro = "🇪🇺"
@@ -83,9 +83,9 @@ def _process_bluelytics(data: dict) -> str:
 
 
 @cached(cache=TTLCache(maxsize=1024, ttl=60))
-def get_banco_nacion() -> str:
+async def get_banco_nacion() -> str:
     try:
-        response = client.get(BNC, verify=True)
+        response = await client.get(BNC)
         response.raise_for_status()
 
         if response.status_code != 200:
@@ -100,9 +100,9 @@ def get_banco_nacion() -> str:
 
 
 @cached(cache=TTLCache(maxsize=1024, ttl=60))
-def get_bluelytics() -> str:
+async def get_bluelytics() -> str:
     try:
-        response = client.get(BLUELYTICS, verify=True)
+        response = await client.get(BLUELYTICS)
         response.raise_for_status()
         if response.status_code != 200:
             raise Exception("Bluelytics no responde 🤷‍♀️ ")
