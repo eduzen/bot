@@ -114,7 +114,7 @@ class TestCreateUserDecorator:
         mock_context = MagicMock(spec=CallbackContext)
 
         # Dummy async function to be decorated
-        @create_user()
+        @create_user
         async def dummy_handler(update, context):
             return "handler_called"
 
@@ -151,7 +151,7 @@ class TestCreateUserDecorator:
         mock_update.effective_user = None
         mock_context = MagicMock(spec=CallbackContext)
 
-        @create_user()
+        @create_user
         async def dummy_handler_no_user(update, context):
             return "handler_called_no_user"
 

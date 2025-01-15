@@ -1,4 +1,5 @@
 import os
+from collections.abc import Awaitable
 from datetime import datetime
 from typing import Any
 
@@ -66,7 +67,7 @@ def get_sun_times(data: dict[str, Any], city: str) -> tuple:
 
 
 @cached(cache=TTLCache(maxsize=2048, ttl=360))
-async def get_klima(city_name: str = "Amsterdam,nl") -> str:
+async def get_klima(city_name: str = "Amsterdam,nl") -> Awaitable[str]:
     params = {
         "q": city_name,
         "APPID": ow_token,
@@ -108,7 +109,7 @@ async def get_klima(city_name: str = "Amsterdam,nl") -> str:
 
 
 @cached(cache=TTLCache(maxsize=2048, ttl=360))
-async def get_weather() -> str:
+async def get_weather() -> Awaitable[str]:
     r = await client.get(lanacion, headers=headers)
     r.encoding = "utf-8"
     msg = "No pudimos conseguir el clima"

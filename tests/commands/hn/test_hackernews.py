@@ -7,7 +7,7 @@ from telegram import Update
 from telegram import User as TelegramUser
 from telegram.ext import CallbackContext
 
-from eduzenbot.plugins.commands.hackernews import (
+from eduzenbot.plugins.commands.hackernews.command import (
     STORIES,
     fetch_hackernews_stories,
     get_hackernews,

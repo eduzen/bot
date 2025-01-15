@@ -76,7 +76,7 @@ async def btc(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Handle /btc command to get Bitcoin information."""
     await context.bot.send_chat_action(chat_id=update.effective_chat.id, action=ChatAction.TYPING)
 
-    text = get_all()
+    text = await get_all()
 
     await context.bot.send_message(chat_id=update.effective_chat.id, text=text)
 
