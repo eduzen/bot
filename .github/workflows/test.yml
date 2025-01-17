@@ -48,10 +48,10 @@ jobs:
 
     - name: Test
       run: |
-        coverage run -m pytest --record-mode=none
-        python -m coverage combine
-        python -m coverage report -m --skip-covered
-        python -m coverage json
+        uv run coverage run -m pytest
+        uv run coverage combine
+        uv run coverage report -m --skip-covered
+        uv run coverage json
 
     - name: "Upload coverage data"
       uses: actions/upload-artifact@v4
