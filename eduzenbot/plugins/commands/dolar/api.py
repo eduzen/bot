@@ -1,7 +1,8 @@
 import httpx
 import logfire
 from bs4 import BeautifulSoup
-from cachetools import TTLCache, cached
+
+from eduzenbot.decorators import async_cached
 
 GEEKLAB_API = "http://ws.geeklab.com.ar/dolar/get-dolar-json.php"
 BNC = "https://www.bna.com.ar/"
@@ -53,13 +54,16 @@ def _process_bcn(data: str) -> str:
         return "Banco nacion changed his html."
 
     data = _extract(data[0])
+
+    # Add spaces between parts
     head = " ".join(data[:3]).strip()
     dolar = " ".join(data[3:6]).strip()
     euro = " ".join(data[6:9]).strip()
     real = " ".join(data[9:]).strip()
-    data = f"{head}\n" f"{dolar}\n" f"{euro}\n" f"{real}\n" f"(*) cotización cada 100 unidades.\n{punch} by bna.com.ar"
 
-    return data
+    result = f"{head}\n" f"{dolar}\n" f"{euro}\n" f"{real}\n" "(*) cotización cada 100 unidades.\n👊 by bna.com.ar"
+
+    return result
 
 
 def _process_bluelytics(data: dict) -> str:
@@ -81,7 +85,7 @@ def _process_bluelytics(data: dict) -> str:
     return data
 
 
-@cached(cache=TTLCache(maxsize=1024, ttl=60))
+@async_cached("get_banco_nacion")
 async def get_banco_nacion() -> str:
     try:
         response = await client.get(BNC)
@@ -98,7 +102,7 @@ async def get_banco_nacion() -> str:
     return "Banco nación no responde 🤷‍♀"
 
 
-@cached(cache=TTLCache(maxsize=1024, ttl=60))
+@async_cached("get_banco_nacion")
 async def get_bluelytics() -> str:
     try:
         response = await client.get(BLUELYTICS)
@@ -113,7 +117,7 @@ async def get_bluelytics() -> str:
     return "Bluelytics no responde 🤷‍♀️"
 
 
-@cached(cache=TTLCache(maxsize=1024, ttl=60))
+@async_cached("get_banco_nacion")
 async def get_dolar_blue_geeklab() -> str:
     r = await client.get(GEEKLAB_API)
     if r.status_code != 200:

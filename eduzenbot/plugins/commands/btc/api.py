@@ -1,8 +1,10 @@
-from collections.abc import Awaitable, Callable
+# eduzenbot/plugins/commands/btc/api.py
+from collections.abc import Callable
 
 import httpx
 import logfire
-from cachetools import TTLCache, cached
+
+from eduzenbot.decorators import async_cached
 
 COIN_BIN = "https://coinbin.org/btc"
 COIN_DESK = "https://api.coindesk.com/v1/bpi/currentprice.json"
@@ -18,16 +20,16 @@ COINGECKO_URL = (
 client = httpx.AsyncClient()
 
 
-async def fetch_and_process(url: str, process_func: Callable[[httpx.Response], str]) -> Awaitable[str]:
+async def fetch_and_process(url: str, process_func: Callable[[httpx.Response], str]) -> str:
     try:
         response = await client.get(url)
         if response.status_code == 200:
-            return process_func(response)  # type: ignore
+            return process_func(response)
         logfire.error(f"Status code: {response.status_code}")
     except httpx.HTTPError as exc:
         logfire.exception("HTTP Error fetching coin data", extra={"url": url, "error": str(exc)})
 
-    return "Perdón! No hay ninguna api disponible!"  # type: ignore
+    return "Perdón! No hay ninguna api disponible!"
 
 
 def process_coindesk(response: httpx.Response) -> str:
@@ -58,7 +60,7 @@ def process_dogecoin(response: httpx.Response) -> str:
         price = round(float(data["data"]["prices"][0]["price"]), 2)
         return f"🐶 1 dogecoin == USD {price} 💵"
     except Exception:
-        logfire.exception("No pudimos conseguir eth")
+        logfire.exception("No pudimos conseguir dogecoin")
         return "Perdón! No hay ninguna api disponible!"
 
 
@@ -89,21 +91,21 @@ def process_all(response: httpx.Response) -> str:
     return "Perdón! No hay ninguna api disponible!"
 
 
-@cached(cache=TTLCache(maxsize=2048, ttl=60))
-async def get_eth() -> Awaitable[str]:
+@async_cached("get_eth")
+async def get_eth() -> str:
     return await fetch_and_process(ETH, process_eth)
 
 
-@cached(cache=TTLCache(maxsize=2048, ttl=60))
-async def get_btc() -> Awaitable[str]:
+@async_cached("get_btc")
+async def get_btc() -> str:
     return await fetch_and_process(COIN_DESK, process_coindesk)
 
 
-@cached(cache=TTLCache(maxsize=2048, ttl=60))
-async def get_dogecoin() -> Awaitable[str]:
+@async_cached("get_dogecoin")
+async def get_dogecoin() -> str:
     return await fetch_and_process(DOGECOIN, process_dogecoin)
 
 
-@cached(cache=TTLCache(maxsize=2048, ttl=60))
-async def get_all() -> Awaitable[str]:
+@async_cached("get_all")
+async def get_all() -> str:
     return await fetch_and_process(COINGECKO_URL, process_all)

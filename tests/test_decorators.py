@@ -1,6 +1,7 @@
 # tests/test_decorators.py
-from unittest.mock import MagicMock
+from unittest.mock import MagicMock, patch
 
+import peewee
 import pytest
 from telegram import Update
 from telegram import User as TelegramUser
@@ -9,6 +10,48 @@ from telegram.ext import CallbackContext
 from eduzenbot.decorators import create_user, get_or_create_user, log_event
 from eduzenbot.models import EventLog
 from eduzenbot.models import User as UserModel
+
+
+@pytest.mark.usefixtures("setup_db")
+class TestGetOrCreateUserExceptions:
+    """
+    Tests for exception handling in get_or_create_user.
+    """
+
+    @patch("eduzenbot.decorators.UserModel.get_or_create")
+    def test_integrity_error(self, mock_get_or_create):
+        telegram_user = MagicMock(spec=TelegramUser)
+        telegram_user.id = 12345
+
+        mock_get_or_create.side_effect = peewee.IntegrityError("Integrity error")
+
+        user_model = get_or_create_user(telegram_user)
+        assert user_model is None
+
+    @patch("eduzenbot.decorators.UserModel.get_or_create")
+    def test_peewee_exception(self, mock_get_or_create):
+        telegram_user = MagicMock(spec=TelegramUser)
+        telegram_user.id = 12345
+
+        mock_get_or_create.side_effect = peewee.PeeweeException("Database error")
+
+        user_model = get_or_create_user(telegram_user)
+        assert user_model is None
+
+
+@pytest.mark.usefixtures("setup_db")
+class TestLogEventExceptions:
+    """
+    Tests for exception handling in log_event.
+    """
+
+    @patch("eduzenbot.decorators.EventLog.create")
+    def test_log_event_peewee_exception(self, mock_event_create):
+        user_model = UserModel.create(id=999, username="logger")
+        mock_event_create.side_effect = peewee.PeeweeException("Event log error")
+
+        log_event(user_model, command="test_command")
+        assert EventLog.select().count() == 0
 
 
 @pytest.mark.usefixtures("setup_db")
@@ -157,5 +200,87 @@ class TestCreateUserDecorator:
 
         result = await dummy_handler_no_user(mock_update, mock_context)
         assert result == "handler_called_no_user"
+        assert UserModel.select().count() == 0
+        assert EventLog.select().count() == 0
+
+
+@pytest.mark.usefixtures("setup_db")
+class TestCreateUserDecoratorExceptions:
+    """
+    Tests for exception handling in the create_user decorator.
+    """
+
+    @pytest.mark.asyncio
+    @patch("eduzenbot.decorators.get_or_create_user")
+    async def test_decorator_peewee_exception(self, mock_get_or_create_user):
+        mock_telegram_user = MagicMock(spec=TelegramUser)
+        mock_telegram_user.id = 111
+
+        mock_update = MagicMock(spec=Update)
+        mock_update.effective_user = mock_telegram_user
+        mock_context = MagicMock(spec=CallbackContext)
+
+        mock_get_or_create_user.side_effect = peewee.PeeweeException("DB error")
+
+        @create_user
+        async def dummy_handler(update, context):
+            return "handler_called"
+
+        result = await dummy_handler(mock_update, mock_context)
+        assert result == "handler_called"
+        assert UserModel.select().count() == 0
+        assert EventLog.select().count() == 0
+
+    @pytest.mark.asyncio
+    @patch("eduzenbot.decorators.log_event")
+    async def test_decorator_log_event_exception(self, mock_log_event):
+        mock_telegram_user = MagicMock(spec=TelegramUser)
+        mock_telegram_user.id = 222
+        mock_update = MagicMock(spec=Update)
+        mock_update.effective_user = mock_telegram_user
+        mock_context = MagicMock(spec=CallbackContext)
+
+        mock_log_event.side_effect = peewee.PeeweeException("Log error")
+
+        @create_user
+        async def dummy_handler(update, context):
+            return "handler_called"
+
+        result = await dummy_handler(mock_update, mock_context)
+        assert result == "handler_called"
+        assert EventLog.select().count() == 0
+
+    @pytest.mark.asyncio
+    async def test_decorator_generic_exception(self):
+        mock_telegram_user = MagicMock(spec=TelegramUser)
+        mock_telegram_user.id = 333
+        mock_update = MagicMock(spec=Update)
+        mock_update.effective_user = mock_telegram_user
+        mock_context = MagicMock(spec=CallbackContext)
+
+        @create_user
+        async def faulty_handler(update, context):
+            raise Exception("Unexpected error")
+
+        with pytest.raises(Exception, match="Unexpected error"):
+            await faulty_handler(mock_update, mock_context)
+
+    @pytest.mark.asyncio
+    @patch("eduzenbot.decorators.get_or_create_user")
+    async def test_decorator_user_creation_failure(self, mock_get_or_create_user):
+        mock_telegram_user = MagicMock(spec=TelegramUser)
+        mock_telegram_user.id = 444
+        mock_update = MagicMock(spec=Update)
+        mock_update.effective_user = mock_telegram_user
+        mock_context = MagicMock(spec=CallbackContext)
+
+        mock_get_or_create_user.return_value = None
+
+        @create_user
+        async def dummy_handler(update, context):
+            return "handler_should_not_run"
+
+        result = await dummy_handler(mock_update, mock_context)
+        assert result is None
         assert UserModel.select().count() == 0
         assert EventLog.select().count() == 0
