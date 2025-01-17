@@ -15,13 +15,6 @@ from eduzenbot.plugins.commands.dolar.api import (
 )
 
 
-async def send_msg(context: ContextTypes.DEFAULT_TYPE, chat_id: str, msg: str, provider: str) -> str | None:
-    """Send a message to the user with dolar information."""
-    if not msg:
-        return f"No hay datos para mostrar de {provider}"
-    await context.bot.send_message(chat_id=chat_id, text=msg)
-
-
 @create_user
 async def get_dolar(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Fetch and send the latest dolar information."""
@@ -31,11 +24,14 @@ async def get_dolar(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
     try:
         geeklab = get_dolar_blue_geeklab()
-        await send_msg(context, chat_id, geeklab, "geeklab")
+        await context.bot.send_message(chat_id=chat_id, text=geeklab)
+
         bluelytics = get_bluelytics()
-        await send_msg(context, chat_id, bluelytics, "Bluelytics")
+        await context.bot.send_message(chat_id=chat_id, text=bluelytics)
+
         banco_nacion = get_banco_nacion()
-        await send_msg(context, chat_id, banco_nacion, "Banco Nacion")
+        await context.bot.send_message(chat_id=chat_id, text=banco_nacion)
+
     except Exception:
         logfire.exception("Error getting dolar info")
         await context.bot.send_message(chat_id=chat_id, text="Algo salió mal, intenta más tarde.")

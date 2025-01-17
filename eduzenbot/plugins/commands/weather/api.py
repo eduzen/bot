@@ -67,7 +67,7 @@ def get_sun_times(data: dict[str, Any], city: str) -> tuple:
 
 
 @cached(cache=TTLCache(maxsize=2048, ttl=360))
-async def get_klima(city_name: str = "Amsterdam,nl") -> Awaitable[str]:
+async def get_klima(city_name: str = "Amsterdam,nl") -> str:
     params = {
         "q": city_name,
         "APPID": ow_token,
@@ -105,7 +105,7 @@ async def get_klima(city_name: str = "Amsterdam,nl") -> Awaitable[str]:
         f"Min {data['main']['temp_min']} °C\n"
         f"Sunrise: {sunrise_time} Sunset: {sunset_time}\n"
     )
-    return f"{msg}\nBy api.openweathermap.org"
+    return msg
 
 
 @cached(cache=TTLCache(maxsize=2048, ttl=360))

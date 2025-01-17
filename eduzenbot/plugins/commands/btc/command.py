@@ -45,9 +45,9 @@ def melistock(name: str) -> str:
 async def get_crypto_report() -> str:
     crypto = await get_all()
     blue = await get_bluelytics() or "-"
-    clima = await get_klima(city_name=CITY_BUENOS_AIRES).replace("By api.openweathermap.org", "")
-    amsterdam = await get_klima(city_name=CITY_AMSTERDAM).replace("By api.openweathermap.org", "")
-    dallas = await get_klima(city_name=CITY_DALLAS).replace("By api.openweathermap.org", "")
+    clima = await get_klima(city_name=CITY_BUENOS_AIRES)
+    amsterdam = await get_klima(city_name=CITY_AMSTERDAM)
+    dallas = await get_klima(city_name=CITY_DALLAS)
 
     now = datetime.now(pytz.timezone("America/Argentina/Buenos_Aires"))
     week_day = calendar.day_name[now.weekday()]

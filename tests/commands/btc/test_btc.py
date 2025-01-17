@@ -38,7 +38,10 @@ async def test_btc_handler(mocker):
 
     # 3. Mock get_all to return a known string
     #    Patch the import path to wherever your get_all is actually used.
-    mocker.patch("eduzenbot.plugins.commands.btc.command.get_all", return_value="BTC info")
+    mocker.patch(
+        "eduzenbot.plugins.commands.btc.command.get_all",
+        new=AsyncMock(return_value="BTC info"),
+    )
 
     # 4. Call the handler
     await btc(mock_update, mock_context)
@@ -67,8 +70,8 @@ async def test_daily_report_handler(mocker):
     mock_update.effective_chat = mock_chat
 
     # 3. Patch get_crypto_report so we don't do real I/O
-    fake_report_text = "Fake Daily Report"
-    mocker.patch("eduzenbot.plugins.commands.btc.command.get_crypto_report", return_value=fake_report_text)
+    fake_report_text = AsyncMock(return_value="Fake Daily Report")
+    mocker.patch("eduzenbot.plugins.commands.btc.command.get_crypto_report", new=fake_report_text)
 
     # 4. Call daily_report
     await daily_report(mock_update, mock_context)
@@ -77,7 +80,7 @@ async def test_daily_report_handler(mocker):
     mock_bot.send_chat_action.assert_called_once_with(chat_id=999, action="typing")
     mock_bot.send_message.assert_called_once_with(
         chat_id=999,
-        text=fake_report_text,
+        text="Fake Daily Report",
         parse_mode="Markdown",
         disable_web_page_preview=True,
     )
@@ -89,28 +92,31 @@ async def test_get_crypto_report(mocker):
     Test the get_crypto_report function directly by mocking its dependencies.
     """
     # Mock get_all, get_bluelytics, get_klima, and fetch_hackernews_stories
-    mocker.patch("eduzenbot.plugins.commands.btc.command.get_all", return_value="CRYPTO DATA")
-    mocker.patch("eduzenbot.plugins.commands.btc.command.get_bluelytics", return_value="DOLLAR DATA")
+    crypto_mock = AsyncMock(return_value="CRYPTO DATA")
+    dollar_mock = AsyncMock(return_value="DOLLAR DATA")
+    mocker.patch("eduzenbot.plugins.commands.btc.command.get_all", new=crypto_mock)
+    mocker.patch("eduzenbot.plugins.commands.btc.command.get_bluelytics", new=dollar_mock)
     mocker.patch(
         "eduzenbot.plugins.commands.btc.command.get_klima",
-        side_effect=[
-            "Buenos Aires Weather",
-            "Amsterdam Weather",
-            "Dallas Weather",
-        ],
+        new=AsyncMock(
+            side_effect=[
+                "Buenos Aires Weather",
+                "Amsterdam Weather",
+                "Dallas Weather",
+            ]
+        ),
     )
-    mocker.patch("eduzenbot.plugins.commands.btc.command.fetch_hackernews_stories", return_value="HN STORIES")
+    hn_mock = AsyncMock(return_value="HN STORIES")
+    mocker.patch("eduzenbot.plugins.commands.btc.command.fetch_hackernews_stories", new=hn_mock)
 
-    # Also control the current date/time so we can assert the formatting
     tz = pytz.timezone("America/Argentina/Buenos_Aires")
     fake_now = datetime(2025, 1, 10, 10, 30, tzinfo=tz)
-    mocker.patch("eduzenbot.plugins.commands.btc.command.datetime")
 
-    # Call the function
+    mock_datetime = mocker.patch("eduzenbot.plugins.commands.btc.command.datetime")
+    mock_datetime.now.return_value = fake_now
+
     text = await get_crypto_report()
 
-    # Validate pieces are in the returned string
-    # e.g., "CRYPTO DATA", "DOLLAR DATA", "Buenos Aires Weather", "HN STORIES", etc.
     assert "CRYPTO DATA" in text
     assert "DOLLAR DATA" in text
     assert "Buenos Aires Weather" in text
@@ -118,10 +124,8 @@ async def test_get_crypto_report(mocker):
     assert "Dallas Weather" in text
     assert "HN STORIES" in text
 
-    # Confirm the date formatting is used
-    assert "10 January del 2025" in text  # or check the actual localized string
-    # Confirm day name
-    weekday_str = calendar.day_name[fake_now.weekday()]  # e.g., "Friday"
+    assert "10 January del 2025" in text
+    weekday_str = calendar.day_name[fake_now.weekday()]
     assert weekday_str in text
 
 

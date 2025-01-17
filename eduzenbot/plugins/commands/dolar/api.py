@@ -69,7 +69,7 @@ def _process_bluelytics(data: dict) -> str:
     oficial_venta = oficial["value_sell"]
     blue_venta = blue["value_sell"]
     brecha = round(((blue_venta / oficial_venta) - 1) * 100, 2)
-    data = (
+    data: str = (
         "🏦 Oficial:\n"
         f"💵 Dólar {oficial['value_buy']} - {oficial_venta}\n"
         f"🇪🇺 Euro {eur['value_buy']} - {eur['value_sell']}\n"
@@ -77,7 +77,6 @@ def _process_bluelytics(data: dict) -> str:
         f"💵 Dólar {blue['value_buy']} - {blue_venta}\n"
         f"🇪🇺 Euro {data['blue_euro']['value_buy']} - {data['blue_euro']['value_sell']}\n"
         f"📊 *Brecha Dolar*: {brecha}%"
-        # f"\n{punch} by bluelytics.com.ar"
     )
     return data
 
@@ -118,7 +117,7 @@ async def get_bluelytics() -> str:
 async def get_dolar_blue_geeklab() -> str:
     r = await client.get(GEEKLAB_API)
     if r.status_code != 200:
-        logfire.error("Something went wrong when it gets dollar. Status code: %s", r.status_code)
+        logfire.error(f"Something went wrong when it gets dollar. Status code: {r.status_code}")
         text = "Perdón! La api no está  disponible!"
         return text
 
