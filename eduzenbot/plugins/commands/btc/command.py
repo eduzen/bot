@@ -9,12 +9,11 @@ from datetime import datetime
 import logfire
 import pytz
 import yfinance
-from cachetools import TTLCache, cached
 from telegram import Update
 from telegram.constants import ChatAction
 from telegram.ext import ContextTypes
 
-from eduzenbot.decorators import create_user
+from eduzenbot.decorators import async_cached, create_user
 from eduzenbot.plugins.commands.btc.api import get_all
 from eduzenbot.plugins.commands.dolar.api import get_bluelytics
 from eduzenbot.plugins.commands.hackernews.command import fetch_hackernews_stories
@@ -41,7 +40,7 @@ def melistock(name: str) -> str:
         return f"No encontramos nada con '{name}'"
 
 
-@cached(cache=TTLCache(maxsize=2048, ttl=600))
+@async_cached("get_crypto_report")
 async def get_crypto_report() -> str:
     crypto = await get_all()
     blue = await get_bluelytics() or "-"

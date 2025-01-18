@@ -20,9 +20,15 @@ from eduzenbot.plugins.commands.btc.command import get_crypto_report
 async def alarm(context: ContextTypes.DEFAULT_TYPE) -> None:
     """Send the alarm message."""
     job = context.job
+    chat_id = job.data if hasattr(job, "data") else None
+
+    if not chat_id:
+        logfire.error("Alarm job missing chat_id.")
+        return
+
     try:
-        text = get_crypto_report()
-        await context.bot.send_message(job.context, text=text, parse_mode="Markdown")  # type: ignore
+        text = await get_crypto_report()
+        await context.bot.send_message(chat_id=chat_id, text=text, parse_mode="Markdown")
     except Exception as e:
         logfire.error(f"Failed to send alarm: {e}")
 
@@ -41,7 +47,11 @@ async def remove_job_if_exists(name: str, context: ContextTypes.DEFAULT_TYPE) ->
 @restricted
 async def set_timer(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Add a job to the queue."""
-    chat_id = update.message.chat_id
+    chat_id = update.effective_chat.id if update.effective_chat else None
+    if not chat_id:
+        logfire.error("Failed to get chat_id. Update does not have effective_chat.")
+        return
+
     try:
         report, _ = Report.get_or_create(chat_id=chat_id)
     except Exception as e:
@@ -69,7 +79,7 @@ async def set_timer(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         job_removed = await remove_job_if_exists(str(chat_id), context)
         # Set up the daily alarm
         when = datetime.time(hour=hour, minute=0, tzinfo=pytz.timezone("Europe/Amsterdam"))
-        context.job_queue.run_daily(alarm, when, chat_id=update.effective_chat.id)
+        context.job_queue.run_daily(alarm, when, data=chat_id)
 
         # Notify user
         text = f"Daily alarm successfully set for {hour}:00!"
@@ -86,8 +96,12 @@ async def set_timer(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
 async def unset(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Remove the job if the user changed their mind."""
-    chat_id = update.message.chat_id
-    job_removed = remove_job_if_exists(str(chat_id), context)
+    chat_id = update.effective_chat.id if update.effective_chat else None
+    if not chat_id:
+        logfire.error("Failed to get chat_id. Update does not have effective_chat.")
+        return
+
+    job_removed = await remove_job_if_exists(str(chat_id), context)
     text = "Timer successfully cancelled!" if job_removed else "You have no active timer."
     await update.message.reply_text(text)
     logfire.info(f"Unset timer for chat_id={chat_id}: {'removed' if job_removed else 'none found'}.")

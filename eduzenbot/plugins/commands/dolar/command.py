@@ -18,18 +18,22 @@ from eduzenbot.plugins.commands.dolar.api import (
 @create_user
 async def get_dolar(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Fetch and send the latest dolar information."""
-    chat_id = update.effective_chat.id
+    chat_id = update.effective_chat.id if update.effective_chat else None
+    if not chat_id:
+        logfire.error("Failed to get chat_id. Update does not have effective_chat.")
+        return
+
     await context.bot.send_chat_action(chat_id=chat_id, action=ChatAction.TYPING)
     await context.bot.send_message(chat_id=chat_id, text="Getting dolar info...")
 
     try:
-        geeklab = get_dolar_blue_geeklab()
+        geeklab = await get_dolar_blue_geeklab()
         await context.bot.send_message(chat_id=chat_id, text=geeklab)
 
-        bluelytics = get_bluelytics()
+        bluelytics = await get_bluelytics()
         await context.bot.send_message(chat_id=chat_id, text=bluelytics)
 
-        banco_nacion = get_banco_nacion()
+        banco_nacion = await get_banco_nacion()
         await context.bot.send_message(chat_id=chat_id, text=banco_nacion)
 
     except Exception:

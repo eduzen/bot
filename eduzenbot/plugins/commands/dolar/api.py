@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup
 from eduzenbot.decorators import async_cached
 
 GEEKLAB_API = "http://ws.geeklab.com.ar/dolar/get-dolar-json.php"
-BNC = "https://www.bna.com.ar/"
+BNC = "https://www.bna.com.ar/Personas"
 BLUELYTICS = "https://api.bluelytics.com.ar/v2/latest"
 
 client = httpx.AsyncClient()
@@ -42,7 +42,6 @@ def _extract(data):
                 value = text
 
         values.append(value)
-
     return values
 
 
@@ -62,7 +61,7 @@ def _process_bcn(data: str) -> str:
     real = " ".join(data[9:]).strip()
 
     result = f"{head}\n" f"{dolar}\n" f"{euro}\n" f"{real}\n" "(*) cotización cada 100 unidades.\n👊 by bna.com.ar"
-
+    logfire.info(f"Banco Nacion API response: {result}")
     return result
 
 
@@ -102,7 +101,7 @@ async def get_banco_nacion() -> str:
     return "Banco nación no responde 🤷‍♀"
 
 
-@async_cached("get_banco_nacion")
+@async_cached("get_bluelytics")
 async def get_bluelytics() -> str:
     try:
         response = await client.get(BLUELYTICS)
@@ -117,7 +116,7 @@ async def get_bluelytics() -> str:
     return "Bluelytics no responde 🤷‍♀️"
 
 
-@async_cached("get_banco_nacion")
+@async_cached("get_dolar_blue_geeklab")
 async def get_dolar_blue_geeklab() -> str:
     r = await client.get(GEEKLAB_API)
     if r.status_code != 200:
@@ -126,6 +125,7 @@ async def get_dolar_blue_geeklab() -> str:
         return text
 
     data = r.json()
+    logfire.info(f"Geeklab API response: {data}")
     if not data:
         logfire.error("Something went wrong when it gets dollar. No data!")
         text = "Perdón! La api no devolvió info!"

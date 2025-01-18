@@ -46,7 +46,7 @@ async def get_top_stories(story_type: STORIES = STORIES.TOP, limit: int | None =
     url = f"https://hacker-news.firebaseio.com/v0/{story_type}.json"
     response = await client.get(url)
     response.raise_for_status()
-    return response.json()[:limit]
+    return await response.json()[:limit]
 
 
 async def get_item(id: int) -> dict[Any, Any]:
@@ -59,7 +59,7 @@ async def get_item(id: int) -> dict[Any, Any]:
     url = f"https://hacker-news.firebaseio.com/v0/item/{id}.json"
     response = await client.get(url)
     response.raise_for_status()
-    return response.json()
+    return await response.json()
 
 
 async def parse_hackernews(story_id: int) -> str:
@@ -100,7 +100,11 @@ async def get_hackernews(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
     """
     Get and send the top stories from Hacker News.
     """
-    chat_id = update.effective_chat.id
+    chat_id = update.effective_chat.id if update.effective_chat else None
+    if not chat_id:
+        logfire.error("Failed to get chat_id. Update does not have effective_chat.")
+        return
+
     await context.bot.send_chat_action(chat_id=chat_id, action=ChatAction.TYPING)
 
     type_story = context.args[0] if context.args else STORIES.TOP
