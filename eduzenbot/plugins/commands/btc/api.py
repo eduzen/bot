@@ -4,8 +4,6 @@ from collections.abc import Callable
 import httpx
 import logfire
 
-from eduzenbot.decorators import async_cached
-
 COIN_BIN = "https://coinbin.org/btc"
 COIN_DESK = "https://api.coindesk.com/v1/bpi/currentprice.json"
 ETH = "https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD,EUR"
@@ -91,21 +89,17 @@ def process_all(response: httpx.Response) -> str:
     return "Perdón! No hay ninguna api disponible!"
 
 
-@async_cached("get_eth")
 async def get_eth() -> str:
     return await fetch_and_process(ETH, process_eth)
 
 
-@async_cached("get_btc")
 async def get_btc() -> str:
     return await fetch_and_process(COIN_DESK, process_coindesk)
 
 
-@async_cached("get_dogecoin")
 async def get_dogecoin() -> str:
     return await fetch_and_process(DOGECOIN, process_dogecoin)
 
 
-@async_cached("get_all")
 async def get_all() -> str:
     return await fetch_and_process(COINGECKO_URL, process_all)

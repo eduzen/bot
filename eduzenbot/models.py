@@ -1,6 +1,5 @@
 import os
 from datetime import datetime
-from functools import cached_property
 
 from peewee import (
     BigIntegerField,
@@ -97,7 +96,7 @@ class EventLog(BaseModel):
     def __str__(self):
         return f"<{self.id} {self.user}>"
 
-    @cached_property
+    @property
     def telegram(self):
         return f"{self.user.username} - {self.command} - {self.timestamp.strftime('%Y/%m/%d -%H.%M')}"
 

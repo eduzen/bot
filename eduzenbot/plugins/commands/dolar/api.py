@@ -2,8 +2,6 @@ import httpx
 import logfire
 from bs4 import BeautifulSoup
 
-from eduzenbot.decorators import async_cached
-
 GEEKLAB_API = "http://ws.geeklab.com.ar/dolar/get-dolar-json.php"
 BNC = "https://www.bna.com.ar/Personas"
 BLUELYTICS = "https://api.bluelytics.com.ar/v2/latest"
@@ -84,7 +82,6 @@ def _process_bluelytics(data: dict) -> str:
     return data
 
 
-@async_cached("get_banco_nacion")
 async def get_banco_nacion() -> str:
     try:
         response = await client.get(BNC)
@@ -101,7 +98,6 @@ async def get_banco_nacion() -> str:
     return "Banco nación no responde 🤷‍♀"
 
 
-@async_cached("get_bluelytics")
 async def get_bluelytics() -> str:
     try:
         response = await client.get(BLUELYTICS)
@@ -116,7 +112,6 @@ async def get_bluelytics() -> str:
     return "Bluelytics no responde 🤷‍♀️"
 
 
-@async_cached("get_dolar_blue_geeklab")
 async def get_dolar_blue_geeklab() -> str:
     r = await client.get(GEEKLAB_API)
     if r.status_code != 200:

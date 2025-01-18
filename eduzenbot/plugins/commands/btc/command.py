@@ -13,7 +13,7 @@ from telegram import Update
 from telegram.constants import ChatAction
 from telegram.ext import ContextTypes
 
-from eduzenbot.decorators import async_cached, create_user
+from eduzenbot.decorators import create_user
 from eduzenbot.plugins.commands.btc.api import get_all
 from eduzenbot.plugins.commands.dolar.api import get_bluelytics
 from eduzenbot.plugins.commands.hackernews.command import fetch_hackernews_stories
@@ -40,7 +40,6 @@ def melistock(name: str) -> str:
         return f"No encontramos nada con '{name}'"
 
 
-@async_cached("get_crypto_report")
 async def get_crypto_report() -> str:
     crypto = await get_all()
     blue = await get_bluelytics() or "-"
@@ -55,13 +54,14 @@ async def get_crypto_report() -> str:
     try:
         hn = await fetch_hackernews_stories()
     except Exception:
-        hn = ""
+        logfire.exception("Error getting hackernews")
+        hn = "No pudimos conseguir las noticias de hackernews"
 
     text = (
         f"*Buenas hoy es {week_day}, {today}:*\n\n"
-        f"{clima}"
-        f"{amsterdam}"
-        f"{dallas}"
+        f"{clima}\n"
+        f"{amsterdam}\n"
+        f"{dallas}\n"
         "*Dólar 💸*\n"
         f"{blue}\n"
         f"\n{crypto}\n"

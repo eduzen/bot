@@ -80,3 +80,13 @@ clean:
   [p.unlink() for p in current_path.rglob('*.py[co]')]
   [shutil.rmtree(p) for p in current_path.rglob('__pycache__')]
   [shutil.rmtree(p) for p in current_path.rglob('.pytest_cache')]
+
+run:
+  uv run python -m eduzenbot
+
+uv-test:
+  uv run coverage run -m pytest
+
+coverage:
+  uv run coverage combine
+  uv run coverage report

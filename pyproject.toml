@@ -10,7 +10,6 @@ authors = [
 ]
 dependencies = [
   "beautifulsoup4",
-  "cachetools",
   "emoji",
   "peewee",
   "python-telegram-bot[job-queue]",
@@ -34,7 +33,6 @@ dev = [
   "pytest-asyncio>=0.25.2",
   "mypy",
   "types-beautifulsoup4",
-  "types-cachetools",
   "types-colorama",
   "types-docutils",
   "types-Pygments",

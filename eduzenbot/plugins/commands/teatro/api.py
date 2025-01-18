@@ -1,6 +1,5 @@
 import httpx
 from bs4 import BeautifulSoup
-from cachetools import TTLCache, cached
 
 ALTERNATIVA = "http://www.alternativateatral.com/"
 
@@ -16,7 +15,6 @@ def get_response(url, verify=False):
     return response
 
 
-@cached(cache=TTLCache(maxsize=1048, ttl=360))
 def process_alternativa(response):
     data = response.text
     if not data:

@@ -7,7 +7,6 @@ import httpx
 import logfire
 import pytz
 from bs4 import BeautifulSoup
-from cachetools import TTLCache, cached
 
 ow_token = os.getenv("openweathermap_token")
 
@@ -66,7 +65,6 @@ def get_sun_times(data: dict[str, Any], city: str) -> tuple:
     return sunrise, sunset
 
 
-@cached(cache=TTLCache(maxsize=2048, ttl=360))
 async def get_klima(city_name: str = "Amsterdam,nl") -> str:
     params = {
         "q": city_name,
@@ -108,7 +106,6 @@ async def get_klima(city_name: str = "Amsterdam,nl") -> str:
     return msg
 
 
-@cached(cache=TTLCache(maxsize=2048, ttl=360))
 async def get_weather() -> Awaitable[str]:
     r = await client.get(lanacion, headers=headers)
     r.encoding = "utf-8"

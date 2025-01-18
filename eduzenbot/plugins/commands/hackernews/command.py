@@ -8,7 +8,6 @@ from typing import Any
 
 import httpx
 import logfire
-from cachetools import TTLCache, cached
 from telegram import Update
 from telegram.constants import ChatAction
 from telegram.ext import ContextTypes
@@ -46,7 +45,8 @@ async def get_top_stories(story_type: STORIES = STORIES.TOP, limit: int | None =
     url = f"https://hacker-news.firebaseio.com/v0/{story_type}.json"
     response = await client.get(url)
     response.raise_for_status()
-    return await response.json()[:limit]
+    data = response.json()
+    return data[:limit]
 
 
 async def get_item(id: int) -> dict[Any, Any]:
@@ -59,7 +59,7 @@ async def get_item(id: int) -> dict[Any, Any]:
     url = f"https://hacker-news.firebaseio.com/v0/item/{id}.json"
     response = await client.get(url)
     response.raise_for_status()
-    return await response.json()
+    return response.json()
 
 
 async def parse_hackernews(story_id: int) -> str:
@@ -76,19 +76,19 @@ async def parse_hackernews(story_id: int) -> str:
     return story_text
 
 
-@cached(cache=TTLCache(maxsize=1024, ttl=10800))
 async def fetch_hackernews_stories(story_type: STORIES = STORIES.TOP, limit: int = 5) -> str:
     """
     Fetch and format top Hacker News stories.
     """
     text_stories = []
+    logfire.info(f"Fetching {limit} {story_type} stories.")
     top_stories = await get_top_stories(story_type, limit)
     for story_id in top_stories:
         try:
             story = await parse_hackernews(story_id)
             text_stories.append(story)
         except Exception:
-            logfire.exception("Failed to parse story.", extra={"story_id": story_id})
+            logfire.exception("Failed to parse story.")
             continue
 
     title = "Stories from [HackerNews](https://news.ycombinator.com)\n"

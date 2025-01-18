@@ -4,33 +4,12 @@ from typing import Any
 
 import logfire
 import peewee
-from cachetools import TTLCache
 from telegram import Update
 from telegram import User as TelegramUser
 from telegram.ext import ContextTypes
 
 from eduzenbot.models import EventLog
 from eduzenbot.models import User as UserModel
-
-my_cache = TTLCache(maxsize=2048, ttl=60)
-
-
-def async_cached(key_prefix: str):
-    """Caches the result of an async function for a given TTL."""
-
-    def decorator(func):
-        @wraps(func)
-        async def wrapper(*args, **kwargs):
-            cache_key = key_prefix
-            if cache_key in my_cache:
-                return my_cache[cache_key]
-            result = await func(*args, **kwargs)
-            my_cache[cache_key] = result
-            return result
-
-        return wrapper
-
-    return decorator
 
 
 def get_or_create_user(telegram_user: TelegramUser) -> UserModel | None:

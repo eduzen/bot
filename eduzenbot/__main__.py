@@ -8,10 +8,13 @@ from dotenv import load_dotenv
 from telegram.error import InvalidToken
 from telegram.ext import Application, CommandHandler, ExtBot, MessageHandler, filters
 
-from eduzenbot.adapters import telegram_error_handler
 from eduzenbot.adapters.plugin_loader import load_and_register_plugins
+from eduzenbot.adapters.telegram_error_handler import telegram_error_handler
 from eduzenbot.models import db
-from eduzenbot.plugins.job_queue.alarms.command import set_timer, unset
+from eduzenbot.plugins.job_queue.alarms.command import (
+    cancel_daily_report,
+    schedule_daily_report,
+)
 from eduzenbot.plugins.messages.unknown import unknown
 from eduzenbot.scripts.initialize_db import create_db_tables
 
@@ -58,36 +61,17 @@ def main():
     logfire.info("Application created")
 
     # Register command handlers
-    app.add_handler(CommandHandler("set", set_timer))
-    app.add_handler(CommandHandler("config_reporte", set_timer))
-    app.add_handler(CommandHandler("unset", unset))
+    app.add_handler(
+        CommandHandler(
+            "set",
+        )
+    )
+    app.add_handler(CommandHandler("report", schedule_daily_report))
+    app.add_handler(CommandHandler("cancelreport", cancel_daily_report))
 
     handlers = load_and_register_plugins()
     app.add_handlers(handlers)
     logfire.info("Plugins loaded!")
-
-    job_queue = app.job_queue
-    print(job_queue)
-    # kwargs = {"msg": "eduzenbot reiniciado!", "eduzen_id": EDUZEN_ID}
-    # breakpoint()
-    # schedule_reports(
-    #     application.job_queue,
-    #     send_msg_to_chatid,
-    #     EDUZEN_ID,
-    # )
-
-    # job_queue = application.job_queue
-    # kwargs = {"msg": "eduzenbot reiniciado!", "eduzen_id": EDUZEN_ID}
-    # breakpoint()
-
-    # job_queue.run_repeating(
-    #     # partial(...) will create a new function with those arguments 'pre-filled'
-    #     partial(send_msg_to_eduzen, application.context, EDUZEN_ID, "Hello from repeated job!"),
-    #     interval=60,  # run every 60 seconds
-    #     first=10,     # start after 10 seconds
-    #     name="SendMsgToEduzenJob"
-    # )
-    # job_minute = job_queue.run_repeating(send_msg_to_eduzen, interval=60, first=10, job_kwargs=kwargs)
 
     app.add_handler(MessageHandler(filters.COMMAND, unknown))
     app.run_polling()
