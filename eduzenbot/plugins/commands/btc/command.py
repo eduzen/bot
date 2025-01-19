@@ -14,6 +14,7 @@ from telegram.constants import ChatAction
 from telegram.ext import ContextTypes
 
 from eduzenbot.decorators import create_user
+from eduzenbot.models import Report
 from eduzenbot.plugins.commands.btc.api import get_all
 from eduzenbot.plugins.commands.dolar.api import get_bluelytics
 from eduzenbot.plugins.commands.hackernews.command import fetch_hackernews_stories
@@ -40,56 +41,121 @@ def melistock(name: str) -> str:
         return f"No encontramos nada con '{name}'"
 
 
-async def get_crypto_report() -> str:
-    crypto = await get_all()
-    blue = await get_bluelytics() or "-"
-    clima = await get_klima(city_name=CITY_BUENOS_AIRES)
-    amsterdam = await get_klima(city_name=CITY_AMSTERDAM)
-    dallas = await get_klima(city_name=CITY_DALLAS)
-
+def get_current_time() -> str:
+    # Current date
     now = datetime.now(pytz.timezone("America/Argentina/Buenos_Aires"))
     week_day = calendar.day_name[now.weekday()]
     today = now.strftime("%d %B del %Y")
+    return f"*Buenas hoy es {week_day}, {today}:*"
 
-    try:
+
+async def get_all_weather() -> str:
+    buenos_aires = await get_klima(city_name=CITY_BUENOS_AIRES)
+    amsterdam = await get_klima(city_name=CITY_AMSTERDAM)
+    dallas = await get_klima(city_name=CITY_DALLAS)
+    return f"{buenos_aires}\n{amsterdam}\n{dallas}"
+
+
+async def get_crypto_report(report: Report) -> str:
+    parts = []
+
+    # Get the current time
+    parts.append(get_current_time())
+
+    if report.show_weather:
+        parts.append(await get_all_weather())
+
+    if report.show_dollar:
+        blue = await get_bluelytics() or "-"
+        parts.append(f"*Dólar 💸*\n{blue}\n")
+
+    if report.show_crypto:
+        crypto = await get_all()
+        parts.append(f"\n{crypto}\n")
+
+    if report.show_news:
         hn = await fetch_hackernews_stories()
-    except Exception:
-        logfire.exception("Error getting hackernews")
-        hn = "No pudimos conseguir las noticias de hackernews"
+        parts.append(f"\n{hn}\n")
 
-    text = (
-        f"*Buenas hoy es {week_day}, {today}:*\n\n"
-        f"{clima}\n"
-        f"{amsterdam}\n"
-        f"{dallas}\n"
-        "*Dólar 💸*\n"
-        f"{blue}\n"
-        f"\n{crypto}\n"
-        f"\n{hn}\n"
-    )
-    return text
+    return "\n".join(parts)
 
 
 @create_user
 async def btc(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    """Handle /btc command to get Bitcoin information."""
-    await context.bot.send_chat_action(chat_id=update.effective_chat.id, action=ChatAction.TYPING)
+    chat_id = str(update.effective_chat.id) if update.effective_chat else None
+
+    if not chat_id:
+        logfire.error("Failed to get chat_id. Update does not have effective_chat.")
+        return
+
+    await context.bot.send_chat_action(chat_id=chat_id, action=ChatAction.TYPING)
 
     text = await get_all()
 
-    await context.bot.send_message(chat_id=update.effective_chat.id, text=text)
+    await context.bot.send_message(chat_id=chat_id, text=text)
 
 
 @create_user
 async def daily_report(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    """Handle /report command to send a daily report."""
-    await context.bot.send_chat_action(chat_id=update.effective_chat.id, action=ChatAction.TYPING)
+    chat_id = str(update.effective_chat.id) if update.effective_chat else None
 
-    report = await get_crypto_report()
+    if not chat_id:
+        logfire.error("Failed to get chat_id. Update does not have effective_chat.")
+        return
+
+    await context.bot.send_chat_action(chat_id=chat_id, action=ChatAction.TYPING)
+
+    try:
+        # Fetch or create the report record
+        report, _ = Report.get_or_create(chat_id=chat_id)
+
+        # Parse user arguments
+        args = context.args  # type: ignore
+        if not args:
+            await context.bot.send_message(
+                chat_id=chat_id,
+                text="Usage: /configure_report <options>\n\nOptions: weather, dollar, crypto. Prefix with '-' to disable (e.g., -weather).",
+            )
+            return
+
+        # Update preferences
+        for arg in args:
+            if arg.startswith("-"):
+                option = arg[1:].lower()
+                if option == "weather":
+                    report.show_weather = False
+                elif option == "dollar":
+                    report.show_dollar = False
+                elif option == "crypto":
+                    report.show_crypto = False
+            else:
+                option = arg.lower()
+                if option == "weather":
+                    report.show_weather = True
+                elif option == "dollar":
+                    report.show_dollar = True
+                elif option == "crypto":
+                    report.show_crypto = True
+
+        report.save()
+
+        # Notify user
+        await context.bot.send_message(
+            chat_id=chat_id,
+            text=f"Report preferences updated:\n"
+            f"Weather: {'Yes' if report.show_weather else 'No'}\n"
+            f"Dollar: {'Yes' if report.show_dollar else 'No'}\n"
+            f"Crypto: {'Yes' if report.show_crypto else 'No'}",
+        )
+    except Exception as e:
+        logfire.error(f"Failed to update report preferences for chat_id={chat_id}: {e}")
+        await context.bot.send_message(chat_id=chat_id, text="An error occurred while updating preferences.")
+
+    report_text = await get_crypto_report(report)
 
     await context.bot.send_message(
-        chat_id=update.effective_chat.id,
-        text=report,
+        chat_id=chat_id,
+        text=report_text,
         parse_mode="Markdown",
         disable_web_page_preview=True,
     )

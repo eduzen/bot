@@ -3,8 +3,10 @@ import os
 from pathlib import Path
 
 import logfire
+import peewee
 import sentry_sdk
 from dotenv import load_dotenv
+from telegram import BotCommand, BotCommandScopeDefault
 from telegram.error import InvalidToken
 from telegram.ext import Application, CommandHandler, ExtBot, MessageHandler, filters
 
@@ -16,7 +18,7 @@ from eduzenbot.plugins.job_queue.alarms.command import (
     schedule_daily_report,
 )
 from eduzenbot.plugins.messages.unknown import unknown
-from eduzenbot.scripts.initialize_db import create_db_tables
+from eduzenbot.scripts.initialize_db import create_db_tables, migrate_tables
 
 # Load environment variables from .env file
 env_path = Path("../.env")
@@ -27,7 +29,6 @@ SENTRY_DSN = os.getenv("SENTRY_DSN", "")
 EDUZEN_ID = os.environ["EDUZEN_ID"]
 PORT = int(os.getenv("PORT", 5000))
 LOG_LEVEL = os.getenv("LOG_LEVEL", "ERROR")
-
 
 logfire.configure()
 
@@ -45,35 +46,46 @@ async def send_startup_message(bot: ExtBot):
 async def on_startup(app: Application):
     await send_startup_message(app.bot)
 
+    handlers = load_and_register_plugins()
+    app.add_handlers(handlers)
+    logfire.info("Plugins loaded!")
+
+    # Register command handlers
+    app.add_handler(CommandHandler("set", schedule_daily_report))
+    app.add_handler(CommandHandler("report", schedule_daily_report))
+    app.add_handler(CommandHandler("cancelreport", cancel_daily_report))
+    app.add_handler(MessageHandler(filters.COMMAND, unknown))
+
+    # 2. Prepare a list of (command, description) for set_my_commands
+    #    For a real bot, you'd want a better description for each command
+    commands_for_telegram = []
+    unique_commands = {cmd for h in handlers if isinstance(h, CommandHandler) for cmd in h.commands}
+    for cmd in sorted(unique_commands):
+        commands_for_telegram.append(BotCommand(cmd, f"Description for /{cmd}..."))
+
+    # 3. Send it to Telegram
+    await app.bot.set_my_commands(commands_for_telegram, scope=BotCommandScopeDefault())
+    logfire.info("Bot commands set in Telegram.")
+
 
 def main():
     create_db_tables()
+    try:
+        migrate_tables()
+    except peewee.OperationalError:
+        logfire.warn("Tables already updated")
+
     db.connect(reuse_if_open=True)
     try:
         bot = ExtBot(token=TOKEN)
         app = Application.builder().bot(bot).build()
+        logfire.info("Application created")
     except InvalidToken:
         logfire.exception("Invalid token")
         return
 
     app.post_init = on_startup
     app.add_error_handler(telegram_error_handler)
-    logfire.info("Application created")
-
-    # Register command handlers
-    app.add_handler(
-        CommandHandler(
-            "set",
-        )
-    )
-    app.add_handler(CommandHandler("report", schedule_daily_report))
-    app.add_handler(CommandHandler("cancelreport", cancel_daily_report))
-
-    handlers = load_and_register_plugins()
-    app.add_handlers(handlers)
-    logfire.info("Plugins loaded!")
-
-    app.add_handler(MessageHandler(filters.COMMAND, unknown))
     app.run_polling()
 
 

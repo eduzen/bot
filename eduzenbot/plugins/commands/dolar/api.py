@@ -59,7 +59,6 @@ def _process_bcn(data: str) -> str:
     real = " ".join(data[9:]).strip()
 
     result = f"{head}\n" f"{dolar}\n" f"{euro}\n" f"{real}\n" "(*) cotización cada 100 unidades.\n👊 by bna.com.ar"
-    logfire.info(f"Banco Nacion API response: {result}")
     return result
 
 

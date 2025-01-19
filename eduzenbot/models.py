@@ -107,7 +107,12 @@ class Report(BaseModel):
     data = TextField(null=True)
     hour = IntegerField(default=10)
     min = IntegerField(default=0)
+    show_weather = BooleanField(default=True)
+    show_crypto = BooleanField(default=True)
+    show_dollar = BooleanField(default=True)
+    show_news = BooleanField(default=True)
+
     timestamp = DateTimeField(default=datetime.now)
 
     def __str__(self):
-        return f"<{self.chat_id} {self.hour} {self.min}>"
+        return f"<{self.chat_id} {self.hour}:{self.min} Weather: {self.show_weather}, Dollar: {self.show_dollar}, Crypto: {self.show_crypto}>"

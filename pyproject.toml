@@ -16,8 +16,9 @@ dependencies = [
   "sentry-sdk",
   "yfinance",
   "python-dotenv",
-  "logfire>=2.11.1",
+  "logfire[httpx]>=2.11.1",
   "httpx>=0.28.1",
+  "psycopg>=3.2.4",
 ]
 
 [dependency-groups]

@@ -1,5 +1,6 @@
 volumes:
   shell_history:
+  pgdata:
 
 services:
   eduzenbot:
@@ -30,15 +31,17 @@ services:
     env_file:
       - .env
 
-  # db:
-  #   image: postgres:17-alpine
-  #   command: ["postgres", "-c", "log_statement=none"]
-  #   expose:
-  #     - "5432"
-  #   volumes:
-  #     - pgdata:/var/lib/postgresql/data/
-  #   environment:
-  #     - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+  db:
+    image: postgres:17-alpine
+    command: ["postgres", "-c", "log_statement=none"]
+    expose:
+      - "5432"
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
 
   wdb:
     profiles: ["dev"]

@@ -26,7 +26,8 @@ async def alarm(context: ContextTypes.DEFAULT_TYPE) -> None:
         return
 
     try:
-        text = await get_crypto_report()
+        report, _ = Report.get_or_create(chat_id=chat_id)
+        text = await get_crypto_report(report)
         await context.bot.send_message(chat_id=chat_id, text=text, parse_mode="Markdown")
     except Exception as e:
         logfire.error(f"Failed to send alarm: {e}")

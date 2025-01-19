@@ -81,7 +81,6 @@ async def fetch_hackernews_stories(story_type: STORIES = STORIES.TOP, limit: int
     Fetch and format top Hacker News stories.
     """
     text_stories = []
-    logfire.info(f"Fetching {limit} {story_type} stories.")
     top_stories = await get_top_stories(story_type, limit)
     for story_id in top_stories:
         try:

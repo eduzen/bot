@@ -103,7 +103,7 @@ def create_user(func: Callable) -> Callable:
                 return
 
             log_event(user_model, command=command)
-            logfire.info(f"{command} executed by {user_model.username or user_model.id}")
+            logfire.info(f"Command: '{command}' executed by {user_model.username or user_model.id}")
 
         except peewee.PeeweeException as db_exc:
             logfire.exception(
