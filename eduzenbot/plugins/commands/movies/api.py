@@ -61,7 +61,7 @@ def rating_stars(rating):
 
 def prettify_basic_movie_info(title, rating, overview, year, image, directors):
     stars = rating_stars(rating)
-    return (f"{title} ({year}) - {directors}\n" f"{stars}\n\n" f"{overview}\n\n"), image
+    return (f"{title} ({year}) - {directors}\n{stars}\n\n{overview}\n\n"), image
 
 
 def get_movie_detail(pk):

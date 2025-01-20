@@ -32,7 +32,7 @@ def prettify_episode(ep) -> str:
     else:
         header = "No torrent nor magnet available for this episode."
 
-    return f"{header}" f"🌱 Seeds: {ep.seeds} | 🗳 Size: {ep.size or '-'}"
+    return f"{header}🌱 Seeds: {ep.seeds} | 🗳 Size: {ep.size or '-'}"
 
 
 def prettify_episodes(episodes, header=None) -> str:
@@ -52,7 +52,7 @@ def prettify_torrents(torrents) -> str:
 
 def prettify_torrent(name: str, torrent_url: str, seeds: str, size: str) -> str:
     name = name.replace("[", "").replace("]", "")
-    return f"🏴‍☠️ [{name}]({torrent_url})\n" f"🌱 Seeds: {seeds} | 🗳 Size: {size}MB\n"
+    return f"🏴‍☠️ [{name}]({torrent_url})\n🌱 Seeds: {seeds} | 🗳 Size: {size}MB\n"
 
 
 def _minify_torrents(torrents: list[dict[str, Any]]) -> tuple[str, str, str, str]:
