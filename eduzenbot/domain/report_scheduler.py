@@ -1,42 +1,32 @@
 # eduzenbot/domain/report_scheduler.py
 import datetime
-from collections.abc import Callable
 
 import logfire
 import pytz
 from telegram import Bot
-from telegram.ext import ContextTypes, JobQueue
+from telegram.ext import JobQueue
 
 from eduzenbot.models import Report
 from eduzenbot.plugins.job_queue.alarms.command import alarm
 
 
-async def schedule_reports(
-    job_queue: JobQueue,
-    bot: Bot,
-    eduzen_id: str,
-    send_msg_func: Callable[[int | str, str], None | ContextTypes.DEFAULT_TYPE] = None,
-) -> None:
+async def schedule_reports(job_queue: JobQueue, bot: Bot, eduzen_id: str) -> None:
     """
     Schedules all the daily reports stored in the database.
-
-    :param job_queue: The python-telegram-bot JobQueue instance
-    :param bot: The Bot instance for sending messages
-    :param eduzen_id: The chat ID (or user ID) to send developer/owner notifications to
-    :param send_msg_func: (Optional) A callback for sending messages. If omitted,
-                          we'll default to bot.send_message() directly.
+    On bot startup, it:
+      1) Queries the Report table
+      2) Schedules each entry as a run_daily job
+      3) Notifies the user and the owner about the scheduled report
     """
 
-    # If no external send_msg_func is provided, define a default using bot.send_message
-    if send_msg_func is None:
-
-        async def send_msg_func(chat_id: int | str, text: str) -> None:
-            await bot.send_message(chat_id=chat_id, text=text)
-
-    # Retrieve each scheduled report from the DB
+    # Fetch all reports
     reports = Report.select()
-    if not reports:
-        await send_msg_func(eduzen_id, "No reports were found to schedule.")
+    if not reports.exists():
+        # If no reports, just notify the owner.
+        try:
+            await bot.send_message(chat_id=eduzen_id, text="No reports were found to schedule.")
+        except Exception as e:
+            logfire.error(f"Could not notify owner about empty reports: {e}")
         return
 
     for report in reports:
@@ -48,29 +38,26 @@ async def schedule_reports(
         )
 
         # Schedule the daily job
-        # NOTE: In python-telegram-bot v20, you typically pass 'data=...' instead of 'context=...'
         job_queue.run_daily(
             callback=alarm,
             time=when,
-            days=range(7),  # Runs every day of the week
-            name=str(chat_id),  # So we can remove or update it later
-            data=chat_id,  # We'll retrieve it in alarm via context.job.data
+            days=tuple(range(7)),  # Every day
+            name=str(chat_id),
+            data=chat_id,
         )
 
-        # Notify the user chat
-        msg = (
-            "Hey, I just restarted.\n"
-            f"Remember you have a crypto report every day at {report.hour:02d}:{report.min:02d}!"
+        # Notify the user about the restart and next scheduled time
+        user_msg = (
+            "Hey, I just restarted.\n" f"You have a report scheduled daily at {report.hour:02d}:{report.min:02d}!"
         )
         try:
-            await send_msg_func(chat_id, msg)
+            await bot.send_message(chat_id=chat_id, text=user_msg)
         except Exception as e:
-            # For instance, user might have blocked the bot, etc.
             logfire.error(f"Could not send schedule notification to chat_id={chat_id}: {e}")
 
-        # Also notify the developer/owner
-        owner_msg = f"Crypto report scheduled for chat_id={chat_id} at {report.hour:02d}:{report.min:02d}."
+        # Also notify the bot owner
+        owner_msg = f"Report scheduled for chat_id={chat_id} at {report.hour:02d}:{report.min:02d}."
         try:
-            await send_msg_func(eduzen_id, owner_msg)
+            await bot.send_message(chat_id=eduzen_id, text=owner_msg)
         except Exception as e:
             logfire.error(f"Could not send schedule info to owner (eduzen_id={eduzen_id}): {e}")

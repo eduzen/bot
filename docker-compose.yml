@@ -8,7 +8,7 @@ services:
     image: eduzen/bot:latest
     build:
       context: .
-      target: dev
+      target: ${TARGET:-dev}
       cache_from:
         - eduzen/bot:latest
     develop:

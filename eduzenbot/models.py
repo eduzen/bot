@@ -70,22 +70,6 @@ class User(BaseModel):
         )
 
 
-class Question(BaseModel):
-    user = ForeignKeyField(User, backref="questions")
-    question = TextField()
-    answer = TextField(null=True)
-
-    created_at = DateTimeField(default=datetime.now)
-    updated_at = DateTimeField(null=True)
-
-    def save(self, *args: int, **kwargs: str):
-        self.updated_at = datetime.now()
-        return super().save(*args, **kwargs)
-
-    def __str__(self):
-        return f"<{self.question}>"
-
-
 class EventLog(BaseModel):
     id = PrimaryKeyField()
     user = ForeignKeyField(User, backref="eventlogs", null=True)

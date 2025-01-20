@@ -1,6 +1,6 @@
 """
 btc - btc
-report - daily_report
+report - show_daily_report
 """
 
 import calendar
@@ -96,7 +96,7 @@ async def btc(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
 
 @create_user
-async def daily_report(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+async def show_daily_report(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     chat_id = str(update.effective_chat.id) if update.effective_chat else None
 
     if not chat_id:
@@ -108,50 +108,10 @@ async def daily_report(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
     try:
         # Fetch or create the report record
         report, _ = Report.get_or_create(chat_id=chat_id)
-
-        # Parse user arguments
-        args = context.args  # type: ignore
-        if not args:
-            await context.bot.send_message(
-                chat_id=chat_id,
-                text="Usage: /configure_report <options>\n\nOptions: weather, dollar, crypto. Prefix with '-' to disable (e.g., -weather).",
-            )
-            return
-
-        # Update preferences
-        for arg in args:
-            if arg.startswith("-"):
-                option = arg[1:].lower()
-                if option == "weather":
-                    report.show_weather = False
-                elif option == "dollar":
-                    report.show_dollar = False
-                elif option == "crypto":
-                    report.show_crypto = False
-            else:
-                option = arg.lower()
-                if option == "weather":
-                    report.show_weather = True
-                elif option == "dollar":
-                    report.show_dollar = True
-                elif option == "crypto":
-                    report.show_crypto = True
-
-        report.save()
-
-        # Notify user
-        await context.bot.send_message(
-            chat_id=chat_id,
-            text=f"Report preferences updated:\n"
-            f"Weather: {'Yes' if report.show_weather else 'No'}\n"
-            f"Dollar: {'Yes' if report.show_dollar else 'No'}\n"
-            f"Crypto: {'Yes' if report.show_crypto else 'No'}",
-        )
-    except Exception as e:
-        logfire.error(f"Failed to update report preferences for chat_id={chat_id}: {e}")
-        await context.bot.send_message(chat_id=chat_id, text="An error occurred while updating preferences.")
-
-    report_text = await get_crypto_report(report)
+        report_text = await get_crypto_report(report)
+    except Exception:
+        logfire.exception("Error getting daily report")
+        report_text = "Ocurrió un error al obtener el reporte diario."
 
     await context.bot.send_message(
         chat_id=chat_id,

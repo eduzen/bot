@@ -4,7 +4,7 @@ import logfire
 from peewee import BooleanField
 from playhouse.migrate import SqliteMigrator, migrate
 
-from eduzenbot.models import EventLog, Question, Report, User, db
+from eduzenbot.models import EventLog, Report, User, db
 
 migrator = SqliteMigrator(db)
 
@@ -12,7 +12,6 @@ migrator = SqliteMigrator(db)
 @db.connection_context()
 def create_db_tables():
     User.create_table()
-    Question.create_table()
     EventLog.create_table()
     Report.create_table()
     logfire.info("Tables created!")

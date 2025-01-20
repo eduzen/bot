@@ -5,6 +5,7 @@ usage - get_usage
 
 import logfire
 from peewee import fn
+from tabulate import tabulate
 from telegram import Update
 from telegram.constants import ChatAction
 from telegram.ext import ContextTypes
@@ -23,22 +24,32 @@ def get_users_usage() -> str:
     """
     try:
         queryset = (
-            EventLog.select(EventLog.command, EventLog.user_id, fn.Count(EventLog.user_id).alias("count"))
+            EventLog.select(
+                EventLog.command,
+                EventLog.user_id,
+                fn.Count(EventLog.user_id).alias("count"),
+            )
             .group_by(EventLog.user_id, EventLog.command)
             .having(fn.Count(EventLog.user_id) > 2)
             .order_by(fn.Count(EventLog.user_id).desc())
+            .limit(80)
         )
+        # Prepare table headers
+        table_data = [["Count", "Command", "User"]]
+        # Populate rows
+        for event in queryset:
+            # event.user might be None if there's no related user, so handle that
+            user_repr = event.user.username if event.user and event.user.username else event.user_id
+            table_data.append([event.count, event.command, user_repr])
 
-        txt = "\n".join(
-            f"{event.count:<4} | {event.command:<20} | {event.user.username or event.user_id:<10}" for event in queryset
-        )
-        if not txt:
-            txt = "No hay eventos"
+        if len(table_data) == 1:
+            return "No hay eventos"
+
+        # Use tabulate for a fancy table
+        return tabulate(table_data, headers="firstrow", tablefmt="fancy_grid")
     except Exception:
         logfire.exception("DB problem with get_users_usage")
-        txt = "Ocurrió un error al obtener datos."
-
-    return txt
+        return "Ocurrió un error al obtener datos."
 
 
 @restricted
@@ -83,6 +94,8 @@ async def get_usage(update: Update, context: ContextTypes.DEFAULT_TYPE, *args: i
     await context.bot.send_chat_action(chat_id=chat_id, action=ChatAction.TYPING)
 
     # get_users_usage is synchronous, so just call it normally
-    txt = get_users_usage()
+    table_text = get_users_usage()
 
-    await context.bot.send_message(chat_id=chat_id, text=txt)
+    # Optionally wrap in code block for Markdown
+    response = f"```\n{table_text}\n```"
+    await context.bot.send_message(chat_id=chat_id, text=response, parse_mode="Markdown")

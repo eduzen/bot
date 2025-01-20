@@ -12,6 +12,7 @@ from telegram.ext import Application, CommandHandler, ExtBot, MessageHandler, fi
 
 from eduzenbot.adapters.plugin_loader import load_and_register_plugins
 from eduzenbot.adapters.telegram_error_handler import telegram_error_handler
+from eduzenbot.domain.report_scheduler import schedule_reports
 from eduzenbot.models import db
 from eduzenbot.plugins.job_queue.alarms.command import (
     cancel_daily_report,
@@ -52,7 +53,7 @@ async def on_startup(app: Application):
 
     # Register command handlers
     app.add_handler(CommandHandler("set", schedule_daily_report))
-    app.add_handler(CommandHandler("report", schedule_daily_report))
+    app.add_handler(CommandHandler("configurereport", schedule_daily_report))
     app.add_handler(CommandHandler("cancelreport", cancel_daily_report))
     app.add_handler(MessageHandler(filters.COMMAND, unknown))
 
@@ -66,6 +67,16 @@ async def on_startup(app: Application):
     # 3. Send it to Telegram
     await app.bot.set_my_commands(commands_for_telegram, scope=BotCommandScopeDefault())
     logfire.info("Bot commands set in Telegram.")
+
+    # 4. Schedule reports
+    try:
+        await schedule_reports(
+            job_queue=app.job_queue,
+            bot=app.bot,
+            eduzen_id=EDUZEN_ID,
+        )
+    except Exception as e:
+        logfire.error(f"Failed to schedule reports on startup: {e}")
 
 
 def main():

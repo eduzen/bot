@@ -9,11 +9,12 @@ from telegram import User as TelegramUser
 from telegram.ext import CallbackContext
 
 # Import your code. Adjust these paths as needed.
+from eduzenbot.models import Report
 from eduzenbot.plugins.commands.btc.command import (
     btc,
-    daily_report,
     get_crypto_report,
     melistock,
+    show_daily_report,
 )
 
 # If you have them in separate modules:
@@ -31,7 +32,7 @@ async def test_btc_handler(mocker):
 
     # 2. Mock the update with a user and a chat
     mock_user = TelegramUser(id=12345, first_name="TestUser", is_bot=False)
-    mock_chat = Chat(id=999, type="private")
+    mock_chat = Chat(id="999", type="private")
     mock_update = AsyncMock(spec=Update)
     mock_update.effective_user = mock_user
     mock_update.effective_chat = mock_chat
@@ -47,8 +48,8 @@ async def test_btc_handler(mocker):
     await btc(mock_update, mock_context)
 
     # 5. Assertions
-    mock_bot.send_chat_action.assert_called_once_with(chat_id=999, action="typing")
-    mock_bot.send_message.assert_called_once_with(chat_id=999, text="BTC info")
+    mock_bot.send_chat_action.assert_called_once_with(chat_id="999", action="typing")
+    mock_bot.send_message.assert_called_once_with(chat_id="999", text="BTC info")
 
 
 @pytest.mark.asyncio
@@ -64,7 +65,7 @@ async def test_daily_report_handler(mocker):
 
     # 2. Mock the update
     mock_user = TelegramUser(id=12345, first_name="TestUser", is_bot=False)
-    mock_chat = AsyncMock(id=999, type="private")
+    mock_chat = AsyncMock(id="999", type="private")
     mock_update = AsyncMock(spec=Update)
     mock_update.effective_user = mock_user
     mock_update.effective_chat = mock_chat
@@ -74,12 +75,12 @@ async def test_daily_report_handler(mocker):
     mocker.patch("eduzenbot.plugins.commands.btc.command.get_crypto_report", new=fake_report_text)
 
     # 4. Call daily_report
-    await daily_report(mock_update, mock_context)
+    await show_daily_report(mock_update, mock_context)
 
     # 5. Assertions
-    mock_bot.send_chat_action.assert_called_once_with(chat_id=999, action="typing")
+    mock_bot.send_chat_action.assert_called_once_with(chat_id="999", action="typing")
     mock_bot.send_message.assert_called_once_with(
-        chat_id=999,
+        chat_id="999",
         text="Fake Daily Report",
         parse_mode="Markdown",
         disable_web_page_preview=True,
@@ -115,7 +116,7 @@ async def test_get_crypto_report(mocker):
     mock_datetime = mocker.patch("eduzenbot.plugins.commands.btc.command.datetime")
     mock_datetime.now.return_value = fake_now
 
-    text = await get_crypto_report()
+    text = await get_crypto_report(report=Report(chat_id=12345))
 
     assert "CRYPTO DATA" in text
     assert "DOLLAR DATA" in text
