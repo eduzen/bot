@@ -1,16 +1,12 @@
-import logging
-
-import requests
+import httpx
+import logfire
 from bs4 import BeautifulSoup
-from cachetools import TTLCache, cached
-
-logger = logging.getLogger("rich")
 
 GEEKLAB_API = "http://ws.geeklab.com.ar/dolar/get-dolar-json.php"
-BNC = "https://www.bna.com.ar/"
+BNC = "https://www.bna.com.ar/Personas"
 BLUELYTICS = "https://api.bluelytics.com.ar/v2/latest"
 
-client = requests.Session()
+client = httpx.AsyncClient()
 
 dolar = "🇺🇸"
 euro = "🇪🇺"
@@ -44,7 +40,6 @@ def _extract(data):
                 value = text
 
         values.append(value)
-
     return values
 
 
@@ -56,19 +51,15 @@ def _process_bcn(data: str) -> str:
         return "Banco nacion changed his html."
 
     data = _extract(data[0])
+
+    # Add spaces between parts
     head = " ".join(data[:3]).strip()
     dolar = " ".join(data[3:6]).strip()
     euro = " ".join(data[6:9]).strip()
     real = " ".join(data[9:]).strip()
-    data = (
-        f"{head}\n"
-        f"{dolar}\n"
-        f"{euro}\n"
-        f"{real}\n"
-        f"(*) cotización cada 100 unidades.\n{punch} by bna.com.ar"
-    )
 
-    return data
+    result = f"{head}\n" f"{dolar}\n" f"{euro}\n" f"{real}\n" "(*) cotización cada 100 unidades.\n👊 by bna.com.ar"
+    return result
 
 
 def _process_bluelytics(data: dict) -> str:
@@ -78,7 +69,7 @@ def _process_bluelytics(data: dict) -> str:
     oficial_venta = oficial["value_sell"]
     blue_venta = blue["value_sell"]
     brecha = round(((blue_venta / oficial_venta) - 1) * 100, 2)
-    data = (
+    data: str = (
         "🏦 Oficial:\n"
         f"💵 Dólar {oficial['value_buy']} - {oficial_venta}\n"
         f"🇪🇺 Euro {eur['value_buy']} - {eur['value_sell']}\n"
@@ -86,15 +77,13 @@ def _process_bluelytics(data: dict) -> str:
         f"💵 Dólar {blue['value_buy']} - {blue_venta}\n"
         f"🇪🇺 Euro {data['blue_euro']['value_buy']} - {data['blue_euro']['value_sell']}\n"
         f"📊 *Brecha Dolar*: {brecha}%"
-        # f"\n{punch} by bluelytics.com.ar"
     )
     return data
 
 
-@cached(cache=TTLCache(maxsize=1024, ttl=60))
-def get_banco_nacion() -> str:
+async def get_banco_nacion() -> str:
     try:
-        response = client.get(BNC, verify=True)
+        response = await client.get(BNC)
         response.raise_for_status()
 
         if response.status_code != 200:
@@ -103,15 +92,14 @@ def get_banco_nacion() -> str:
         data = response.text
         return _process_bcn(data)
     except Exception:
-        logger.exception("Error getting BNC")
+        logfire.exception("Error getting BNC")
 
     return "Banco nación no responde 🤷‍♀"
 
 
-@cached(cache=TTLCache(maxsize=1024, ttl=60))
-def get_bluelytics() -> str:
+async def get_bluelytics() -> str:
     try:
-        response = client.get(BLUELYTICS, verify=True)
+        response = await client.get(BLUELYTICS)
         response.raise_for_status()
         if response.status_code != 200:
             raise Exception("Bluelytics no responde 🤷‍♀️ ")
@@ -119,28 +107,23 @@ def get_bluelytics() -> str:
         data = response.json()
         return _process_bluelytics(data)
     except Exception:
-        logger.exception("bluelytics")
+        logfire.exception("bluelytics")
     return "Bluelytics no responde 🤷‍♀️"
 
 
-@cached(cache=TTLCache(maxsize=1024, ttl=60))
-def get_dolar_blue_geeklab() -> str:
-    r = client.get(GEEKLAB_API)
+async def get_dolar_blue_geeklab() -> str:
+    r = await client.get(GEEKLAB_API)
     if r.status_code != 200:
-        logger.error(
-            "Something went wrong when it gets dollar. Status code: %s", r.status_code
-        )
+        logfire.error(f"Something went wrong when it gets dollar. Status code: {r.status_code}")
         text = "Perdón! La api no está  disponible!"
         return text
 
     data = r.json()
+    logfire.info(f"Geeklab API response: {data}")
     if not data:
-        logger.error("Something went wrong when it gets dollar. No data!")
+        logfire.error("Something went wrong when it gets dollar. No data!")
         text = "Perdón! La api no devolvió info!"
         return text
 
-    text = (
-        f"USD libre {data['libre']} - Blue {data['blue']}"
-        f"\n{punch} by http://ws.geeklab.com.ar"
-    )
+    text = f"USD libre {data['libre']} - Blue {data['blue']}" f"\n{punch} by http://ws.geeklab.com.ar"
     return text

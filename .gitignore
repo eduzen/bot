@@ -111,3 +111,8 @@ bot.code-workspace
 monkeytype.sqlite3
 .idea
 coverage.json
+db.sqlite3
+
+*.sqlite3
+*dump*
+exported/

@@ -2,11 +2,10 @@
 dolar - get_dolar
 """
 
-import logging
-
-from telegram import ChatAction, Update
-from telegram.ext import CallbackContext
-from telegram.ext import ExtBot as Bot
+import logfire
+from telegram import Update
+from telegram.constants import ChatAction
+from telegram.ext import ContextTypes
 
 from eduzenbot.decorators import create_user
 from eduzenbot.plugins.commands.dolar.api import (
@@ -15,28 +14,28 @@ from eduzenbot.plugins.commands.dolar.api import (
     get_dolar_blue_geeklab,
 )
 
-logger = logging.getLogger("rich")
-
-
-def send_msg(bot: Bot, chat_id: str, msg: str, provider: str) -> str:
-    if not msg:
-        return f"No hay datos para mostrar de {provider}"
-    bot.send_message(chat_id=chat_id, text=msg)
-
 
 @create_user
-def get_dolar(update: Update, context: CallbackContext) -> None:
-    bot = context.bot
-    chat_id = update.message.chat_id
-    bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
-    bot.send_message(chat_id=chat_id, text="Getting dolar info...")
+async def get_dolar(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Fetch and send the latest dolar information."""
+    chat_id = update.effective_chat.id if update.effective_chat else None
+    if not chat_id:
+        logfire.error("Failed to get chat_id. Update does not have effective_chat.")
+        return
+
+    await context.bot.send_chat_action(chat_id=chat_id, action=ChatAction.TYPING)
+    await context.bot.send_message(chat_id=chat_id, text="Getting dolar info...")
+
     try:
-        geeklab = get_dolar_blue_geeklab()
-        send_msg(bot, chat_id, geeklab, "geeklab")
-        bluelytics = get_bluelytics()
-        send_msg(bot, chat_id, bluelytics, "Bluelytics")
-        banco_nacion = get_banco_nacion()
-        send_msg(bot, chat_id, banco_nacion, "Banco Nacion")
+        geeklab = await get_dolar_blue_geeklab()
+        await context.bot.send_message(chat_id=chat_id, text=geeklab)
+
+        bluelytics = await get_bluelytics()
+        await context.bot.send_message(chat_id=chat_id, text=bluelytics)
+
+        banco_nacion = await get_banco_nacion()
+        await context.bot.send_message(chat_id=chat_id, text=banco_nacion)
+
     except Exception:
-        logger.exception("Error getting dolar info")
-        bot.send_message(chat_id=chat_id, text="Algo salió mal, intenta más tarde.")
+        logfire.exception("Error getting dolar info")
+        await context.bot.send_message(chat_id=chat_id, text="Algo salió mal, intenta más tarde.")

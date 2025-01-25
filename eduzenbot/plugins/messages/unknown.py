@@ -1,9 +1,12 @@
+import logfire
 from telegram import Update
-from telegram.ext import CallbackContext
+from telegram.ext import ContextTypes
 
 
-def unknown(update: Update, context: CallbackContext) -> None:
-    context.bot.send_message(
-        chat_id=update.message.chat_id,
+async def unknown(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Handle unknown commands."""
+    logfire.info(f"Unknown command: {update.message.text}")
+    await context.bot.send_message(
+        chat_id=update.effective_chat.id,
         text="Che, no te entiendo, no existe ese comando!",
     )

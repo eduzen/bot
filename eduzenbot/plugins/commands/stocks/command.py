@@ -3,25 +3,24 @@ stock - stock
 """
 
 import datetime as dt
-import logging
 
 import yfinance as yf
-from telegram import ChatAction, Update
-from telegram.ext import CallbackContext
+from telegram import Update
+from telegram.constants import ChatAction
+from telegram.ext import ContextTypes
 
 from eduzenbot.decorators import create_user
 
-logger = logging.getLogger()
-
 
 @create_user
-def stock(update: Update, context: CallbackContext, *args: int, **kwargs: str) -> None:
-    context.bot.send_chat_action(
-        chat_id=update.message.chat_id, action=ChatAction.TYPING
-    )
+async def stock(update: Update, context: ContextTypes.DEFAULT_TYPE, *args: int, **kwargs: str) -> None:
+    """Handle /stock command to fetch stock information."""
+    await context.bot.send_chat_action(chat_id=update.effective_chat.id, action=ChatAction.TYPING)
+
     if not context.args:
-        update.message.reply_text("Se usa: /stock meli")
+        await update.message.reply_text("Se usa: /stock meli")
         return
+
     name = context.args[0]
     stock = yf.Ticker(name)
 
@@ -33,10 +32,13 @@ def stock(update: Update, context: CallbackContext, *args: int, **kwargs: str) -
             f"55 days average price {stock.info.get('fiftyDayAverage')}\n"
         )
 
-        context.bot.send_photo(
-            chat_id=update.message.chat_id,
+        await context.bot.send_photo(
+            chat_id=update.effective_chat.id,
             photo=stock.info.get("logo_url"),
             caption=info,
         )
     except KeyError:
-        update.message.reply_text(f"No encontramos nada con '{name}'")
+        await update.message.reply_text(f"No encontramos nada con '{name}'")
+    except Exception as e:
+        await update.message.reply_text("Ocurrió un error al obtener la información.")
+        raise e

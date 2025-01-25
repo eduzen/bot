@@ -2,21 +2,19 @@
 hn - get_hackernews
 """
 
-import logging
 from enum import Enum
 from types import SimpleNamespace
 from typing import Any
 
-import requests
-from cachetools import TTLCache, cached
-from telegram import ChatAction, Update
-from telegram.ext import CallbackContext
+import httpx
+import logfire
+from telegram import Update
+from telegram.constants import ChatAction
+from telegram.ext import ContextTypes
 
 from eduzenbot.decorators import create_user
 
-session = requests.Session()
-
-logger = logging.getLogger("rich")
+client = httpx.AsyncClient()
 
 
 class STORIES(Enum):
@@ -34,11 +32,9 @@ class STORIES(Enum):
         return self.value
 
 
-def get_top_stories(
-    story_type: STORIES = STORIES.TOP, limit: int | None = 10
-) -> list[Any]:
+async def get_top_stories(story_type: STORIES = STORIES.TOP, limit: int | None = 10) -> list[Any]:
     """
-    Get the top stories from hackernews.
+    Get the top stories from Hacker News.
 
     :param limit: The number of stories to get.
     :return: A list of stories.
@@ -47,77 +43,78 @@ def get_top_stories(
         raise ValueError(f"Invalid story type: {story_type}")
 
     url = f"https://hacker-news.firebaseio.com/v0/{story_type}.json"
-    response = session.get(url)
+    response = await client.get(url)
     response.raise_for_status()
-    return response.json()[:limit]
+    data = response.json()
+    return data[:limit]
 
 
-def get_item(id: int) -> dict[Any, Any]:
+async def get_item(id: int) -> dict[Any, Any]:
     """
-    Get the story with the given id.
+    Get the story with the given ID.
 
-    :param id: The id of the story.
+    :param id: The ID of the story.
     :return: A dictionary containing the story.
     """
     url = f"https://hacker-news.firebaseio.com/v0/item/{id}.json"
-    response = session.get(url)
+    response = await client.get(url)
     response.raise_for_status()
     return response.json()
 
 
-def get_hackernews_help(story_type: STORIES = STORIES.TOP) -> str:
-    return f"*{str(story_type).capitalize()} stories from* [HackerNews](https://news.ycombinator.com)\n\n"
-
-
-def parse_hackernews(story_id: int) -> str:
-    raw_story = get_item(story_id)
+async def parse_hackernews(story_id: int) -> str:
+    """
+    Parse a story's details into a formatted string.
+    """
+    raw_story = await get_item(story_id)
     story = SimpleNamespace(**raw_story)
-    # now = pendulum.now()
-    # date = now - pendulum.from_timestamp(story.time)
     try:
         url = story.url
     except AttributeError:
         url = ""
-    story_text = (
-        f"- [{story.title}]({url})"  # Score: {story.score} Hace: {date.in_words()}"
-    )
+    story_text = f"- [{story.title}]({url})"
     return story_text
 
 
-@cached(cache=TTLCache(maxsize=1024, ttl=10800))
-def hackernews(story_type: STORIES = STORIES.TOP, limit: int = 5) -> str:
+async def fetch_hackernews_stories(story_type: STORIES = STORIES.TOP, limit: int = 5) -> str:
+    """
+    Fetch and format top Hacker News stories.
+    """
     text_stories = []
-    for story_id in get_top_stories(story_type, limit):
+    top_stories = await get_top_stories(story_type, limit)
+    for story_id in top_stories:
         try:
-            story = parse_hackernews(story_id)
+            story = await parse_hackernews(story_id)
             text_stories.append(story)
-        except Exception as e:
-            logger.exception(e)
+        except Exception:
+            logfire.exception("Failed to parse story.")
             continue
 
-    # title = get_hackernews_help(story_type=story_type)
     title = "Stories from [HackerNews](https://news.ycombinator.com)\n"
     return title + "\n".join(text_stories)
 
 
 @create_user
-def get_hackernews(update: Update, context: CallbackContext) -> None:
+async def get_hackernews(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """
-    Get the top stories from hackernews.
-
-    :param limit: The number of stories to get.
-    :return: A list of stories.
+    Get and send the top stories from Hacker News.
     """
-    chat_id = update.effective_chat.id  # type: ignore
-    context.bot.send_chat_action(chat_id=chat_id, action=ChatAction.TYPING)  # type: ignore
+    chat_id = update.effective_chat.id if update.effective_chat else None
+    if not chat_id:
+        logfire.error("Failed to get chat_id. Update does not have effective_chat.")
+        return
 
-    type_story = context.args
-    if type_story:
-        text = hackernews(type_story)
-    else:
-        text = hackernews()
+    await context.bot.send_chat_action(chat_id=chat_id, action=ChatAction.TYPING)
 
-    context.bot.send_message(
+    type_story = context.args[0] if context.args else STORIES.TOP
+    try:
+        story_type = STORIES[type_story.upper()]
+    except (KeyError, AttributeError):
+        story_type = STORIES.TOP
+
+    text = await fetch_hackernews_stories(story_type)
+
+    await context.bot.send_message(
         chat_id=chat_id,
         text=text,
         parse_mode="Markdown",

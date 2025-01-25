@@ -3,8 +3,6 @@ from playhouse.sqlite_ext import SqliteExtDatabase
 
 from eduzenbot.models import EventLog, Report, User
 
-from .factories import EventFactory, UserFactory
-
 MODELS = [User, EventLog, Report]
 
 db = SqliteExtDatabase(":memory:")
@@ -18,13 +16,11 @@ def vcr_config() -> dict[str, str]:
     }
 
 
-@pytest.fixture(scope="session", autouse=True)
-def setup_db() -> SqliteExtDatabase:
+@pytest.fixture(scope="function", autouse=True)
+def setup_db():
     db.bind(MODELS, bind_refs=False, bind_backrefs=False)
     db.connect()
     db.create_tables(MODELS)
-    users = UserFactory.create_batch(2)
-    EventFactory.create_batch(2, command="btc", user=users[0])
 
     yield db
 

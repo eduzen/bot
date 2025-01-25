@@ -1,25 +1,24 @@
 """
 btc - btc
-report - daily_report
+report - show_daily_report
 """
 
 import calendar
-import logging
+from datetime import datetime
 
-import pendulum
+import logfire
+import pytz
 import yfinance
-from cachetools import TTLCache, cached
-from telegram import ChatAction, Update
-from telegram.ext import CallbackContext
+from telegram import Update
+from telegram.constants import ChatAction
+from telegram.ext import ContextTypes
 
 from eduzenbot.decorators import create_user
+from eduzenbot.models import Report
 from eduzenbot.plugins.commands.btc.api import get_all
 from eduzenbot.plugins.commands.dolar.api import get_bluelytics
-from eduzenbot.plugins.commands.hackernews.command import hackernews
+from eduzenbot.plugins.commands.hackernews.command import fetch_hackernews_stories
 from eduzenbot.plugins.commands.weather.api import get_klima
-
-logger = logging.getLogger()
-
 
 CITY_AMSTERDAM = "amsterdam,nl"
 CITY_BUENOS_AIRES = "buenos aires,ar"
@@ -35,76 +34,88 @@ def melistock(name: str) -> str:
         market = stock.info.get("market")
         avg_price = round(stock.info.get("fiftyDayAverage", 0), 2)
 
-        txt = (
-            f"{short_name}\n"
-            f"U$D {mkt_price} for {market}\n"
-            f"55 days average price U$D {avg_price}\n"
-        )
+        txt = f"{short_name}\n" f"U$D {mkt_price} for {market}\n" f"55 days average price U$D {avg_price}\n"
         return txt
     except Exception:
-        logger.exception(f"Error getting stock price for {name}")
+        logfire.exception(f"Error getting stock price for {name}")
         return f"No encontramos nada con '{name}'"
 
 
-@cached(cache=TTLCache(maxsize=2048, ttl=600))
-def get_crypto_report() -> str:
-    crypto = get_all()
-    blue = get_bluelytics() or "-"
-    # oficial = escape_markdown(parse_bnc() or "")
+def get_current_time() -> str:
+    # Current date
+    now = datetime.now(pytz.timezone("America/Argentina/Buenos_Aires"))
+    week_day = calendar.day_name[now.weekday()]
+    today = now.strftime("%d %B del %Y")
+    return f"*Buenas hoy es {week_day}, {today}:*"
 
-    clima = get_klima(city_name=CITY_BUENOS_AIRES).replace(
-        "By api.openweathermap.org", ""
-    )
-    amsterdam = get_klima(city_name=CITY_AMSTERDAM).replace(
-        "By api.openweathermap.org", ""
-    )
-    dallas = get_klima(city_name=CITY_DALLAS).replace("By api.openweathermap.org", "")
 
-    today = pendulum.today()
-    week_day = calendar.day_name[today.weekday()]
+async def get_all_weather() -> str:
+    buenos_aires = await get_klima(city_name=CITY_BUENOS_AIRES)
+    amsterdam = await get_klima(city_name=CITY_AMSTERDAM)
+    dallas = await get_klima(city_name=CITY_DALLAS)
+    return f"{buenos_aires}\n{amsterdam}\n{dallas}"
+
+
+async def get_crypto_report(report: Report) -> str:
+    parts = []
+
+    # Get the current time
+    parts.append(get_current_time())
+
+    if report.show_weather:
+        parts.append(await get_all_weather())
+
+    if report.show_dollar:
+        blue = await get_bluelytics() or "-"
+        parts.append(f"*Dólar 💸*\n{blue}\n")
+
+    if report.show_crypto:
+        crypto = await get_all()
+        parts.append(f"\n{crypto}\n")
+
+    if report.show_news:
+        hn = await fetch_hackernews_stories()
+        parts.append(f"\n{hn}\n")
+
+    return "\n".join(parts)
+
+
+@create_user
+async def btc(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    chat_id = str(update.effective_chat.id) if update.effective_chat else None
+
+    if not chat_id:
+        logfire.error("Failed to get chat_id. Update does not have effective_chat.")
+        return
+
+    await context.bot.send_chat_action(chat_id=chat_id, action=ChatAction.TYPING)
+
+    text = await get_all()
+
+    await context.bot.send_message(chat_id=chat_id, text=text)
+
+
+@create_user
+async def show_daily_report(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    chat_id = str(update.effective_chat.id) if update.effective_chat else None
+
+    if not chat_id:
+        logfire.error("Failed to get chat_id. Update does not have effective_chat.")
+        return
+
+    await context.bot.send_chat_action(chat_id=chat_id, action=ChatAction.TYPING)
+
     try:
-        hn = hackernews()
+        # Fetch or create the report record
+        report, _ = Report.get_or_create(chat_id=chat_id)
+        report_text = await get_crypto_report(report)
     except Exception:
-        hn = ""
+        logfire.exception("Error getting daily report")
+        report_text = "Ocurrió un error al obtener el reporte diario."
 
-    today = today.strftime("%d %B del %Y")
-    text = (
-        f"*Buenas hoy es {week_day}, {today}:*\n\n"
-        f"{clima}"
-        f"{amsterdam}"
-        f"{dallas}"
-        "*Dólar 💸*\n"
-        f"{blue}\n"
-        f"\n{crypto}\n"
-        f"\n{hn}\n"
-    )
-    return text
-
-
-@create_user
-def btc(update: Update, context: CallbackContext, *args: int, **kwargs: str) -> None:
-    context.bot.send_chat_action(
-        chat_id=update.message.chat_id, action=ChatAction.TYPING
-    )
-
-    text = get_all()
-
-    context.bot.send_message(chat_id=update.message.chat_id, text=text)
-
-
-@create_user
-def daily_report(
-    update: Update, context: CallbackContext, *args: int, **kwargs: str
-) -> None:
-    context.bot.send_chat_action(
-        chat_id=update.message.chat_id, action=ChatAction.TYPING
-    )
-
-    report = get_crypto_report()
-
-    context.bot.send_message(
-        chat_id=update.message.chat_id,
-        text=report,
+    await context.bot.send_message(
+        chat_id=chat_id,
+        text=report_text,
         parse_mode="Markdown",
         disable_web_page_preview=True,
     )

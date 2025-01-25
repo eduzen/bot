@@ -1,6 +1,6 @@
 volumes:
-  pgdata:
   shell_history:
+  pgdata:
 
 services:
   eduzenbot:
@@ -8,22 +8,36 @@ services:
     image: eduzen/bot:latest
     build:
       context: .
-      target: dev
+      target: ${TARGET:-dev}
       cache_from:
         - eduzen/bot:latest
+    develop:
+      watch:
+        - action: sync
+          path: .
+          target: /code
+          ignore:
+            - .venv/
+            - .git/
+            - .vscode/
+            - .pytest_cache/
+            - __pycache__/
+        - action: rebuild
+          path: ./pyproject.toml
     volumes:
+      - /code/.venv
       - .:/code
       - shell_history:/root/hist
     env_file:
       - .env
-    links:
-      - db
 
   db:
-    image: postgres:13-alpine3.17
+    image: postgres:17-alpine
     command: ["postgres", "-c", "log_statement=none"]
     expose:
       - "5432"
+    ports:
+      - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data/
     environment:

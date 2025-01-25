@@ -1,75 +1,48 @@
-[build-system]
-requires = ["hatchling", "pip-tools", "wheel"]
-build-backend = "hatchling.build"
-
 [project]
 name = "eduzenbot"
 description = "A bot for telegram"
 readme = "README.md"
-requires-python = ">=3.10"
+version = "v0.beta"
+requires-python = ">=3.13"
 keywords = []
 authors = [
   { name = "Eduardo Enriquez (eduzen)", email = "eduardo.a.enriquez@gmail.com" },
 ]
-classifiers = [
-  "Development Status :: 4 - Beta",
-  "Programming Language :: Python",
-  "Programming Language :: Python :: 3.10",
-  "Programming Language :: Python :: 3.11",
-  "Programming Language :: Python :: Implementation :: CPython",
-  "Programming Language :: Python :: Implementation :: PyPy",
-]
 dependencies = [
-  "attrs",
   "beautifulsoup4",
-  "cachetools",
   "emoji",
   "peewee",
-  "pendulum",
-  "psycopg2-binary",
-  "python-telegram-bot==13.15",
-  "requests",
-  "rich",
+  "python-telegram-bot[job-queue]",
   "sentry-sdk",
-  "tmdbsimple",
-  "tweepy",
   "yfinance",
   "python-dotenv",
+  "logfire>=2.11.1",
+  "httpx>=0.28.1",
+  "psycopg>=3.2.4",
+  "tabulate>=0.9.0",
 ]
-dynamic = ["version"]
 
-[project.optional-dependencies]
+[dependency-groups]
 dev = [
+  "pre-commit>=4.0.1",
   "ipython",
   "ipdb",
   "factory-boy",
-  "mypy",
   "pytest",
   "coverage",
   "pytest-mock",
-  "pytest-xdist",
-  "pytest-recording",
   "pytest-randomly",
+  "pytest-asyncio>=0.25.2",
   "mypy",
-  "types-beautifulsoup4",
-  "types-cachetools",
-  "types-colorama",
-  "types-docutils",
-  "types-Pygments",
-  "types-psycopg2",
-  "types-pytz",
-  "types-requests",
-  "types-setuptools"
+  "respx>=0.22.0",
 ]
 
+[tool.isort]
+profile = "black"
 
-[project.urls]
-Documentation = "https://github.com/eduzen/bot#readme"
-Issues = "https://github.com/eduzen/bot/issues"
-Source = "https://github.com/eduzen/bot"
-
-[tool.hatch.version]
-path = "eduzenbot/__about__.py"
+[tool.ruff]
+target-version = "py313"
+line-length = 120
 
 [tool.coverage.run]
 branch = true
@@ -87,9 +60,6 @@ exclude_lines = [
   "if __name__ == .__main__.:",
   "if TYPE_CHECKING:",
 ]
-
-[tool.isort]
-profile = "black"
 
 [tool.coverage.json]
 pretty_print=true

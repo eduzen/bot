@@ -1,6 +1,5 @@
 import os
 from datetime import datetime
-from functools import cached_property
 
 from peewee import (
     BigIntegerField,
@@ -47,15 +46,12 @@ class User(BaseModel):
     created_at = DateTimeField(default=datetime.now)
     updated_at = DateTimeField(null=True)
 
-    def save(self, *args: int, **kwargs: str) -> None:
+    def save(self, force_insert=False, *args, **kwargs) -> None:
         self.updated_at = datetime.now()
-        kwargs["force_insert"] = True  # Non incremental id
-        return super().save(*args, **kwargs)
+        return super().save(force_insert=force_insert, *args, **kwargs)
 
     def __str__(self) -> str:
-        return (
-            f"<{self.username or ''}: {self.first_name or ''} {self.last_name or ''}>"
-        )
+        return f"<{self.username or ''}: {self.first_name or ''} {self.last_name or ''}>"
 
     @property
     def full_name(self) -> str:
@@ -74,22 +70,6 @@ class User(BaseModel):
         )
 
 
-class Question(BaseModel):
-    user = ForeignKeyField(User, backref="questions")
-    question = TextField()
-    answer = TextField(null=True)
-
-    created_at = DateTimeField(default=datetime.now)
-    updated_at = DateTimeField(null=True)
-
-    def save(self, *args: int, **kwargs: str):
-        self.updated_at = datetime.now()
-        return super().save(*args, **kwargs)
-
-    def __str__(self):
-        return f"<{self.question}>"
-
-
 class EventLog(BaseModel):
     id = PrimaryKeyField()
     user = ForeignKeyField(User, backref="eventlogs", null=True)
@@ -100,7 +80,7 @@ class EventLog(BaseModel):
     def __str__(self):
         return f"<{self.id} {self.user}>"
 
-    @cached_property
+    @property
     def telegram(self):
         return f"{self.user.username} - {self.command} - {self.timestamp.strftime('%Y/%m/%d -%H.%M')}"
 
@@ -111,7 +91,12 @@ class Report(BaseModel):
     data = TextField(null=True)
     hour = IntegerField(default=10)
     min = IntegerField(default=0)
+    show_weather = BooleanField(default=True)
+    show_crypto = BooleanField(default=True)
+    show_dollar = BooleanField(default=True)
+    show_news = BooleanField(default=True)
+
     timestamp = DateTimeField(default=datetime.now)
 
     def __str__(self):
-        return f"<{self.chat_id} {self.hour} {self.min}>"
+        return f"<{self.chat_id} {self.hour}:{self.min} Weather: {self.show_weather}, Dollar: {self.show_dollar}, Crypto: {self.show_crypto}>"
