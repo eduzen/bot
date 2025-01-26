@@ -58,7 +58,7 @@ def _process_bcn(data: str) -> str:
     euro = " ".join(data[6:9]).strip()
     real = " ".join(data[9:]).strip()
 
-    result = f"{head}\n" f"{dolar}\n" f"{euro}\n" f"{real}\n" "(*) cotización cada 100 unidades.\n👊 by bna.com.ar"
+    result = f"{head}\n{dolar}\n{euro}\n{real}\n(*) cotización cada 100 unidades.\n👊 by bna.com.ar"
     return result
 
 
@@ -125,5 +125,5 @@ async def get_dolar_blue_geeklab() -> str:
         text = "Perdón! La api no devolvió info!"
         return text
 
-    text = f"USD libre {data['libre']} - Blue {data['blue']}" f"\n{punch} by http://ws.geeklab.com.ar"
+    text = f"USD libre {data['libre']} - Blue {data['blue']}\n{punch} by http://ws.geeklab.com.ar"
     return text

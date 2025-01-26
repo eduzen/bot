@@ -47,9 +47,7 @@ async def schedule_reports(job_queue: JobQueue, bot: Bot, eduzen_id: str) -> Non
         )
 
         # Notify the user about the restart and next scheduled time
-        user_msg = (
-            "Hey, I just restarted.\n" f"You have a report scheduled daily at {report.hour:02d}:{report.min:02d}!"
-        )
+        user_msg = f"Hey, I just restarted.\nYou have a report scheduled daily at {report.hour:02d}:{report.min:02d}!"
         try:
             await bot.send_message(chat_id=chat_id, text=user_msg)
         except Exception as e:

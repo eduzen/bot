@@ -34,7 +34,7 @@ def melistock(name: str) -> str:
         market = stock.info.get("market")
         avg_price = round(stock.info.get("fiftyDayAverage", 0), 2)
 
-        txt = f"{short_name}\n" f"U$D {mkt_price} for {market}\n" f"55 days average price U$D {avg_price}\n"
+        txt = f"{short_name}\nU$D {mkt_price} for {market}\n55 days average price U$D {avg_price}\n"
         return txt
     except Exception:
         logfire.exception(f"Error getting stock price for {name}")
@@ -75,7 +75,7 @@ async def get_crypto_report(report: Report) -> str:
 
     if report.show_news:
         hn = await fetch_hackernews_stories()
-        parts.append(f"\n{hn}\n")
+        parts.append(f"{hn}\n")
 
     return "\n".join(parts)
 
