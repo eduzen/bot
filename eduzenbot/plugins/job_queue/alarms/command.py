@@ -1,6 +1,5 @@
 """
 set - set_timer
-unset - unset
 """
 
 import datetime
@@ -32,9 +31,6 @@ async def alarm(context: ContextTypes.DEFAULT_TYPE) -> None:
         await context.bot.send_message(chat_id=chat_id, text=text, parse_mode="Markdown")
     except Exception as e:
         logfire.error(f"Failed to send alarm: {e}")
-
-
-2
 
 
 async def remove_job_if_exists(name: str, context: ContextTypes.DEFAULT_TYPE) -> bool:
@@ -181,6 +177,7 @@ async def schedule_daily_report(update: Update, context: ContextTypes.DEFAULT_TY
         return
 
 
+@create_user
 async def cancel_daily_report(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Remove the job if the user changed their mind."""
     chat_id = update.effective_chat.id if update.effective_chat else None

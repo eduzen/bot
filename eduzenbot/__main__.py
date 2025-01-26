@@ -48,13 +48,11 @@ async def on_startup(app: Application):
     await send_startup_message(app.bot)
 
     handlers = load_and_register_plugins()
+    handlers.append(CommandHandler("set", schedule_daily_report))
+    handlers.append(CommandHandler("configure_report", schedule_daily_report))
+    handlers.append(CommandHandler("cancel_report", cancel_daily_report))
     app.add_handlers(handlers)
     logfire.info("Plugins loaded!")
-
-    # Register command handlers
-    app.add_handler(CommandHandler("set", schedule_daily_report))
-    app.add_handler(CommandHandler("configurereport", schedule_daily_report))
-    app.add_handler(CommandHandler("cancelreport", cancel_daily_report))
     app.add_handler(MessageHandler(filters.COMMAND, unknown))
 
     # 2. Prepare a list of (command, description) for set_my_commands
