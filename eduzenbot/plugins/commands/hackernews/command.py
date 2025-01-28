@@ -11,6 +11,7 @@ import logfire
 from telegram import Update
 from telegram.constants import ChatAction
 from telegram.ext import ContextTypes
+from telegram.helpers import escape_markdown
 
 from eduzenbot.decorators import create_user
 
@@ -68,12 +69,17 @@ async def parse_hackernews(story_id: int) -> str:
     """
     raw_story = await get_item(story_id)
     story = SimpleNamespace(**raw_story)
-    try:
-        url = story.url
-    except AttributeError:
-        url = ""
-    story_text = f"- [{story.title}]({url})"
-    return story_text
+
+    title = getattr(story, "title", "No Title")
+    url = getattr(story, "url", "")
+
+    safe_title = escape_markdown(title, version=2)
+    safe_url = escape_markdown(url, version=2, entity_type="text_link") if url else ""
+
+    if not url:
+        return rf"\- {safe_title}"
+
+    return rf"\- [{safe_title}]({safe_url})"
 
 
 async def fetch_hackernews_stories(story_type: STORIES = STORIES.TOP, limit: int = 5) -> str:
@@ -113,10 +119,12 @@ async def get_hackernews(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
         story_type = STORIES.TOP
 
     text = await fetch_hackernews_stories(story_type)
+    print(text)
+    logfire.info(f"Sending HackerNews {text}", text=text)
 
     await context.bot.send_message(
         chat_id=chat_id,
         text=text,
-        parse_mode="Markdown",
+        parse_mode="MarkdownV2",
         disable_web_page_preview=True,
     )
