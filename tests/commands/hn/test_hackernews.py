@@ -72,7 +72,7 @@ async def test_parse_hackernews():
     # We expect something like "- [Parsed Story](https://test.com)"
     assert "Parsed Story" in result
     assert "test.com" in result
-    assert result.startswith("- [")
+    assert result.startswith(r"\- [")
 
 
 @pytest.mark.asyncio

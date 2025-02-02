@@ -2,6 +2,7 @@
 alarms - show_daily_report
 users - list_users
 scheduled_reports - list_reports_configured
+show_config_report - show_daily_report
 """
 
 import logfire
@@ -143,6 +144,12 @@ async def show_daily_report(update: Update, context: ContextTypes.DEFAULT_TYPE) 
             "but it doesn't seem to be scheduled in the job queue."
         )
     else:
-        text = f"You have a daily alarm set for {hour:02d}:{minute:02d}."
+        text = (
+            f"✅ Your daily report is set for {hour:02d}:{minute:02d}.\n\n"
+            f"Weather: {'Yes' if report.show_weather else 'No'}\n"
+            f"Dollar: {'Yes' if report.show_dollar else 'No'}\n"
+            f"Crypto: {'Yes' if report.show_crypto else 'No'}\n"
+            f"News: {'Yes' if report.show_news else 'No'}"
+        )
 
     await context.bot.send_message(chat_id=chat_id, text=text)

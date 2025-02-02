@@ -24,38 +24,48 @@ async def schedule_reports(job_queue: JobQueue, bot: Bot, eduzen_id: str) -> Non
     if not reports.exists():
         # If no reports, just notify the owner.
         try:
-            await bot.send_message(chat_id=eduzen_id, text="No reports were found to schedule.")
+            await bot.send_message(chat_id=eduzen_id, text="No reports were found to schedule. 🤷‍♂️")
         except Exception as e:
             logfire.error(f"Could not notify owner about empty reports: {e}")
         return
 
+    try:
+        await bot.send_message(chat_id=eduzen_id, text="Hey @eduzen, I just restarted! 🚀")
+    except Exception as e:
+        logfire.error(f"Could not notify owner on restart: {e}")
+
+    scheduled_jobs = []
+    scheduled_reports_info = []
+
     for report in reports:
         chat_id = report.chat_id
-        when = datetime.time(
+
+        # Construct the time object (handle time zone carefully)
+        scheduled_time = datetime.time(
             hour=report.hour,
             minute=report.min,
             tzinfo=pytz.timezone("Europe/Amsterdam"),
         )
 
         # Schedule the daily job
-        job_queue.run_daily(
+        job = job_queue.run_daily(
             callback=alarm,
-            time=when,
-            days=tuple(range(7)),  # Every day
+            time=scheduled_time,
+            days=tuple(range(7)),  # Every day of the week
             name=str(chat_id),
             data=chat_id,
         )
+        scheduled_jobs.append(job)
 
-        # Notify the user about the restart and next scheduled time
-        user_msg = f"Hey, I just restarted.\nYou have a report scheduled daily at {report.hour:02d}:{report.min:02d}!"
-        try:
-            await bot.send_message(chat_id=chat_id, text=user_msg)
-        except Exception as e:
-            logfire.error(f"Could not send schedule notification to chat_id={chat_id}: {e}")
+        # Collect info for logging or messaging
+        scheduled_reports_info.append(f" - chat_id={chat_id} at {report.hour:02d}:{report.min:02d} 🕗")
 
-        # Also notify the bot owner
-        owner_msg = f"Report scheduled for chat_id={chat_id} at {report.hour:02d}:{report.min:02d}."
-        try:
-            await bot.send_message(chat_id=eduzen_id, text=owner_msg)
-        except Exception as e:
-            logfire.error(f"Could not send schedule info to owner (eduzen_id={eduzen_id}): {e}")
+    # Send a single summary to owner instead of multiple messages
+    summary = "The following reports have been scheduled 🎉:\n" + "\n".join(scheduled_reports_info)
+    try:
+        await bot.send_message(chat_id=eduzen_id, text=summary)
+    except Exception as e:
+        logfire.error(f"Could not send schedule info to owner: {e}")
+
+    # Optionally: return the list of job objects if you'd like
+    return scheduled_jobs
