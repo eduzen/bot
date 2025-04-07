@@ -115,15 +115,12 @@ async def get_dolar_blue_geeklab() -> str:
     r = await client.get(GEEKLAB_API)
     if r.status_code != 200:
         logfire.error(f"Something went wrong when it gets dollar. Status code: {r.status_code}")
-        text = "Perdón! La api no está  disponible!"
-        return text
+        return "Perdón! La api no está disponible!"
 
     data = r.json()
     logfire.info(f"Geeklab API response: {data}")
-    if not data:
-        logfire.error("Something went wrong when it gets dollar. No data!")
-        text = "Perdón! La api no devolvió info!"
-        return text
+    if not data or data.get("libre") is None or data.get("blue") is None:
+        logfire.error("Geeklab API returned incomplete data.")
+        return "Perdón! La api no devolvió información completa!"
 
-    text = f"USD libre {data['libre']} - Blue {data['blue']}\n{punch} by http://ws.geeklab.com.ar"
-    return text
+    return f"USD libre {data['libre']} - Blue {data['blue']}\n{punch} by http://ws.geeklab.com.ar"
