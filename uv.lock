@@ -1,4 +1,5 @@
 version = 1
+revision = 1
 requires-python = ">=3.13"
 
 [[package]]
@@ -189,17 +190,17 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "beautifulsoup4" },
-    { name = "emoji" },
-    { name = "httpx", specifier = ">=0.28.1" },
-    { name = "logfire", specifier = ">=2.11.1" },
-    { name = "peewee" },
+    { name = "beautifulsoup4", specifier = "==4.12.3" },
+    { name = "emoji", specifier = "==2.14.1" },
+    { name = "httpx", specifier = "==0.28.1" },
+    { name = "logfire", specifier = "==3.4.0" },
+    { name = "peewee", specifier = "==3.17.8" },
     { name = "psycopg", specifier = ">=3.2.4" },
-    { name = "python-dotenv" },
-    { name = "python-telegram-bot", extras = ["job-queue"] },
-    { name = "sentry-sdk" },
-    { name = "tabulate", specifier = ">=0.9.0" },
-    { name = "yfinance" },
+    { name = "python-dotenv", specifier = "==1.0.1" },
+    { name = "python-telegram-bot", extras = ["job-queue"], specifier = "==21.10" },
+    { name = "sentry-sdk", specifier = "==2.20.0" },
+    { name = "tabulate", specifier = "==0.9.0" },
+    { name = "yfinance", specifier = "==0.2.52" },
 ]
 
 [package.metadata.requires-dev]
@@ -798,14 +799,14 @@ wheels = [
 
 [[package]]
 name = "psycopg"
-version = "3.2.4"
+version = "3.2.6"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "tzdata", marker = "sys_platform == 'win32'" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/e0/f2/954b1467b3e2ca5945b83b5e320268be1f4df486c3e8ffc90f4e4b707979/psycopg-3.2.4.tar.gz", hash = "sha256:f26f1346d6bf1ef5f5ef1714dd405c67fb365cfd1c6cea07de1792747b167b92", size = 156109 }
+sdist = { url = "https://files.pythonhosted.org/packages/67/97/eea08f74f1c6dd2a02ee81b4ebfe5b558beb468ebbd11031adbf58d31be0/psycopg-3.2.6.tar.gz", hash = "sha256:16fa094efa2698f260f2af74f3710f781e4a6f226efe9d1fd0c37f384639ed8a", size = 156322 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/40/49/15114d5f7ee68983f4e1a24d47e75334568960352a07c6f0e796e912685d/psycopg-3.2.4-py3-none-any.whl", hash = "sha256:43665368ccd48180744cab26b74332f46b63b7e06e8ce0775547a3533883d381", size = 198716 },
+    { url = "https://files.pythonhosted.org/packages/d7/7d/0ba52deff71f65df8ec8038adad86ba09368c945424a9bd8145d679a2c6a/psycopg-3.2.6-py3-none-any.whl", hash = "sha256:f3ff5488525890abb0566c429146add66b329e20d6d4835662b920cbbf90ac58", size = 199077 },
 ]
 
 [[package]]
