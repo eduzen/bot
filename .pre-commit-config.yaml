@@ -22,7 +22,7 @@ repos:
         args: [--autofix]
 
   - repo: https://github.com/abravalheri/validate-pyproject
-    rev: v0.23
+    rev: v0.24.1
     hooks:
       - id: validate-pyproject
         name: validate-pyproject
@@ -34,7 +34,7 @@ repos:
         args: [--py311-plus]
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: 'v0.9.4'
+    rev: 'v0.11.4'
     hooks:
       # Run the linter
       - id: ruff
@@ -43,7 +43,7 @@ repos:
       - id: ruff-format
 
   - repo: https://github.com/pycqa/isort
-    rev: 6.0.0  # Use the ref you want to point at
+    rev: 6.0.1  # Use the ref you want to point at
     hooks:
       - id: isort
         args: ["--profile", "black"]
