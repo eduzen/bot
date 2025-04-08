@@ -28,13 +28,16 @@ async def get_dolar(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
     try:
         geeklab = await get_dolar_blue_geeklab()
-        await context.bot.send_message(chat_id=chat_id, text=geeklab)
+        if geeklab:
+            await context.bot.send_message(chat_id=chat_id, text=geeklab)
 
         bluelytics = await get_bluelytics()
-        await context.bot.send_message(chat_id=chat_id, text=bluelytics)
+        if bluelytics:
+            await context.bot.send_message(chat_id=chat_id, text=bluelytics)
 
         banco_nacion = await get_banco_nacion()
-        await context.bot.send_message(chat_id=chat_id, text=banco_nacion)
+        if banco_nacion:
+            await context.bot.send_message(chat_id=chat_id, text=banco_nacion)
 
     except Exception:
         logfire.exception("Error getting dolar info")
