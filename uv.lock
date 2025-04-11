@@ -192,17 +192,17 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "beautifulsoup4" },
-    { name = "emoji" },
-    { name = "httpx", specifier = ">=0.28.1" },
+    { name = "beautifulsoup4", specifier = "==4.13.3" },
+    { name = "emoji", specifier = "==2.14.1" },
+    { name = "httpx", specifier = "==0.28.1" },
     { name = "logfire", specifier = ">=2.11.1" },
-    { name = "peewee" },
-    { name = "psycopg", specifier = ">=3.2.4" },
-    { name = "python-dotenv" },
-    { name = "python-telegram-bot", extras = ["job-queue"] },
-    { name = "sentry-sdk" },
-    { name = "tabulate", specifier = ">=0.9.0" },
-    { name = "yfinance" },
+    { name = "peewee", specifier = "==3.17.9" },
+    { name = "psycopg", specifier = "==3.2.6" },
+    { name = "python-dotenv", specifier = "==1.1.0" },
+    { name = "python-telegram-bot", extras = ["job-queue"], specifier = "==22.0" },
+    { name = "sentry-sdk", specifier = "==2.25.1" },
+    { name = "tabulate", specifier = "==0.9.0" },
+    { name = "yfinance", specifier = "==0.2.55" },
 ]
 
 [package.metadata.requires-dev]
@@ -430,7 +430,7 @@ wheels = [
 
 [[package]]
 name = "logfire"
-version = "3.12.0"
+version = "3.13.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "executing" },
@@ -441,9 +441,9 @@ dependencies = [
     { name = "rich" },
     { name = "typing-extensions" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/b6/13/3f8efed24ac44c86831917f06c3f03af156b3dc816dd049c4f9344db3040/logfire-3.12.0.tar.gz", hash = "sha256:1c8c21f33e94a63106c38bdf51c0bad554430d0581f1cfbb0e8bb1741a5bd43b", size = 470112 }
+sdist = { url = "https://files.pythonhosted.org/packages/f8/60/8bffe248b2261cd22808e49a882de70e93b2fc7548582daa1009a0ecf9a5/logfire-3.13.1.tar.gz", hash = "sha256:56cd1133bf93d25d2cd44c004df131183997d479a163290e9aab81d58118889a", size = 471902 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/08/04/a46bb34107dbe3ceea5562b0ba1720eeb25c19a10277cbc9c9f9b39d4cc7/logfire-3.12.0-py3-none-any.whl", hash = "sha256:d1812d96e5a88d3aa364947075af7a8bc2791e6e2474893fe02ce57b2a417a69", size = 191451 },
+    { url = "https://files.pythonhosted.org/packages/ea/5f/8a05978d8a4ddb13cf04acf7f510b461b76db8d5547cfefe50e42e8a16e8/logfire-3.13.1-py3-none-any.whl", hash = "sha256:b1c662dcb88fbdcfa1b6561f20ed0e758778e5542b21618cca71fee3c45c27eb", size = 191891 },
 ]
 
 [[package]]
