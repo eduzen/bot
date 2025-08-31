@@ -5,8 +5,11 @@ from bs4 import BeautifulSoup
 GEEKLAB_API = "http://ws.geeklab.com.ar/dolar/get-dolar-json.php"
 BNC = "https://www.bna.com.ar/Personas"
 BLUELYTICS = "https://api.bluelytics.com.ar/v2/latest"
+DOLARAPI = "https://dolarapi.com/v1/dolares"
+DOLARAPI_EUR = "https://dolarapi.com/v1/cotizaciones/eur"
 
-client = httpx.AsyncClient()
+# Configure client with proper timeouts
+client = httpx.AsyncClient(timeout=httpx.Timeout(10.0, read=15.0))
 
 dolar = "🇺🇸"
 euro = "🇪🇺"
@@ -48,7 +51,7 @@ def _process_bcn(data: str) -> str:
     data = soup.find_all("table", {"class": "table cotizacion"})
 
     if not data:
-        return "Banco nacion changed his html."
+        return "Banco Nación cambió su HTML."
 
     data = _extract(data[0])
 
@@ -62,23 +65,36 @@ def _process_bcn(data: str) -> str:
     return result
 
 
-def _process_bluelytics(data: dict) -> str:
-    oficial = data["oficial"]
-    blue = data["blue"]
-    eur = data["oficial_euro"]
-    oficial_venta = oficial["value_sell"]
-    blue_venta = blue["value_sell"]
-    brecha = round(((blue_venta / oficial_venta) - 1) * 100, 2)
-    data: str = (
-        "🏦 Oficial:\n"
-        f"💵 Dólar {oficial['value_buy']} - {oficial_venta}\n"
-        f"🇪🇺 Euro {eur['value_buy']} - {eur['value_sell']}\n"
-        "\n🌳 Blue:\n"
-        f"💵 Dólar {blue['value_buy']} - {blue_venta}\n"
-        f"🇪🇺 Euro {data['blue_euro']['value_buy']} - {data['blue_euro']['value_sell']}\n"
-        f"📊 *Brecha Dolar*: {brecha}%"
-    )
-    return data
+def _process_bluelytics(payload: dict) -> str:
+    try:
+        oficial = payload["oficial"]
+        blue = payload["blue"]
+        eur = payload["oficial_euro"]
+        blue_eur = payload["blue_euro"]
+
+        def fmt(x) -> str:
+            try:
+                return f"{float(x):,.2f}"
+            except Exception:
+                return str(x)
+
+        oficial_venta = float(oficial["value_sell"])  # for brecha
+        blue_venta = float(blue["value_sell"])  # for brecha
+        brecha = round(((blue_venta / oficial_venta) - 1) * 100, 2)
+
+        text: str = (
+            "🏦 Oficial:\n"
+            f"💵 Dólar {fmt(oficial['value_buy'])} - {fmt(oficial['value_sell'])}\n"
+            f"🇪🇺 Euro {fmt(eur['value_buy'])} - {fmt(eur['value_sell'])}\n"
+            "\n🌳 Blue:\n"
+            f"💵 Dólar {fmt(blue['value_buy'])} - {fmt(blue['value_sell'])}\n"
+            f"🇪🇺 Euro {fmt(blue_eur['value_buy'])} - {fmt(blue_eur['value_sell'])}\n"
+            f"📊 Brecha Dólar: {brecha}%"
+        )
+        return text
+    except KeyError:
+        logfire.warning("Bluelytics response missing expected keys")
+        return ""
 
 
 async def get_banco_nacion() -> str:
@@ -91,6 +107,12 @@ async def get_banco_nacion() -> str:
 
         data = response.text
         return _process_bcn(data)
+    except httpx.TimeoutException:
+        logfire.warning("BNC request timed out")
+        return "Banco nación no responde (timeout) 🤷‍♀"
+    except httpx.RequestError as e:
+        logfire.exception(f"BNC network error: {e}")
+        return "Banco nación no responde (network error) 🤷‍♀"
     except Exception:
         logfire.exception("Error getting BNC")
 
@@ -106,21 +128,124 @@ async def get_bluelytics() -> str:
 
         data = response.json()
         return _process_bluelytics(data)
+    except httpx.TimeoutException:
+        logfire.warning("Bluelytics request timed out")
+        return "Bluelytics no responde (timeout) 🤷‍♀️"
+    except httpx.RequestError as e:
+        logfire.exception(f"Bluelytics network error: {e}")
+        return "Bluelytics no responde (network error) 🤷‍♀️"
     except Exception:
         logfire.exception("bluelytics")
     return "Bluelytics no responde 🤷‍♀️"
 
 
 async def get_dolar_blue_geeklab() -> str:
-    r = await client.get(GEEKLAB_API)
-    if r.status_code != 200:
-        logfire.error(f"Something went wrong when it gets dollar. Status code: {r.status_code}")
+    try:
+        r = await client.get(GEEKLAB_API)
+        if r.status_code != 200:
+            logfire.error(f"Something went wrong when it gets dollar. Status code: {r.status_code}")
+            return ""
+
+        data = r.json()
+        logfire.info(f"Geeklab API response: {data}")
+        if not data or data.get("libre") is None or data.get("blue") is None:
+            logfire.error("Geeklab API returned incomplete data.")
+            # Skip user-facing noise; still log the incident.
+            return ""
+
+        return f"USD libre {data['libre']} - Blue {data['blue']}\n{punch} by http://ws.geeklab.com.ar"
+    except httpx.TimeoutException:
+        logfire.warning("Geeklab request timed out")
+        return "Geeklab no responde (timeout) 🤷‍♂️"
+    except httpx.RequestError as e:
+        logfire.exception(f"Geeklab network error: {e}")
+        return "Geeklab no responde (network error) 🤷‍♂️"
+    except Exception as e:
+        logfire.exception(f"Error getting Geeklab data: {e}")
+        return "Error obteniendo datos de Geeklab 🤷‍♂️"
+
+
+def _process_dolarapi(data: list[dict]) -> str:
+    """Process dolarapi.com response and format it nicely."""
+    if not data:
         return ""
 
-    data = r.json()
-    logfire.info(f"Geeklab API response: {data}")
-    if not data or data.get("libre") is None or data.get("blue") is None:
-        logfire.error("Geeklab API returned incomplete data.")
-        return "Perdón! La api no devolvió información completa!"
+    lines = ["💱 Cotizaciones del Dólar:"]
 
-    return f"USD libre {data['libre']} - Blue {data['blue']}\n{punch} by http://ws.geeklab.com.ar"
+    for item in data:
+        nombre = item.get("nombre", "")
+        compra = item.get("compra")
+        venta = item.get("venta")
+
+        if compra is not None and venta is not None:
+            compra_fmt = f"{float(compra):,.2f}"
+            venta_fmt = f"{float(venta):,.2f}"
+            lines.append(f"{dolar} {nombre}: ${compra_fmt} - ${venta_fmt}")
+
+    lines.append(f"{punch} by dolarapi.com")
+    return "\n".join(lines)
+
+
+async def get_dolarapi() -> str:
+    """Fetch dollar rates from dolarapi.com API."""
+    try:
+        response = await client.get(DOLARAPI)
+        response.raise_for_status()
+
+        if response.status_code != 200:
+            raise Exception("DolarAPI no responde 🤷‍♀️")
+
+        data = response.json()
+        return _process_dolarapi(data)
+    except httpx.TimeoutException:
+        logfire.warning("DolarAPI request timed out")
+        return "DolarAPI no responde (timeout) 🤷‍♀️"
+    except httpx.RequestError as e:
+        logfire.exception(f"DolarAPI network error: {e}")
+        return "DolarAPI no responde (network error) 🤷‍♀️"
+    except Exception:
+        logfire.exception("Error getting DolarAPI data")
+        return "DolarAPI no responde 🤷‍♀️"
+
+
+def _process_euro_dolarapi(data: list[dict]) -> str:
+    """Process dolarapi.com EUR response and format it nicely."""
+    if not data:
+        return ""
+
+    lines = ["💱 Cotizaciones del Euro:"]
+
+    for item in data:
+        nombre = item.get("nombre", "")
+        compra = item.get("compra")
+        venta = item.get("venta")
+
+        if compra is not None and venta is not None:
+            compra_fmt = f"{float(compra):,.2f}"
+            venta_fmt = f"{float(venta):,.2f}"
+            lines.append(f"{euro} {nombre}: ${compra_fmt} - ${venta_fmt}")
+
+    lines.append(f"{punch} by dolarapi.com")
+    return "\n".join(lines)
+
+
+async def get_euro_dolarapi() -> str:
+    """Fetch Euro rates from dolarapi.com API."""
+    try:
+        response = await client.get(DOLARAPI_EUR)
+        response.raise_for_status()
+
+        if response.status_code != 200:
+            raise Exception("DolarAPI EUR no responde 🤷‍♀️")
+
+        data = response.json()
+        return _process_euro_dolarapi(data)
+    except httpx.TimeoutException:
+        logfire.warning("DolarAPI EUR request timed out")
+        return "DolarAPI EUR no responde (timeout) 🤷‍♀️"
+    except httpx.RequestError as e:
+        logfire.exception(f"DolarAPI EUR network error: {e}")
+        return "DolarAPI EUR no responde (network error) 🤷‍♀️"
+    except Exception:
+        logfire.exception("Error getting DolarAPI EUR data")
+        return "DolarAPI EUR no responde 🤷‍♀️"

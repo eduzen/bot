@@ -74,7 +74,8 @@ async def get_crypto_report(report: Report) -> str:
         parts.append(f"\n{crypto}\n")
 
     if report.show_news:
-        hn = await fetch_hackernews_stories()
+        # Use Markdown (v1) friendly formatting for HN inside the report
+        hn = await fetch_hackernews_stories(md_version=1)
         parts.append(f"{hn}\n")
 
     return "\n".join(parts)

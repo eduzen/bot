@@ -12,6 +12,8 @@ from eduzenbot.plugins.commands.dolar.api import (
     get_banco_nacion,
     get_bluelytics,
     get_dolar_blue_geeklab,
+    get_dolarapi,
+    get_euro_dolarapi,
 )
 
 
@@ -27,6 +29,14 @@ async def get_dolar(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await context.bot.send_message(chat_id=chat_id, text="Getting dolar info...")
 
     try:
+        dolarapi = await get_dolarapi()
+        if dolarapi:
+            await context.bot.send_message(chat_id=chat_id, text=dolarapi)
+
+        euro_dolarapi = await get_euro_dolarapi()
+        if euro_dolarapi:
+            await context.bot.send_message(chat_id=chat_id, text=euro_dolarapi)
+
         geeklab = await get_dolar_blue_geeklab()
         if geeklab:
             await context.bot.send_message(chat_id=chat_id, text=geeklab)
