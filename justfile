@@ -68,7 +68,7 @@ compile-dev:
   pip-compile --extra=dev pyproject.toml -o requirements-dev.txt
 
 format:
-  pre-commit run --all-files
+  uv run pre-commit run --all-files
 
 fmt:
   just format

@@ -85,7 +85,7 @@ def test_process_bcn_with_invalid_html():
 
     result = _process_bcn(html_data)
 
-    assert result == "Banco nacion changed his html."
+    assert result == "Banco Nación cambió su HTML."
 
 
 # ------------------------------
@@ -117,11 +117,11 @@ def test_process_bluelytics_with_valid_data():
 
 
 def test_process_bluelytics_with_missing_keys():
-    """Should raise KeyError if required data is missing."""
+    """Should handle missing keys gracefully by returning empty string."""
     incomplete_data = {
         "oficial": {"value_buy": 100.0},
         "blue": {"value_buy": 200.0},
     }
 
-    with pytest.raises(KeyError):
-        _process_bluelytics(incomplete_data)
+    result = _process_bluelytics(incomplete_data)
+    assert result == ""

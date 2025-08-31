@@ -63,7 +63,7 @@ async def get_item(id: int) -> dict[Any, Any]:
     return response.json()
 
 
-async def parse_hackernews(story_id: int) -> str:
+async def parse_hackernews(story_id: int, md_version: int = 2) -> str:
     """
     Parse a story's details into a formatted string.
     """
@@ -73,16 +73,20 @@ async def parse_hackernews(story_id: int) -> str:
     title = getattr(story, "title", "No Title")
     url = getattr(story, "url", "")
 
-    safe_title = escape_markdown(title, version=2)
-    safe_url = escape_markdown(url, version=2, entity_type="text_link") if url else ""
+    safe_title = escape_markdown(title, version=md_version)
+    if md_version == 2:
+        safe_url = escape_markdown(url, version=2, entity_type="text_link") if url else ""
+    else:
+        safe_url = url
 
+    bullet = "\\- " if md_version == 2 else "- "
     if not url:
-        return rf"\- {safe_title}"
+        return f"{bullet}{safe_title}"
 
-    return rf"\- [{safe_title}]({safe_url})"
+    return f"{bullet}[{safe_title}]({safe_url})"
 
 
-async def fetch_hackernews_stories(story_type: STORIES = STORIES.TOP, limit: int = 5) -> str:
+async def fetch_hackernews_stories(story_type: STORIES = STORIES.TOP, limit: int = 5, md_version: int = 2) -> str:
     """
     Fetch and format top Hacker News stories.
     """
@@ -90,7 +94,7 @@ async def fetch_hackernews_stories(story_type: STORIES = STORIES.TOP, limit: int
     top_stories = await get_top_stories(story_type, limit)
     for story_id in top_stories:
         try:
-            story = await parse_hackernews(story_id)
+            story = await parse_hackernews(story_id, md_version=md_version)
             text_stories.append(story)
         except Exception:
             logfire.exception("Failed to parse story.")
@@ -118,7 +122,7 @@ async def get_hackernews(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
     except (KeyError, AttributeError):
         story_type = STORIES.TOP
 
-    text = await fetch_hackernews_stories(story_type)
+    text = await fetch_hackernews_stories(story_type, md_version=2)
     print(text)
     logfire.info(f"Sending HackerNews {text}", text=text)
 
