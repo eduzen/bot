@@ -167,11 +167,13 @@ def test_process_dolarapi_with_valid_data():
 
     result = _process_dolarapi(mock_data)
 
+    # Updated to reflect new emojis and grouping with blank lines
     expected_output = (
         "💱 Cotizaciones del Dólar:\n"
         "🇺🇸 Oficial: $1,400.00 - $1,450.00\n"
-        "🇺🇸 Blue: $1,455.00 - $1,475.00\n"
-        "🇺🇸 Bolsa: $1,436.50 - $1,458.00\n"
+        "\n"
+        "🌳 Blue: $1,455.00 - $1,475.00\n"
+        "💰 Bolsa: $1,436.50 - $1,458.00\n"
         "👊 by dolarapi.com"
     )
 
@@ -218,6 +220,8 @@ def test_process_dolarapi_with_missing_fields():
 @pytest.mark.asyncio
 async def test_get_dolarapi_success(respx_mock):
     """Should fetch and return formatted dolarapi.com data."""
+    import httpx
+
     mock_response = [
         {
             "moneda": "USD",
@@ -229,9 +233,7 @@ async def test_get_dolarapi_success(respx_mock):
         }
     ]
 
-    respx_mock.get("https://dolarapi.com/v1/dolares").mock(
-        return_value=MagicMock(status_code=200, json=lambda: mock_response)
-    )
+    respx_mock.get("https://dolarapi.com/v1/dolares").mock(return_value=httpx.Response(200, json=mock_response))
 
     result = await get_dolarapi()
 
@@ -271,67 +273,42 @@ async def test_get_dolarapi_network_error(respx_mock):
 
 def test_process_euro_dolarapi_with_valid_data():
     """Should format dolarapi.com Euro API response correctly."""
-    mock_data = [
-        {
-            "moneda": "EUR",
-            "casa": "oficial",
-            "nombre": "Oficial",
-            "compra": 1500,
-            "venta": 1600,
-            "fechaActualizacion": "2025-10-09T17:02:00.000Z",
-        },
-        {
-            "moneda": "EUR",
-            "casa": "blue",
-            "nombre": "Blue",
-            "compra": 1650,
-            "venta": 1700,
-            "fechaActualizacion": "2025-10-10T21:02:00.000Z",
-        },
-    ]
+    # EUR API returns a single dict, not a list
+    mock_data = {
+        "moneda": "EUR",
+        "casa": "oficial",
+        "nombre": "Euro Oficial",
+        "compra": 1500,
+        "venta": 1600,
+        "fechaActualizacion": "2025-10-09T17:02:00.000Z",
+    }
 
     result = _process_euro_dolarapi(mock_data)
 
-    expected_output = (
-        "💱 Cotizaciones del Euro:\n"
-        "🇪🇺 Oficial: $1,500.00 - $1,600.00\n"
-        "🇪🇺 Blue: $1,650.00 - $1,700.00\n"
-        "👊 by dolarapi.com"
-    )
+    expected_output = "💱 🇪🇺 Euro Oficial: $1,500.00 - $1,600.00\n👊 by dolarapi.com"
 
     assert result == expected_output
 
 
 def test_process_euro_dolarapi_with_empty_data():
     """Should handle empty data by returning empty string."""
-    result = _process_euro_dolarapi([])
+    result = _process_euro_dolarapi({})
     assert result == ""
 
 
 def test_process_euro_dolarapi_with_missing_fields():
-    """Should skip items with missing compra or venta fields."""
-    mock_data = [
-        {
-            "moneda": "EUR",
-            "casa": "oficial",
-            "nombre": "Oficial",
-            "compra": 1500,
-            "venta": 1600,
-        },
-        {
-            "moneda": "EUR",
-            "casa": "incomplete",
-            "nombre": "Incomplete",
-            "compra": None,
-            "venta": 1700,
-        },
-    ]
+    """Should return empty string if compra or venta is missing."""
+    mock_data = {
+        "moneda": "EUR",
+        "casa": "incomplete",
+        "nombre": "Incomplete",
+        "compra": None,
+        "venta": 1700,
+    }
 
     result = _process_euro_dolarapi(mock_data)
 
-    assert "Oficial" in result
-    assert "Incomplete" not in result
-    assert "1,500.00" in result
+    assert result == ""
 
 
 # ------------------------------
@@ -342,25 +319,26 @@ def test_process_euro_dolarapi_with_missing_fields():
 @pytest.mark.asyncio
 async def test_get_euro_dolarapi_success(respx_mock):
     """Should fetch and return formatted dolarapi.com Euro data."""
-    mock_response = [
-        {
-            "moneda": "EUR",
-            "casa": "oficial",
-            "nombre": "Oficial",
-            "compra": 1500,
-            "venta": 1600,
-            "fechaActualizacion": "2025-10-09T17:02:00.000Z",
-        }
-    ]
+    import httpx
+
+    # EUR API returns a single dict, not a list
+    mock_response = {
+        "moneda": "EUR",
+        "casa": "oficial",
+        "nombre": "Euro",
+        "compra": 1500,
+        "venta": 1600,
+        "fechaActualizacion": "2025-10-09T17:02:00.000Z",
+    }
 
     respx_mock.get("https://dolarapi.com/v1/cotizaciones/eur").mock(
-        return_value=MagicMock(status_code=200, json=lambda: mock_response)
+        return_value=httpx.Response(200, json=mock_response)
     )
 
     result = await get_euro_dolarapi()
 
-    assert "💱 Cotizaciones del Euro:" in result
-    assert "Oficial" in result
+    assert "💱" in result
+    assert "Euro" in result
     assert "1,500.00" in result
 
 
