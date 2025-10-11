@@ -170,17 +170,56 @@ def _process_dolarapi(data: list[dict]) -> str:
     if not data:
         return ""
 
+    # Emoji mapping for different dollar types
+    emoji_map = {
+        "Blue": "🌳",
+        "Bolsa": "💰",
+        "Contado con liquidación": "💸",
+        "Tarjeta": "💳",
+        "Cripto": "₿",
+    }
+
+    # Name replacements
+    name_map = {
+        "Contado con liquidación": "CCL",
+    }
+
+    # Grouping order
+    group1 = ["Oficial", "Tarjeta", "Mayorista"]
+    group2 = ["Bolsa", "Contado con liquidación", "Blue"]
+    group3 = ["Cripto"]
+
     lines = ["💱 Cotizaciones del Dólar:"]
 
-    for item in data:
-        nombre = item.get("nombre", "")
-        compra = item.get("compra")
-        venta = item.get("venta")
+    # Process items by groups
+    for group in [group1, group2, group3]:
+        group_lines = []
+        for item in data:
+            nombre = item.get("nombre", "")
+            if nombre not in group:
+                continue
 
-        if compra is not None and venta is not None:
-            compra_fmt = f"{float(compra):,.2f}"
-            venta_fmt = f"{float(venta):,.2f}"
-            lines.append(f"{dolar} {nombre}: ${compra_fmt} - ${venta_fmt}")
+            compra = item.get("compra")
+            venta = item.get("venta")
+
+            if compra is not None and venta is not None:
+                compra_fmt = f"{float(compra):,.2f}"
+                venta_fmt = f"{float(venta):,.2f}"
+
+                # Get custom emoji or default to dolar flag
+                emoji = emoji_map.get(nombre, dolar)
+                # Get custom name or use original
+                display_name = name_map.get(nombre, nombre)
+
+                group_lines.append(f"{emoji} {display_name}: ${compra_fmt} - ${venta_fmt}")
+
+        if group_lines:
+            lines.extend(group_lines)
+            lines.append("")  # Empty line between groups
+
+    # Remove trailing empty line before footer
+    if lines and lines[-1] == "":
+        lines.pop()
 
     lines.append(f"{punch} by dolarapi.com")
     return "\n".join(lines)
@@ -208,25 +247,22 @@ async def get_dolarapi() -> str:
         return "DolarAPI no responde 🤷‍♀️"
 
 
-def _process_euro_dolarapi(data: list[dict]) -> str:
+def _process_euro_dolarapi(data: dict) -> str:
     """Process dolarapi.com EUR response and format it nicely."""
-    if not data:
+    if not data or not isinstance(data, dict):
         return ""
 
-    lines = ["💱 Cotizaciones del Euro:"]
+    nombre = data.get("nombre", "")
+    compra = data.get("compra")
+    venta = data.get("venta")
 
-    for item in data:
-        nombre = item.get("nombre", "")
-        compra = item.get("compra")
-        venta = item.get("venta")
+    if compra is None or venta is None:
+        return ""
 
-        if compra is not None and venta is not None:
-            compra_fmt = f"{float(compra):,.2f}"
-            venta_fmt = f"{float(venta):,.2f}"
-            lines.append(f"{euro} {nombre}: ${compra_fmt} - ${venta_fmt}")
+    compra_fmt = f"{float(compra):,.2f}"
+    venta_fmt = f"{float(venta):,.2f}"
 
-    lines.append(f"{punch} by dolarapi.com")
-    return "\n".join(lines)
+    return f"💱 {euro} {nombre}: ${compra_fmt} - ${venta_fmt}\n{punch} by dolarapi.com"
 
 
 async def get_euro_dolarapi() -> str:

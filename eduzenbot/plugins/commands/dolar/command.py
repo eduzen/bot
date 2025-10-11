@@ -11,7 +11,6 @@ from eduzenbot.decorators import create_user
 from eduzenbot.plugins.commands.dolar.api import (
     get_banco_nacion,
     get_bluelytics,
-    get_dolar_blue_geeklab,
     get_dolarapi,
     get_euro_dolarapi,
 )
@@ -29,21 +28,35 @@ async def get_dolar(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await context.bot.send_message(chat_id=chat_id, text="Getting dolar info...")
 
     try:
+        # Try dolarapi first, fall back to bluelytics if it fails
         dolarapi = await get_dolarapi()
-        if dolarapi:
-            await context.bot.send_message(chat_id=chat_id, text=dolarapi)
-
         euro_dolarapi = await get_euro_dolarapi()
-        if euro_dolarapi:
-            await context.bot.send_message(chat_id=chat_id, text=euro_dolarapi)
 
-        geeklab = await get_dolar_blue_geeklab()
-        if geeklab:
-            await context.bot.send_message(chat_id=chat_id, text=geeklab)
+        if dolarapi or euro_dolarapi:
+            # Combine dolarapi USD and EUR in one message
+            combined = []
+            if dolarapi:
+                # Remove footer from dolarapi
+                dolarapi_clean = dolarapi.rsplit("\n👊", 1)[0]
+                combined.append(dolarapi_clean)
+            if euro_dolarapi:
+                # Remove footer from euro_dolarapi
+                euro_clean = euro_dolarapi.rsplit("\n👊", 1)[0]
+                combined.append(euro_clean)
 
-        bluelytics = await get_bluelytics()
-        if bluelytics:
-            await context.bot.send_message(chat_id=chat_id, text=bluelytics)
+            if combined:
+                # Add single footer at the end
+                message = "\n\n".join(combined) + "\n👊 by dolarapi.com"
+                await context.bot.send_message(chat_id=chat_id, text=message)
+        else:
+            # Fallback to bluelytics if dolarapi fails
+            bluelytics = await get_bluelytics()
+            if bluelytics:
+                await context.bot.send_message(chat_id=chat_id, text=bluelytics)
+
+        # geeklab = await get_dolar_blue_geeklab()
+        # if geeklab:
+        #     await context.bot.send_message(chat_id=chat_id, text=geeklab)
 
         banco_nacion = await get_banco_nacion()
         if banco_nacion:
