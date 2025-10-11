@@ -16,7 +16,7 @@ from telegram.ext import ContextTypes
 from eduzenbot.decorators import create_user
 from eduzenbot.models import Report
 from eduzenbot.plugins.commands.btc.api import get_all
-from eduzenbot.plugins.commands.dolar.api import get_bluelytics
+from eduzenbot.plugins.commands.dolar.api import get_dolarapi, get_euro_dolarapi
 from eduzenbot.plugins.commands.hackernews.command import fetch_hackernews_stories
 from eduzenbot.plugins.commands.weather.api import get_klima
 
@@ -66,8 +66,23 @@ async def get_crypto_report(report: Report) -> str:
         parts.append(await get_all_weather())
 
     if report.show_dollar:
-        blue = await get_bluelytics() or "-"
-        parts.append(f"*Dólar 💸*\n{blue}\n")
+        dolar_parts = []
+        dolarapi = await get_dolarapi()
+        if dolarapi:
+            # Remove the footer from dolarapi
+            dolarapi_clean = dolarapi.rsplit("\n👊", 1)[0]
+            dolar_parts.append(dolarapi_clean)
+
+        euro_dolarapi = await get_euro_dolarapi()
+        if euro_dolarapi:
+            # Remove the footer from euro_dolarapi
+            euro_clean = euro_dolarapi.rsplit("\n👊", 1)[0]
+            dolar_parts.append(euro_clean)
+
+        if dolar_parts:
+            # Add single footer at the end
+            combined = "\n\n".join(dolar_parts) + "\n👊 by dolarapi.com"
+            parts.append(combined)
 
     if report.show_crypto:
         crypto = await get_all()

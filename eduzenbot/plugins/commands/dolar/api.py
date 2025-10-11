@@ -5,6 +5,8 @@ from bs4 import BeautifulSoup
 GEEKLAB_API = "http://ws.geeklab.com.ar/dolar/get-dolar-json.php"
 BNC = "https://www.bna.com.ar/Personas"
 BLUELYTICS = "https://api.bluelytics.com.ar/v2/latest"
+DOLARAPI = "https://dolarapi.com/v1/dolares"
+DOLARAPI_EUR = "https://dolarapi.com/v1/cotizaciones/eur"
 
 # Configure client with proper timeouts
 client = httpx.AsyncClient(timeout=httpx.Timeout(10.0, read=15.0))
@@ -161,3 +163,125 @@ async def get_dolar_blue_geeklab() -> str:
     except Exception as e:
         logfire.exception(f"Error getting Geeklab data: {e}")
         return "Error obteniendo datos de Geeklab 🤷‍♂️"
+
+
+def _process_dolarapi(data: list[dict]) -> str:
+    """Process dolarapi.com response and format it nicely."""
+    if not data:
+        return ""
+
+    # Emoji mapping for different dollar types
+    emoji_map = {
+        "Blue": "🌳",
+        "Bolsa": "💰",
+        "Contado con liquidación": "💸",
+        "Tarjeta": "💳",
+        "Cripto": "₿",
+    }
+
+    # Name replacements
+    name_map = {
+        "Contado con liquidación": "CCL",
+    }
+
+    # Grouping order
+    group1 = ["Oficial", "Tarjeta", "Mayorista"]
+    group2 = ["Bolsa", "Contado con liquidación", "Blue"]
+    group3 = ["Cripto"]
+
+    lines = ["💱 Cotizaciones del Dólar:"]
+
+    # Process items by groups
+    for group in [group1, group2, group3]:
+        group_lines = []
+        for item in data:
+            nombre = item.get("nombre", "")
+            if nombre not in group:
+                continue
+
+            compra = item.get("compra")
+            venta = item.get("venta")
+
+            if compra is not None and venta is not None:
+                compra_fmt = f"{float(compra):,.2f}"
+                venta_fmt = f"{float(venta):,.2f}"
+
+                # Get custom emoji or default to dolar flag
+                emoji = emoji_map.get(nombre, dolar)
+                # Get custom name or use original
+                display_name = name_map.get(nombre, nombre)
+
+                group_lines.append(f"{emoji} {display_name}: ${compra_fmt} - ${venta_fmt}")
+
+        if group_lines:
+            lines.extend(group_lines)
+            lines.append("")  # Empty line between groups
+
+    # Remove trailing empty line before footer
+    if lines and lines[-1] == "":
+        lines.pop()
+
+    lines.append(f"{punch} by dolarapi.com")
+    return "\n".join(lines)
+
+
+async def get_dolarapi() -> str:
+    """Fetch dollar rates from dolarapi.com API."""
+    try:
+        response = await client.get(DOLARAPI)
+        response.raise_for_status()
+
+        if response.status_code != 200:
+            raise Exception("DolarAPI no responde 🤷‍♀️")
+
+        data = response.json()
+        return _process_dolarapi(data)
+    except httpx.TimeoutException:
+        logfire.warning("DolarAPI request timed out")
+        return "DolarAPI no responde (timeout) 🤷‍♀️"
+    except httpx.RequestError as e:
+        logfire.exception(f"DolarAPI network error: {e}")
+        return "DolarAPI no responde (network error) 🤷‍♀️"
+    except Exception:
+        logfire.exception("Error getting DolarAPI data")
+        return "DolarAPI no responde 🤷‍♀️"
+
+
+def _process_euro_dolarapi(data: dict) -> str:
+    """Process dolarapi.com EUR response and format it nicely."""
+    if not data or not isinstance(data, dict):
+        return ""
+
+    nombre = data.get("nombre", "")
+    compra = data.get("compra")
+    venta = data.get("venta")
+
+    if compra is None or venta is None:
+        return ""
+
+    compra_fmt = f"{float(compra):,.2f}"
+    venta_fmt = f"{float(venta):,.2f}"
+
+    return f"💱 {euro} {nombre}: ${compra_fmt} - ${venta_fmt}\n{punch} by dolarapi.com"
+
+
+async def get_euro_dolarapi() -> str:
+    """Fetch Euro rates from dolarapi.com API."""
+    try:
+        response = await client.get(DOLARAPI_EUR)
+        response.raise_for_status()
+
+        if response.status_code != 200:
+            raise Exception("DolarAPI EUR no responde 🤷‍♀️")
+
+        data = response.json()
+        return _process_euro_dolarapi(data)
+    except httpx.TimeoutException:
+        logfire.warning("DolarAPI EUR request timed out")
+        return "DolarAPI EUR no responde (timeout) 🤷‍♀️"
+    except httpx.RequestError as e:
+        logfire.exception(f"DolarAPI EUR network error: {e}")
+        return "DolarAPI EUR no responde (network error) 🤷‍♀️"
+    except Exception:
+        logfire.exception("Error getting DolarAPI EUR data")
+        return "DolarAPI EUR no responde 🤷‍♀️"

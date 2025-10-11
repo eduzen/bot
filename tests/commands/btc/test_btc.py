@@ -92,11 +92,13 @@ async def test_get_crypto_report(mocker):
     """
     Test the get_crypto_report function directly by mocking its dependencies.
     """
-    # Mock get_all, get_bluelytics, get_klima, and fetch_hackernews_stories
+    # Mock get_all, get_dolarapi, get_euro_dolarapi, get_klima, and fetch_hackernews_stories
     crypto_mock = AsyncMock(return_value="CRYPTO DATA")
-    dollar_mock = AsyncMock(return_value="DOLLAR DATA")
+    dolarapi_mock = AsyncMock(return_value="DOLARAPI USD DATA\n👊 by dolarapi.com")
+    euro_dolarapi_mock = AsyncMock(return_value="DOLARAPI EUR DATA\n👊 by dolarapi.com")
     mocker.patch("eduzenbot.plugins.commands.btc.command.get_all", new=crypto_mock)
-    mocker.patch("eduzenbot.plugins.commands.btc.command.get_bluelytics", new=dollar_mock)
+    mocker.patch("eduzenbot.plugins.commands.btc.command.get_dolarapi", new=dolarapi_mock)
+    mocker.patch("eduzenbot.plugins.commands.btc.command.get_euro_dolarapi", new=euro_dolarapi_mock)
     mocker.patch(
         "eduzenbot.plugins.commands.btc.command.get_klima",
         new=AsyncMock(
@@ -119,7 +121,9 @@ async def test_get_crypto_report(mocker):
     text = await get_crypto_report(report=Report(chat_id=12345))
 
     assert "CRYPTO DATA" in text
-    assert "DOLLAR DATA" in text
+    # Now we use dolarapi instead of bluelytics
+    assert "DOLARAPI USD DATA" in text
+    assert "DOLARAPI EUR DATA" in text
     assert "Buenos Aires Weather" in text
     assert "Amsterdam Weather" in text
     assert "Dallas Weather" in text
