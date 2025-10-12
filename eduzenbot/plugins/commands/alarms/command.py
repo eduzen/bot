@@ -25,8 +25,8 @@ def chunk_text(text: str, chunk_size: int = 4000):
         yield text[i : i + chunk_size]
 
 
-@create_user
 @restricted
+@create_user
 async def list_users(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """
     Shows a list of users in a formatted table.
@@ -63,8 +63,8 @@ async def list_users(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None
         await context.bot.send_message(chat_id=chat_id, text=message_text, parse_mode="Markdown")
 
 
-@create_user
 @restricted
+@create_user
 async def list_reports_configured(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """
     Lists all configured reports in a formatted table.
