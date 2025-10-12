@@ -4,6 +4,7 @@ description = "A bot for telegram"
 readme = "README.md"
 version = "v0.beta"
 requires-python = ">=3.13"
+license = "MIT"
 keywords = []
 authors = [
   { name = "Eduardo Enriquez (eduzen)", email = "eduardo.a.enriquez@gmail.com" },

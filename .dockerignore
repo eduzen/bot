@@ -16,6 +16,10 @@ tests/coverage_html/
 tests/.coverage
 build/
 tests/report/
+tests/
+
+# Repo-only artifacts not needed in image
+docs.json
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
