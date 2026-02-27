@@ -54,7 +54,7 @@ jobs:
         uv run coverage json
 
     - name: "Upload coverage data"
-      uses: actions/upload-artifact@v6
+      uses: actions/upload-artifact@v7
       with:
         name: coverage.json
         path: coverage.json
