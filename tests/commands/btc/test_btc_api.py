@@ -7,6 +7,7 @@ from eduzenbot.plugins.commands.btc.api import (
     client,
     fetch_and_process,
     process_all,
+    process_coindesk,
     process_dogecoin,
     process_eth,
 )
@@ -120,3 +121,30 @@ def test_process_all_error():
 
     result = process_all(response)
     assert result == "Perdón! No hay ninguna api disponible!"
+
+
+def test_process_coindesk_success():
+    """Should parse coindesk JSON and return formatted BTC string."""
+    response = MagicMock(spec=httpx.Response)
+    response.json.return_value = {
+        "bpi": {
+            "USD": {"rate": "30,000.1234"},
+            "EUR": {"rate": "28,000.5678"},
+        }
+    }
+
+    result = process_coindesk(response)
+    assert "₿ 1 btc ==" in result
+    assert "USD 30,000.12" in result
+    assert "EUR 28,000.57" in result
+    assert "coindesk" in result
+
+
+def test_process_coindesk_empty_data():
+    """Should return fallback text if response data is empty."""
+    response = MagicMock(spec=httpx.Response)
+    response.json.return_value = None
+
+    result = process_coindesk(response)
+    assert "coindesk" in result.lower()
+    assert "no está disponible" in result

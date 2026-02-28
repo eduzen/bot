@@ -6,25 +6,23 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ### Running the Bot
 - **Local development**: `just run` or `uv run python -m eduzenbot`
-- **Docker development**: `just start` (starts with docker-compose)
+- **Docker development**: `just start` (starts with docker-compose, then tails logs)
 - **Debug mode**: `just start-debug` (interactive docker session)
-- **Docker shell**: `just dockershell` (bash session in container)
-- **IPython shell**: `just shell` (interactive Python shell)
+- **IPython shell**: `just shell` (interactive Python shell in Docker)
 
 ### Testing
-- **Run tests**: `just test` (Docker) or `uv run coverage run -m pytest` (local)
+- **Local tests**: `just uv-test` or `uv run coverage run -m pytest`
+- **Docker tests**: `just test`
 - **Single test**: `uv run pytest path/to/test.py::test_name`
-- **Coverage report**: `just coverage` or `uv run coverage report`
+- **Coverage report**: `just coverage` (runs `coverage combine` then `coverage report`)
+- Tests use an autouse fixture (`tests/conftest.py`) that binds all models to an in-memory SQLite DB per test function — no setup needed
+- Factory Boy factories for User and EventLog are in `tests/factories.py`
+- HTTP mocking uses `respx` (for `httpx`-based API calls)
 
 ### Code Quality
-- **Lint and format**: `just format` or `pre-commit run --all-files`
-- **Pre-commit hooks**: Auto-run ruff (linting/formatting), isort, pyupgrade, and validation checks
-- Pre-commit installs via: `pre-commit install`
-
-### Database
-- Database migrations and table creation are handled automatically in `__main__.py` during startup via `create_db_tables()` and `migrate_tables()`
-- Uses Peewee ORM with SQLite by default (`:memory:` if no DATABASE_URL), PostgreSQL for production
-- Connection string format: `postgresext+pool://user:pass@host/db?max_connections=20&stale_timeout=3000`
+- **Lint and format**: `just format` (or `just fmt`) — runs `uv run pre-commit run --all-files`
+- **Pre-commit hooks**: ruff (lint + format), isort (profile=black), pyupgrade (py311+), plus standard checks (check-ast, trailing-whitespace, etc.)
+- **Ruff config**: target Python 3.13, line-length 120
 
 ### Environment Setup
 - Copy `.env.sample` to `.env` and configure required environment variables
@@ -34,74 +32,46 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Architecture
 
 ### Bot Initialization Flow (`eduzenbot/__main__.py`)
-1. Load environment variables from `.env`
-2. Initialize Sentry SDK and Logfire for observability
-3. Create/migrate database tables via `create_db_tables()` and `migrate_tables()`
-4. Build Application with `ExtBot` and `Application.builder()`
-5. Set `app.post_init = on_startup` to run startup tasks
-6. During `on_startup`:
-   - Send startup message to admin (EDUZEN_ID)
-   - Load plugins via `load_and_register_plugins()`
-   - Register hardcoded handlers (`set`, `configure_report`, `cancel_report`)
-   - Register unknown command handler
-   - Set bot commands in Telegram with `set_my_commands()`
-   - Schedule existing reports from database with `schedule_reports()`
-7. Add error handler and start polling
+1. Load `.env`, init Sentry + Logfire, create/migrate DB tables
+2. Build `Application` with `ExtBot` and set `post_init = on_startup`
+3. `on_startup`: loads plugins via `load_and_register_plugins()`, registers hardcoded handlers (`set`, `configure_report`, `cancel_report`), registers unknown command fallback, sets bot commands in Telegram, schedules existing reports from DB
+4. Start polling
 
-### Plugin System
-The bot uses a **dynamic plugin loading system** (`eduzenbot/adapters/plugin_loader.py`):
+### Plugin System (`eduzenbot/adapters/plugin_loader.py`)
+Plugins are discovered dynamically from `eduzenbot/plugins/commands/<plugin_name>/`.
 
-- **Plugin Location**: `eduzenbot/plugins/commands/<plugin_name>/`
-- **Plugin Structure**: Each plugin requires:
-  - `command.py`: Main plugin logic with handler functions
-  - `__init__.py`: Plugin initialization (can be empty)
-- **Command Registration**: Commands are registered via **docstring format** at the top of `command.py`:
-  ```python
-  """
-  command_name - function_name
-  another_command - another_function
-  """
+Each plugin folder requires a `command.py` with a **module-level docstring** mapping commands to functions:
+```python
+"""
+clima - klima
+klima - klima
+"""
 
-  async def function_name(update: Update, context: ContextTypes.DEFAULT_TYPE):
-      # Handler logic
-  ```
-- **Loading Process**:
-  1. `load_and_register_plugins()` scans `eduzenbot/plugins/commands/` for folders with `command.py`
-  2. Dynamically imports each module via `importlib.util`
-  3. Parses module docstring to extract command-to-function mappings
-  4. Creates `CommandHandler` instances for each command
-  5. Returns list of handlers to be registered in `__main__.py`
+@create_user
+async def klima(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    ...
+```
 
-### Core Components
-- **Main Application**: `eduzenbot/__main__.py` - Entry point, bot initialization, plugin loading, startup orchestration
-- **Models**: `eduzenbot/models.py` - Database models (User, EventLog, Report) using Peewee ORM with thread-safe metadata
-- **Plugin Loader**: `eduzenbot/adapters/plugin_loader.py` - Dynamic plugin discovery and CommandHandler registration
-- **Decorators**: `eduzenbot/decorators.py` - `@create_user` decorator for automatic user tracking
-- **Error Handler**: `eduzenbot/adapters/telegram_error_handler.py` - Centralized Telegram API error handling
-- **Report Scheduler**: `eduzenbot/domain/report_scheduler.py` - Schedules daily reports from database on startup
+The loader parses the docstring (`command_name - function_name` per line), finds the function by name, and creates `CommandHandler` instances. Commands must be unique across all plugins.
 
-### Database Models (Peewee ORM)
-- **BaseModel**: Base class with `todict()`/`to_dict()` helpers and thread-safe metadata
-- **User**: Telegram user info (id, username, first_name, last_name, is_bot, language_code) with automatic `updated_at` on save
-- **EventLog**: Tracks command usage (user, command, data, timestamp) for audit logs
-- **Report**: Stores scheduled daily report configurations (chat_id, hour, min, show_weather, show_crypto, show_dollar, show_news)
+Plugins that call external APIs typically split logic into a separate `api.py` in the same folder (e.g., `weather/api.py`, `btc/api.py`, `dolar/api.py`).
 
-### Decorators (`eduzenbot/decorators.py`)
-- **`@create_user`**: Wraps command handlers to:
-  - Extract user from `update.effective_user`
-  - Call `get_or_create_user()` to ensure user exists in DB and update fields
-  - Log command execution to `EventLog` table
-  - Log to Logfire for observability
-  - Return handler result (does not block on errors)
+### Key Decorators
+- **`@create_user`** (`eduzenbot/decorators.py`): Wraps command handlers to upsert the Telegram user in the DB, log the command to `EventLog`, and instrument with Logfire. Does not block the handler on DB errors.
+- **`@restricted`** (`eduzenbot/auth/restricted.py`): Limits command access to the `EDUZEN_ID` user only. Silently returns `None` for unauthorized users.
+- Decorator stacking order matters: `@create_user` should be outermost, `@restricted` inside it (see `schedule_daily_report` for example).
 
-### Dependencies
-- **Core**: python-telegram-bot (with job-queue), peewee, logfire (observability), sentry-sdk
-- **External APIs**: yfinance (stocks), beautifulsoup4 (web scraping), httpx (async HTTP)
-- **Development**: pytest, pytest-asyncio, pytest-mock, pytest-randomly, coverage, factory-boy, respx (HTTP mocking), pre-commit, ruff, mypy, ipython, ipdb
+### Database
+- Uses Peewee ORM with `ThreadSafeDatabaseMetadata`
+- SQLite in-memory by default (`:memory:` if no `DATABASE_URL`), PostgreSQL via `psycopg` for production
+- Models: `User`, `EventLog`, `Report` — all in `eduzenbot/models.py`
+- Tables created/migrated automatically at startup via `eduzenbot/scripts/initialize_db.py`
 
-### Testing
-- Uses pytest with asyncio support (`pytest-asyncio`)
-- Factory Boy for test data generation
-- Respx for HTTP request mocking
-- Coverage configured to ignore `eduzenbot/__about__.py` and `eduzenbot/scripts/*`
-- Run single test: `uv run pytest path/to/test.py::test_function_name`
+### Job Queue / Scheduled Reports
+- `eduzenbot/plugins/job_queue/alarms/command.py`: Handles `/set` and `/cancel_report` commands for daily scheduled reports
+- `eduzenbot/domain/report_scheduler.py`: On startup, reads all `Report` records and schedules `run_daily` jobs (timezone: Europe/Amsterdam)
+- Reports are configurable with feature flags: weather, crypto, dollar, news
+
+### Other Structure
+- `eduzenbot/plugins/messages/unknown.py`: Fallback handler for unrecognized commands
+- `eduzenbot/scripts/`: DB initialization and data loading utilities

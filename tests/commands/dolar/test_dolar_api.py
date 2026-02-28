@@ -1,5 +1,6 @@
 from unittest.mock import MagicMock
 
+import httpx
 import pytest
 
 from eduzenbot.plugins.commands.dolar.api import (
@@ -8,6 +9,8 @@ from eduzenbot.plugins.commands.dolar.api import (
     _process_bluelytics,
     _process_dolarapi,
     _process_euro_dolarapi,
+    get_banco_nacion,
+    get_bluelytics,
     get_dolarapi,
     get_euro_dolarapi,
 )
@@ -55,32 +58,33 @@ def test_extract_with_invalid_data():
 # ------------------------------
 # Tests for `_process_bcn` function
 # ------------------------------
-@pytest.mark.skip(reason="This test is failing")
 def test_process_bcn_with_valid_html():
     """Should parse BNA HTML and return formatted exchange rates."""
+    # Each value on its own row so get_text() produces newline-separated tokens
     html_data = """
-    <html>
-        <body>
-            <table class="table cotizacion">
-                <tr><td>Dolar Oficial</td><td>100,00</td></tr>
-                <tr><td>Euro Oficial</td><td>120,00</td></tr>
-                <tr><td>Real Oficial</td><td>20,00</td></tr>
-            </table>
-        </body>
-    </html>
+    <table class="table cotizacion">
+    <tr><td>Dolar U.S.A</td></tr>
+    <tr><td>100,50</td></tr>
+    <tr><td>105,75</td></tr>
+    <tr><td>Euro</td></tr>
+    <tr><td>120,00</td></tr>
+    <tr><td>125,00</td></tr>
+    <tr><td>Real (*)</td></tr>
+    <tr><td>20,00</td></tr>
+    <tr><td>25,00</td></tr>
+    </table>
     """
 
     result = _process_bcn(html_data)
 
-    expected_output = (
-        "🇺🇸 Dolar Oficial 100,00 🇪🇺 Euro Oficial 120,00 🇧🇷 Real Oficial 20,00\n"
-        "🇺🇸 Dolar Oficial 100,00\n"
-        "🇪🇺 Euro Oficial 120,00\n"
-        "🇧🇷 Real Oficial 20,00\n"
-        "(*) cotización cada 100 unidades.\n👊 by bna.com.ar"
-    )
-
-    assert result == expected_output
+    assert "🇺🇸 Dolar" in result
+    assert "100.50" in result
+    assert "🇪🇺 Euro" in result
+    assert "120.00" in result
+    assert "🇧🇷 Real" in result
+    assert "20.00" in result
+    assert "(*) cotización cada 100 unidades." in result
+    assert "👊 by bna.com.ar" in result
 
 
 def test_process_bcn_with_invalid_html():
@@ -95,7 +99,6 @@ def test_process_bcn_with_invalid_html():
 # ------------------------------
 # Tests for `_process_bluelytics` function
 # ------------------------------
-@pytest.mark.skip(reason="This test is failing")
 def test_process_bluelytics_with_valid_data():
     """Should format Bluelytics API response correctly."""
     mock_data = {
@@ -107,14 +110,15 @@ def test_process_bluelytics_with_valid_data():
 
     result = _process_bluelytics(mock_data)
 
+    # Values are formatted via fmt() as f"{float(x):,.2f}"
     expected_output = (
         "🏦 Oficial:\n"
-        "💵 Dólar 100.0 - 105.0\n"
-        "🇪🇺 Euro 120.0 - 125.0\n"
+        "💵 Dólar 100.00 - 105.00\n"
+        "🇪🇺 Euro 120.00 - 125.00\n"
         "\n🌳 Blue:\n"
-        "💵 Dólar 200.0 - 210.0\n"
-        "🇪🇺 Euro 220.0 - 230.0\n"
-        "📊 *Brecha Dolar*: 100.0%"
+        "💵 Dólar 200.00 - 210.00\n"
+        "🇪🇺 Euro 220.00 - 230.00\n"
+        "📊 Brecha Dólar: 100.0%"
     )
 
     assert result == expected_output
@@ -363,4 +367,95 @@ async def test_get_euro_dolarapi_network_error(respx_mock):
 
     result = await get_euro_dolarapi()
 
+    assert "network error" in result.lower()
+
+
+# ------------------------------
+# Tests for `get_banco_nacion` async function
+# ------------------------------
+
+BNC_HTML = """
+<table class="table cotizacion">
+<tr><td>Dolar U.S.A</td></tr>
+<tr><td>100,50</td></tr>
+<tr><td>105,75</td></tr>
+<tr><td>Euro</td></tr>
+<tr><td>120,00</td></tr>
+<tr><td>125,00</td></tr>
+<tr><td>Real (*)</td></tr>
+<tr><td>20,00</td></tr>
+<tr><td>25,00</td></tr>
+</table>
+"""
+
+
+@pytest.mark.asyncio
+async def test_get_banco_nacion_success(respx_mock):
+    """Should fetch and return formatted BNA data."""
+    respx_mock.get("https://www.bna.com.ar/Personas").mock(
+        return_value=httpx.Response(200, text=BNC_HTML)
+    )
+
+    result = await get_banco_nacion()
+    assert "🇺🇸 Dolar" in result
+    assert "bna.com.ar" in result
+
+
+@pytest.mark.asyncio
+async def test_get_banco_nacion_timeout(respx_mock):
+    """Should handle timeout gracefully."""
+    respx_mock.get("https://www.bna.com.ar/Personas").mock(side_effect=httpx.TimeoutException("Timeout"))
+
+    result = await get_banco_nacion()
+    assert "timeout" in result.lower()
+
+
+@pytest.mark.asyncio
+async def test_get_banco_nacion_network_error(respx_mock):
+    """Should handle network errors gracefully."""
+    respx_mock.get("https://www.bna.com.ar/Personas").mock(side_effect=httpx.RequestError("Network error"))
+
+    result = await get_banco_nacion()
+    assert "network error" in result.lower()
+
+
+# ------------------------------
+# Tests for `get_bluelytics` async function
+# ------------------------------
+
+BLUELYTICS_JSON = {
+    "oficial": {"value_buy": 100.0, "value_sell": 105.0},
+    "blue": {"value_buy": 200.0, "value_sell": 210.0},
+    "oficial_euro": {"value_buy": 120.0, "value_sell": 125.0},
+    "blue_euro": {"value_buy": 220.0, "value_sell": 230.0},
+}
+
+
+@pytest.mark.asyncio
+async def test_get_bluelytics_success(respx_mock):
+    """Should fetch and return formatted bluelytics data."""
+    respx_mock.get("https://api.bluelytics.com.ar/v2/latest").mock(
+        return_value=httpx.Response(200, json=BLUELYTICS_JSON)
+    )
+
+    result = await get_bluelytics()
+    assert "Oficial" in result
+    assert "Blue" in result
+
+
+@pytest.mark.asyncio
+async def test_get_bluelytics_timeout(respx_mock):
+    """Should handle timeout gracefully."""
+    respx_mock.get("https://api.bluelytics.com.ar/v2/latest").mock(side_effect=httpx.TimeoutException("Timeout"))
+
+    result = await get_bluelytics()
+    assert "timeout" in result.lower()
+
+
+@pytest.mark.asyncio
+async def test_get_bluelytics_network_error(respx_mock):
+    """Should handle network errors gracefully."""
+    respx_mock.get("https://api.bluelytics.com.ar/v2/latest").mock(side_effect=httpx.RequestError("Network error"))
+
+    result = await get_bluelytics()
     assert "network error" in result.lower()

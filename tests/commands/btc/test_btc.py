@@ -162,3 +162,71 @@ def test_melistock_error(mocker):
     mocker.patch("eduzenbot.plugins.commands.btc.command.yfinance.Ticker", side_effect=Exception("Oops"))
     text = melistock("BADSTOCK")
     assert "No encontramos nada con 'BADSTOCK'" in text
+
+
+@pytest.mark.asyncio
+async def test_get_crypto_report_weather_disabled(mocker):
+    """Test that weather section is skipped when show_weather=False."""
+    klima_mock = AsyncMock(return_value="WEATHER DATA")
+    mocker.patch("eduzenbot.plugins.commands.btc.command.get_klima", new=klima_mock)
+    mocker.patch("eduzenbot.plugins.commands.btc.command.get_all", new=AsyncMock(return_value="CRYPTO"))
+    mocker.patch("eduzenbot.plugins.commands.btc.command.get_dolarapi", new=AsyncMock(return_value="DOLAR"))
+    mocker.patch("eduzenbot.plugins.commands.btc.command.get_euro_dolarapi", new=AsyncMock(return_value="EURO"))
+    mocker.patch(
+        "eduzenbot.plugins.commands.btc.command.fetch_hackernews_stories", new=AsyncMock(return_value="HN")
+    )
+
+    tz = pytz.timezone("America/Argentina/Buenos_Aires")
+    fake_now = datetime(2025, 6, 15, 10, 0, tzinfo=tz)
+    mock_dt = mocker.patch("eduzenbot.plugins.commands.btc.command.datetime")
+    mock_dt.now.return_value = fake_now
+
+    report = Report(chat_id="123", show_weather=False)
+    text = await get_crypto_report(report)
+
+    klima_mock.assert_not_called()
+    assert "CRYPTO" in text
+
+
+@pytest.mark.asyncio
+async def test_get_crypto_report_dollar_disabled(mocker):
+    """Test that dollar section is skipped when show_dollar=False."""
+    dolarapi_mock = AsyncMock(return_value="DOLAR")
+    euro_mock = AsyncMock(return_value="EURO")
+    mocker.patch("eduzenbot.plugins.commands.btc.command.get_dolarapi", new=dolarapi_mock)
+    mocker.patch("eduzenbot.plugins.commands.btc.command.get_euro_dolarapi", new=euro_mock)
+    mocker.patch(
+        "eduzenbot.plugins.commands.btc.command.get_klima",
+        new=AsyncMock(side_effect=["BA", "AMS", "DAL"]),
+    )
+    mocker.patch("eduzenbot.plugins.commands.btc.command.get_all", new=AsyncMock(return_value="CRYPTO"))
+    mocker.patch(
+        "eduzenbot.plugins.commands.btc.command.fetch_hackernews_stories", new=AsyncMock(return_value="HN")
+    )
+
+    tz = pytz.timezone("America/Argentina/Buenos_Aires")
+    fake_now = datetime(2025, 6, 15, 10, 0, tzinfo=tz)
+    mock_dt = mocker.patch("eduzenbot.plugins.commands.btc.command.datetime")
+    mock_dt.now.return_value = fake_now
+
+    report = Report(chat_id="123", show_dollar=False)
+    text = await get_crypto_report(report)
+
+    dolarapi_mock.assert_not_called()
+    euro_mock.assert_not_called()
+    assert "CRYPTO" in text
+
+
+@pytest.mark.asyncio
+async def test_show_daily_report_no_chat():
+    """Test handler returns early when effective_chat is None."""
+    mock_update = AsyncMock(spec=Update)
+    mock_update.effective_chat = None
+
+    mock_context = AsyncMock(spec=CallbackContext)
+    mock_bot = AsyncMock()
+    mock_context.bot = mock_bot
+
+    await show_daily_report(mock_update, mock_context)
+
+    mock_bot.send_message.assert_not_called()

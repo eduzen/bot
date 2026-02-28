@@ -8,7 +8,7 @@ from telegram import Update
 from telegram.constants import ChatAction
 from telegram.ext import ContextTypes
 
-from eduzenbot.plugins.commands.news.command import get_news
+from eduzenbot.plugins.commands.news.command import _get_news, get_news
 
 
 @pytest.mark.asyncio
@@ -123,3 +123,99 @@ async def test_get_news_failure(monkeypatch):
 
     bot_mock.send_chat_action.assert_called_once_with(chat_id=456, action=ChatAction.TYPING)
     bot_mock.send_message.assert_called_once_with(chat_id=456, text="No hay noticias.", disable_web_page_preview=True)
+
+
+@pytest.mark.asyncio
+@respx.mock
+async def test_get_news_nl_country(monkeypatch):
+    """Test that _get_news('nl') uses rtl-nieuws source."""
+    monkeypatch.setenv("NEWS_API_KEY", "test_key")
+
+    url = "https://newsapi.org/v2/top-headlines?apiKey=test_key&sources=rtl-nieuws"
+    route = respx.get(url).mock(
+        return_value=Response(
+            200,
+            json={"articles": [{"title": "NL News", "description": "Dutch news"}]},
+        )
+    )
+
+    result = await _get_news("nl")
+    assert route.called
+    assert "NL News" in result
+
+
+@pytest.mark.asyncio
+async def test_get_news_handler_no_chat():
+    """Test that handler returns early when effective_chat is None."""
+    mock_update = MagicMock(spec=Update)
+    mock_update.effective_chat = None
+
+    mock_context = MagicMock(spec=ContextTypes.DEFAULT_TYPE)
+    bot_mock = MagicMock()
+    bot_mock.send_chat_action = AsyncMock()
+    bot_mock.send_message = AsyncMock()
+    mock_context.bot = bot_mock
+
+    await get_news(mock_update, mock_context)
+
+    bot_mock.send_message.assert_not_called()
+
+
+@pytest.mark.asyncio
+@respx.mock
+async def test_get_news_handler_empty_response(monkeypatch):
+    """Test that handler sends 'No news for' when articles are empty."""
+    monkeypatch.setenv("NEWS_API_KEY", "test_key")
+
+    url = "https://newsapi.org/v2/top-headlines?apiKey=test_key&sources=bbc-news,techcrunch,techradar"
+    respx.get(url).mock(
+        return_value=Response(200, json={"articles": []}),
+    )
+
+    mock_update = MagicMock(spec=Update)
+    mock_chat = MagicMock()
+    mock_chat.id = 111
+    mock_update.effective_chat = mock_chat
+
+    mock_context = MagicMock(spec=ContextTypes.DEFAULT_TYPE)
+    bot_mock = MagicMock()
+    bot_mock.send_chat_action = AsyncMock()
+    bot_mock.send_message = AsyncMock()
+    mock_context.bot = bot_mock
+    mock_context.args = []
+
+    await get_news(mock_update, mock_context)
+
+    bot_mock.send_message.assert_called_once()
+    call_kwargs = bot_mock.send_message.call_args[1]
+    assert "No news for" in call_kwargs["text"]
+
+
+@pytest.mark.asyncio
+async def test_get_news_handler_long_message_chunking(mocker, monkeypatch):
+    """Test that messages longer than MAX_MESSAGE_LENGTH are sent in chunks."""
+    monkeypatch.setenv("NEWS_API_KEY", "test_key")
+
+    # Create a long news string (>4096 chars)
+    long_news = "x" * 5000
+    mocker.patch(
+        "eduzenbot.plugins.commands.news.command._get_news",
+        new=AsyncMock(return_value=long_news),
+    )
+
+    mock_update = MagicMock(spec=Update)
+    mock_chat = MagicMock()
+    mock_chat.id = 222
+    mock_update.effective_chat = mock_chat
+
+    mock_context = MagicMock(spec=ContextTypes.DEFAULT_TYPE)
+    bot_mock = MagicMock()
+    bot_mock.send_chat_action = AsyncMock()
+    bot_mock.send_message = AsyncMock()
+    mock_context.bot = bot_mock
+    mock_context.args = ["us"]
+
+    await get_news(mock_update, mock_context)
+
+    # 5000 chars should produce 2 chunks (4096 + 904)
+    assert bot_mock.send_message.call_count == 2
