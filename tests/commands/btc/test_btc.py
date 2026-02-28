@@ -172,9 +172,7 @@ async def test_get_crypto_report_weather_disabled(mocker):
     mocker.patch("eduzenbot.plugins.commands.btc.command.get_all", new=AsyncMock(return_value="CRYPTO"))
     mocker.patch("eduzenbot.plugins.commands.btc.command.get_dolarapi", new=AsyncMock(return_value="DOLAR"))
     mocker.patch("eduzenbot.plugins.commands.btc.command.get_euro_dolarapi", new=AsyncMock(return_value="EURO"))
-    mocker.patch(
-        "eduzenbot.plugins.commands.btc.command.fetch_hackernews_stories", new=AsyncMock(return_value="HN")
-    )
+    mocker.patch("eduzenbot.plugins.commands.btc.command.fetch_hackernews_stories", new=AsyncMock(return_value="HN"))
 
     tz = pytz.timezone("America/Argentina/Buenos_Aires")
     fake_now = datetime(2025, 6, 15, 10, 0, tzinfo=tz)
@@ -200,9 +198,7 @@ async def test_get_crypto_report_dollar_disabled(mocker):
         new=AsyncMock(side_effect=["BA", "AMS", "DAL"]),
     )
     mocker.patch("eduzenbot.plugins.commands.btc.command.get_all", new=AsyncMock(return_value="CRYPTO"))
-    mocker.patch(
-        "eduzenbot.plugins.commands.btc.command.fetch_hackernews_stories", new=AsyncMock(return_value="HN")
-    )
+    mocker.patch("eduzenbot.plugins.commands.btc.command.fetch_hackernews_stories", new=AsyncMock(return_value="HN"))
 
     tz = pytz.timezone("America/Argentina/Buenos_Aires")
     fake_now = datetime(2025, 6, 15, 10, 0, tzinfo=tz)

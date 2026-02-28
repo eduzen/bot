@@ -392,9 +392,7 @@ BNC_HTML = """
 @pytest.mark.asyncio
 async def test_get_banco_nacion_success(respx_mock):
     """Should fetch and return formatted BNA data."""
-    respx_mock.get("https://www.bna.com.ar/Personas").mock(
-        return_value=httpx.Response(200, text=BNC_HTML)
-    )
+    respx_mock.get("https://www.bna.com.ar/Personas").mock(return_value=httpx.Response(200, text=BNC_HTML))
 
     result = await get_banco_nacion()
     assert "🇺🇸 Dolar" in result

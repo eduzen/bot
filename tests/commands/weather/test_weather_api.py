@@ -1,9 +1,11 @@
 import httpx
 import pytest
-import respx
 
-from eduzenbot.plugins.commands.weather.api import get_klima, get_sun_times, get_timezone
-
+from eduzenbot.plugins.commands.weather.api import (
+    get_klima,
+    get_sun_times,
+    get_timezone,
+)
 
 # -----------------------------------
 # Pure function tests for get_timezone
@@ -81,9 +83,7 @@ async def test_get_klima_success(respx_mock, monkeypatch):
 async def test_get_klima_non_200(respx_mock, monkeypatch):
     monkeypatch.setattr("eduzenbot.plugins.commands.weather.api.ow_token", "fake_token")
 
-    respx_mock.get("https://api.openweathermap.org/data/2.5/weather/").mock(
-        return_value=httpx.Response(404, json={})
-    )
+    respx_mock.get("https://api.openweathermap.org/data/2.5/weather/").mock(return_value=httpx.Response(404, json={}))
 
     result = await get_klima("NonExistent")
     assert result == "No pudimos conseguir el clima"
