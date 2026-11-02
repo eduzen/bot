@@ -47,9 +47,9 @@ clima - klima
 klima - klima
 """
 
+
 @create_user
-async def klima(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    ...
+async def klima(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None: ...
 ```
 
 The loader parses the docstring (`command_name - function_name` per line), finds the function by name, and creates `CommandHandler` instances. Commands must be unique across all plugins.
